@@ -1,4 +1,4 @@
-# Northstar Dental Studio
+# Mbrace Dental Studio
 
 A production-ready dental clinic marketing site built with Next.js (App
 Router), TypeScript, and Tailwind CSS v4.

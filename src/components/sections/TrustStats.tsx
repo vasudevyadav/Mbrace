@@ -16,7 +16,7 @@ export default function TrustStats() {
       <Container>
         <SectionHeading
           label="Why families trust us"
-          title="Why families choose Northstar Dental"
+          title="Why families choose Mbrace Dental"
           description="The numbers behind fourteen years of routine, cosmetic, and emergency dental care."
         />
 

@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://www.northstardentalstudio.com/sitemap.xml",
+    sitemap: "https://www.mbracedentalstudio.com/sitemap.xml",
   };
 }

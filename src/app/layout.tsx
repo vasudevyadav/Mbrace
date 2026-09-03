@@ -19,7 +19,7 @@ const fraunces = Fraunces({
   weight: ["400", "500", "600"],
 });
 
-const siteUrl = "https://www.northstardentalstudio.com";
+const siteUrl = "https://www.mbracedentalstudio.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

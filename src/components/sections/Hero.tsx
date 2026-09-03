@@ -92,7 +92,7 @@ export default function Hero() {
           <div className="relative aspect-9/10 w-full overflow-hidden rounded-4xl shadow-xl shadow-ink-900/10">
             <Image
               src="/images/photos/hero-primary.jpg"
-              alt="Dentist giving a young patient a thumbs up after a checkup at Northstar Dental Studio"
+              alt="Dentist giving a young patient a thumbs up after a checkup at Mbrace Dental Studio"
               width={900}
               height={1000}
               priority

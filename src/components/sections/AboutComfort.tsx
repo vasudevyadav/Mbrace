@@ -14,7 +14,7 @@ export default function AboutComfort() {
             <div className="relative aspect-4/5 w-full overflow-hidden rounded-4xl">
               <Image
                 src="/images/photos/team-wide.jpg"
-                alt="The Northstar Dental Studio clinical team standing together in the studio hallway"
+                alt="The Mbrace Dental Studio clinical team standing together in the studio hallway"
                 width={1200}
                 height={900}
                 className="h-full w-full object-cover"
@@ -24,7 +24,7 @@ export default function AboutComfort() {
               <span className="font-display text-2xl font-medium text-brand-700">
                 {about.badge.value}
               </span>
-              <span className="max-w-[8rem] text-xs leading-snug text-ink-500">
+              <span className="max-w-32 text-xs leading-snug text-ink-500">
                 {about.badge.label}
               </span>
             </div>

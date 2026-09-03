@@ -2,14 +2,14 @@
 // Edit this file to rebrand or update copy without touching any component.
 
 export const clinic = {
-  name: "Northstar Dental Studio",
-  shortName: "Northstar Dental",
+  name: "Mbrace Dental Studio",
+  shortName: "Mbrace Dental",
   tagline: "Thoughtful dentistry, delivered with care",
   description:
     "A modern dental studio offering general, cosmetic, and specialist care in a calm, judgment-free environment.",
   phone: "(555) 204-7890",
   phoneHref: "tel:+15552047890",
-  email: "hello@northstardentalstudio.com",
+  email: "hello@mbracedentalstudio.com",
   address: {
     line1: "482 Ashgrove Avenue, Suite 3",
     line2: "Portland, OR 97205",
@@ -41,7 +41,7 @@ export const about = {
   label: "Our commitment",
   title: "Dedicated to your comfort and confidence",
   description:
-    "We built Northstar around one uncomfortable truth: most people avoid the dentist because a past visit made them feel rushed or judged. Every appointment here is paced so you understand what's happening and why, before anything happens.",
+    "We built Mbrace around one uncomfortable truth: most people avoid the dentist because a past visit made them feel rushed or judged. Every appointment here is paced so you understand what's happening and why, before anything happens.",
   points: [
     "Patient-first approach — no pressure, no surprise treatment",
     "Transparent, itemized pricing before any work begins",
@@ -218,7 +218,7 @@ export const doctors: Doctor[] = [
     credentials: "DDS",
     role: "Founder & Lead Dentist",
     specialty: "General & Cosmetic Dentistry",
-    bio: "Elena founded Northstar Dental Studio to make routine and cosmetic care feel unhurried and judgment-free. She focuses on preventive care and natural-looking restorative work, and reviews every new patient's first scan personally.",
+    bio: "Elena founded Mbrace Dental Studio to make routine and cosmetic care feel unhurried and judgment-free. She focuses on preventive care and natural-looking restorative work, and reviews every new patient's first scan personally.",
     initials: "EM",
     accent: "brand",
     photo: "/images/doctors/elena-marsh.jpg",
