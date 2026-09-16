@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  --font-inter: var(--font-poppins);
+  --font-fraunces: var(--font-poppins);
   --color-brand-50: #f8f6fd;
   --color-brand-100: #efeafa;
   --color-brand-200: #ddd2f4;

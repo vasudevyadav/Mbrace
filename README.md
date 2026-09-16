@@ -1,59 +1,44 @@
-# Mbrace Dental Studio
+# M’Brace — Home Page 2
 
-A production-ready dental clinic marketing site built with Next.js (App
-Router), TypeScript, and Tailwind CSS v4.
+Next.js homepage implementation of the **Mbrace Home Page 2** frame in the supplied Figma file (node `118:45`). The existing project, npm scripts, and App Router are retained.
 
-## Getting started
+## Run
 
-```bash
+```sh
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000. `npm run build`, `npm run lint`, and `npm run typecheck` validate the project.
 
-## Editing content
+## Homepage
 
-Every piece of real content — clinic name, phone, address, hours,
-treatments, doctors, testimonials, FAQs — lives in one file:
-[`src/lib/content.ts`](src/lib/content.ts). Edit it and every section that
-uses that data (including the per-treatment detail pages at
-`/services/[slug]`, which are generated automatically from the `services`
-array) updates with it.
+- `src/components/sections/MbraceHome.tsx`: responsive homepage, navigation, service/category selection, doctors, FAQs, locations, content previews and appointment form.
+- `src/lib/mbrace-home.ts`: Figma copy, doctors, categories, FAQs and contact details.
+- `src/app/mbrace.css`: Figma palette, Poppins typography, layout and responsive breakpoints.
+- `public/images/figma`: original images and booking icons extracted from the supplied Figma export. Raster assets are compressed WebP files.
+- `public/og.png`: generated social-sharing artwork; homepage photos and logos use original Figma assets.
 
-## Wiring up the appointment form
+The section order is hero, booking shortcuts, about, services, centres of excellence, trust statistics, team, awards, testimonials, FAQs, locations, blogs, appointment and footer.
 
-The appointment form (`src/components/sections/Appointment.tsx`) is a
-client component that POSTs a JSON payload (`name`, `phone`, `treatment`,
-`preferredDate`) to `NEXT_PUBLIC_LEAD_WEBHOOK_URL`. Copy `.env.example` to
-`.env.local` and set that variable to any webhook endpoint — a GoHighLevel
-inbound webhook, a Google Apps Script bound to a Sheet, Zapier, etc. With
-no webhook configured, submissions are logged to the server console and
-the form still shows its success state, so local development works without
-any external service.
+## Booking
 
-## Scripts
+Set `NEXT_PUBLIC_LEAD_WEBHOOK_URL` in `.env.local` to the approved appointment endpoint before accepting online requests. The endpoint must accept JSON and allow the deployed origin through CORS. The form uses native field validation and only reports success after an HTTP success response. With no endpoint, it clearly reports that nothing was sent and offers the hospital's phone number. Doctor buttons and the hero controls prefill the main appointment form. The footer email control continues to that form with the email prefilled.
 
-- `npm run dev` — start the dev server
-- `npm run build` — production build (prerenders every route as static
-  HTML/SSG — verify with `npm run build`)
-- `npm run typecheck` — `tsc --noEmit`
-- `npm run lint` — ESLint
+Set `NEXT_PUBLIC_SITE_URL` to the production origin for canonical social-image URLs and sitemap entries. No dental domain is used as a fallback.
 
-## Notable implementation choices
+## Design/content notes
 
-- **Photography.** All photos in `public/images/` are free-license stock
-  from Pexels (Pexels License — free for commercial use, no attribution
-  required), sourced and downloaded locally so the build has no runtime
-  dependency on an external CDN. Swap them for real clinic/team photos by
-  replacing the files at the same paths, or update the `photo` field on
-  each doctor in `content.ts`.
-- **Animation** is Framer Motion via `LazyMotion` + `m` (not `motion`) to
-  keep the client bundle small, gated globally by `MotionConfig
-  reducedMotion="user"` so `prefers-reduced-motion` is respected
-  automatically.
-- **FAQ accordion** uses native `<details>/<summary>` — no JavaScript, no
-  client component, fully accessible by default.
-- Only `Header`'s mobile menu, the hero entrance animation, and the
-  appointment form are client components; every other section is a Server
-  Component.
+The reference contains a single visible service and FAQ category state. Other tabs use the service labels and care scope present elsewhere in the same frame, with supplementary short FAQ answers. The supplied women's service descriptions and awards descriptions contain apparent copy mismatches; the visible source wording is retained for review. Duplicate, truncated testimonial paragraphs are omitted.
+
+The frame provides blog cards, not full articles or article URLs. Cards open accessible topic previews with a consultation action. It supplies the LB Nagar address but no King Koti street address; King Koti links open a location-specific map search instead of inventing an address.
+
+The original dental section components and detail routes remain in source for reference; the homepage no longer renders them or includes them in its sitemap.
+
+## Optional static hosting
+
+```sh
+SITES_STATIC_EXPORT=1 npm run build
+```
+
+This emits the self-contained site in `out/` with precompressed images served directly. Normal `npm run dev` and `npm run build` retain Next.js image optimization.

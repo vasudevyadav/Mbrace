@@ -1,58 +1,90 @@
+"use client";
+
+import { useId, useState } from "react";
 import Container from "@/components/ui/Container";
-import SectionHeading from "@/components/ui/SectionHeading";
 import { faqs, faqCategories } from "@/lib/content";
 
 export default function FAQ() {
+  const id = useId();
+  const [activeCategory, setActiveCategory] = useState<string>(faqCategories[0]);
+  const [openQuestion, setOpenQuestion] = useState<string | null>(faqs[0]?.question ?? null);
+  const visibleFaqs = faqs.filter((faq) => faq.category === activeCategory);
+
+  function selectCategory(category: string) {
+    setActiveCategory(category);
+    setOpenQuestion(faqs.find((faq) => faq.category === category)?.question ?? null);
+  }
+
   return (
-    <section id="faq" className="py-20 sm:py-24">
+    <section id="faq" aria-labelledby={`${id}-title`} className="scroll-mt-24 bg-white py-16 sm:py-20">
       <Container>
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[0.65fr_1fr] lg:gap-24">
           <div>
-            <SectionHeading
-              label="Questions"
-              title="Answers before you book"
-              description="Can't find what you're looking for? Call the studio and our front desk will walk you through it."
-            />
-            <ul className="mt-8 flex flex-wrap gap-2 lg:flex-col">
+            <p className="text-sm font-semibold text-[#dba347]">Frequently Asked Questions</p>
+            <h2 id={`${id}-title`} className="mt-3 text-3xl font-extrabold leading-[1.3] tracking-tight text-[#292653] sm:text-[42px]">
+              Your Queries,
+              <span className="block text-[#efb04e]">Answered Simply!</span>
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#494653]">
+              From your first visit to treatment and aftercare, find expert answers to all your common questions with us.
+            </p>
+            <div aria-label="FAQ categories" className="mt-8 flex flex-col gap-2.5 lg:mt-16">
               {faqCategories.map((category) => (
-                <li
+                <button
                   key={category}
-                  className="rounded-lg bg-cream-100 px-4 py-2.5 text-sm font-medium text-ink-700"
+                  type="button"
+                  aria-pressed={activeCategory === category}
+                  aria-controls={`${id}-questions`}
+                  onClick={() => selectCategory(category)}
+                  className={`min-h-14 cursor-pointer rounded-lg px-5 py-4 text-left text-sm font-bold transition-colors ${
+                    activeCategory === category
+                      ? "bg-[#efb04e] text-[#292653]"
+                      : "bg-[#f8f6fc] text-[#292653] hover:bg-[#eee8f6]"
+                  }`}
                 >
                   {category}
-                </li>
+                </button>
               ))}
-            </ul>
+            </div>
           </div>
 
-          <div>
-            {faqCategories.map((category) => (
-              <div key={category} className="mb-10 last:mb-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-600">
-                  {category}
-                </p>
-                <div className="mt-3 divide-y divide-mist-200 border-t border-mist-200">
-                  {faqs
-                    .filter((faq) => faq.category === category)
-                    .map((faq) => (
-                      <details key={faq.question} className="group py-5">
-                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-medium text-ink-900 marker:content-none [&::-webkit-details-marker]:hidden">
-                          {faq.question}
-                          <span
-                            aria-hidden="true"
-                            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cream-100 text-brand-700 transition-transform duration-200 group-open:rotate-45"
-                          >
-                            +
-                          </span>
-                        </summary>
-                        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-500">
-                          {faq.answer}
-                        </p>
-                      </details>
-                    ))}
+          <div id={`${id}-questions`} role="region" aria-label={`${activeCategory} questions`} className="space-y-3 lg:pt-8">
+            {visibleFaqs.map((faq, index) => {
+              const isOpen = openQuestion === faq.question;
+              const questionId = `${id}-question-${index}`;
+              const answerId = `${id}-answer-${index}`;
+
+              return (
+                <div
+                  key={faq.question}
+                  className={`overflow-hidden rounded-lg ${
+                    isOpen
+                      ? "bg-gradient-to-r from-[#efb04e] to-[#715096] text-white"
+                      : "bg-[#f8f6fc] text-[#292653]"
+                  }`}
+                >
+                  <h3>
+                    <button
+                      id={questionId}
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={answerId}
+                      onClick={() => setOpenQuestion(isOpen ? null : faq.question)}
+                      className="flex min-h-16 w-full cursor-pointer items-center justify-between gap-5 px-5 py-5 text-left text-sm font-bold focus-visible:-outline-offset-4"
+                    >
+                      {faq.question}
+                      <span aria-hidden="true" className="relative mr-2 flex h-4 w-4 shrink-0 items-center justify-center">
+                        <span className="absolute h-0.5 w-2.5 rounded-full bg-current" />
+                        <span className={`absolute h-2.5 w-0.5 rounded-full bg-current transition-transform duration-200 ${isOpen ? "scale-y-0" : "scale-y-100"}`} />
+                      </span>
+                    </button>
+                  </h3>
+                  <div id={answerId} aria-labelledby={questionId} hidden={!isOpen}>
+                    <p className="px-5 pb-5 text-sm font-medium leading-relaxed">{faq.answer}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </Container>

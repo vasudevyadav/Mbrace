@@ -1,83 +1,32 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import "./mbrace.css";
+import { siteOrigin } from "@/lib/site";
 import MotionProvider from "@/components/providers/MotionProvider";
-import { clinic } from "@/lib/content";
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
-
-const siteUrl = "https://www.mbracedentalstudio.com";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: `${clinic.name} | Dentist in Portland, OR`,
-    template: `%s | ${clinic.name}`,
-  },
-  description: clinic.description,
-  openGraph: {
-    title: clinic.name,
-    description: clinic.description,
-    url: siteUrl,
-    siteName: clinic.name,
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-    title: clinic.name,
-    description: clinic.description,
-  },
+  metadataBase: new URL(siteOrigin),
+  title: { default: "M’Brace by Kamineni Hospitals | Women’s Care, Child Care & Fertility", template: "%s | M’Brace" },
+  description: "Connected care for women, mothers and children. Explore women’s health, pregnancy, paediatrics and fertility care at M’Brace in LB Nagar and King Koti, Hyderabad.",
+  openGraph: { title: "M’Brace by Kamineni Hospitals", description: "From planning to newborn care & paediatrics. Everything covered under one roof.", type: "website", images: [{ url: "/og.png", width: 1730, height: 909, alt: "M’Brace — Women’s Care, Child Care, Fertility" }] },
+  twitter: { card: "summary_large_image", title: "M’Brace by Kamineni Hospitals", description: "Women’s care, child care and fertility in Hyderabad.", images: ["/og.png"] },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Dentist",
-    name: clinic.name,
-    description: clinic.description,
-    telephone: clinic.phone,
-    email: clinic.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: clinic.address.line1,
-      addressLocality: "Portland",
-      addressRegion: "OR",
-    },
-    url: siteUrl,
-  };
-
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-white text-ink-900">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+    <html lang="en" className={`${poppins.variable} h-full antialiased`}>
+      <body className="min-h-full bg-white">
         <MotionProvider>
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-ink-900 focus:shadow-lg"
-          >
-            Skip to content
-          </a>
-          <Header />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
+          <main id="main-content">{children}</main>
         </MotionProvider>
       </body>
     </html>

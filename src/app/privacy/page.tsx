@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { clinic } from "@/lib/content";
+import { hospital } from "@/lib/mbrace-home";
+const clinic = { ...hospital, name: "M’Brace by Kamineni Hospitals" };
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -11,6 +13,7 @@ export default function PrivacyPage() {
   return (
     <article className="py-20 sm:py-24">
       <Container className="max-w-3xl">
+        <Link href="/" className="mb-6 inline-block text-sm text-brand-700">← Back to M’Brace</Link>
         <h1 className="font-display text-4xl font-medium tracking-tight text-ink-900">
           Privacy Policy
         </h1>
@@ -19,16 +22,14 @@ export default function PrivacyPage() {
         <div className="mt-8 space-y-6 text-sm leading-relaxed text-ink-700">
           <p>
             {clinic.name} collects only the information needed to schedule
-            and provide dental care: your name, contact details, insurance
-            information, and clinical records. Information submitted through
+            your consultation: your name, email address, phone number,
+            preferred service, location and appointment date. Information submitted through
             our appointment request form is used solely to contact you about
             scheduling and is never sold to third parties.
           </p>
           <p>
-            Clinical records are stored and handled in accordance with HIPAA
-            requirements. You may request a copy of your records, or ask us
-            to correct or delete contact information you&apos;ve provided through
-            this website, by contacting us at{" "}
+            For questions about the contact information you&apos;ve provided through
+            this website, contact us at{" "}
             <a href={`mailto:${clinic.email}`} className="font-medium text-brand-700 hover:underline">
               {clinic.email}
             </a>
