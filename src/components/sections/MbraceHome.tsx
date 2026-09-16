@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import MbraceHeader from "@/components/layout/MbraceHeader";
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
 import { CalendarIcon, MapPinIcon, PhoneIcon, CheckIcon, ChevronIcon } from "@/components/icons/icons";
 import { careCategories, hospital, serviceGroups, homeDoctors, homeTestimonials, homeFaqs, homeBlogs } from "@/lib/mbrace-home";
@@ -67,9 +68,8 @@ function Counter({ value }: { value: string }) {
   return <strong ref={ref}>{display}</strong>;
 }
 export default function MbraceHome() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [serviceTab, setServiceTab] = useState("Women Care");
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [requestedTestimonialIndex, setTestimonialIndex] = useState(0);
   const [reviewsPaused, setReviewsPaused] = useState(false);
   const [testimonialsPerView, setTestimonialsPerView] = useState(3);
   const reviewTrackRef = useRef<HTMLDivElement>(null);
@@ -93,6 +93,7 @@ export default function MbraceHome() {
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const testimonialMaxIndex = Math.max(0, homeTestimonials.length - testimonialsPerView);
+  const testimonialIndex = Math.min(requestedTestimonialIndex, testimonialMaxIndex);
   function goToTestimonial(i: number) {
     setTestimonialIndex(Math.max(0, Math.min(i, testimonialMaxIndex)));
   }
@@ -109,25 +110,21 @@ export default function MbraceHome() {
     };
   }, []);
   useEffect(() => {
-    setTestimonialIndex(i => Math.min(i, testimonialMaxIndex));
-  }, [testimonialMaxIndex]);
-  useEffect(() => {
     const track = reviewTrackRef.current;
     const slide = track?.children[testimonialIndex] as HTMLElement | undefined;
     if (track && slide) track.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
   }, [testimonialIndex, testimonialsPerView]);
   useEffect(() => {
-    if (reviewsPaused || testimonialMaxIndex === 0) return;
+    if (reviewsPaused || testimonialsPerView === 1 || testimonialMaxIndex === 0 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = setInterval(() => setTestimonialIndex(i => (i + 1) % (testimonialMaxIndex + 1)), 5000);
     return () => clearInterval(timer);
-  }, [reviewsPaused, testimonialMaxIndex]);
+  }, [reviewsPaused, testimonialMaxIndex, testimonialsPerView]);
   function book(service = "", doctor = "", type = "") {
     if (service) setBookingService(service);
     setBookingDoctor(doctor);
     if (doctor) setBookingLocation("LB Nagar");
     setBookingType(type);
     setStatus("idle");
-    setMenuOpen(false);
     dialog.current?.close();
     document.getElementById("appointment")?.scrollIntoView({
       behavior: "smooth"
@@ -146,7 +143,6 @@ export default function MbraceHome() {
   }
   function goToServices(category: string) {
     setServiceTab(category === "Child Care" ? "Child Care" : category === "Fertility Care" ? "Fertility" : "Women Care");
-    setMenuOpen(false);
   }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -176,17 +172,10 @@ export default function MbraceHome() {
     }
   }
   return <div className="mbrace-home">
+      <MbraceHeader onBook={() => book()} onService={goToServices} />
       <section className="mb-hero" id="home">
         <Image src={asset(0)} alt="A mother cradles her newborn baby" fill priority sizes="100vw" className="mb-hero-photo" />
-        <header className="mb-header">
-          <a className="mb-logos" href="#home" aria-label="M’Brace by Kamineni Hospitals home"><Image src={asset(1)} alt="Kamineni Hospitals" width={155} height={45} /><span /><Image src={asset(2)} alt="M’Brace — Women’s Care, Child Care, Fertility" width={170} height={80} /></a>
-          <button className="mb-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="home-navigation" aria-label="Toggle navigation">{menuOpen ? "✕" : "☰"}</button>
-          <nav id="home-navigation" className={menuOpen ? "is-open" : ""} aria-label="Main navigation">
-            <a href="#home" onClick={() => setMenuOpen(false)}>Home</a><a href="#about" onClick={() => setMenuOpen(false)}>About Us</a>
-            {careCategories.map(name => <a href="#services" key={name} onClick={() => goToServices(name)}>{name}</a>)}
-            <button type="button" className="mb-button" onClick={() => book()}>Book Appointment</button>
-          </nav>
-        </header>
+
         <div className="mb-hero-content">
           <p className="mb-care-badge">Backed By <strong>34+ Years of Care</strong></p>
           <h1>From Planning to <strong>Newborn Care &amp; Paediatrics</strong></h1><h2>Everything Covered Under One Roof</h2>
@@ -200,7 +189,7 @@ export default function MbraceHome() {
         </div>
       </section>
 
-      <div className="mb-quick-actions">
+      <div className="mb-quick-actions mb-mobile-scroll" role="region" aria-label="Booking options — swipe to browse" tabIndex={0}>
         {["Book Online Consult", "Book Hospital Visit", "Book Vaccine", "Book Scans"].map((title, i) => <button key={title} type="button" onClick={() => book(i === 2 ? "Child Care" : "", "", title)}><Image src={`/images/figma/booking-${i}.svg`} alt="" width={72} height={72} /><span>{title}</span></button>)}
       </div>
 
@@ -210,9 +199,9 @@ export default function MbraceHome() {
       </section>
 
       <section id="services" className="mb-section mb-tinted mb-rounded"><div className="mb-container">
-        <div className="mb-section-intro"><Heading label="What We Offer">Comprehensive <em>Mother<br className="mb-desktop-break" /> and Child Care</em> Services</Heading><p>End-to-end care across women&apos;s health, child care, pregnancy support and fertility treatment, backed by advanced technology like 4D Ultrasound and robotic surgery, and a full range of services under one team.</p></div>
+        <div className="mb-section-intro"><Heading label="What We Offer">Comprehensive <em>Mother</em> and<br className="mb-desktop-break" /> <em>Child Care</em> Services</Heading><p>End-to-end care across women&apos;s health, child care, pregnancy support and fertility treatment, backed by advanced technology like 4D Ultrasound and robotic surgery, and a full range of services under one team.</p></div>
         <div className="mb-service-tabs" aria-label="Service categories">{Object.keys(serviceGroups).map(x => <button key={x} type="button" aria-pressed={serviceTab === x} aria-controls="service-list" onClick={() => setServiceTab(x)}>{x}</button>)}</div>
-        <div className="mb-service-grid" id="service-list" aria-label={`${serviceTab} services`}>{serviceGroups[serviceTab].map(([name, description]) => <article key={name}><h3>{name}</h3><p>{description}</p><button type="button" onClick={() => showDetails({
+        <div className="mb-service-grid mb-mobile-scroll" id="service-list" key={serviceTab} role="region" tabIndex={0} aria-label={`${serviceTab} services`}>{serviceGroups[serviceTab].map(([name, description], index) => <article key={name} className={index === 1 ? "is-featured" : ""}><Image className="mb-service-icon" src={`/images/figma/service-${index % 8}.svg`} width={44} height={44} alt="" /><h3>{name}</h3><p>{description}</p><button type="button" onClick={() => showDetails({
               title: name,
               body: description
             })}>Learn More <span aria-hidden="true">→</span></button></article>)}</div>
@@ -220,15 +209,15 @@ export default function MbraceHome() {
 
       <section id="excellence" className="mb-excellence mb-section"><div className="mb-container"><div><Heading label="Centres of Excellence">Advanced Care for Every<br />Stage of <em>Motherhood</em></Heading><p>Real-time fetal monitoring, comprehensive diagnostics and neonatal ventilation support, all built to give your doctor the full picture before any decision.</p><ul className="mb-checks">{["Sterile Theatres & Diagnostics", "24x7 Emergency & Transport", "High-End Neonatal Ventilation", "Comprehensive Lab Support"].map(x => <li key={x}><CheckIcon />{x}</li>)}</ul><h3>Personalized care for every patient</h3><a className="mb-button" href="#team">Explore More</a></div><Photo n={5} alt="A mother kisses her smiling young daughter" /></div></section>
 
-      <section id="why-us" className="mb-section mb-purple mb-rounded"><div className="mb-container"><div className="mb-section-intro"><Heading label="Why Choose M’Brace">One Trusted Destination for<br /><em>Women, Mothers &amp; Children</em></Heading><p>Two convenient locations across Hyderabad, compassionate counselling through every hard decision, and treatment recommended only when your diagnosis genuinely needs it.</p></div><div className="mb-trust-grid"><Photo n={7} alt="Mother embracing her newborn" /><div className="mb-stat"><Counter value="17,000+" /><p>Happy families supported with compassionate, personalized treatment.</p></div><Photo n={8} alt="A happy mother and child" /><div className="mb-stat"><Counter value="34+" /><p>Years of Mother &amp; Child<br />care experience</p></div><Photo n={9} alt="A mother and baby spending time together" /><div className="mb-stat"><Counter value="14,000+" /><p>Healthy Baby Deliver</p></div></div></div></section>
+      <section id="why-us" className="mb-section mb-purple mb-rounded"><div className="mb-container"><div className="mb-section-intro"><Heading label="Why Choose M’Brace">One Trusted Destination for<br /><em>Women, Mothers</em> &amp; <em>Children</em></Heading><p>Two convenient locations across Hyderabad, compassionate counselling through every hard decision, and treatment recommended only when your diagnosis genuinely needs it.</p></div><div className="mb-trust-grid"><Photo n={7} alt="Mother embracing her newborn" /><div className="mb-stat"><Image className="mb-stat-icon" src="/images/figma/trust-0.svg" width={60} height={70} alt="" /><Counter value="17,000+" /><p>Happy families supported with compassionate, personalized treatment.</p></div><Photo n={8} alt="A happy mother and child" /><div className="mb-stat"><Image className="mb-stat-icon" src="/images/figma/trust-1.svg" width={60} height={70} alt="" /><Counter value="34+" /><p>Years of Mother &amp; Child<br />care experience</p></div><Photo n={9} alt="A mother and baby spending time together" /><div className="mb-stat"><Image className="mb-stat-icon" src="/images/figma/trust-2.svg" width={60} height={70} alt="" /><Counter value="14,000+" /><p>Healthy Baby Deliver</p></div></div></div></section>
 
-      <section id="team" className="mb-section mb-tinted mb-rounded"><div className="mb-container"><div className="mb-team-intro"><div><Heading label="OUR TEAM">Meet <em>The Experts</em><br />Behind Your Journey</Heading><p>Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad.</p><p className="mb-team-principle">Every doctor with us works from one principle:<strong>Explain Clearly, Decide Together.</strong></p></div><article className="mb-featured-doctor"><Photo n={14} alt="Dr. K Vasundhara" /><div><h3>DR. K VASUNDHARA</h3><p>Head of Obstetrics &amp; Gynaecology and Medical Director of the Kamineni Fertility Center<br />Qualifications: MBBS, DGO, DNB</p><ul className="mb-doctor-meta"><li>♧ <span>35+ Years</span></li><li>文 <span>English, Hindi, Telugu</span></li><li><MapPinIcon /><span>LB Nagar</span></li></ul><div className="mb-doctor-actions"><button className="mb-button mb-gold" onClick={() => book("Women's Care", "DR. K VASUNDHARA", "Online consultation")}>Book Consultation</button><button className="mb-button" onClick={() => book("Women's Care", "DR. K VASUNDHARA", "Hospital visit")}>Visit Hospital</button></div></div></article></div>
-        <div className="mb-doctor-grid">{homeDoctors.map(d => <article className="mb-doctor-card" key={d.name}><Photo n={d.image} alt={d.name} /><h3>{d.name}</h3><p>{d.qualifications}<br />{d.role}</p><ul className="mb-doctor-meta"><li>♧ <span>20+ Years</span></li><li><MapPinIcon /><span>LB Nagar</span></li><li>文 <span>English, Hindi, Telugu</span></li></ul><div className="mb-doctor-actions"><button className="mb-button mb-gold" onClick={() => book("Women's Care", d.name, "Online consultation")}>Book Consultation</button><button className="mb-button" onClick={() => book("Women's Care", d.name, "Hospital visit")}>Visit Hospital</button></div></article>)}</div>
+      <section id="team" className="mb-section mb-tinted mb-rounded"><div className="mb-container"><div className="mb-team-intro"><div><Heading label="OUR TEAM">Meet <em>The Experts</em><br />Behind Your Journey</Heading><p>Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad.</p><p className="mb-team-principle">Every doctor with us works from one principle:<strong>Explain Clearly, Decide Together.</strong></p></div><article className="mb-featured-doctor"><Photo n={14} alt="Dr. K Vasundhara" /><div><h3>DR. K VASUNDHARA</h3><p>Head of Obstetrics &amp; Gynaecology and Medical Director of the Kamineni Fertility Center<br />Qualifications: MBBS, DGO, DNB</p><ul className="mb-doctor-meta"><li><Image src="/images/figma/doctor.svg" width={20} height={20} alt="" /> <span>35+ Years</span></li><li><Image src="/images/figma/language.svg" width={20} height={20} alt="" /> <span>English, Hindi, Telugu</span></li><li><MapPinIcon /><span>LB Nagar</span></li></ul><div className="mb-doctor-actions"><button className="mb-button mb-gold" onClick={() => book("Women's Care", "DR. K VASUNDHARA", "Online consultation")}>Book Consultation</button><button className="mb-button" onClick={() => book("Women's Care", "DR. K VASUNDHARA", "Hospital visit")}>Visit Hospital</button></div></div></article></div>
+        <div className="mb-doctor-grid mb-mobile-scroll" role="region" aria-label="Our doctors — swipe to browse" tabIndex={0}>{homeDoctors.map(d => <article className="mb-doctor-card" key={d.name}><Photo n={d.image} alt={d.name} /><h3>{d.name}</h3><p>{d.qualifications}<br />{d.role}</p><ul className="mb-doctor-meta"><li><Image src="/images/figma/doctor.svg" width={20} height={20} alt="" /> <span>20+ Years</span></li><li><MapPinIcon /><span>LB Nagar</span></li><li><Image src="/images/figma/language.svg" width={20} height={20} alt="" /> <span>English, Hindi, Telugu</span></li></ul><div className="mb-doctor-actions"><button className="mb-button mb-gold" onClick={() => book("Women's Care", d.name, "Online consultation")}>Book Consultation</button><button className="mb-button" onClick={() => book("Women's Care", d.name, "Hospital visit")}>Visit Hospital</button></div></article>)}</div>
       </div></section>
 
       <section id="awards" className="mb-section mb-container mb-awards"><div><Heading label="Awards & Recognition">Care That Meets<br /><em>National Standards</em></Heading><h3>Association of Healthcare Providers India</h3><p>Identifies conditions like glaucoma and cataracts before they cause significant damage.</p><Photo n={16} alt="Healthcare award trophy" /></div><div><Photo n={15} alt="Team celebrating an award" /><h3>Association of Healthcare Providers India</h3><p>Identifies conditions like glaucoma and cataracts before they cause significant damage.</p><div className="mb-award-stats">{[["34+", "Years Of Experience"], ["98%", "Patient Satisfaction"], ["1K+", "Happy Families"]].map(([value, label]) => <div key={label}><Counter value={value} /><span>{label}</span></div>)}</div></div></section>
 
-      <section id="reviews" className="mb-section mb-purple mb-rounded"><div className="mb-container"><div className="mb-section-intro"><Heading label="TESTIMONIALS">Heartfelt Stories Of<br /><em>Hope</em> &amp; <em>Success</em></Heading><div className="mb-rating"><Image src={asset(17)} alt="Google" width={25} height={25} /><span>Google Rating</span><strong>4.9 <span aria-label="5 stars">★★★★★</span></strong></div></div><div className="mb-review-slider" onMouseEnter={() => setReviewsPaused(true)} onMouseLeave={() => setReviewsPaused(false)}><button type="button" className="mb-review-nav mb-review-prev" onClick={() => goToTestimonial(testimonialIndex - 1)} disabled={testimonialIndex === 0} aria-label="Previous testimonial"><ChevronIcon /></button><div className="mb-review-track" ref={reviewTrackRef} style={{ "--items-per-view": testimonialsPerView } as CSSProperties} aria-live="polite">{homeTestimonials.map(t => <figure key={t.name} className="mb-review-slide"><p className="mb-stars" aria-label="5 stars">★★★★★</p><blockquote>“{t.quote}”</blockquote><figcaption>{t.name}</figcaption></figure>)}</div><button type="button" className="mb-review-nav mb-review-next" onClick={() => goToTestimonial(testimonialIndex + 1)} disabled={testimonialIndex === testimonialMaxIndex} aria-label="Next testimonial"><ChevronIcon /></button></div>{testimonialMaxIndex > 0 && <div className="mb-review-dots" role="tablist" aria-label="Testimonial navigation">{Array.from({ length: testimonialMaxIndex + 1 }, (_, i) => <button key={i} type="button" role="tab" aria-selected={i === testimonialIndex} aria-label={`Show testimonials starting from slide ${i + 1}`} className={i === testimonialIndex ? "is-active" : ""} onClick={() => goToTestimonial(i)} />)}</div>}</div></section>
+      <section id="reviews" className="mb-section mb-purple mb-rounded"><div className="mb-container"><div className="mb-section-intro"><Heading label="TESTIMONIALS">Heartfelt Stories Of<br /><em>Hope</em> &amp; <em>Success</em></Heading><div className="mb-rating"><Image src={asset(17)} alt="Google" width={25} height={25} /><span>Google Rating</span><strong>4.9 <span aria-label="5 stars">★★★★★</span></strong></div></div><div className="mb-review-slider" onMouseEnter={() => setReviewsPaused(true)} onMouseLeave={() => setReviewsPaused(false)}><button type="button" className="mb-review-nav mb-review-prev" onClick={() => goToTestimonial(Math.round((reviewTrackRef.current?.scrollLeft || 0) / ((reviewTrackRef.current?.firstElementChild as HTMLElement)?.offsetWidth + 20 || 1)) - 1)} disabled={testimonialIndex === 0} aria-label="Previous testimonial"><ChevronIcon /></button><div className="mb-review-track" role="region" aria-label="Patient stories — swipe to browse" tabIndex={0} ref={reviewTrackRef} style={{ "--items-per-view": testimonialsPerView } as CSSProperties} aria-live="polite">{homeTestimonials.map(t => <figure key={t.name} className="mb-review-slide"><p className="mb-stars" aria-label="5 stars">★★★★★</p><blockquote>“{t.quote}”</blockquote><figcaption>{t.name}</figcaption></figure>)}</div><button type="button" className="mb-review-nav mb-review-next" onClick={() => goToTestimonial(Math.round((reviewTrackRef.current?.scrollLeft || 0) / ((reviewTrackRef.current?.firstElementChild as HTMLElement)?.offsetWidth + 20 || 1)) + 1)} disabled={testimonialIndex === testimonialMaxIndex} aria-label="Next testimonial"><ChevronIcon /></button></div>{testimonialMaxIndex > 0 && <div className="mb-review-dots" role="tablist" aria-label="Testimonial navigation">{Array.from({ length: testimonialMaxIndex + 1 }, (_, i) => <button key={i} type="button" role="tab" aria-selected={i === testimonialIndex} aria-label={`Show testimonials starting from slide ${i + 1}`} className={i === testimonialIndex ? "is-active" : ""} onClick={() => goToTestimonial(i)} />)}</div>}</div></section>
 
       <section id="faq" className="mb-section mb-container mb-faq"><div><Heading label="Frequently Asked Questions">Your Queries,<br /><em>Answered Simply!</em></Heading><p>From women’s health, to delivery, postpartum and child care, find expert answers to all your common questions with us.</p><div className="mb-faq-categories" aria-label="FAQ categories">{careCategories.map(x => <button key={x} type="button" aria-pressed={faqCategory === x} aria-controls="faq-questions" onClick={() => {
             setFaqCategory(x);
@@ -240,7 +229,7 @@ export default function MbraceHome() {
                 book();
               }}>Book An Appointment</button><a className="mb-button mb-outline" href={mapUrl} target="_blank" rel="noreferrer">View On Map</a></div></div><a href={mapUrl} target="_blank" rel="noreferrer" className="mb-map" aria-label={`Open directions to ${location} on Google Maps`}><Photo n={6} alt="Map of Hyderabad showing hospital locations" /><span><MapPinIcon />{location} · View on Google Maps ↗</span></a></div></div></section>
 
-      <section id="blogs" className="mb-section mb-container"><div className="mb-section-intro"><Heading label="From Our Experts">About Women&apos;s Health,<br />Pregnancy &amp; Child Care</Heading><div><p>Real insights on women&apos;s health, pregnancy, child growth and fertility, from the doctors who treat you.</p><a className="mb-button mb-blog-all" href="#blog-list">View All Blog</a></div></div><div className="mb-blog-grid" id="blog-list">{homeBlogs.map(b => <article key={b.title}><button type="button" className="mb-blog-image" onClick={() => showDetails({
+      <section id="blogs" className="mb-section mb-container"><div className="mb-section-intro"><Heading label="From Our Experts">About Women&apos;s Health,<br />Pregnancy &amp; Child Care</Heading><div><p>Real insights on women&apos;s health, pregnancy, child growth and fertility, from the doctors who treat you.</p><a className="mb-button mb-blog-all" href="#blog-list">View All Blog</a></div></div><div className="mb-blog-grid mb-mobile-scroll" id="blog-list" role="region" aria-label="Health articles — swipe to browse" tabIndex={0}>{homeBlogs.map(b => <article key={b.title}><button type="button" className="mb-blog-image" onClick={() => showDetails({
             title: b.title,
             image: b.image,
             body: "For personalised guidance on this topic, speak with our multidisciplinary care team."
@@ -267,7 +256,7 @@ export default function MbraceHome() {
       <footer className="mb-footer mb-rounded"><div className="mb-container"><div className="mb-footer-cta"><div><p className="mb-eyebrow">Ready to Talk?</p><h2>Schedule Your <em>Consultation</em> Today!</h2><p>Whether you want to know about women&apos;s health, your child&apos;s care, pregnancy or fertility support, our expert multidisciplinary team is ready to assist.</p></div><form onSubmit={e => {
             e.preventDefault();
             book();
-          }}><label className="sr-only" htmlFor="footer-email">Email address</label><input id="footer-email" type="email" placeholder="Enter your email address" required value={bookingEmail} onChange={e => setBookingEmail(e.target.value)} /><button className="mb-button mb-gold" type="submit">Send</button></form></div><div className="mb-footer-grid"><div><a href="#home"><Image src={asset(23)} width={190} height={90} alt="M’Brace by Kamineni Hospitals" className="mb-footer-logo" /></a><p>Compassionate fertility care, advanced technology and trusted guidance for every family.</p><a className="mb-footer-phone" href={hospital.phoneHref}><PhoneIcon />{hospital.phone}</a></div><div><h3>Quick Links</h3><ul>{[["Home", "home"], ["About Us", "about"], ["Women’s Care", "services"], ["Child Care", "services"], ["Our Team", "team"], ["Pregnancy & Birth Support", "services"], ["Fertility Care", "services"]].map(([text, href]) => <li key={text}><a href={`#${href}`} onClick={() => goToServices(text.replace("’", "'"))}>{text}</a></li>)}</ul></div><div><h3>Services</h3><ul>{serviceGroups["Child Care"].slice(0, 7).map(([name]) => <li key={name}><a href="#services" onClick={() => setServiceTab("Child Care")}>{name}</a></li>)}</ul></div><div><h3>Location</h3><div className="mb-footer-locations"><a href="#location" onClick={() => setLocation("LB Nagar")}>LB Nagar</a><span>|</span><a href="#location" onClick={() => setLocation("King Koti")}>King Koti</a></div><a className="mb-footer-map" href={mapUrl} target="_blank" rel="noreferrer"><Image src={asset(6)} width={280} height={140} alt="Hospital location map" /><span>View on Map ↗</span></a></div></div><div className="mb-footer-bottom"><p>© 2026 M’Brace. All rights reserved.</p><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms &amp; Conditions</a></div><a href={`mailto:${hospital.email}`}>{hospital.email}</a></div></div></footer>
+          }}><label className="sr-only" htmlFor="footer-email">Email address</label><input id="footer-email" type="email" placeholder="Enter your email address" required value={bookingEmail} onChange={e => setBookingEmail(e.target.value)} /><button className="mb-button mb-gold" type="submit">Send</button></form></div><div className="mb-footer-grid"><div><a href="#home" className="mb-footer-brands"><Image src={asset(1)} width={155} height={45} alt="Kamineni Hospitals" /><span /><Image src={asset(23)} width={160} height={75} alt="M’Brace by Kamineni Hospitals" className="mb-footer-logo" /></a><p>Compassionate fertility care, advanced technology and trusted guidance for every family.</p><a className="mb-footer-phone" href={hospital.phoneHref}><PhoneIcon />{hospital.phone}</a></div><div><h3>Quick Links</h3><ul>{[["Home", "home"], ["About Us", "about"], ["Women’s Care", "services"], ["Child Care", "services"], ["Our Team", "team"], ["Pregnancy & Birth Support", "services"], ["Fertility Care", "services"]].map(([text, href]) => <li key={text}><a href={`#${href}`} onClick={() => goToServices(text.replace("’", "'"))}>{text}</a></li>)}</ul></div><div><h3>Services</h3><ul>{serviceGroups["Child Care"].slice(0, 7).map(([name]) => <li key={name}><a href="#services" onClick={() => setServiceTab("Child Care")}>{name}</a></li>)}</ul></div><div><h3>Location</h3><div className="mb-footer-locations"><a href="#location" onClick={() => setLocation("LB Nagar")}>LB Nagar</a><span>|</span><a href="#location" onClick={() => setLocation("King Koti")}>King Koti</a></div><a className="mb-footer-map" href={mapUrl} target="_blank" rel="noreferrer"><Image src={asset(6)} width={280} height={140} alt="Hospital location map" /><span>View on Map ↗</span></a></div></div><div className="mb-footer-bottom"><p>© 2026 M’Brace. All rights reserved.</p><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms &amp; Conditions</a></div><a href={`mailto:${hospital.email}`}>{hospital.email}</a></div></div></footer>
       <dialog ref={dialog} className="mb-dialog" aria-labelledby="detail-title"><button className="mb-dialog-close" onClick={() => dialog.current?.close()} aria-label="Close details">✕</button>{detail?.image !== undefined && <Photo n={detail.image} alt={detail.title} />}<h2 id="detail-title">{detail?.title}</h2><p>{detail?.body}</p><button className="mb-button" onClick={() => book()}>Book a Consultation</button><a href={hospital.phoneHref}>{hospital.phone}</a></dialog>
     </div>;
 }

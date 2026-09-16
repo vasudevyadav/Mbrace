@@ -1928,3 +1928,161 @@
     transform: none;
   }
 }
+
+/* Details from the supplied Home Page 2 screenshots. */
+.mb-service-icon { width: 44px; height: 44px; margin-bottom: 14px; }
+.mb-service-tabs { background: linear-gradient(90deg, #fbad31, #764b9e); }
+.mb-service-tabs button[aria-pressed=true] { box-shadow: inset 0 0 0 2px #fbad31; }
+.mb-service-grid article { min-height: 245px; padding: 20px; border-radius: 16px; box-shadow: 0 10px 18px #33214c12; }
+.mb-service-grid h3 { margin-bottom: 12px; font-weight: 700; }
+.mb-service-grid p { flex: initial; }
+.mb-service-grid button { margin-top: 12px; }
+.mb-service-grid article.is-featured { background: var(--mb-purple); color: white; }
+.mb-service-grid .is-featured h3 { color: white; }
+.mb-service-grid .is-featured button { color: var(--mb-gold); }
+.mb-stat { position: relative; padding-top: 68px; }
+.mb-stat-icon { position: absolute; right: 24px; top: 18px; width: 60px; height: 65px; }
+.mb-stat:nth-child(2) { background: linear-gradient(90deg, #764b9e, #fbad31); }
+.mb-stat:nth-child(4), .mb-stat:nth-child(6) { background: linear-gradient(90deg, #fbad31, #764b9e); }
+.mb-footer { background: linear-gradient(180deg, #764b9e, #290347); }
+.mb-footer-brands { display: flex; align-items: center; gap: 14px; }
+.mb-footer-brands img { width: 44%; height: auto; }
+.mb-footer-brands > span { width: 1px; height: 46px; background: #fff8; }
+.mb-footer-cta .mb-gold { background: var(--mb-purple); }
+.mb-footer-cta form { background: linear-gradient(90deg, #fff3df, #f3e9fc); }
+.mb-footer-cta input { background: transparent; }
+.mb-quick-booking h3::before { content: ""; display: block; height: 1px; width: 255px; margin-bottom: 5px; background: #764b9e80; }
+.mb-award-stats { text-align: left; padding: 12px 20px; }
+.mb-award-stats > div + div { border-left: 0; }
+@media (min-width: 1001px) {
+  #services > .mb-container { width: min(1200px, calc(100% - 80px)); }
+  .mb-about { grid-template-columns: 480px 1fr; gap: 80px; }
+  .mb-about-photos { margin-left: 25px; margin-right: 25px; }
+  .mb-about-photos > .mb-photo:first-child { height: 507px; }
+  .mb-about-inset { width: 205px; height: 230px; right: -75px; bottom: 60px; }
+}
+@media (max-width: 700px) {
+  .mb-stat-icon { width: 42px; height: 45px; right: 14px; top: 12px; }
+  .mb-stat { padding-top: 60px; }
+  .mb-service-grid article { min-height: 270px; padding: 16px; }
+}
+
+/* Mobile card rails retain readable cards and expose the next card as a swipe cue. */
+@media (max-width: 700px) {
+  .mbrace-home .mb-container > *, .mb-review-slider { min-width: 0; }
+  .mb-mobile-scroll {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(84%, 320px);
+    gap: 16px;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    padding: 4px 2px 18px;
+    scrollbar-width: thin;
+    scrollbar-color: #b59bcf #eee7f5;
+  }
+  .mb-mobile-scroll > * { min-width: 0; scroll-snap-align: start; }
+  .mb-mobile-scroll > :last-child { scroll-snap-align: end; }
+  .mb-quick-actions.mb-mobile-scroll { grid-auto-columns: 74%; }
+  .mb-quick-actions button { min-height: 155px; font-size: 18px; }
+  .mb-service-grid h3 { font-size: 18px; }
+  .mb-service-grid p { font-size: 14px; }
+  .mb-service-grid button { min-height: 44px; font-size: 13px; }
+  .mb-doctor-card > .mb-photo { height: 280px; }
+  .mb-doctor-card h3 { font-size: 16px; }
+  .mb-doctor-card p { font-size: 12px; min-height: 55px; }
+  .mb-doctor-card .mb-doctor-meta { font-size: 12px; }
+  .mb-doctor-card .mb-doctor-actions { flex-direction: row; }
+  .mb-doctor-actions .mb-button { min-height: 44px; font-size: 10px; white-space: normal; }
+  .mb-blog-grid .mb-photo { height: 200px; }
+  .mb-blog-grid h3 { font-size: 16px; }
+  .mb-blog-more { min-height: 44px; font-size: 12px; }
+  .mb-review-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #fbad31 #ffffff25;
+    padding-bottom: 14px;
+  }
+  .mb-review-slide { scroll-snap-align: start; }
+  .mb-review-nav, .mb-review-dots { display: none; }
+  .mb-review-slider { display: block; }
+  .mb-review-track { --items-per-view: 1; }
+  .mb-featured-doctor { grid-template-columns: minmax(100px, .85fr) minmax(0, 1fr); }
+  .mb-footer-bottom a { overflow-wrap: anywhere; }
+  .mb-appointment-form input, .mb-appointment-form select,
+  .mb-quick-booking input, .mb-quick-booking select { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mb-review-track { scroll-behavior: auto; }
+}
+
+/* Persistent header and an accessible, right-hand mobile navigation drawer. */
+.mbrace-home { --mb-header-height: 96px; padding-top: var(--mb-header-height); }
+.mbrace-home section, .mbrace-home [id] { scroll-margin-top: calc(var(--mb-header-height) + 20px); }
+.mb-header {
+  position: fixed; inset: 0 0 auto; z-index: 60;
+  height: var(--mb-header-height); padding: 12px clamp(20px, 3vw, 48px);
+  background: #fffdf9f5; backdrop-filter: blur(16px);
+  border-bottom: 1px solid #764b9e18; box-shadow: 0 4px 24px #33214c0a;
+}
+.mb-header-mobile-actions { display: none; }
+.mb-header .mb-logos img { width: 125px; }
+.mb-header .mb-logos img:last-child { width: 145px; }
+.mb-header .mb-desktop-nav { gap: clamp(12px, 1.4vw, 22px); font-size: 12px; }
+.mb-desktop-nav > a { padding-block: 12px; }
+.mb-header a:hover { color: var(--mb-purple); }
+.mb-menu-toggle, .mb-drawer-close {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 12px;
+  border: 1px solid #764b9e25; background: #f8f5fc; color: var(--mb-purple);
+}
+.mb-menu-toggle svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.mb-nav-drawer {
+  position: fixed; inset: 0 0 0 auto; margin: 0;
+  width: min(88vw, 390px); max-width: 100%; height: 100dvh; max-height: 100dvh;
+  padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+  border: 0; background: #fffdf9; color: var(--mb-navy);
+  box-shadow: -16px 0 60px #21103430; overflow-y: auto; overscroll-behavior: contain;
+}
+.mb-nav-drawer[open] { display: flex; flex-direction: column; animation: mb-drawer-enter .25s ease-out; }
+.mb-nav-drawer::backdrop { background: #21103480; backdrop-filter: blur(3px); }
+.mb-drawer-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 24px; }
+.mb-drawer-heading p { color: var(--mb-purple); font-size: 25px; font-weight: 700; }
+.mb-drawer-heading h2 { font-size: 12px; font-weight: 500; color: var(--mb-copy); margin-top: 3px; }
+.mb-nav-drawer nav { display: grid; }
+.mb-nav-drawer nav a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 53px; border-bottom: 1px solid #764b9e15; font-size: 14px; font-weight: 600; padding: 13px 0; }
+.mb-nav-drawer nav a span { color: #ae92c5; }
+.mb-nav-drawer nav a:hover { color: var(--mb-purple); }
+.mb-drawer-contact { margin-top: auto; padding-top: 28px; display: grid; gap: 12px; }
+.mb-drawer-contact p, .mb-drawer-contact > span { color: var(--mb-copy); font-size: 12px; }
+.mb-drawer-contact > a { font-size: 18px; font-weight: 600; color: var(--mb-purple); }
+.mb-drawer-contact .mb-button { width: 100%; min-height: 48px; }
+@keyframes mb-drawer-enter { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@media (max-width: 1200px) {
+  .mbrace-home { --mb-header-height: 80px; }
+  .mb-header { justify-content: space-between; gap: 16px; }
+  .mb-header .mb-desktop-nav { display: none; }
+  .mb-header-mobile-actions { display: flex; align-items: center; gap: 12px; }
+  .mb-header .mb-logos img { width: 110px; }
+  .mb-header .mb-logos img:last-child { width: 125px; }
+}
+@media (max-width: 600px) {
+  .mbrace-home { --mb-header-height: 72px; }
+  .mb-header { padding: 10px 16px; gap: 10px; }
+  .mb-header .mb-logos { gap: 9px; }
+  .mb-header .mb-logos img { width: 88px; }
+  .mb-header .mb-logos img:last-child { width: 102px; }
+  .mb-header .mb-logos > span { height: 34px; }
+  .mb-header-book { display: none; }
+  .mb-header-mobile-actions { gap: 0; }
+  .mb-nav-drawer { padding-inline: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mb-nav-drawer[open] { animation: none; }
+}
