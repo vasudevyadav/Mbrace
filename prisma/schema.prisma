@@ -1,0 +1,111 @@
+// SQLite for local development. Swap provider to "postgresql" and point
+// DATABASE_URL at Neon/Vercel Postgres when moving to production — the
+// models below avoid SQLite-only quirks so that switch needs no schema changes.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Singleton row (id is always 1) holding contact/social details shared
+// across the header, footer and location section.
+model SiteSettings {
+  id               Int    @id @default(1)
+  phone            String
+  phoneHref        String
+  email            String
+  lbNagarAddress   String
+  kingKotiAddress  String
+  instagramUrl     String @default("")
+  facebookUrl      String @default("")
+  linkedinUrl      String @default("")
+  youtubeUrl       String @default("")
+  updatedAt        DateTime @updatedAt
+}
+
+// Singleton row (id is always 1) holding the hero section's editorial copy.
+model HeroContent {
+  id                Int    @id @default(1)
+  badgePrefix       String
+  headingPlain      String
+  headingHighlight  String
+  subheading        String
+  description       String
+  updatedAt         DateTime @updatedAt
+}
+
+// Shared counters reused across sections (hero badge, About, Why Us, Awards)
+// so a single edit updates every place a number appears.
+model Stat {
+  id        Int    @id @default(autoincrement())
+  slug      String @unique
+  value     String
+  label     String
+  updatedAt DateTime @updatedAt
+}
+
+// Top navigation / FAQ category taxonomy.
+model CareCategory {
+  id       Int       @id @default(autoincrement())
+  key      String    @unique
+  label    String
+  order    Int       @default(0)
+  faqItems FaqItem[]
+}
+
+model ServiceCategory {
+  id     Int           @id @default(autoincrement())
+  key    String        @unique
+  label  String
+  order  Int           @default(0)
+  items  ServiceItem[]
+}
+
+model ServiceItem {
+  id          Int             @id @default(autoincrement())
+  categoryId  Int
+  category    ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name        String
+  description String
+  order       Int             @default(0)
+}
+
+model FaqItem {
+  id           Int          @id @default(autoincrement())
+  categoryKey  String
+  category     CareCategory @relation(fields: [categoryKey], references: [key], onDelete: Cascade)
+  question     String
+  answer       String
+  order        Int          @default(0)
+}
+
+model Doctor {
+  id               Int     @id @default(autoincrement())
+  name             String
+  qualifications   String
+  role             String
+  image            String
+  yearsExperience  String
+  languages        String
+  location         String
+  isFeatured       Boolean @default(false)
+  order            Int     @default(0)
+}
+
+model Testimonial {
+  id    Int    @id @default(autoincrement())
+  name  String
+  quote String
+  order Int    @default(0)
+}
+
+model Blog {
+  id    Int    @id @default(autoincrement())
+  title String
+  date  String
+  image String
+  order Int    @default(0)
+}

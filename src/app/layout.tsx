@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import "./mbrace.css";
 import { siteOrigin } from "@/lib/site";
 import MotionProvider from "@/components/providers/MotionProvider";
 

@@ -13,9 +13,12 @@ Open http://localhost:3000. `npm run build`, `npm run lint`, and `npm run typech
 
 ## Homepage
 
-- `src/components/sections/MbraceHome.tsx`: responsive homepage, navigation, service/category selection, doctors, FAQs, locations, content previews and appointment form.
+- `src/components/sections/MbraceHome.tsx`: homepage composition and shared booking, location and navigation state.
+- `src/components/sections/mbrace/`: separate components for Hero, Booking Shortcuts, About, Services, Excellence, Why Choose Us, Doctors, Awards, Testimonials, FAQ, Locations, Blogs, Appointment, Footer and Details Dialog. Shared Photo, Heading and Counter helpers live alongside them.
+- FAQ and testimonial state belongs to their section components; booking state stays shared so doctor, hero and footer actions can prefill the appointment form.
 - `src/lib/mbrace-home.ts`: Figma copy, doctors, categories, FAQs and contact details.
-- `src/app/mbrace.css`: Figma palette, Poppins typography, layout and responsive breakpoints.
+- Homepage, navigation and admin components declare Tailwind classes directly in their JSX `className` attributes.
+- `src/app/globals.css`: Tailwind v4 entry point, shared theme tokens and accessibility defaults.
 - `public/images/figma`: original images and booking icons extracted from the supplied Figma export. Raster assets are compressed WebP files.
 - `public/og.png`: generated social-sharing artwork; homepage photos and logos use original Figma assets.
 
@@ -35,10 +38,12 @@ The frame provides blog cards, not full articles or article URLs. Cards open acc
 
 The original dental section components and detail routes remain in source for reference; the homepage no longer renders them or includes them in its sitemap.
 
-## Optional static hosting
+## Styling
 
-```sh
-SITES_STATIC_EXPORT=1 npm run build
-```
+All page and component styles use Tailwind CSS v4 classes directly in JSX `className` attributes, including responsive variants and conditional states. There are no separate style-map files or component stylesheets. The `mb-*` and `admin-*` markers only support Tailwind descendant selectors; they do not load styles from another file.
 
-This emits the self-contained site in `out/` with precompressed images served directly. Normal `npm run dev` and `npm run build` retain Next.js image optimization.
+Use `src/app/globals.css` for shared theme tokens, accessibility defaults and any future global additions. Homepage colors use `care-*` tokens and the admin uses the `brand-*` palette. The testimonial carousel retains one runtime CSS variable for its responsive card count.
+
+## Hosting
+
+The current homepage reads from Prisma, and the admin uses authenticated server actions. Deploy with a server runtime and persistent database/uploads. The existing Sites static-export configuration predates the admin and cannot host the current application without a server-storage migration.
