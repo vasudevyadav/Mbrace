@@ -40,3 +40,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# database (local SQLite dev db; production points at Postgres via DATABASE_URL)
+/prisma/*.db
+/prisma/*.db-journal
+
+# admin-uploaded images
+/public/uploads/*
+!/public/uploads/.gitkeep

@@ -3,13 +3,6 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { trustStats } from "@/lib/content";
 
-const tileStyles = [
-  "bg-brand-700 text-white",
-  "bg-accent-500 text-ink-900",
-  "bg-accent-500 text-ink-900",
-  "bg-brand-700 text-white",
-];
-
 export default function TrustStats() {
   return (
     <section className="bg-cream-50 py-20 sm:py-24">
@@ -34,7 +27,7 @@ export default function TrustStats() {
           {trustStats.slice(0, 2).map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex aspect-square flex-col justify-center rounded-2xl p-5 ${tileStyles[i]}`}
+              className={`flex aspect-square flex-col justify-center rounded-2xl p-5 ${i === 0 ? "bg-brand-700 text-white" : "bg-accent-500 text-ink-900"}`}
             >
               <span className="font-display text-2xl font-medium sm:text-3xl">
                 {stat.value}
@@ -56,7 +49,7 @@ export default function TrustStats() {
           {trustStats.slice(2, 4).map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex aspect-square flex-col justify-center rounded-2xl p-5 ${tileStyles[i + 2]}`}
+              className={`flex aspect-square flex-col justify-center rounded-2xl p-5 ${i === 0 ? "bg-accent-500 text-ink-900" : "bg-brand-700 text-white"}`}
             >
               <span className="font-display text-2xl font-medium sm:text-3xl">
                 {stat.value}

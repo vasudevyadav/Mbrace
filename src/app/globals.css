@@ -1,19 +1,34 @@
 @import "tailwindcss";
 
+@theme {
+  --color-care-purple: #764b9e;
+  --color-care-gold: #fbad31;
+  --color-care-navy: #1f2b70;
+  --color-care-copy: #5d6078;
+  --color-care-soft: #f8f5fc;
+  --animate-drawer-enter: drawer-enter .25s ease-out;
+  @keyframes drawer-enter {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+}
+
+
 :root {
+  --care-gradient: linear-gradient(110deg, #fff7e8, #f0e8fa);
   --font-inter: var(--font-poppins);
   --font-fraunces: var(--font-poppins);
-  --color-brand-50: #f8f6fd;
-  --color-brand-100: #efeafa;
-  --color-brand-200: #ddd2f4;
-  --color-brand-300: #c1b0eb;
-  --color-brand-400: #9b82de;
-  --color-brand-500: #7654ce;
-  --color-brand-600: #5f3db8;
-  --color-brand-700: #4e2e9e;
-  --color-brand-800: #402486;
-  --color-brand-900: #331a63;
-  --color-brand-950: #241246;
+  --color-brand-50: #faf8fc;
+  --color-brand-100: #f1ebf6;
+  --color-brand-200: #e3d8ee;
+  --color-brand-300: #cbb5dc;
+  --color-brand-400: #ac8bc5;
+  --color-brand-500: #8e66ac;
+  --color-brand-600: #74518f;
+  --color-brand-700: #604176;
+  --color-brand-800: #503761;
+  --color-brand-900: #432f51;
+  --color-brand-950: #291e34;
 
   --color-accent-50: #fefaf3;
   --color-accent-100: #fcf1de;
@@ -93,33 +108,31 @@
   --font-display: var(--font-fraunces);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
-}
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    @apply scroll-smooth;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-}
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
 
-::selection {
-  background: var(--color-brand-200);
-  color: var(--color-brand-900);
-}
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
 
-:focus-visible {
-  outline: 2px solid var(--color-brand-600);
-  outline-offset: 2px;
+  :focus-visible {
+    @apply outline-2 outline-solid outline-brand-600 outline-offset-2;
+  }
 }
