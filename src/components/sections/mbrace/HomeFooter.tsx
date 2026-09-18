@@ -16,9 +16,10 @@ type Props = {
   setServiceTab: (value: string) => void;
   setLocation: (value: string) => void;
   mapUrl: string;
+  basePath?: string;
 };
 
-export default function HomeFooter({ book, bookingEmail, setBookingEmail, hospital, goToServices, serviceGroups, setServiceTab, setLocation, mapUrl }: Props) {
+export default function HomeFooter({ book, bookingEmail, setBookingEmail, hospital, goToServices, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
 
   return (
     <footer className="mb-footer [background:linear-gradient(180deg,_#764b9e,_#290347)] text-white max-[701px]:pt-12 min-[701px]:pt-[65px] mb-rounded max-[701px]:rounded-[20px] min-[701px]:rounded-[28px]">
@@ -40,7 +41,7 @@ export default function HomeFooter({ book, bookingEmail, setBookingEmail, hospit
         </div>
         <div className="mb-footer-grid grid pt-[45px] pb-[45px] max-[1001px]:grid-cols-[repeat(2,1fr)] min-[1001px]:grid-cols-[1fr_.8fr_1fr_1.05fr] max-[701px]:gap-[35px_25px] min-[701px]:max-[1001px]:gap-[35px] min-[1001px]:max-[1201px]:gap-[25px] min-[1201px]:gap-10 [&_p]:text-[12px] [&_p]:mt-[17px] [&_p]:leading-[1.8] [&_h3]:text-[16px] [&_h3]:font-semibold [&_h3]:mb-5 [&_ul]:list-none [&_ul]:grid [&_ul]:gap-[9px] [&_ul]:text-[12px] [&_a:hover]:underline max-[701px]:[&>div:first-child]:col-[1_/_-1] max-[701px]:[&>div:first-child]:max-w-87.5 max-[701px]:[&>div:last-child]:col-[1_/_-1]">
           <div>
-            <a href="#home" className="mb-footer-brands flex items-center gap-3.5 [&_img]:w-[44%] [&_img]:h-auto [&>span]:w-[1px] [&>span]:h-11.5 [&>span]:bg-[#fff8]">
+            <a href={`${basePath}#home`} className="mb-footer-brands flex items-center gap-3.5 [&_img]:w-[44%] [&_img]:h-auto [&>span]:w-[1px] [&>span]:h-11.5 [&>span]:bg-[#fff8]">
               <Image src={asset(1)} width={155} height={45} alt="Kamineni Hospitals" />
               <span />
               <Image src={asset(23)} width={160} height={75} alt="M’Brace by Kamineni Hospitals" className="mb-footer-logo w-47.5 h-22.5 object-contain rounded-[4px] bg-transparent" />
@@ -52,21 +53,21 @@ export default function HomeFooter({ book, bookingEmail, setBookingEmail, hospit
           <div>
             <h3>Quick Links</h3>
             <ul>{[["Home", "home"], ["About Us", "about"], ["Women’s Care", "services"], ["Child Care", "services"], ["Our Team", "team"], ["Pregnancy & Birth Support", "services"], ["Fertility Care", "services"]].map(([text, href]) => <li key={text}>
-              <a href={`#${href}`} onClick={() => goToServices(text.replace("’", "'"))}>{text}</a>
+              <a href={`${basePath}#${href}`} onClick={() => goToServices(text.replace("’", "'"))}>{text}</a>
             </li>)}</ul>
           </div>
           <div>
             <h3>Services</h3>
             <ul>{serviceGroups["Child Care"].slice(0, 7).map(([name]) => <li key={name}>
-              <a href="#services" onClick={() => setServiceTab("Child Care")}>{name}</a>
+              <a href={`${basePath}#services`} onClick={() => setServiceTab("Child Care")}>{name}</a>
             </li>)}</ul>
           </div>
           <div>
             <h3>Location</h3>
             <div className="mb-footer-locations flex gap-4.5 text-[12px] mb-4 [&>a:first-child]:text-care-gold">
-              <a href="#location" onClick={() => setLocation("LB Nagar")}>LB Nagar</a>
+              <a href={`${basePath}#location`} onClick={() => setLocation("LB Nagar")}>LB Nagar</a>
               <span>|</span>
-              <a href="#location" onClick={() => setLocation("King Koti")}>King Koti</a>
+              <a href={`${basePath}#location`} onClick={() => setLocation("King Koti")}>King Koti</a>
             </div>
             <a className="mb-footer-map block relative rounded-[8px] overflow-hidden max-[701px]:max-w-87.5 [&_img]:w-full [&_img]:object-cover max-[701px]:[&_img]:h-45 min-[701px]:[&_img]:h-35 [&>span]:absolute [&>span]:right-2 [&>span]:bottom-2 [&>span]:bg-[#fff] [&>span]:text-[#333] [&>span]:pt-[5px] [&>span]:pr-2 [&>span]:pb-[5px] [&>span]:pl-2 [&>span]:rounded-[4px] [&>span]:text-[10px]" href={mapUrl} target="_blank" rel="noreferrer">
               <Image src={asset(6)} width={280} height={140} alt="Hospital location map" />

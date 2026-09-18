@@ -52,7 +52,7 @@ export default async function AdminFaqsPage({ searchParams }: { searchParams: Pr
             </div>
           )}
 
-          <form action={createFaqAction} className="mt-6 max-w-3xl rounded-2xl bg-white p-5 sm:p-8 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
+          <form action={createFaqAction} className="mt-6 max-w-7xl rounded-2xl bg-white p-5 sm:p-8 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
             <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Add FAQ to {activeCategory.label}</h2>
             <input type="hidden" name="categoryKey" value={activeCategory.key} />
             <label className="block text-sm font-medium text-slate-700 mt-4">Question<input name="question" required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
