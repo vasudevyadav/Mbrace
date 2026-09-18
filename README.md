@@ -26,7 +26,7 @@ The section order is hero, booking shortcuts, about, services, centres of excell
 
 ## Booking
 
-Set `NEXT_PUBLIC_LEAD_WEBHOOK_URL` in `.env.local` to the approved appointment endpoint before accepting online requests. The endpoint must accept JSON and allow the deployed origin through CORS. The form uses native field validation and only reports success after an HTTP success response. With no endpoint, it clearly reports that nothing was sent and offers the hospital's phone number. Doctor buttons and the hero controls prefill the main appointment form. The footer email control continues to that form with the email prefilled.
+Appointment requests (from the hero quick-booking widget and the main appointment form) are always saved to the database and visible under Admin > Appointment Leads, on every page — no configuration required. Optionally set `LEAD_WEBHOOK_URL` in `.env.local` to also forward each request to a CRM endpoint (e.g. GoHighLevel) as a best-effort secondary step; the local save always happens regardless of whether this is configured. Doctor buttons and the hero controls prefill the main appointment form. The footer's "Ready to Talk?" email field is an independent newsletter subscribe — it saves to the database and is visible under Admin > Subscribers.
 
 Set `NEXT_PUBLIC_SITE_URL` to the production origin for canonical social-image URLs and sitemap entries. No dental domain is used as a fallback.
 

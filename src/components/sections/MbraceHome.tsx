@@ -2,6 +2,7 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import type { HomeData } from "@/lib/queries";
+import { submitAppointmentRequestAction } from "@/lib/publicActions";
 import { locations } from "./mbrace/content";
 import type { AppointmentStatus, DetailContent } from "./mbrace/types";
 import HeroSection from "./mbrace/HeroSection";
@@ -19,8 +20,6 @@ import BlogsSection from "./mbrace/BlogsSection";
 import AppointmentSection from "./mbrace/AppointmentSection";
 import HomeFooter from "./mbrace/HomeFooter";
 import DetailsDialog from "./mbrace/DetailsDialog";
-
-const WEBHOOK_URL = process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL;
 
 export default function MbraceHome({ data }: { data: HomeData }) {
   const { hospital, careCategories, serviceGroups, doctors: homeDoctors, homeTestimonials, homeFaqs, homeBlogs, featuredDoctor, hero, stats } = data;
@@ -61,30 +60,13 @@ export default function MbraceHome({ data }: { data: HomeData }) {
   }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!WEBHOOK_URL) {
-      setStatus("unavailable");
-      return;
-    }
     setStatus("sending");
-    const payload = {
-      ...Object.fromEntries(new FormData(event.currentTarget).entries()),
-      source: "mbrace-homepage",
-      doctor: bookingDoctor,
-      appointmentType: bookingType
-    };
-    try {
-      const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-      if (!response.ok) throw new Error("Request failed");
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
+    const formData = new FormData(event.currentTarget);
+    formData.set("source", "mbrace-homepage");
+    formData.set("doctor", bookingDoctor);
+    formData.set("appointmentType", bookingType);
+    const result = await submitAppointmentRequestAction(formData);
+    setStatus(result.ok ? "success" : "error");
   }
 
   return (
@@ -165,9 +147,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
         hospital={hospital}
       />
       <HomeFooter
-        book={book}
-        bookingEmail={bookingEmail}
-        setBookingEmail={setBookingEmail}
         hospital={hospital}
         goToServices={goToServices}
         serviceGroups={serviceGroups}

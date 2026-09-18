@@ -109,3 +109,30 @@ model Blog {
   image String
   order Int    @default(0)
 }
+
+// Submissions from the hero quick-booking widget and the main appointment
+// form, across every page. Always saved here; optionally also forwarded to
+// LEAD_WEBHOOK_URL when that's configured.
+model AppointmentRequest {
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String
+  phone           String
+  preferredDate   String
+  service         String
+  location        String
+  doctor          String?
+  appointmentType String?
+  source          String?
+  status          String   @default("new")
+  createdAt       DateTime @default(now())
+}
+
+// Emails collected from the footer "Ready to Talk" newsletter form, shared
+// across every page.
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  source    String?
+  createdAt DateTime @default(now())
+}

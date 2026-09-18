@@ -6,4 +6,4 @@ export type DetailContent = {
   image?: string;
 };
 
-export type AppointmentStatus = "idle" | "sending" | "success" | "error" | "unavailable";
+export type AppointmentStatus = "idle" | "sending" | "success" | "error";

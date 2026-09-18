@@ -1,15 +1,15 @@
 "use client";
 
+import { useState, type FormEvent } from "react";
 import Image from "next/image";
 import { PhoneIcon } from "@/components/icons/icons";
 import { asset } from "./content";
 import type { HomeData } from "@/lib/queries";
-import type { BookAppointment } from "./types";
+import { subscribeAction } from "@/lib/publicActions";
+
+type SubscribeStatus = "idle" | "sending" | "success" | "error";
 
 type Props = {
-  book: BookAppointment;
-  bookingEmail: string;
-  setBookingEmail: (value: string) => void;
   hospital: HomeData["hospital"];
   goToServices: (category: string) => void;
   serviceGroups: HomeData["serviceGroups"];
@@ -19,7 +19,24 @@ type Props = {
   basePath?: string;
 };
 
-export default function HomeFooter({ book, bookingEmail, setBookingEmail, hospital, goToServices, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
+export default function HomeFooter({ hospital, goToServices, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState<SubscribeStatus>("idle");
+
+  async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubscribeStatus("sending");
+    const formData = new FormData();
+    formData.set("email", subscribeEmail);
+    formData.set("source", "footer");
+    const result = await subscribeAction(formData);
+    if (result.ok) {
+      setSubscribeStatus("success");
+      setSubscribeEmail("");
+    } else {
+      setSubscribeStatus("error");
+    }
+  }
 
   return (
     <footer className="mb-footer [background:linear-gradient(180deg,_#764b9e,_#290347)] text-white max-[701px]:pt-12 min-[701px]:pt-[65px] mb-rounded max-[701px]:rounded-[20px] min-[701px]:rounded-[28px]">
@@ -30,14 +47,16 @@ export default function HomeFooter({ book, bookingEmail, setBookingEmail, hospit
             <h2>Schedule Your <em>Consultation</em> Today!</h2>
             <p>Whether you want to know about women&apos;s health, your child&apos;s care, pregnancy or fertility support, our expert multidisciplinary team is ready to assist.</p>
           </div>
-          <form onSubmit={e => {
-            e.preventDefault();
-            book();
-          }}>
-            <label className="sr-only" htmlFor="footer-email">Email address</label>
-            <input id="footer-email" type="email" placeholder="Enter your email address" required value={bookingEmail} onChange={e => setBookingEmail(e.target.value)} />
-            <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-gold [&.mb-gold]:bg-care-gold text-white [&.mb-gold:hover]:bg-[#df9726]" type="submit">Send</button>
-          </form>
+          {subscribeStatus === "success" ? (
+            <p className="rounded-[5px] bg-[#ffffff26] px-4 py-3.5 text-[13px] font-semibold" role="status">Thanks! We’ll keep you updated.</p>
+          ) : (
+            <form onSubmit={handleSubscribe}>
+              <label className="sr-only" htmlFor="footer-email">Email address</label>
+              <input id="footer-email" type="email" placeholder="Enter your email address" required value={subscribeEmail} onChange={e => setSubscribeEmail(e.target.value)} />
+              <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-gold [&.mb-gold]:bg-care-gold text-white [&.mb-gold:hover]:bg-[#df9726]" type="submit" disabled={subscribeStatus === "sending"}>{subscribeStatus === "sending" ? "Sending…" : "Send"}</button>
+            </form>
+          )}
+          {subscribeStatus === "error" && <p className="mt-2 text-[12px] font-medium text-[#ffd7e0]" role="alert">Something went wrong. Please try again.</p>}
         </div>
         <div className="mb-footer-grid grid pt-[45px] pb-[45px] max-[1001px]:grid-cols-[repeat(2,1fr)] min-[1001px]:grid-cols-[1fr_.8fr_1fr_1.05fr] max-[701px]:gap-[35px_25px] min-[701px]:max-[1001px]:gap-[35px] min-[1001px]:max-[1201px]:gap-[25px] min-[1201px]:gap-10 [&_p]:text-[12px] [&_p]:mt-[17px] [&_p]:leading-[1.8] [&_h3]:text-[16px] [&_h3]:font-semibold [&_h3]:mb-5 [&_ul]:list-none [&_ul]:grid [&_ul]:gap-[9px] [&_ul]:text-[12px] [&_a:hover]:underline max-[701px]:[&>div:first-child]:col-[1_/_-1] max-[701px]:[&>div:first-child]:max-w-87.5 max-[701px]:[&>div:last-child]:col-[1_/_-1]">
           <div>

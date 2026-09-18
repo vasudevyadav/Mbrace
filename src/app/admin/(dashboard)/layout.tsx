@@ -16,7 +16,7 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
           <span className="admin-brand-mark grid place-content-center relative [border:1px_solid_#dac0a666] bg-[#f2dfbf] text-[#483253] rounded-[13px] text-[25px] font-semibold max-[801px]:h-9 max-[801px]:w-9 min-[801px]:h-10.5 min-[801px]:w-10.5 [&>span]:absolute [&>span]:top-0.5 [&>span]:right-1.5 [&>span]:text-[20px]">M<span>’</span></span>
           <span><strong>M&rsquo;Brace</strong><small>CONTENT STUDIO</small></span>
         </Link>
-        <p className="admin-nav-heading pt-7 pr-6.5 pb-3 pl-6.5 text-[10px] tracking-[.16em] uppercase text-[#b4a3c0] max-[801px]:hidden">Workspace</p>
+        <div className="pt-4 max-[801px]:hidden" />
         <AdminNav />
         <div className="admin-sidebar-bottom mt-auto max-[801px]:pt-0 max-[801px]:pr-0 max-[801px]:pb-0 max-[801px]:pl-0 max-[801px]:absolute max-[801px]:top-[17px] max-[801px]:right-5 max-[801px]:flex max-[801px]:gap-4 min-[801px]:pt-6 min-[801px]:pr-6 min-[801px]:pb-4.5 min-[801px]:pl-6 max-[801px]:[&>a]:hidden">
           <div className="admin-sidebar-note pt-4 pr-0 pb-5.5 pl-0 [border-bottom:1px_solid_#ffffff15] mb-3 max-[801px]:hidden [&_strong]:text-[#e8d5b3] [&_strong]:text-[11px] [&_strong]:font-medium [&_p]:text-[11px] [&_p]:leading-[1.8] [&_p]:mt-2 [&_p]:text-[#b4a3c0]"><strong>Care starts with connection.</strong><p>Keep your patients informed with thoughtful, up-to-date content.</p></div>

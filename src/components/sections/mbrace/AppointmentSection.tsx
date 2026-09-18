@@ -72,7 +72,7 @@ export default function AppointmentSection({ status, setStatus, formRef, submitA
                 <option value="" disabled>Select Location</option>{locations.map(x => <option key={x}>{x}</option>)}</select>
             </label>
             <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Book Appointment"}</button>
-            {(status === "error" || status === "unavailable") && <p className="mb-form-message text-[13px] bg-white pt-4 pr-4 pb-4 pl-4 [border:1px_solid_#bd7694] rounded-[8px] text-[#71394e] [&_a]:underline" role="alert">{status === "unavailable" ? "Online booking is currently unavailable. Your request has not been sent." : "We couldn’t send your request. Please try again."} Please call <a href={hospital.phoneHref}>{hospital.phone}</a> to book.</p>}
+            {status === "error" && <p className="mb-form-message text-[13px] bg-white pt-4 pr-4 pb-4 pl-4 [border:1px_solid_#bd7694] rounded-[8px] text-[#71394e] [&_a]:underline" role="alert">We couldn’t send your request. Please try again, or call <a href={hospital.phoneHref}>{hospital.phone}</a> to book.</p>}
           </form>}
         </div>
       </div>

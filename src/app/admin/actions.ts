@@ -52,7 +52,7 @@ function refreshSite() {
   revalidatePath("/");
 }
 
-// --- Site settings + hero ---
+// --- Site settings (common — contact & social, shared across every page) ---
 export async function updateSettingsAction(formData: FormData) {
   await requireAdminSession();
   await prisma.siteSettings.upsert({
@@ -82,6 +82,14 @@ export async function updateSettingsAction(formData: FormData) {
     },
   });
 
+  refreshSite();
+  revalidatePath("/admin/settings");
+  redirect("/admin/settings?saved=1");
+}
+
+// --- Hero content (Home page only) ---
+export async function updateHeroAction(formData: FormData) {
+  await requireAdminSession();
   await prisma.heroContent.upsert({
     where: { id: 1 },
     create: {
@@ -102,8 +110,8 @@ export async function updateSettingsAction(formData: FormData) {
   });
 
   refreshSite();
-  revalidatePath("/admin/settings");
-  redirect("/admin/settings?saved=1");
+  revalidatePath("/admin/hero");
+  redirect("/admin/hero?saved=1");
 }
 
 // --- Stats ---
@@ -316,4 +324,33 @@ export async function deleteBlogAction(formData: FormData) {
   await prisma.blog.delete({ where: { id } });
   refreshSite();
   redirect("/admin/blogs");
+}
+
+// --- Appointment leads (common — submitted from any page) ---
+export async function updateAppointmentStatusAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  await prisma.appointmentRequest.update({
+    where: { id },
+    data: { status: str(formData, "status") },
+  });
+  revalidatePath("/admin/appointments");
+  redirect("/admin/appointments");
+}
+
+export async function deleteAppointmentAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  await prisma.appointmentRequest.delete({ where: { id } });
+  revalidatePath("/admin/appointments");
+  redirect("/admin/appointments");
+}
+
+// --- Newsletter subscribers (common — submitted from the footer on any page) ---
+export async function deleteSubscriberAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  await prisma.subscriber.delete({ where: { id } });
+  revalidatePath("/admin/subscribers");
+  redirect("/admin/subscribers");
 }

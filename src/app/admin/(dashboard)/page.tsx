@@ -2,14 +2,28 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminDashboardPage() {
-  const [doctors, services, faqs, testimonials, blogs] = await Promise.all([
+  const [doctors, services, faqs, testimonials, blogs, appointments, subscribers] = await Promise.all([
     prisma.doctor.count(),
     prisma.serviceItem.count(),
     prisma.faqItem.count(),
     prisma.testimonial.count(),
     prisma.blog.count(),
+    prisma.appointmentRequest.count({ where: { status: "new" } }),
+    prisma.subscriber.count(),
   ]);
   const cards = [
+    {
+      label: "New leads",
+      count: appointments,
+      href: "/admin/appointments",
+      note: "Appointment requests",
+    },
+    {
+      label: "Subscribers",
+      count: subscribers,
+      href: "/admin/subscribers",
+      note: "Newsletter signups",
+    },
     {
       label: "Doctors",
       count: doctors,
@@ -153,8 +167,14 @@ export default async function AdminDashboardPage() {
             </span>
           </Link>
           <Link
-            href="/admin/stats"
+            href="/admin/hero"
             className="admin-stat-link flex gap-6 mt-4.5 text-[11px] font-medium text-[#604176]"
+          >
+            Edit hero section <span aria-hidden="true">↗</span>
+          </Link>
+          <Link
+            href="/admin/stats"
+            className="admin-stat-link flex gap-6 mt-2.5 text-[11px] font-medium text-[#604176]"
           >
             Manage statistics <span aria-hidden="true">↗</span>
           </Link>

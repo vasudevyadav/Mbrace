@@ -17,7 +17,6 @@ export default function AboutPageClient({ data }: { data: HomeData }) {
   const [bookingService, setBookingService] = useState("");
   const [bookingLocation, setBookingLocation] = useState("");
   const [bookingDate, setBookingDate] = useState("");
-  const [bookingEmail, setBookingEmail] = useState("");
 
   function book(service = "") {
     if (service) setBookingService(service);
@@ -50,9 +49,6 @@ export default function AboutPageClient({ data }: { data: HomeData }) {
       <WhyChooseUsSection stats={stats} />
       <DoctorsSection featuredDoctor={featuredDoctor} book={book} homeDoctors={homeDoctors} />
       <HomeFooter
-        book={book}
-        bookingEmail={bookingEmail}
-        setBookingEmail={setBookingEmail}
         hospital={hospital}
         goToServices={goToServices}
         serviceGroups={serviceGroups}
