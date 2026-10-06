@@ -10,14 +10,14 @@ export default function ServicesAtLocation({ locationName, intro, image, items }
   if (items.length === 0) return null;
 
   return (
-    <section className="mb-section max-[701px]:pt-12 max-[701px]:pb-12 min-[701px]:max-[1001px]:pt-15 min-[701px]:max-[1001px]:pb-15 min-[1001px]:pt-20 min-[1001px]:pb-20 [background:linear-gradient(110deg,#fff3df,#f3e9fc)] mb-rounded max-[701px]:rounded-[20px] min-[701px]:rounded-[28px]">
-      <div className="mb-container max-[701px]:w-[calc(100%_-_40px)] min-[701px]:max-[1001px]:w-[calc(100%_-_48px)] min-[1001px]:max-[1201px]:w-[calc(100%_-_80px)] min-[1201px]:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto grid gap-10 min-[1001px]:grid-cols-[1fr_555px] min-[1001px]:items-start">
+    <section className="mb-section mb-rounded rounded-[20px] bg-[linear-gradient(110deg,#fff3df,#f3e9fc)] py-12 md:rounded-[28px] md:py-16 lg:py-20">
+      <div className="mb-container mx-auto grid w-full gap-10 px-5 sm:px-6 lg:max-w-6xl lg:grid-cols-2 lg:items-start lg:px-8">
         <div>
           <p className="mb-eyebrow text-[14px] font-bold text-care-purple mb-3">Services Available</p>
-          <h2 className="mb-5 font-bold text-[#1f2b70] max-[701px]:text-[28px] min-[701px]:text-[34px] min-[1001px]:text-[40px] leading-[1.2]">
+          <h2 className="mb-5 text-[28px] font-bold leading-[1.2] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
             How M&apos;Brace at <span className="text-care-purple">{locationName}</span> Helps You?
           </h2>
-          <p className="mb-7 text-[15px] leading-[1.65] text-[#5d6078] min-[1001px]:hidden">{intro}</p>
+          <p className="mb-7 text-[15px] leading-[1.65] text-[#5d6078] lg:hidden">{intro}</p>
           <div className="grid gap-5">
             {items.map((item, index) => {
               const Icon = serviceIcons[index % serviceIcons.length];
@@ -35,9 +35,9 @@ export default function ServicesAtLocation({ locationName, intro, image, items }
           <Link href="/#services" className="mt-7 inline-flex min-h-[49px] items-center justify-center rounded-[6px] bg-care-purple px-7 text-[14px] font-semibold text-white hover:bg-[#603780]">Explore All Services</Link>
         </div>
         <div className="grid gap-6">
-          <p className="hidden text-[15px] leading-[1.65] text-[#5d6078] min-[1001px]:block">{intro}</p>
+          <p className="hidden text-[15px] leading-[1.65] text-[#5d6078] lg:block">{intro}</p>
           {image && (
-            <div className="relative h-80 overflow-hidden rounded-[20px] min-[1001px]:h-[440px]">
+            <div className="relative h-80 overflow-hidden rounded-[20px] lg:h-[440px]">
               <Image src={image} alt={`M'Brace, ${locationName}`} fill className="object-cover" />
               <div className="absolute bottom-0 left-12 min-w-[194px] rounded-t-[12px] bg-care-gold px-7 py-4 text-center text-white">
                 <strong className="block text-[22px]">35+</strong><span className="text-[13px]">Years of Expert Care</span>

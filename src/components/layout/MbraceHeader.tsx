@@ -75,7 +75,7 @@ export default function MbraceHeader({
           aria-label="Main navigation"
         >
           <a href={`${basePath}#home`}>Home</a>
-          <a href={`${basePath}#about`}>About Us</a>
+          <a href="/about">About Us</a>
           {careCategories.map((name) => (
             <a
               href={`${basePath}#services`}
@@ -159,7 +159,7 @@ export default function MbraceHeader({
           <a href={`${basePath}#home`} onClick={() => navigate()}>
             Home <span aria-hidden="true">↗</span>
           </a>
-          <a href={`${basePath}#about`} onClick={() => navigate()}>
+          <a href="/about" onClick={() => navigate()}>
             About Us <span aria-hidden="true">↗</span>
           </a>
           {careCategories.map((name) => (

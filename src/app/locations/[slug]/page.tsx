@@ -11,7 +11,11 @@ export async function generateStaticParams() {
   return locations.map((location) => ({ slug: location.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const location = await getLocationBySlug(slug);
   if (!location) return {};
@@ -21,9 +25,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function LocationPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function LocationPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  const [location, data] = await Promise.all([getLocationBySlug(slug), getHomeData()]);
+  const [location, data] = await Promise.all([
+    getLocationBySlug(slug),
+    getHomeData(),
+  ]);
   if (!location) notFound();
 
   return <LocationPageClient location={location} data={data} />;

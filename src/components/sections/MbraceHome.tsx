@@ -22,7 +22,18 @@ import HomeFooter from "./mbrace/HomeFooter";
 import DetailsDialog from "./mbrace/DetailsDialog";
 
 export default function MbraceHome({ data }: { data: HomeData }) {
-  const { hospital, careCategories, serviceGroups, doctors: homeDoctors, homeTestimonials, homeFaqs, homeBlogs, featuredDoctor, hero, stats } = data;
+  const {
+    hospital,
+    careCategories,
+    serviceGroups,
+    doctors: homeDoctors,
+    homeTestimonials,
+    homeFaqs,
+    homeBlogs,
+    featuredDoctor,
+    hero,
+    stats,
+  } = data;
   const [serviceTab, setServiceTab] = useState("Women Care");
   const [location, setLocation] = useState(locations[0]);
   const [bookingService, setBookingService] = useState("");
@@ -35,7 +46,10 @@ export default function MbraceHome({ data }: { data: HomeData }) {
   const [detail, setDetail] = useState<DetailContent | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
+  const mapQuery =
+    location === "LB Nagar"
+      ? `Mbrace Kamineni Hospitals ${hospital.address}`
+      : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   function book(service = "", doctor = "", type = "") {
     if (service) setBookingService(service);
@@ -45,18 +59,26 @@ export default function MbraceHome({ data }: { data: HomeData }) {
     setStatus("idle");
     dialog.current?.close();
     document.getElementById("appointment")?.scrollIntoView({
-      behavior: "smooth"
+      behavior: "smooth",
     });
-    formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({
-      preventScroll: true
-    });
+    formRef.current
+      ?.querySelector<HTMLInputElement>("input[name=name]")
+      ?.focus({
+        preventScroll: true,
+      });
   }
   function showDetails(next: DetailContent) {
     setDetail(next);
     dialog.current?.showModal();
   }
   function goToServices(category: string) {
-    setServiceTab(category === "Child Care" ? "Child Care" : category === "Fertility Care" ? "Fertility" : "Women Care");
+    setServiceTab(
+      category === "Child Care"
+        ? "Child Care"
+        : category === "Fertility Care"
+          ? "Fertility"
+          : "Women Care",
+    );
   }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,12 +107,8 @@ export default function MbraceHome({ data }: { data: HomeData }) {
         bookingDate={bookingDate}
         setBookingDate={setBookingDate}
       />
-      <BookingShortcuts
-        book={book}
-      />
-      <AboutSection
-        stats={stats}
-      />
+      <BookingShortcuts book={book} />
+      <AboutSection stats={stats} />
       <ServicesSection
         serviceGroups={serviceGroups}
         serviceTab={serviceTab}
@@ -98,24 +116,15 @@ export default function MbraceHome({ data }: { data: HomeData }) {
         showDetails={showDetails}
       />
       <ExcellenceSection />
-      <WhyChooseUsSection
-        stats={stats}
-      />
+      <WhyChooseUsSection stats={stats} />
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
         homeDoctors={homeDoctors}
       />
-      <AwardsSection
-        stats={stats}
-      />
-      <TestimonialsSection
-        homeTestimonials={homeTestimonials}
-      />
-      <FaqSection
-        careCategories={careCategories}
-        homeFaqs={homeFaqs}
-      />
+      <AwardsSection stats={stats} />
+      <TestimonialsSection homeTestimonials={homeTestimonials} />
+      <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
       <LocationSection
         location={location}
         setLocation={setLocation}
@@ -123,10 +132,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
         setBookingLocation={setBookingLocation}
         book={book}
         mapUrl={mapUrl}
-      />
-      <BlogsSection
-        homeBlogs={homeBlogs}
-        showDetails={showDetails}
       />
       <AppointmentSection
         status={status}
@@ -146,6 +151,7 @@ export default function MbraceHome({ data }: { data: HomeData }) {
         setBookingLocation={setBookingLocation}
         hospital={hospital}
       />
+      <BlogsSection homeBlogs={homeBlogs} showDetails={showDetails} />
       <HomeFooter
         hospital={hospital}
         goToServices={goToServices}

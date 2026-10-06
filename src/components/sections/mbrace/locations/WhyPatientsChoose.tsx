@@ -9,12 +9,12 @@ export default function WhyPatientsChoose({ locationName, intro, stats, features
   if (features.length === 0 && stats.length === 0) return null;
 
   return (
-    <section className="mb-section max-[701px]:pt-12 max-[701px]:pb-12 min-[701px]:max-[1001px]:pt-15 min-[701px]:max-[1001px]:pb-15 min-[1001px]:pt-20 min-[1001px]:pb-20">
-      <div className="mb-container max-[701px]:w-[calc(100%_-_40px)] min-[701px]:max-[1001px]:w-[calc(100%_-_48px)] min-[1001px]:max-[1201px]:w-[calc(100%_-_80px)] min-[1201px]:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
-        <div className="mb-section-intro grid items-center max-[701px]:grid-cols-[1fr] max-[701px]:gap-4 max-[701px]:mb-6.5 min-[701px]:grid-cols-[1.08fr_1fr] min-[701px]:mb-7.5 min-[701px]:gap-10">
+    <section className="mb-section py-12 md:py-16 lg:py-20">
+      <div className="mb-container mx-auto w-full px-5 sm:px-6 lg:max-w-6xl lg:px-8">
+        <div className="mb-8 grid items-center gap-4 md:grid-cols-2 md:gap-10">
           <div>
             <p className="mb-eyebrow text-[14px] font-bold text-care-gold mb-3">Trusted By Thousands</p>
-            <h2 className="font-bold text-[#1f2b70] max-[701px]:text-[28px] min-[701px]:text-[34px] min-[1001px]:text-[40px] leading-[1.2]">
+            <h2 className="text-[28px] font-bold leading-[1.2] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
               Why Patients Choose <span className="text-care-purple">M&apos;Brace</span> at {locationName}
             </h2>
           </div>
@@ -22,7 +22,7 @@ export default function WhyPatientsChoose({ locationName, intro, stats, features
         </div>
 
         {stats.length > 0 && (
-          <div className="mb-8 grid divide-x divide-[#e8dff5] border-y border-[#e8dff5] py-5 max-[701px]:grid-cols-2 max-[701px]:gap-y-5 min-[701px]:grid-cols-4">
+          <div className="mb-8 grid grid-cols-2 gap-y-5 divide-x divide-[#e8dff5] border-y border-[#e8dff5] py-5 md:grid-cols-4">
             {stats.map((stat, index) => (
               <div key={stat.label} className="flex flex-col items-center gap-1.5 px-2 text-center">
                 <p className={`text-[32px] font-extrabold ${index % 2 === 0 ? "text-care-purple" : "text-care-gold"}`}>{stat.value}</p>
@@ -33,7 +33,7 @@ export default function WhyPatientsChoose({ locationName, intro, stats, features
         )}
 
         {features.length > 0 && (
-          <div className="grid gap-5 max-[1001px]:grid-cols-2 min-[1001px]:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, i) => {
               const Icon = featureIcons[i % featureIcons.length];
               return (
