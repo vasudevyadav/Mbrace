@@ -1,0 +1,39 @@
+"use client";
+
+import Image from "next/image";
+import MbraceHeader from "@/components/layout/MbraceHeader";
+import type { HomeData } from "@/lib/queries";
+import type { BookAppointment } from "../types";
+
+type Props = {
+  name: string;
+  phone: string;
+  phoneHref: string;
+  heroImage: string;
+  book: BookAppointment;
+  goToServices: (category: string) => void;
+  careCategories: HomeData["careCategories"];
+  hospital: HomeData["hospital"];
+};
+
+export default function LocationHero({ name, phone, phoneHref, heroImage, book, goToServices, careCategories, hospital }: Props) {
+
+  return (
+    <section className="mb-hero max-[1001px]:mt-3 max-[1001px]:mr-3 max-[1001px]:mb-3 max-[1001px]:ml-3 min-[1001px]:mt-4.5 min-[1001px]:mb-0 max-[601px]:min-h-auto max-[601px]:rounded-[20px] min-[1001px]:max-[1600px]:mr-8 min-[1001px]:max-[1600px]:ml-8 min-[1600px]:mr-auto min-[1600px]:ml-auto min-[1600px]:max-w-384 relative overflow-hidden [background:var(--care-gradient)] min-[601px]:rounded-[30px] min-[1201px]:[&_.mb-header]:relative min-[1201px]:[&_.mb-header]:top-auto min-[1201px]:[&_.mb-header]:right-auto min-[1201px]:[&_.mb-header]:bottom-auto min-[1201px]:[&_.mb-header]:left-auto min-[1201px]:[&_.mb-header]:h-30 min-[1201px]:[&_.mb-header]:pt-6 min-[1201px]:[&_.mb-header]:pr-10 min-[1201px]:[&_.mb-header]:pb-6 min-[1201px]:[&_.mb-header]:pl-10 min-[1201px]:[&_.mb-header]:bg-transparent min-[1201px]:[&_.mb-header]:[border:0] min-[1201px]:[&_.mb-header]:shadow-none min-[1201px]:[&_.mb-header]:backdrop-blur-none">
+      {heroImage && <Image src={heroImage} alt="" fill priority sizes="100vw" className="object-cover opacity-20" />}
+      <MbraceHeader onBook={() => book()} onService={goToServices} careCategories={careCategories} hospital={hospital} basePath="/" />
+      <div className="relative z-[1] max-[601px]:pt-28 max-[601px]:pr-5.5 max-[601px]:pb-10 max-[601px]:pl-5.5 min-[601px]:max-[1201px]:pt-32 min-[1201px]:pt-18 min-[1201px]:pb-16 min-[601px]:pr-[7%] min-[601px]:pl-[7%]">
+        <span className="inline-block rounded-[5px] bg-care-purple px-4 py-2 text-[16px] font-bold text-white">Hospital Location</span>
+        <p className="mt-6 font-normal text-[#343333] max-[601px]:text-[24px] min-[601px]:text-[32px]">Our Nearest Hospital</p>
+        <h1 className="mt-1 font-extrabold tracking-[-1.5px] leading-[1.05] max-[601px]:text-[44px] min-[601px]:max-[1201px]:text-[64px] min-[1201px]:text-[80px]">
+          <span className="text-care-gold">{name.split(" ")[0]}</span>{" "}
+          <span className="text-care-purple">{name.split(" ").slice(1).join(" ")}</span>
+        </h1>
+        <div className="mt-8 flex flex-wrap items-center gap-5">
+          <button type="button" onClick={() => book()} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[6px] border border-care-gold text-[14px] font-semibold no-underline hover:bg-[#603780]">Get Appointment</button>
+          <a href={phoneHref} className="text-[14px] font-semibold text-[#343333]">Call {phone}</a>
+        </div>
+      </div>
+    </section>
+  );
+}

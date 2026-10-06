@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { createServiceItemAction, deleteServiceItemAction } from "@/app/admin/actions";
 import DeleteButton from "@/app/admin/DeleteButton";
+import ImageUploadField from "@/app/admin/ImageUploadField";
 
 export default async function AdminServicesPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const { category } = await searchParams;
@@ -35,6 +36,7 @@ export default async function AdminServicesPage({ searchParams }: { searchParams
                   <tr>
                     <th className="px-4 py-3">Name</th>
                     <th className="px-4 py-3">Description</th>
+                    <th className="px-4 py-3">Page</th>
                     <th className="px-4 py-3" />
                   </tr>
                 </thead>
@@ -43,6 +45,9 @@ export default async function AdminServicesPage({ searchParams }: { searchParams
                     <tr key={item.id} className="transition hover:bg-slate-50">
                       <td className="px-4 py-3.5 font-medium text-slate-900">{item.name}</td>
                       <td className="px-4 py-3.5 text-slate-600">{item.description}</td>
+                      <td className="px-4 py-3.5 text-slate-500">
+                        <a href={`/services/${item.slug}`} target="_blank" rel="noreferrer" className="hover:underline">/services/{item.slug}</a>
+                      </td>
                       <td className="px-4 py-3.5 text-right">
                         <Link href={`/admin/services/${item.id}?category=${activeCategory.id}`} className="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline">Edit</Link>
                         <span className="ml-4">
@@ -65,7 +70,12 @@ export default async function AdminServicesPage({ searchParams }: { searchParams
             <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Add service to {activeCategory.label}</h2>
             <input type="hidden" name="categoryId" value={activeCategory.id} />
             <label className="block text-sm font-medium text-slate-700 mt-4">Name<input name="name" required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-            <label className="block text-sm font-medium text-slate-700 mt-4">Description<textarea name="description" required rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+            <label className="block text-sm font-medium text-slate-700 mt-4">URL slug (optional — auto-generated from name if left blank)<input name="slug" placeholder="e.g. gynaecology" className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+            <label className="block text-sm font-medium text-slate-700 mt-4">Short description (shown in the homepage card)<textarea name="description" required rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+            <label className="block text-sm font-medium text-slate-700 mt-4">Full detail (shown on the /services/[slug] page)<textarea name="detail" rows={4} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+            <div className="mt-4">
+              <ImageUploadField label="Hero image (optional)" />
+            </div>
             <label className="block text-sm font-medium text-slate-700 mt-4">Display order<input name="order" type="number" defaultValue={items.length} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
             <button type="submit" className="mt-4 inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50">Add service</button>
           </form>

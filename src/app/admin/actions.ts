@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { ADMIN_COOKIE_NAME, ADMIN_COOKIE_MAX_AGE, checkAdminPassword, createSessionToken, isValidSessionToken } from "@/lib/adminAuth";
 import { resolveImagePath } from "@/lib/upload";
+import { slugify } from "@/lib/slugify";
 
 function str(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -128,13 +129,32 @@ export async function updateStatAction(formData: FormData) {
 }
 
 // --- Doctors ---
+async function uniqueDoctorSlug(name: string, requestedSlug: string, excludeId?: number) {
+  const base = slugify(requestedSlug || name) || "doctor";
+  let slug = base;
+  let suffix = 2;
+  while (await prisma.doctor.findFirst({ where: { slug, id: excludeId ? { not: excludeId } : undefined } })) {
+    slug = `${base}-${suffix++}`;
+  }
+  return slug;
+}
+
+function refreshDoctors(slug?: string) {
+  refreshSite();
+  revalidatePath("/doctors");
+  if (slug) revalidatePath(`/doctors/${slug}`);
+}
+
 export async function createDoctorAction(formData: FormData) {
   await requireAdminSession();
   const image = await resolveImagePath(formData, "imageFile", "currentImage");
   if (!image) throw new Error("A photo is required.");
+  const name = str(formData, "name");
+  const slug = await uniqueDoctorSlug(name, str(formData, "slug"));
   await prisma.doctor.create({
     data: {
-      name: str(formData, "name"),
+      slug,
+      name,
       qualifications: str(formData, "qualifications"),
       role: str(formData, "role"),
       image,
@@ -143,9 +163,15 @@ export async function createDoctorAction(formData: FormData) {
       location: str(formData, "location"),
       isFeatured: bool(formData, "isFeatured"),
       order: num(formData, "order"),
+      designation: str(formData, "designation"),
+      bio: str(formData, "bio"),
+      timing: str(formData, "timing"),
+      phone: str(formData, "phone"),
+      email: str(formData, "email"),
+      fullAddress: str(formData, "fullAddress"),
     },
   });
-  refreshSite();
+  refreshDoctors(slug);
   redirect("/admin/doctors");
 }
 
@@ -153,10 +179,13 @@ export async function updateDoctorAction(formData: FormData) {
   await requireAdminSession();
   const id = num(formData, "id");
   const image = await resolveImagePath(formData, "imageFile", "currentImage");
+  const name = str(formData, "name");
+  const slug = await uniqueDoctorSlug(name, str(formData, "slug"), id);
   await prisma.doctor.update({
     where: { id },
     data: {
-      name: str(formData, "name"),
+      slug,
+      name,
       qualifications: str(formData, "qualifications"),
       role: str(formData, "role"),
       image,
@@ -165,9 +194,15 @@ export async function updateDoctorAction(formData: FormData) {
       location: str(formData, "location"),
       isFeatured: bool(formData, "isFeatured"),
       order: num(formData, "order"),
+      designation: str(formData, "designation"),
+      bio: str(formData, "bio"),
+      timing: str(formData, "timing"),
+      phone: str(formData, "phone"),
+      email: str(formData, "email"),
+      fullAddress: str(formData, "fullAddress"),
     },
   });
-  refreshSite();
+  refreshDoctors(slug);
   redirect("/admin/doctors");
 }
 
@@ -175,37 +210,109 @@ export async function deleteDoctorAction(formData: FormData) {
   await requireAdminSession();
   const id = num(formData, "id");
   await prisma.doctor.delete({ where: { id } });
-  refreshSite();
+  refreshDoctors();
   redirect("/admin/doctors");
 }
 
-// --- Services ---
-export async function createServiceItemAction(formData: FormData) {
+// --- Doctor tips ("Doctors Talk" cards on the Doctors page) ---
+export async function createDoctorTipAction(formData: FormData) {
   await requireAdminSession();
-  await prisma.serviceItem.create({
+  const image = await resolveImagePath(formData, "imageFile", "currentImage");
+  if (!image) throw new Error("A photo is required.");
+  await prisma.doctorTip.create({
     data: {
-      categoryId: num(formData, "categoryId"),
-      name: str(formData, "name"),
-      description: str(formData, "description"),
+      title: str(formData, "title"),
+      doctorName: str(formData, "doctorName"),
+      image,
+      videoUrl: str(formData, "videoUrl"),
       order: num(formData, "order"),
     },
   });
+  refreshDoctors();
+  redirect("/admin/doctor-tips");
+}
+
+export async function updateDoctorTipAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  const image = await resolveImagePath(formData, "imageFile", "currentImage");
+  await prisma.doctorTip.update({
+    where: { id },
+    data: {
+      title: str(formData, "title"),
+      doctorName: str(formData, "doctorName"),
+      image,
+      videoUrl: str(formData, "videoUrl"),
+      order: num(formData, "order"),
+    },
+  });
+  refreshDoctors();
+  redirect("/admin/doctor-tips");
+}
+
+export async function deleteDoctorTipAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  await prisma.doctorTip.delete({ where: { id } });
+  refreshDoctors();
+  redirect("/admin/doctor-tips");
+}
+
+// --- Services ---
+async function uniqueServiceSlug(name: string, requestedSlug: string, excludeId?: number) {
+  const base = slugify(requestedSlug || name) || "service";
+  let slug = base;
+  let suffix = 2;
+  while (await prisma.serviceItem.findFirst({ where: { slug, id: excludeId ? { not: excludeId } : undefined } })) {
+    slug = `${base}-${suffix++}`;
+  }
+  return slug;
+}
+
+function refreshServices(slug?: string) {
   refreshSite();
+  revalidatePath("/services");
+  if (slug) revalidatePath(`/services/${slug}`);
+}
+
+export async function createServiceItemAction(formData: FormData) {
+  await requireAdminSession();
+  const name = str(formData, "name");
+  const slug = await uniqueServiceSlug(name, str(formData, "slug"));
+  const heroImage = await resolveImagePath(formData, "imageFile", "currentImage");
+  await prisma.serviceItem.create({
+    data: {
+      categoryId: num(formData, "categoryId"),
+      slug,
+      name,
+      description: str(formData, "description"),
+      detail: str(formData, "detail"),
+      heroImage: heroImage ?? "",
+      order: num(formData, "order"),
+    },
+  });
+  refreshServices(slug);
   redirect(`/admin/services?category=${num(formData, "categoryId")}`);
 }
 
 export async function updateServiceItemAction(formData: FormData) {
   await requireAdminSession();
   const id = num(formData, "id");
+  const name = str(formData, "name");
+  const slug = await uniqueServiceSlug(name, str(formData, "slug"), id);
+  const heroImage = await resolveImagePath(formData, "imageFile", "currentImage");
   await prisma.serviceItem.update({
     where: { id },
     data: {
-      name: str(formData, "name"),
+      slug,
+      name,
       description: str(formData, "description"),
+      detail: str(formData, "detail"),
+      heroImage: heroImage ?? "",
       order: num(formData, "order"),
     },
   });
-  refreshSite();
+  refreshServices(slug);
   redirect(`/admin/services?category=${num(formData, "categoryId")}`);
 }
 
@@ -214,7 +321,7 @@ export async function deleteServiceItemAction(formData: FormData) {
   const id = num(formData, "id");
   const categoryId = num(formData, "categoryId");
   await prisma.serviceItem.delete({ where: { id } });
-  refreshSite();
+  refreshServices();
   redirect(`/admin/services?category=${categoryId}`);
 }
 
@@ -324,6 +431,142 @@ export async function deleteBlogAction(formData: FormData) {
   await prisma.blog.delete({ where: { id } });
   refreshSite();
   redirect("/admin/blogs");
+}
+
+// --- Locations (/locations/[slug]) ---
+async function uniqueLocationSlug(name: string, requestedSlug: string, excludeId?: number) {
+  const base = slugify(requestedSlug || name) || "location";
+  let slug = base;
+  let suffix = 2;
+  while (await prisma.location.findFirst({ where: { slug, id: excludeId ? { not: excludeId } : undefined } })) {
+    slug = `${base}-${suffix++}`;
+  }
+  return slug;
+}
+
+function refreshLocations(slug?: string) {
+  refreshSite();
+  if (slug) revalidatePath(`/locations/${slug}`);
+}
+
+export async function createLocationAction(formData: FormData) {
+  await requireAdminSession();
+  const name = str(formData, "name");
+  const slug = await uniqueLocationSlug(name, str(formData, "slug"));
+  const heroImage = await resolveImagePath(formData, "heroImageFile", "heroCurrentImage");
+  const servicesImage = await resolveImagePath(formData, "servicesImageFile", "servicesCurrentImage");
+  const clinicImage = await resolveImagePath(formData, "clinicImageFile", "clinicCurrentImage");
+  const location = await prisma.location.create({
+    data: {
+      slug,
+      name,
+      address: str(formData, "address"),
+      phone: str(formData, "phone"),
+      phoneHref: str(formData, "phoneHref"),
+      email: str(formData, "email"),
+      mapUrl: str(formData, "mapUrl"),
+      heroImage,
+      servicesImage,
+      clinicImage,
+      introParagraph: str(formData, "introParagraph"),
+      whatToExpectIntro: str(formData, "whatToExpectIntro"),
+      carePromiseIntro: str(formData, "carePromiseIntro"),
+      whyChooseIntro: str(formData, "whyChooseIntro"),
+      reachIntro: str(formData, "reachIntro"),
+      order: num(formData, "order"),
+    },
+  });
+  refreshLocations(slug);
+  redirect(`/admin/locations/${location.id}`);
+}
+
+export async function updateLocationAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  const name = str(formData, "name");
+  const slug = await uniqueLocationSlug(name, str(formData, "slug"), id);
+  const heroImage = await resolveImagePath(formData, "heroImageFile", "heroCurrentImage");
+  const servicesImage = await resolveImagePath(formData, "servicesImageFile", "servicesCurrentImage");
+  const clinicImage = await resolveImagePath(formData, "clinicImageFile", "clinicCurrentImage");
+  await prisma.location.update({
+    where: { id },
+    data: {
+      slug,
+      name,
+      address: str(formData, "address"),
+      phone: str(formData, "phone"),
+      phoneHref: str(formData, "phoneHref"),
+      email: str(formData, "email"),
+      mapUrl: str(formData, "mapUrl"),
+      heroImage,
+      servicesImage,
+      clinicImage,
+      introParagraph: str(formData, "introParagraph"),
+      whatToExpectIntro: str(formData, "whatToExpectIntro"),
+      carePromiseIntro: str(formData, "carePromiseIntro"),
+      whyChooseIntro: str(formData, "whyChooseIntro"),
+      reachIntro: str(formData, "reachIntro"),
+      order: num(formData, "order"),
+    },
+  });
+  refreshLocations(slug);
+  redirect(`/admin/locations/${id}`);
+}
+
+export async function deleteLocationAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  await prisma.location.delete({ where: { id } });
+  refreshLocations();
+  redirect("/admin/locations");
+}
+
+export async function createLocationHighlightAction(formData: FormData) {
+  await requireAdminSession();
+  const locationId = num(formData, "locationId");
+  const section = str(formData, "section");
+  await prisma.locationHighlight.create({
+    data: {
+      locationId,
+      section,
+      title: str(formData, "title"),
+      description: str(formData, "description"),
+      order: num(formData, "order"),
+    },
+  });
+  refreshSite();
+  const location = await prisma.location.findUnique({ where: { id: locationId } });
+  if (location) revalidatePath(`/locations/${location.slug}`);
+  redirect(`/admin/locations/${locationId}?section=${section}`);
+}
+
+export async function updateLocationHighlightAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  const locationId = num(formData, "locationId");
+  const section = str(formData, "section");
+  await prisma.locationHighlight.update({
+    where: { id },
+    data: {
+      title: str(formData, "title"),
+      description: str(formData, "description"),
+      order: num(formData, "order"),
+    },
+  });
+  refreshSite();
+  const location = await prisma.location.findUnique({ where: { id: locationId } });
+  if (location) revalidatePath(`/locations/${location.slug}`);
+  redirect(`/admin/locations/${locationId}?section=${section}`);
+}
+
+export async function deleteLocationHighlightAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  const locationId = num(formData, "locationId");
+  const section = str(formData, "section");
+  await prisma.locationHighlight.delete({ where: { id } });
+  refreshSite();
+  redirect(`/admin/locations/${locationId}?section=${section}`);
 }
 
 // --- Appointment leads (common — submitted from any page) ---

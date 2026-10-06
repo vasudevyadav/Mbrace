@@ -73,3 +73,26 @@ export async function getHomeData() {
 }
 
 export type HomeData = Awaited<ReturnType<typeof getHomeData>>;
+
+export async function getDoctorBySlug(slug: string) {
+  return prisma.doctor.findUnique({ where: { slug } });
+}
+
+export async function getDoctorTips() {
+  return prisma.doctorTip.findMany({ orderBy: { order: "asc" } });
+}
+
+export async function getServiceItemBySlug(slug: string) {
+  return prisma.serviceItem.findUnique({ where: { slug }, include: { category: true } });
+}
+
+export async function getLocationBySlug(slug: string) {
+  return prisma.location.findUnique({
+    where: { slug },
+    include: { highlights: { orderBy: { order: "asc" } } },
+  });
+}
+
+export async function getLocations() {
+  return prisma.location.findMany({ orderBy: { order: "asc" } });
+}

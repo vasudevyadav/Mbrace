@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { updateServiceItemAction } from "@/app/admin/actions";
+import ImageUploadField from "@/app/admin/ImageUploadField";
 
 export default async function EditServiceItemPage({
   params,
@@ -21,7 +22,10 @@ export default async function EditServiceItemPage({
         <input type="hidden" name="id" value={item.id} />
         <input type="hidden" name="categoryId" value={category ?? item.categoryId} />
         <label className="block text-sm font-medium text-slate-700">Name<input name="name" defaultValue={item.name} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-        <label className="block text-sm font-medium text-slate-700">Description<textarea name="description" defaultValue={item.description} required rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <label className="block text-sm font-medium text-slate-700">URL slug (public page: /services/{item.slug || "…"})<input name="slug" defaultValue={item.slug} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <label className="block text-sm font-medium text-slate-700">Short description (shown in the homepage card)<textarea name="description" defaultValue={item.description} required rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <label className="block text-sm font-medium text-slate-700">Full detail (shown on the /services/[slug] page)<textarea name="detail" defaultValue={item.detail} rows={5} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <ImageUploadField label="Hero image" currentImage={item.heroImage} />
         <label className="block text-sm font-medium text-slate-700">Display order<input name="order" type="number" defaultValue={item.order} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
         <button type="submit" className="w-fit inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50">Save changes</button>
       </form>

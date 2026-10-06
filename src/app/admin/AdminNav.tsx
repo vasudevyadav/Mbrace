@@ -24,6 +24,8 @@ const NAV_GROUPS = [
       { href: "/admin/settings", label: "Site Settings", icon: "⚙" },
       { href: "/admin/stats", label: "Statistics", icon: "#" },
       { href: "/admin/doctors", label: "Doctors", icon: "◐" },
+      { href: "/admin/doctor-tips", label: "Doctor Tips", icon: "▶" },
+      { href: "/admin/locations", label: "Locations", icon: "⌖" },
       { href: "/admin/appointments", label: "Appointment Leads", icon: "☏" },
       { href: "/admin/subscribers", label: "Subscribers", icon: "✉" },
     ],

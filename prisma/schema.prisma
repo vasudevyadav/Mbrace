@@ -68,9 +68,15 @@ model ServiceItem {
   id          Int             @id @default(autoincrement())
   categoryId  Int
   category    ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  slug        String          @unique
   name        String
   description String
   order       Int             @default(0)
+
+  // Detail page fields (/services/[slug]) — optional so existing services
+  // keep working without them.
+  detail      String          @default("")
+  heroImage   String          @default("")
 }
 
 model FaqItem {
@@ -84,6 +90,7 @@ model FaqItem {
 
 model Doctor {
   id               Int     @id @default(autoincrement())
+  slug             String  @unique
   name             String
   qualifications   String
   role             String
@@ -93,6 +100,26 @@ model Doctor {
   location         String
   isFeatured       Boolean @default(false)
   order            Int     @default(0)
+
+  // Profile page fields (/doctors/[slug]) — optional so existing doctors
+  // keep working without them; the profile page falls back to site-wide
+  // contact details (SiteSettings) when these are blank.
+  designation      String  @default("")
+  bio              String  @default("")
+  timing           String  @default("")
+  phone            String  @default("")
+  email            String  @default("")
+  fullAddress      String  @default("")
+}
+
+// "Doctors Talk" video/tip cards shown on the Doctors listing page.
+model DoctorTip {
+  id         Int    @id @default(autoincrement())
+  title      String
+  doctorName String
+  image      String
+  videoUrl   String @default("")
+  order      Int    @default(0)
 }
 
 model Testimonial {
@@ -126,6 +153,43 @@ model AppointmentRequest {
   source          String?
   status          String   @default("new")
   createdAt       DateTime @default(now())
+}
+
+// A physical clinic/hospital location, each with its own public page at
+// /locations/[slug]. Add a row here (plus its highlights) to publish a new
+// location page without any code changes.
+model Location {
+  id                Int                 @id @default(autoincrement())
+  slug              String              @unique
+  name              String
+  address           String
+  phone             String
+  phoneHref         String
+  email             String
+  mapUrl            String
+  heroImage         String
+  servicesImage     String              @default("")
+  clinicImage       String              @default("")
+  introParagraph    String              @default("")
+  whatToExpectIntro String              @default("")
+  carePromiseIntro  String              @default("")
+  whyChooseIntro    String              @default("")
+  reachIntro        String              @default("")
+  order             Int                 @default(0)
+  highlights        LocationHighlight[]
+}
+
+// Repeating cards on a location page — what section they belong to is
+// stored in `section` (service | step | promise | feature | stat | reach)
+// so every list on the page is editable from the admin without new models.
+model LocationHighlight {
+  id          Int      @id @default(autoincrement())
+  locationId  Int
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  section     String
+  title       String
+  description String   @default("")
+  order       Int      @default(0)
 }
 
 // Emails collected from the footer "Ready to Talk" newsletter form, shared
