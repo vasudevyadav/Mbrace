@@ -1,12 +1,9 @@
-// SQLite for local development. Swap provider to "postgresql" and point
-// DATABASE_URL at Neon/Vercel Postgres when moving to production — the
-// models below avoid SQLite-only quirks so that switch needs no schema changes.
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
