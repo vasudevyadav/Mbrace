@@ -2,7 +2,6 @@
 
 import Photo from "./Photo";
 import Heading from "./Heading";
-import { MapPinIcon } from "@/components/icons/icons";
 import { locations } from "./content";
 import type { HomeData } from "@/lib/queries";
 import type { BookAppointment } from "./types";
@@ -19,16 +18,16 @@ type Props = {
 export default function LocationSection({ location, setLocation, hospital, setBookingLocation, book, mapUrl }: Props) {
 
   return (
-    <section id="location" className="mb-section max-[701px]:pt-12 max-[701px]:pb-12 min-[701px]:max-[1001px]:pt-15 min-[701px]:max-[1001px]:pb-15 min-[1001px]:pt-20 min-[1001px]:pb-20 [&_p]:leading-[1.65] mb-purple bg-care-purple text-white [&_.mb-heading_h2]:text-white mb-rounded max-[701px]:rounded-[20px] min-[701px]:rounded-[28px]">
-      <div className="mb-container max-[701px]:w-[calc(100%_-_40px)] min-[701px]:max-[1001px]:w-[calc(100%_-_48px)] min-[1001px]:max-[1201px]:w-[calc(100%_-_80px)] min-[1201px]:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto min-[1001px]:[#services>&]:w-[min(1200px,_calc(100%_-_80px))]">
-        <div className="mb-section-intro grid items-center max-[701px]:grid-cols-[1fr] max-[701px]:gap-4 max-[701px]:mb-6.5 min-[701px]:grid-cols-[1.08fr_1fr] min-[701px]:mb-7.5 min-[701px]:max-[1001px]:gap-7.5 min-[1001px]:max-[1201px]:gap-10 min-[1201px]:gap-[75px] [&_.mb-heading]:mb-0">
+    <section id="location" className="mb-section bg-care-purple text-white max-[701px]:rounded-[20px] max-[701px]:py-12 min-[701px]:rounded-[28px] min-[701px]:max-[1001px]:py-15 min-[1001px]:max-[1201px]:py-20 min-[1201px]:pt-[75px] min-[1201px]:pb-[59px] [&_.mb-heading_h2]:text-white [&_p]:leading-[1.55]">
+      <div className="mb-container mx-auto max-[701px]:w-[calc(100%_-_40px)] min-[701px]:max-[1001px]:w-[calc(100%_-_48px)] min-[1001px]:max-[1201px]:w-[calc(100%_-_80px)] min-[1201px]:w-[min(1130px,calc(100%_-_64px))]">
+        <div className="mb-section-intro grid items-start max-[701px]:mb-6.5 max-[701px]:grid-cols-1 max-[701px]:gap-4 min-[701px]:mb-7.5 min-[701px]:grid-cols-[1.08fr_1fr] min-[701px]:max-[1001px]:gap-7.5 min-[1001px]:max-[1201px]:gap-10 min-[1201px]:mb-[85px] min-[1201px]:grid-cols-[500px_560px] min-[1201px]:gap-[65px] [&_.mb-heading]:mb-0 min-[1201px]:[&_.mb-heading_h2]:text-[44px] min-[1201px]:[&_.mb-heading_h2]:leading-[1.08] min-[1201px]:[&_.mb-heading_.mb-eyebrow]:mb-[14px] min-[1201px]:[&_.mb-heading_.mb-eyebrow]:text-[14px] min-[1201px]:[&>p]:pt-[34px] min-[1201px]:[&>p]:text-[15px] min-[1201px]:[&>p]:font-semibold min-[1201px]:[&>p]:leading-[1.45] min-[1201px]:[&>p]:opacity-[.82]">
           <Heading label="Location">Our Hospital &amp;<br />Clinics <em>Locations</em>
           </Heading>
           <p>M&apos;Brace welcomes you at two locations in Hyderabad, LB Nagar and King Koti, each equipped for consultations, diagnostics and every stage of care.</p>
         </div>
-        <div className="mb-location-grid grid [align-items:start] max-[701px]:grid-cols-[1fr] max-[701px]:gap-7.5 min-[701px]:grid-cols-[1fr_1.1fr] min-[701px]:max-[1001px]:gap-[25px] min-[1001px]:gap-10 max-[1001px]:[&_h3]:text-[17px] min-[1001px]:[&_h3]:text-[19px] [&_h3]:font-semibold [&_h3]:leading-[1.7] [&_dt]:text-care-gold [&_dt]:text-[13px] [&_dt]:mt-4 [&_dd]:text-[14px] [&_dd]:mt-1 [&_dd]:[overflow-wrap:anywhere]">
+        <div className="mb-location-grid grid items-start max-[701px]:grid-cols-1 max-[701px]:gap-7.5 min-[701px]:grid-cols-[1fr_1.1fr] min-[701px]:max-[1001px]:gap-[25px] min-[1001px]:max-[1201px]:gap-10 min-[1201px]:grid-cols-[520px_607px] min-[1201px]:gap-10 max-[1001px]:[&_h3]:text-[17px] min-[1001px]:[&_h3]:text-[20px] [&_h3]:font-bold [&_h3]:leading-[1.45] [&_dt]:mt-4 [&_dt]:text-[13px] [&_dt]:font-bold [&_dt]:text-care-gold [&_dd]:mt-1 [&_dd]:text-[15px] [&_dd]:leading-[1.45] [&_dd]:[overflow-wrap:anywhere]">
           <div>
-            <div className="mb-location-tabs flex gap-2 max-[701px]:mb-6 min-[701px]:mb-8 [&_button]:w-[50%] [&_button]:min-h-[49px] [&_button]:bg-[#fff] [&_button]:text-[#373535] [&_button]:rounded-[5px] [&_button]:font-semibold [&_button]:text-[14px] [&_button[aria-pressed=true]]:bg-care-gold [&_button[aria-pressed=true]]:text-white" aria-label="Hospital location">{locations.map(x => <button key={x} type="button" aria-pressed={location === x} onClick={() => setLocation(x)}>{x.toUpperCase()}</button>)}</div>
+            <div className="mb-location-tabs flex gap-3 max-[701px]:mb-6 min-[701px]:mb-8 min-[1201px]:w-[488px] [&_button]:min-h-[49px] [&_button]:w-1/2 [&_button]:rounded-[8px] [&_button]:bg-white [&_button]:text-[14px] [&_button]:font-bold [&_button]:text-[#373535] [&_button[aria-pressed=true]]:bg-care-gold [&_button[aria-pressed=true]]:text-[16px] [&_button[aria-pressed=true]]:font-extrabold [&_button[aria-pressed=true]]:text-white" aria-label="Hospital location">{locations.map(x => <button key={x} type="button" aria-pressed={location === x} onClick={() => setLocation(x)}>{x.toUpperCase().replace("LB NAGAR", "L.B.NAGAR")}</button>)}</div>
             <h3>Best Children&apos;s Hospital &amp; Maternity Hospital –<br />
               <em>Mbrace Hospital, Hyderabad</em>
             </h3>
@@ -44,18 +43,16 @@ export default function LocationSection({ location, setLocation, hospital, setBo
                 <a href={`mailto:${hospital.email}`}>{hospital.email}</a>
               </dd>
             </dl>
-            <div className="mb-location-actions flex mt-7 max-[1001px]:gap-2.5 max-[1001px]:flex-wrap min-[1001px]:gap-4.5 max-[701px]:[&_.mb-button]:text-[12px] min-[701px]:max-[1001px]:[&_.mb-button]:text-[11px] max-[1001px]:[&_.mb-button]:pt-2.5 max-[1001px]:[&_.mb-button]:pr-[15px] max-[1001px]:[&_.mb-button]:pb-2.5 max-[1001px]:[&_.mb-button]:pl-[15px]">
-              <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-gold [&.mb-gold]:bg-care-gold text-white [&.mb-gold:hover]:bg-[#df9726]" onClick={() => {
+            <div className="mb-location-actions mt-7 flex max-[1001px]:flex-wrap max-[1001px]:gap-2.5 min-[1001px]:gap-[15px] max-[701px]:[&_.mb-button]:text-[12px] min-[701px]:max-[1001px]:[&_.mb-button]:text-[11px] max-[1001px]:[&_.mb-button]:px-[15px] max-[1001px]:[&_.mb-button]:py-2.5">
+              <button className="mb-button inline-flex min-h-[49px] w-[212px] items-center justify-center rounded-[6px] border-0 bg-care-gold px-[26px] py-[14px] text-[14px] font-semibold text-white no-underline hover:bg-[#df9726]" onClick={() => {
                 setBookingLocation(location);
                 book();
               }}>Book An Appointment</button>
-              <a className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-outline [&.mb-outline]:bg-transparent [&.mb-outline]:[border:1px_solid_#ddd0e9] text-white" href={mapUrl} target="_blank" rel="noreferrer">View On Map</a>
+              <a className="mb-button inline-flex min-h-[49px] w-[200px] items-center justify-center rounded-[6px] border-2 border-white bg-transparent px-[26px] py-[14px] text-[14px] font-semibold text-white no-underline hover:bg-white/10" href={mapUrl} target="_blank" rel="noreferrer">View On Map</a>
             </div>
           </div>
-          <a href={mapUrl} target="_blank" rel="noreferrer" className="mb-map relative block rounded-[14px] overflow-hidden min-w-0 max-[701px]:[&>.mb-photo]:h-75 min-[701px]:[&>.mb-photo]:h-[415px] [&>.mb-photo]:rounded-[14px] [&>span]:absolute [&>span]:bottom-3.5 [&>span]:left-3.5 [&>span]:right-3.5 [&>span]:flex [&>span]:gap-[7px] [&>span]:items-center [&>span]:pt-3 [&>span]:pr-3 [&>span]:pb-3 [&>span]:pl-3 [&>span]:bg-[#fff] [&>span]:text-care-purple [&>span]:text-[13px] [&>span]:rounded-[8px] [&_svg]:w-4.5 [&_svg]:h-4.5" aria-label={`Open directions to ${location} on Google Maps`}>
-            <Photo n={6} alt="Map of Hyderabad showing hospital locations" />
-            <span>
-              <MapPinIcon />{location} · View on Google Maps ↗</span>
+          <a href={mapUrl} target="_blank" rel="noreferrer" className="mb-map block min-w-0 overflow-hidden rounded-[14px] max-[701px]:[&>.mb-photo]:h-75 min-[701px]:max-[1001px]:[&>.mb-photo]:h-[415px] min-[1001px]:[&>.mb-photo]:h-[451px] [&>.mb-photo]:rounded-[14px]" aria-label={`Open directions to ${location} on Google Maps`}>
+            <Photo n={6} alt="Map of Hyderabad showing Mbrace Hospital" />
           </a>
         </div>
       </div>

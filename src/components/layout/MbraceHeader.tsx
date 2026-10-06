@@ -59,19 +59,19 @@ export default function MbraceHeader({
           <Image
             src="/images/figma/asset-1.webp"
             alt="Kamineni Hospitals"
-            width={155}
-            height={45}
+            width={154}
+            height={44}
           />
           <span />
           <Image
             src="/images/figma/asset-2.webp"
             alt="M’Brace"
-            width={170}
-            height={80}
+            width={183}
+            height={86}
           />
         </a>
         <nav
-          className="mb-desktop-nav [&>a]:pt-3 [&>a]:pb-3"
+          className="mb-desktop-nav min-[1201px]:text-[14px]! [&>a]:pt-3 [&>a]:pb-3"
           aria-label="Main navigation"
         >
           <a href={`${basePath}#home`}>Home</a>

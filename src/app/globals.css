@@ -136,3 +136,34 @@
     @apply outline-2 outline-solid outline-brand-600 outline-offset-2;
   }
 }
+
+/* Desktop values are taken from the 1440px Figma homepage frame. Keeping
+   these shared here prevents individual sections from drifting apart. */
+@media (min-width: 1201px) {
+  .mbrace-home .mb-hero h1 {
+    font-size: 48px;
+  }
+
+  .mbrace-home .mb-hero h2 {
+    font-size: 35px;
+  }
+
+  .mbrace-home .mb-hero-description {
+    font-size: 17px;
+    max-width: 620px;
+  }
+
+  .mbrace-home .mb-header .mb-logos img:first-child {
+    width: 154px;
+    height: auto;
+  }
+
+  .mbrace-home .mb-header .mb-logos img:last-child {
+    width: 183px;
+    height: auto;
+  }
+
+  .mbrace-home .mb-header .mb-desktop-nav {
+    font-size: 14px;
+  }
+}

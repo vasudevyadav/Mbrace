@@ -59,9 +59,9 @@ const featuredDoctor = {
 };
 
 const doctorTips = [
-  { title: "Mosquitoes Love Clean Water! Check Your Balcony Today", doctorName: "Dr. Kiranmayee", image: asset(10) },
-  { title: "How to Check Fever in Children", doctorName: "Dr. R V Soujanya", image: "/images/figma/doctor-tip-fever.png", videoUrl: "" },
-  { title: "Why Couples Struggle to Conceive?", doctorName: "Dr. M Srilatha", image: asset(12) },
+  { title: "Mosquitoes Love Clean Water! Check Your Balcony Today", doctorName: "Dr. Kiranmayee", image: "/images/figma/doctor-tip-mosquito.png" },
+  { title: "How to Check Fever in Children", doctorName: "Dr. R V Soujanya", image: "/images/figma/doctor-tip-fever-poster.png", videoUrl: "" },
+  { title: "Why Couples Struggle to Conceive?", doctorName: "Dr. M Srilatha", image: "/images/figma/doctor-tip-conceive.png" },
 ];
 
 const homeTestimonials = [

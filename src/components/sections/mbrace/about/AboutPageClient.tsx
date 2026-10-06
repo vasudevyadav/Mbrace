@@ -45,8 +45,8 @@ export default function AboutPageClient({ data }: { data: HomeData }) {
       />
       <AboutSection stats={stats} />
       <MissionVisionValues />
-      <DirectorMessage featuredDoctor={featuredDoctor} />
       <WhyChooseUsSection stats={stats} />
+      <DirectorMessage featuredDoctor={featuredDoctor} />
       <DoctorsSection featuredDoctor={featuredDoctor} book={book} homeDoctors={homeDoctors} />
       <HomeFooter
         hospital={hospital}

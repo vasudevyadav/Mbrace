@@ -6,28 +6,23 @@ import type { Location, LocationHighlight } from "@prisma/client";
 import type { HomeData } from "@/lib/queries";
 import { submitAppointmentRequestAction } from "@/lib/publicActions";
 import { locations as toggleLocations } from "../content";
-import type { AppointmentStatus, DetailContent } from "../types";
-import ExcellenceSection from "../ExcellenceSection";
-import DoctorsSection from "../DoctorsSection";
+import type { AppointmentStatus } from "../types";
 import TestimonialsSection from "../TestimonialsSection";
 import FaqSection from "../FaqSection";
 import LocationSection from "../LocationSection";
-import BlogsSection from "../BlogsSection";
 import AppointmentSection from "../AppointmentSection";
 import HomeFooter from "../HomeFooter";
-import DetailsDialog from "../DetailsDialog";
 import LocationHero from "./LocationHero";
 import ServicesAtLocation from "./ServicesAtLocation";
 import WhatToExpect from "./WhatToExpect";
 import OurCarePromise from "./OurCarePromise";
 import WhyPatientsChoose from "./WhyPatientsChoose";
-import HowToReach from "./HowToReach";
 import VisitClinicCta from "./VisitClinicCta";
 
 type LocationWithHighlights = Location & { highlights: LocationHighlight[] };
 
 export default function LocationPageClient({ location, data }: { location: LocationWithHighlights; data: HomeData }) {
-  const { hospital, careCategories, serviceGroups, doctors, featuredDoctor, homeTestimonials, homeFaqs, homeBlogs } = data;
+  const { hospital, careCategories, serviceGroups, homeTestimonials, homeFaqs } = data;
   const bysection = (section: string) => location.highlights.filter(h => h.section === section);
 
   const router = useRouter();
@@ -39,8 +34,6 @@ export default function LocationPageClient({ location, data }: { location: Locat
   const [bookingDoctor, setBookingDoctor] = useState("");
   const [bookingType, setBookingType] = useState("");
   const [status, setStatus] = useState<AppointmentStatus>("idle");
-  const [detail, setDetail] = useState<DetailContent | null>(null);
-  const dialog = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const mapQuery = toggleLocation === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
@@ -51,13 +44,8 @@ export default function LocationPageClient({ location, data }: { location: Locat
     setBookingLocation(location.name);
     setBookingType(type);
     setStatus("idle");
-    dialog.current?.close();
     document.getElementById("appointment")?.scrollIntoView({ behavior: "smooth" });
     formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
-  }
-  function showDetails(next: DetailContent) {
-    setDetail(next);
-    dialog.current?.showModal();
   }
   function goToServices() {
     router.push("/#services");
@@ -85,25 +73,6 @@ export default function LocationPageClient({ location, data }: { location: Locat
         careCategories={careCategories}
         hospital={hospital}
       />
-      <ExcellenceSection />
-      <ServicesAtLocation locationName={location.name} intro={location.introParagraph} image={location.servicesImage || location.heroImage} items={bysection("service")} />
-      <WhatToExpect locationName={location.name} intro={location.whatToExpectIntro} steps={bysection("step")} />
-      <OurCarePromise locationName={location.name} intro={location.carePromiseIntro} cards={bysection("promise")} />
-      <WhyPatientsChoose
-        locationName={location.name}
-        intro={location.whyChooseIntro}
-        stats={bysection("stat").map(s => ({ value: s.title, label: s.description }))}
-        features={bysection("feature")}
-      />
-      <DoctorsSection
-        featuredDoctor={featuredDoctor}
-        book={book}
-        homeDoctors={doctors}
-        getProfileHref={(d) => `/doctors/${d.slug}`}
-      />
-      <TestimonialsSection homeTestimonials={homeTestimonials} />
-      <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
-      <HowToReach locationName={location.name} intro={location.reachIntro} cards={bysection("reach")} />
       <VisitClinicCta
         locationName={location.name}
         image={location.clinicImage || location.heroImage}
@@ -120,7 +89,17 @@ export default function LocationPageClient({ location, data }: { location: Locat
         book={book}
         mapUrl={mapUrl}
       />
-      <BlogsSection homeBlogs={homeBlogs} showDetails={showDetails} />
+      <WhyPatientsChoose
+        locationName={location.name}
+        intro={location.whyChooseIntro}
+        stats={bysection("stat").map(s => ({ value: s.title, label: s.description }))}
+        features={bysection("feature")}
+      />
+      <ServicesAtLocation locationName={location.name} intro={location.introParagraph} image={location.servicesImage || location.heroImage} items={bysection("service")} />
+      <WhatToExpect locationName={location.name} intro={location.whatToExpectIntro} steps={bysection("step")} />
+      <OurCarePromise locationName={location.name} intro={location.carePromiseIntro} cards={bysection("promise")} />
+      <TestimonialsSection homeTestimonials={homeTestimonials} />
+      <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
       <AppointmentSection
         status={status}
         setStatus={setStatus}
@@ -148,7 +127,6 @@ export default function LocationPageClient({ location, data }: { location: Locat
         mapUrl={mapUrl}
         basePath="/"
       />
-      <DetailsDialog dialog={dialog} detail={detail} book={book} hospital={hospital} />
     </div>
   );
 }
