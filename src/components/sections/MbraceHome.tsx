@@ -24,6 +24,7 @@ import DetailsDialog from "./mbrace/DetailsDialog";
 export default function MbraceHome({ data }: { data: HomeData }) {
   const {
     hospital,
+    social,
     careCategories,
     serviceGroups,
     doctors: homeDoctors,
@@ -154,6 +155,7 @@ export default function MbraceHome({ data }: { data: HomeData }) {
       <BlogsSection homeBlogs={homeBlogs} showDetails={showDetails} />
       <HomeFooter
         hospital={hospital}
+        social={social}
         goToServices={goToServices}
         serviceGroups={serviceGroups}
         setServiceTab={setServiceTab}
