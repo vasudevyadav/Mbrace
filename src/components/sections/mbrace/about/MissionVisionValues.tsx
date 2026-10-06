@@ -31,7 +31,7 @@ export default function MissionVisionValues() {
             <p className="text-[#5d6078] text-[14px] leading-[1.6]">{active.body}</p>
           </div>
           <div className="relative min-h-60 min-[701px]:min-h-full rounded-[16px] overflow-hidden">
-            <Image src={active.image} alt={active.title} fill sizes="(max-width: 1000px) 100vw, 50vw" className="object-cover" />
+            <Image src={active.image} alt={active.imageAlt ?? active.title} fill sizes="(max-width: 1000px) 100vw, 50vw" className="object-cover" />
           </div>
         </div>
       </div>

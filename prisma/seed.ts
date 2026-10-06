@@ -111,12 +111,12 @@ async function main() {
 
   const stats: [string, string, string][] = [
     ["yearsOfCare", "34+", "Years of Care"],
-    ["whyUsFamilies", "17,000+", "Happy families supported with compassionate, personalized treatment."],
+    ["whyUsFamilies", "Lakhs of", "Happy Families"],
     ["whyUsYears", "34+", "Years of Mother & Child care experience"],
     ["whyUsBabies", "14,000+", "Healthy Baby Deliver"],
     ["awardsYears", "34+", "Years Of Experience"],
     ["awardsSatisfaction", "98%", "Patient Satisfaction"],
-    ["awardsFamilies", "1K+", "Happy Families"],
+    ["awardsFamilies", "Lakhs of", "Happy Families"],
   ];
   for (const [slug, value, label] of stats) {
     await prisma.stat.upsert({ where: { slug }, create: { slug, value, label }, update: {} });

@@ -20,6 +20,7 @@ export type MissionTab = {
   subtitle: string;
   body: string;
   image: string;
+  imageAlt?: string;
 };
 
 export const missionTabs: MissionTab[] = [
@@ -29,7 +30,8 @@ export const missionTabs: MissionTab[] = [
     title: "Our Vision",
     subtitle: "Give life to your dreams based on our ethics.",
     body: "We help humanity by removing the stress, pain, and humiliation associated with infertility and replacing it with a new life. We aim to do this by offering the best treatment methods with state-of-the-art technology and medical staff in a sterile environment. Through our efforts, we aim to create an island of excellence in infertility treatment and management.",
-    image: "/images/figma/asset-19.webp",
+    image: "/images/about/happy-indian-couple-newborn.webp",
+    imageAlt: "Happy Indian parents holding their newborn baby",
   },
   {
     key: "mission",
