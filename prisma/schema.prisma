@@ -3,42 +3,43 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // Singleton row (id is always 1) holding contact/social details shared
 // across the header, footer and location section.
 model SiteSettings {
-  id               Int    @id @default(1)
-  phone            String
-  phoneHref        String
-  email            String
-  lbNagarAddress   String
-  kingKotiAddress  String
-  instagramUrl     String @default("")
-  facebookUrl      String @default("")
-  linkedinUrl      String @default("")
-  youtubeUrl       String @default("")
-  updatedAt        DateTime @updatedAt
+  id              Int      @id @default(1)
+  phone           String
+  phoneHref       String
+  email           String
+  lbNagarAddress  String
+  kingKotiAddress String
+  instagramUrl    String   @default("")
+  facebookUrl     String   @default("")
+  linkedinUrl     String   @default("")
+  youtubeUrl      String   @default("")
+  updatedAt       DateTime @updatedAt
 }
 
 // Singleton row (id is always 1) holding the hero section's editorial copy.
 model HeroContent {
-  id                Int    @id @default(1)
-  badgePrefix       String
-  headingPlain      String
-  headingHighlight  String
-  subheading        String
-  description       String
-  updatedAt         DateTime @updatedAt
+  id               Int      @id @default(1)
+  badgePrefix      String
+  headingPlain     String
+  headingHighlight String
+  subheading       String
+  description      String
+  updatedAt        DateTime @updatedAt
 }
 
 // Shared counters reused across sections (hero badge, About, Why Us, Awards)
 // so a single edit updates every place a number appears.
 model Stat {
-  id        Int    @id @default(autoincrement())
-  slug      String @unique
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
   value     String
   label     String
   updatedAt DateTime @updatedAt
@@ -54,11 +55,11 @@ model CareCategory {
 }
 
 model ServiceCategory {
-  id     Int           @id @default(autoincrement())
-  key    String        @unique
-  label  String
-  order  Int           @default(0)
-  items  ServiceItem[]
+  id    Int           @id @default(autoincrement())
+  key   String        @unique
+  label String
+  order Int           @default(0)
+  items ServiceItem[]
 }
 
 model ServiceItem {
@@ -72,41 +73,41 @@ model ServiceItem {
 
   // Detail page fields (/services/[slug]) — optional so existing services
   // keep working without them.
-  detail      String          @default("")
-  heroImage   String          @default("")
+  detail    String @default("")
+  heroImage String @default("")
 }
 
 model FaqItem {
-  id           Int          @id @default(autoincrement())
-  categoryKey  String
-  category     CareCategory @relation(fields: [categoryKey], references: [key], onDelete: Cascade)
-  question     String
-  answer       String
-  order        Int          @default(0)
+  id          Int          @id @default(autoincrement())
+  categoryKey String
+  category    CareCategory @relation(fields: [categoryKey], references: [key], onDelete: Cascade)
+  question    String
+  answer      String
+  order       Int          @default(0)
 }
 
 model Doctor {
-  id               Int     @id @default(autoincrement())
-  slug             String  @unique
-  name             String
-  qualifications   String
-  role             String
-  image            String
-  yearsExperience  String
-  languages        String
-  location         String
-  isFeatured       Boolean @default(false)
-  order            Int     @default(0)
+  id              Int     @id @default(autoincrement())
+  slug            String  @unique
+  name            String
+  qualifications  String
+  role            String
+  image           String
+  yearsExperience String
+  languages       String
+  location        String
+  isFeatured      Boolean @default(false)
+  order           Int     @default(0)
 
   // Profile page fields (/doctors/[slug]) — optional so existing doctors
   // keep working without them; the profile page falls back to site-wide
   // contact details (SiteSettings) when these are blank.
-  designation      String  @default("")
-  bio              String  @default("")
-  timing           String  @default("")
-  phone            String  @default("")
-  email            String  @default("")
-  fullAddress      String  @default("")
+  designation String @default("")
+  bio         String @default("")
+  timing      String @default("")
+  phone       String @default("")
+  email       String @default("")
+  fullAddress String @default("")
 }
 
 // "Doctors Talk" video/tip cards shown on the Doctors listing page.
