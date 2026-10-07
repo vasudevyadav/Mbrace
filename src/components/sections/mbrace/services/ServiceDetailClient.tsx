@@ -79,7 +79,7 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
   }
 
   return (
-    <div className="mbrace-home font-sans text-care-copy bg-white text-[15px] leading-[1.6] max-[601px]:[--care-header-height:72px] min-[601px]:max-[1201px]:[--care-header-height:80px] min-[1201px]:[--care-header-height:96px] min-[1201px]:pt-0 max-[1201px]:pt-[var(--care-header-height)] [&_*]:box-border max-[1201px]:[&_section]:scroll-mt-[calc(var(--care-header-height)_+_20px)] min-[1201px]:[&_section]:scroll-mt-[24px] [&_button]:cursor-pointer [&_button]:[transition:background_.2s,color_.2s,transform_.2s] [&_select]:cursor-pointer [&_a]:[transition:background_.2s,color_.2s,transform_.2s] [&_button:disabled]:cursor-wait [&_button:disabled]:opacity-[.6] [&_em]:not-italic [&_em]:text-care-gold [&_em]:font-bold [&_:focus-visible]:[outline:3px_solid_var(--color-care-navy)] [&_:focus-visible]:outline-offset-[4px] motion-reduce:[&_a]:[transition:none] motion-reduce:[&_button]:[transition:none] max-[701px]:[&_.mb-container>*]:min-w-0 max-[1201px]:[&_[id]]:scroll-mt-[calc(var(--care-header-height)_+_20px)] min-[1201px]:[&_[id]]:scroll-mt-[24px]">
+    <div className="mbrace-home font-sans text-care-copy bg-white text-[15px] leading-[1.6] [--care-header-height:72px] sm:[--care-header-height:80px] xl:[--care-header-height:96px] xl:pt-0 pt-[var(--care-header-height)] [&_*]:box-border [&_section]:scroll-mt-[calc(var(--care-header-height)_+_20px)] xl:[&_section]:scroll-mt-[24px] [&_button]:cursor-pointer [&_button]:[transition:background_.2s,color_.2s,transform_.2s] [&_select]:cursor-pointer [&_a]:[transition:background_.2s,color_.2s,transform_.2s] [&_button:disabled]:cursor-wait [&_button:disabled]:opacity-[.6] [&_em]:not-italic [&_em]:text-care-gold [&_em]:font-bold [&_:focus-visible]:[outline:3px_solid_var(--color-care-navy)] [&_:focus-visible]:outline-offset-[4px] motion-reduce:[&_a]:[transition:none] motion-reduce:[&_button]:[transition:none] [&_.mb-container>*]:min-w-0 [&_[id]]:scroll-mt-[calc(var(--care-header-height)_+_20px)] xl:[&_[id]]:scroll-mt-[24px]">
       <ServiceHero
         categoryLabel={service.category.label}
         name={service.name}
@@ -93,11 +93,11 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
       <ExcellenceSection />
 
       {siblingServices.length > 0 && (
-        <section className="mb-section max-[701px]:pt-12 max-[701px]:pb-12 min-[701px]:max-[1001px]:pt-15 min-[701px]:max-[1001px]:pb-15 min-[1001px]:pt-20 min-[1001px]:pb-20">
-          <div className="mb-container max-[701px]:w-[calc(100%_-_40px)] min-[701px]:max-[1001px]:w-[calc(100%_-_48px)] min-[1001px]:max-[1201px]:w-[calc(100%_-_80px)] min-[1201px]:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
+        <section className="mb-section pt-12 pb-12 md:pt-15 md:pb-15 lg:pt-20 lg:pb-20">
+          <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
             <p className="mb-eyebrow text-[14px] font-semibold text-care-gold mb-3.5">{service.category.label}</p>
-            <h2 className="mb-7 font-semibold text-care-navy max-[701px]:text-[30px] min-[701px]:text-[35px] min-[1201px]:text-[42px] leading-[1.35]">Related Services</h2>
-            <div className="grid gap-5 max-[1001px]:grid-cols-2 min-[1001px]:grid-cols-4">
+            <h2 className="mb-7 font-semibold text-care-navy text-[30px] md:text-[35px] xl:text-[42px] leading-[1.35]">Related Services</h2>
+            <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
               {siblingServices.map(item => (
                 <Link key={item.id} href={`/services/${item.slug}`} className="group flex flex-col rounded-[16px] border border-[#e9e4f0] bg-white p-5 shadow-[0_10px_18px_#33214c12] transition hover:bg-care-purple hover:text-white">
                   <h3 className="text-[16px] font-bold leading-[1.4] text-care-navy group-hover:text-white">{item.name}</h3>

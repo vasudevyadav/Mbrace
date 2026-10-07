@@ -53,10 +53,10 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
   };
 
   return (
-    <section id="doctors-talk" className="mb-section [font-family:var(--font-manrope)] max-[701px]:py-12 min-[701px]:max-[1001px]:py-15 min-[1001px]:pt-[70px] min-[1001px]:pb-[75px]">
-      <div className="mb-container max-[701px]:w-[calc(100%_-_40px)] min-[701px]:max-[1001px]:w-[calc(100%_-_48px)] min-[1001px]:max-[1201px]:w-[calc(100%_-_80px)] min-[1201px]:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
+    <section id="doctors-talk" className="mb-section [font-family:var(--font-manrope)] py-12 md:py-15 lg:pt-[70px] lg:pb-[75px]">
+      <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
         <p className="mb-[6px] text-[14px] font-bold leading-normal text-care-purple">Doctors Talk</p>
-        <h2 className="mb-[52px] font-bold tracking-[-.5px] text-[#1f2b70] max-[701px]:mb-8 max-[701px]:text-[28px] min-[701px]:text-[36px] min-[1001px]:text-[44px] leading-[1.2]">
+        <h2 className="mb-[52px] font-bold tracking-[-.5px] text-[#1f2b70] mb-8 text-[28px] md:text-[36px] lg:text-[44px] leading-[1.2]">
           Our <span className="text-care-gold">Experts</span> Tips
         </h2>
         <div

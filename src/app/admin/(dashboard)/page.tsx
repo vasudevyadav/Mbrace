@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
   ];
   return (
     <div>
-      <div className="admin-page-heading flex justify-between mb-7.5 max-[801px]:items-start max-[801px]:gap-4 max-[801px]:flex-col min-[801px]:items-center min-[801px]:gap-6">
+      <div className="admin-page-heading flex justify-between mb-7.5 items-start gap-4 flex-col md:items-center md:gap-6">
         <div>
           <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">
             Your workspace, at a glance
@@ -81,12 +81,12 @@ export default async function AdminDashboardPage() {
           </span>
         </Link>
       </div>
-      <div className="admin-metrics grid max-[481px]:grid-cols-[repeat(2,minmax(0,1fr))] max-[481px]:gap-3 min-[481px]:max-[1201px]:grid-cols-[repeat(3,minmax(0,1fr))] min-[1201px]:grid-cols-[repeat(5,minmax(0,1fr))] min-[481px]:gap-4">
+      <div className="admin-metrics grid grid-cols-[repeat(2,minmax(0,1fr))] gap-3 sm:grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(5,minmax(0,1fr))] sm:gap-4">
         {cards.map((card) => (
           <Link
             key={card.label}
             href={card.href}
-            className="admin-metric max-[481px]:pt-4.5 max-[481px]:pr-4.5 max-[481px]:pb-4.5 max-[481px]:pl-4.5 min-[481px]:pt-5.5 min-[481px]:pr-5.5 min-[481px]:pb-5.5 min-[481px]:pl-5.5 [border:1px_solid_#e7e1eb] rounded-[14px] bg-white shadow-[0_4px_20px_#291e3403] [transition:border-color_.2s,_transform_.2s] [&:hover]:[transform:translateY(-3px)] [&:hover]:[border-color:#ac8bc5] [&_strong]:block [&_strong]:mt-5 [&_strong]:mr-0 [&_strong]:mb-2 [&_strong]:ml-0 [&_strong]:text-[36px] [&_strong]:leading-[1] [&_strong]:font-semibold [&_strong]:tracking-[-1px] [&_strong]:text-[#503761] [&_p]:text-[10px] [&_p]:text-[#777080] max-[481px]:[&:last-child]:col-[1_/_-1]"
+            className="admin-metric pt-4.5 pr-4.5 pb-4.5 pl-4.5 sm:pt-5.5 sm:pr-5.5 sm:pb-5.5 sm:pl-5.5 [border:1px_solid_#e7e1eb] rounded-[14px] bg-white shadow-[0_4px_20px_#291e3403] [transition:border-color_.2s,_transform_.2s] [&:hover]:[transform:translateY(-3px)] [&:hover]:[border-color:#ac8bc5] [&_strong]:block [&_strong]:mt-5 [&_strong]:mr-0 [&_strong]:mb-2 [&_strong]:ml-0 [&_strong]:text-[36px] [&_strong]:leading-[1] [&_strong]:font-semibold [&_strong]:tracking-[-1px] [&_strong]:text-[#503761] [&_p]:text-[10px] [&_p]:text-[#777080] [&:last-child]:col-[1_/_-1]"
           >
             <div className="admin-metric-top flex justify-between gap-1.5 text-[#716779] text-[11px] font-medium [&>span:last-child]:text-[#9a85a9]">
               <span>{card.label}</span>
@@ -97,7 +97,7 @@ export default async function AdminDashboardPage() {
           </Link>
         ))}
       </div>
-      <div className="admin-overview-grid grid gap-6 mt-7 max-[801px]:grid-cols-[1fr] min-[801px]:grid-cols-[1.4fr_1fr]">
+      <div className="admin-overview-grid grid gap-6 mt-7 grid-cols-[1fr] md:grid-cols-[1.4fr_1fr]">
         <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
           <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">
             Content management
@@ -144,7 +144,7 @@ export default async function AdminDashboardPage() {
             ))}
           </div>
         </section>
-        <section className="admin-settings-card bg-[#eee7f4] [border:1px_solid_#e3d8ee] rounded-[16px] flex flex-col items-start max-[481px]:pt-6 max-[481px]:pr-6 max-[481px]:pb-6 max-[481px]:pl-6 min-[481px]:pt-7 min-[481px]:pr-7 min-[481px]:pb-7 min-[481px]:pl-7 [&_h2]:text-[25px] [&_h2]:tracking-[-.7px] [&_h2]:leading-[1.4] [&_h2]:font-semibold [&_h2]:text-[#503761] [&>p:not(.admin-eyebrow)]:text-[12px] [&>p:not(.admin-eyebrow)]:leading-[1.9] [&>p:not(.admin-eyebrow)]:text-[#716779] [&>p:not(.admin-eyebrow)]:mt-4 [&>p:not(.admin-eyebrow)]:mr-0 [&>p:not(.admin-eyebrow)]:mb-6 [&>p:not(.admin-eyebrow)]:ml-0">
+        <section className="admin-settings-card bg-[#eee7f4] [border:1px_solid_#e3d8ee] rounded-[16px] flex flex-col items-start pt-6 pr-6 pb-6 pl-6 sm:pt-7 sm:pr-7 sm:pb-7 sm:pl-7 [&_h2]:text-[25px] [&_h2]:tracking-[-.7px] [&_h2]:leading-[1.4] [&_h2]:font-semibold [&_h2]:text-[#503761] [&>p:not(.admin-eyebrow)]:text-[12px] [&>p:not(.admin-eyebrow)]:leading-[1.9] [&>p:not(.admin-eyebrow)]:text-[#716779] [&>p:not(.admin-eyebrow)]:mt-4 [&>p:not(.admin-eyebrow)]:mr-0 [&>p:not(.admin-eyebrow)]:mb-6 [&>p:not(.admin-eyebrow)]:ml-0">
           <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">
             The essentials
           </p>
