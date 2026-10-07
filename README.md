@@ -6,10 +6,14 @@ Next.js homepage implementation of the **Mbrace Home Page 2** frame in the suppl
 
 ```sh
 npm install
+npm run db:migrate
+npm run db:seed
 npm run dev
 ```
 
 Open http://localhost:3000. `npm run build`, `npm run lint`, and `npm run typecheck` validate the project.
+
+The app uses PostgreSQL. Copy `.env.example` to `.env.local` and set `DATABASE_URL` to a valid `postgresql://` or `postgres://` connection string before running migrations or starting the app. On Vercel, add the same variable to Production, Preview, and Development environments and apply the committed Prisma migration to the database before deployment.
 
 ## Homepage
 

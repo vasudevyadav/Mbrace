@@ -6,11 +6,6 @@ import { getHomeData, getServiceItemBySlug } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const items = await prisma.serviceItem.findMany({ select: { slug: true } });
-  return items.map((item) => ({ slug: item.slug }));
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const service = await getServiceItemBySlug(slug);
