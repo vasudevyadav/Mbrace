@@ -1,6 +1,7 @@
 "use client";
 
 import type { Doctor } from "@prisma/client";
+import Image from "next/image";
 import Photo from "../Photo";
 import MbraceHeader from "@/components/layout/MbraceHeader";
 import { MapPinIcon, PhoneIcon, CalendarIcon } from "@/components/icons/icons";
@@ -24,6 +25,7 @@ export default function DoctorProfileHero({ doctor, hospital, careCategories, bo
 
   return (
     <section className="mb-hero relative overflow-hidden [background:var(--care-gradient)] min-h-auto rounded-[20px] m-3 sm:rounded-[30px] lg:mx-8 lg:mt-4.5 lg:mb-0 2xl:mx-auto 2xl:max-w-[1376px] xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none">
+      <Image src="/images/figma/doctors-hero-bg.png" alt="" fill priority sizes="100vw" className="object-cover object-top z-[0]" />
       <MbraceHeader onBook={() => book()} onService={goToServices} careCategories={careCategories} hospital={hospital} basePath="/" />
       <div className="relative z-[1] grid gap-8 px-5.5 pb-10 pt-28 md:px-10 mx-auto max-w-[820px] xl:grid-cols-[minmax(340px,440px)_minmax(0,1fr)] xl:items-start xl:gap-[clamp(32px,3.33vw,48px)] xl:px-[clamp(32px,5vw,72px)] xl:pb-16 xl:pt-7">
         <article className="w-full overflow-hidden rounded-[24px] bg-white shadow-[0_8px_16px_rgba(118,75,158,0.2)] mx-auto max-w-[560px] xl:min-h-[886px]">

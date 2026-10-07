@@ -129,7 +129,7 @@ export default function MbraceHome({ data }: { data: HomeData }) {
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
-        homeDoctors={homeDoctors}
+        homeDoctors={homeDoctors.slice(0, 4)}
       />
       <AwardsSection stats={stats} />
       <TestimonialsSection homeTestimonials={homeTestimonials} />

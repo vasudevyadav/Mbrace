@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Heading from "../Heading";
-import { ShieldIcon, SparkleIcon, StarIcon } from "@/components/icons/icons";
+import { ShieldIcon, StarIcon, StethoscopeIcon } from "@/components/icons/icons";
 import { missionTabs } from "./content";
 
-const tabIcons = { vision: SparkleIcon, mission: ShieldIcon, values: StarIcon };
+const tabIcons = { vision: StethoscopeIcon, mission: ShieldIcon, values: StarIcon };
 
 export default function MissionVisionValues() {
   const [activeKey, setActiveKey] = useState(missionTabs[0].key);
