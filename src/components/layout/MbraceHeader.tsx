@@ -19,6 +19,14 @@ export default function MbraceHeader({
   const drawer = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   function close() {
     drawer.current?.close();
@@ -32,7 +40,7 @@ export default function MbraceHeader({
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const desktop = window.matchMedia("(min-width: 1201px)");
+    const desktop = window.matchMedia("(min-width: 1280px)");
     const handleResize = () => {
       if (desktop.matches) drawer.current?.close();
     };
@@ -50,9 +58,9 @@ export default function MbraceHeader({
 
   return (
     <>
-      <header className="mb-header fixed z-[60] flex items-center top-0 right-0 bottom-auto left-0 h-[var(--care-header-height)] bg-[#fffdf9f5] [backdrop-filter:blur(16px)] [border-bottom:1px_solid_#764b9e18] shadow-[0_4px_24px_#33214c0a] max-[601px]:gap-2.5 max-[601px]:pt-2.5 max-[601px]:pr-4 max-[601px]:pb-2.5 max-[601px]:pl-4 min-[601px]:max-[1201px]:gap-4 min-[1201px]:gap-[25px] min-[601px]:pt-3 min-[601px]:pr-[clamp(20px,_3vw,_48px)] min-[601px]:pb-3 min-[601px]:pl-[clamp(20px,_3vw,_48px)] max-[1201px]:justify-between max-[1001px]:[&_nav]:hidden max-[1001px]:[&_nav]:items-stretch max-[1001px]:[&_nav]:text-[14px] max-[1001px]:[&_nav]:absolute max-[1001px]:[&_nav]:top-full max-[1001px]:[&_nav]:left-5 max-[1001px]:[&_nav]:right-5 max-[1001px]:[&_nav]:bg-white max-[1001px]:[&_nav]:shadow-[0_12px_30px_#1f2b7020] max-[1001px]:[&_nav]:rounded-[12px] max-[1001px]:[&_nav]:pt-6 max-[1001px]:[&_nav]:pr-6 max-[1001px]:[&_nav]:pb-6 max-[1001px]:[&_nav]:pl-6 min-[1001px]:[&_nav]:flex min-[1001px]:[&_nav]:items-center [&_nav]:justify-end [&_nav]:flex-1 [&_nav]:text-[#6b6969] max-[1201px]:[&_nav]:gap-[13px] min-[1201px]:[&_nav]:gap-6 min-[1201px]:[&_nav]:text-[12px] min-[1001px]:max-[1201px]:[&_nav]:text-[11px] [&_nav>a:first-child]:text-care-purple [&_nav>a:first-child]:font-extrabold [&_.mb-button]:text-[12px] [&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2.5 [&_.mb-button]:pr-5.5 [&_.mb-button]:pb-2.5 [&_.mb-button]:pl-5.5 min-[1201px]:[&_.mb-button]:text-[14px] min-[1201px]:[&_.mb-button]:font-bold min-[1201px]:[&_.mb-button]:pt-3.5 min-[1201px]:[&_.mb-button]:pr-6 min-[1201px]:[&_.mb-button]:pb-3.5 min-[1201px]:[&_.mb-button]:pl-6 max-[1001px]:[&_nav.is-open]:flex max-[1001px]:[&_nav.is-open]:flex-col max-[601px]:[&_.mb-logos_img]:w-22 min-[601px]:max-[1201px]:[&_.mb-logos_img]:w-27.5 min-[1201px]:[&_.mb-logos_img]:w-[125px] max-[601px]:[&_.mb-logos_img:last-child]:w-25.5 min-[601px]:max-[1201px]:[&_.mb-logos_img:last-child]:w-[125px] min-[1201px]:[&_.mb-logos_img:last-child]:w-[145px] [&_.mb-desktop-nav]:gap-[clamp(12px,_1.4vw,_22px)] [&_.mb-desktop-nav]:text-[12px] max-[1201px]:[&_.mb-desktop-nav]:hidden [&_a:hover]:text-care-purple max-[601px]:[&_.mb-logos]:gap-[9px] max-[601px]:[&_.mb-logos>span]:h-8.5 [&_.mb-button:hover]:text-white">
+      <header className={`mb-header fixed z-[60] flex items-center top-0 right-0 bottom-auto left-0 h-[var(--care-header-height)] bg-[#fffdf9f5] [backdrop-filter:blur(16px)] [border-bottom:1px_solid_#764b9e18] shadow-[0_4px_24px_#33214c0a] gap-2.5 pt-2.5 pr-4 pb-2.5 pl-4 sm:gap-4 xl:gap-[25px] sm:pt-3 sm:pr-[clamp(20px,_3vw,_48px)] sm:pb-3 sm:pl-[clamp(20px,_3vw,_48px)] justify-between [transition:background_.25s,box-shadow_.25s,padding_.25s,height_.25s] ${scrolled ? "xl:fixed! xl:top-0! xl:right-0! xl:bottom-auto! xl:left-0! xl:h-[var(--care-header-height)]! xl:bg-[#fffdf9f5]! xl:pt-3! xl:pr-[clamp(20px,_3vw,_48px)]! xl:pb-3! xl:pl-[clamp(20px,_3vw,_48px)]! xl:[backdrop-filter:blur(16px)]! xl:[border-bottom:1px_solid_#764b9e18]! xl:shadow-[0_4px_24px_#33214c0a]!" : ""} [&_nav]:hidden [&_nav]:items-stretch [&_nav]:text-[14px] [&_nav]:absolute [&_nav]:top-full [&_nav]:left-5 [&_nav]:right-5 [&_nav]:bg-white [&_nav]:shadow-[0_12px_30px_#1f2b7020] [&_nav]:rounded-[12px] [&_nav]:pt-6 [&_nav]:pr-6 [&_nav]:pb-6 [&_nav]:pl-6 lg:[&_nav]:flex lg:[&_nav]:static lg:[&_nav]:bg-transparent lg:[&_nav]:shadow-none lg:[&_nav]:rounded-none lg:[&_nav]:pt-0 lg:[&_nav]:pr-0 lg:[&_nav]:pb-0 lg:[&_nav]:pl-0 lg:[&_nav]:items-center [&_nav]:justify-end [&_nav]:flex-1 [&_nav]:text-[#6b6969] [&_nav]:gap-[13px] xl:[&_nav]:gap-6 xl:[&_nav]:text-[12px] lg:[&_nav]:text-[11px] [&_nav>a:first-child]:text-care-purple [&_nav>a:first-child]:font-extrabold [&_.mb-button]:text-[12px] [&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2.5 [&_.mb-button]:pr-5.5 [&_.mb-button]:pb-2.5 [&_.mb-button]:pl-5.5 xl:[&_.mb-button]:text-[14px] xl:[&_.mb-button]:font-bold xl:[&_.mb-button]:pt-3.5 xl:[&_.mb-button]:pr-6 xl:[&_.mb-button]:pb-3.5 xl:[&_.mb-button]:pl-6 [&_nav.is-open]:flex [&_nav.is-open]:flex-col [&_.mb-logos_img]:w-22 sm:[&_.mb-logos_img]:w-27.5 xl:[&_.mb-logos_img]:w-[125px] [&_.mb-logos_img:last-child]:w-25.5 sm:[&_.mb-logos_img:last-child]:w-[125px] xl:[&_.mb-logos_img:last-child]:w-[145px] [&_.mb-desktop-nav]:gap-[clamp(12px,_1.4vw,_22px)] [&_.mb-desktop-nav]:text-[12px] [&_a:hover]:text-care-purple [&_.mb-logos]:gap-[9px] [&_.mb-logos>span]:h-8.5 [&_.mb-button:hover]:text-white`}>
         <a
-          className="mb-logos flex items-center shrink-0 max-[601px]:gap-2.5 min-[601px]:gap-[15px] max-[601px]:[&_img]:w-22.5 min-[601px]:max-[1201px]:[&_img]:w-27.5 min-[1201px]:[&_img]:w-[145px] [&_img]:h-auto [&_img]:object-contain [&_img]:mix-blend-multiply max-[601px]:[&_img:last-child]:w-27.5 min-[601px]:max-[1201px]:[&_img:last-child]:w-[125px] min-[1201px]:[&_img:last-child]:w-40 max-[601px]:[&>span]:h-[35px] min-[601px]:[&>span]:h-13 [&>span]:w-[1px] [&>span]:bg-[#8b847f]"
+          className="mb-logos flex items-center shrink-0 gap-2.5 sm:gap-[15px] [&_img]:w-22.5 sm:[&_img]:w-27.5 xl:[&_img]:w-[145px] [&_img]:h-auto [&_img]:object-contain [&_img]:mix-blend-multiply [&_img:last-child]:w-27.5 sm:[&_img:last-child]:w-[125px] xl:[&_img:last-child]:w-40 [&>span]:h-[35px] sm:[&>span]:h-13 [&>span]:w-[1px] [&>span]:bg-[#8b847f]"
           href={`${basePath}#home`}
           aria-label="M’Brace by Kamineni Hospitals home"
         >
@@ -71,7 +79,7 @@ export default function MbraceHeader({
           />
         </a>
         <nav
-          className="mb-desktop-nav min-[1201px]:text-[14px]! [&>a]:pt-3 [&>a]:pb-3 [font-family:var(--font-manrope)]"
+          className="mb-desktop-nav xl:text-[14px]! [&>a]:pt-3 [&>a]:pb-3 [font-family:var(--font-manrope)]"
           aria-label="Main navigation"
         >
           <a href={`${basePath}#home`}><span className="text-care-gold">{"‣ "}</span>Home</a>
@@ -93,14 +101,7 @@ export default function MbraceHeader({
             Book Appointment
           </button>
         </nav>
-        <div className="mb-header-mobile-actions max-[1201px]:flex max-[1201px]:items-center min-[1201px]:hidden max-[601px]:gap-0 min-[601px]:max-[1201px]:gap-3">
-          <button
-            type="button"
-            className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-md [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-header-book max-[601px]:hidden"
-            onClick={onBook}
-          >
-            Book a Visit
-          </button>
+        <div className="mb-header-mobile-actions flex items-center xl:hidden gap-0 sm:gap-3">
           <button
             ref={trigger}
             type="button"
@@ -120,11 +121,11 @@ export default function MbraceHeader({
       <dialog
         ref={drawer}
         id="mobile-navigation"
-        className="mb-nav-drawer fixed top-0 right-0 bottom-0 left-auto mt-0 mr-0 mb-0 ml-0 w-[min(88vw,_390px)] max-w-full h-dvh max-h-dvh pt-[max(24px,_env(safe-area-inset-top))] pb-[max(24px,_env(safe-area-inset-bottom))] [border:0] bg-[#fffdf9] text-care-navy shadow-[-16px_0_60px_#21103430] overflow-y-auto overscroll-contain max-[601px]:pr-5.5 max-[601px]:pl-5.5 min-[601px]:pr-6 min-[601px]:pl-6 [&[open]]:flex [&[open]]:flex-col [&[open]]:animate-drawer-enter [&::backdrop]:bg-[#21103480] [&::backdrop]:[backdrop-filter:blur(3px)] [&_nav]:grid [&_nav_a]:flex [&_nav_a]:items-center [&_nav_a]:justify-between [&_nav_a]:gap-4 [&_nav_a]:min-h-[53px] [&_nav_a]:[border-bottom:1px_solid_#764b9e15] [&_nav_a]:text-[14px] [&_nav_a]:font-semibold [&_nav_a]:pt-[13px] [&_nav_a]:pr-0 [&_nav_a]:pb-[13px] [&_nav_a]:pl-0 [&_nav_a_span]:text-[#ae92c5] [&_nav_a:hover]:text-care-purple motion-reduce:[&[open]]:animate-none"
+        className="mb-nav-drawer fixed top-0 right-0 bottom-0 left-auto mt-0 mr-0 mb-0 ml-0 w-[min(88vw,_390px)] max-w-full h-dvh max-h-dvh pt-[max(24px,_env(safe-area-inset-top))] pb-[max(24px,_env(safe-area-inset-bottom))] [border:0] bg-[#fffdf9] text-care-navy shadow-[-16px_0_60px_#21103430] overflow-y-auto overscroll-contain pr-5.5 pl-5.5 sm:pr-6 sm:pl-6 [&[open]]:flex [&[open]]:flex-col [&[open]]:animate-drawer-enter [&::backdrop]:bg-[#21103480] [&::backdrop]:[backdrop-filter:blur(3px)] [&_nav]:grid [&_nav_a]:flex [&_nav_a]:items-center [&_nav_a]:justify-between [&_nav_a]:gap-4 [&_nav_a]:min-h-[53px] [&_nav_a]:[border-bottom:1px_solid_#764b9e15] [&_nav_a]:text-[14px] [&_nav_a]:font-semibold [&_nav_a]:pt-[13px] [&_nav_a]:pr-0 [&_nav_a]:pb-[13px] [&_nav_a]:pl-0 [&_nav_a_span]:text-[#ae92c5] [&_nav_a:hover]:text-care-purple motion-reduce:[&[open]]:animate-none"
         aria-labelledby="mobile-menu-title"
         onClose={() => {
           setOpen(false);
-          if (window.matchMedia("(max-width: 1200px)").matches)
+          if (window.matchMedia("(max-width: 1279px)").matches)
             trigger.current?.focus({ preventScroll: true });
         }}
         onClick={(event) => {

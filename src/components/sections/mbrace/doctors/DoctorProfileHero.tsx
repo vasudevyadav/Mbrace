@@ -23,14 +23,14 @@ export default function DoctorProfileHero({ doctor, hospital, careCategories, bo
   const bioParagraphs = (doctor.bio || "").split(/\n{2,}/).filter(Boolean);
 
   return (
-    <section className="mb-hero relative overflow-hidden [background:var(--care-gradient)] max-[601px]:min-h-auto max-[601px]:rounded-[20px] max-[1001px]:m-3 min-[601px]:rounded-[30px] min-[1001px]:mx-8 min-[1001px]:mt-4.5 min-[1001px]:mb-0 min-[1600px]:mx-auto min-[1600px]:max-w-[1376px] min-[1201px]:[&_.mb-header]:relative min-[1201px]:[&_.mb-header]:inset-auto min-[1201px]:[&_.mb-header]:h-30 min-[1201px]:[&_.mb-header]:border-0 min-[1201px]:[&_.mb-header]:bg-transparent min-[1201px]:[&_.mb-header]:px-10 min-[1201px]:[&_.mb-header]:py-6 min-[1201px]:[&_.mb-header]:shadow-none min-[1201px]:[&_.mb-header]:backdrop-blur-none">
+    <section className="mb-hero relative overflow-hidden [background:var(--care-gradient)] min-h-auto rounded-[20px] m-3 sm:rounded-[30px] lg:mx-8 lg:mt-4.5 lg:mb-0 2xl:mx-auto 2xl:max-w-[1376px] xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none">
       <MbraceHeader onBook={() => book()} onService={goToServices} careCategories={careCategories} hospital={hospital} basePath="/" />
-      <div className="relative z-[1] grid gap-8 px-5.5 pb-10 pt-28 min-[701px]:px-10 max-[1200px]:mx-auto max-[1200px]:max-w-[820px] min-[1201px]:grid-cols-[minmax(340px,440px)_minmax(0,1fr)] min-[1201px]:items-start min-[1201px]:gap-[clamp(32px,3.33vw,48px)] min-[1201px]:px-[clamp(32px,5vw,72px)] min-[1201px]:pb-16 min-[1201px]:pt-7">
-        <article className="w-full overflow-hidden rounded-[24px] bg-white shadow-[0_8px_16px_rgba(118,75,158,0.2)] max-[1200px]:mx-auto max-[1200px]:max-w-[560px] min-[1201px]:min-h-[886px]">
-          <div className="flex h-80 items-end justify-center bg-care-purple min-[1201px]:h-[480px]">
-            <Photo src={doctor.image} alt={doctor.name} priority className="!rounded-none h-[300px] w-[calc(100%_-_40px)] max-w-[380px] [&_img]:!object-contain [&_img]:object-bottom min-[1201px]:h-[460px]" />
+      <div className="relative z-[1] grid gap-8 px-5.5 pb-10 pt-28 md:px-10 mx-auto max-w-[820px] xl:grid-cols-[minmax(340px,440px)_minmax(0,1fr)] xl:items-start xl:gap-[clamp(32px,3.33vw,48px)] xl:px-[clamp(32px,5vw,72px)] xl:pb-16 xl:pt-7">
+        <article className="w-full overflow-hidden rounded-[24px] bg-white shadow-[0_8px_16px_rgba(118,75,158,0.2)] mx-auto max-w-[560px] xl:min-h-[886px]">
+          <div className="flex h-80 items-end justify-center bg-care-purple xl:h-[480px]">
+            <Photo src={doctor.image} alt={doctor.name} priority className="!rounded-none h-[300px] w-[calc(100%_-_40px)] max-w-[380px] [&_img]:!object-contain [&_img]:object-bottom xl:h-[460px]" />
           </div>
-          <div className="flex flex-col items-start gap-4 p-7 min-[1201px]:min-h-[406px] min-[1201px]:px-8 min-[1201px]:pb-8 min-[1201px]:pt-7">
+          <div className="flex flex-col items-start gap-4 p-7 xl:min-h-[406px] xl:px-8 xl:pb-8 xl:pt-7">
             <span className="inline-flex w-fit rounded-[5px] bg-care-purple px-3.5 py-1 text-[13px] font-bold text-white">Our Experts</span>
             <h1 className="!m-0 !text-[28px] font-extrabold leading-[1.2] text-care-purple [font-family:var(--font-manrope)]">{doctor.name}</h1>
             <p className="!m-0 text-[13px] font-medium leading-[1.5] text-[#363435]/80 [font-family:var(--font-manrope)]">{doctor.designation || doctor.role}</p>

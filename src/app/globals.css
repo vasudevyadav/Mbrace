@@ -139,7 +139,14 @@
 
 /* Desktop values are taken from the 1440px Figma homepage frame. Keeping
    these shared here prevents individual sections from drifting apart. */
-@media (min-width: 1201px) {
+@media (min-width: 1280px) {
+  /* Keep the homepage canvas at the same desktop width as the 1440px design. */
+  .mbrace-home > .mb-hero {
+    width: calc(100% - 64px);
+    max-width: 1376px;
+    margin-inline: auto;
+  }
+
   .mbrace-home .mb-hero h1 {
     font-size: 48px;
   }
@@ -165,5 +172,13 @@
 
   .mbrace-home .mb-header .mb-desktop-nav {
     font-size: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* These cards span both columns on mobile only. */
+  .mbrace-home .mb-footer-grid > :first-child,
+  .mbrace-home .mb-footer-grid > :last-child {
+    grid-column: auto;
   }
 }
