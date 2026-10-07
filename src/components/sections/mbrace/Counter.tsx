@@ -12,10 +12,11 @@ function parseCounterValue(raw: string) {
 export default function Counter({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const { prefix, target, suffix } = parseCounterValue(value);
+  const isNumeric = /\d/.test(value);
   const [display, setDisplay] = useState(`${prefix}0${suffix}`);
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !isNumeric) return;
     let done = false;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -35,6 +36,6 @@ export default function Counter({ value }: { value: string }) {
     }, { threshold: 0.4 });
     observer.observe(el);
     return () => observer.disconnect();
-  }, [prefix, target, suffix]);
-  return <strong ref={ref}>{display}</strong>;
+  }, [prefix, target, suffix, isNumeric]);
+  return <strong ref={ref}>{isNumeric ? display : value}</strong>;
 }

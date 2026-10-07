@@ -41,7 +41,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# database (local SQLite dev db; production points at Postgres via DATABASE_URL)
+# legacy SQLite backup files (the active Prisma datasource is PostgreSQL)
 /prisma/*.db
 /prisma/*.db-journal
 

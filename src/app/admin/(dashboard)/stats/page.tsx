@@ -21,7 +21,7 @@ export default async function AdminStatsPage({ searchParams }: { searchParams: P
       <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">These numbers animate/count up on the homepage. Editing &ldquo;yearsOfCare&rdquo; updates both the hero badge and the About section at once.</p>
       {saved && <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">Saved.</p>}
 
-      <div className="mt-6 grid max-w-3xl gap-4">
+      <div className="mt-6 grid max-w-7xl gap-4">
         {stats.map(stat => (
           <form key={stat.id} action={updateStatAction} className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
             <input type="hidden" name="id" value={stat.id} />

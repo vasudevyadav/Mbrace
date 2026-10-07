@@ -2,6 +2,7 @@ import ImageUploadField from "@/app/admin/ImageUploadField";
 
 export type DoctorFormValues = {
   id?: number;
+  slug?: string;
   name?: string;
   qualifications?: string;
   role?: string;
@@ -11,6 +12,12 @@ export type DoctorFormValues = {
   location?: string;
   isFeatured?: boolean;
   order?: number;
+  designation?: string;
+  bio?: string;
+  timing?: string;
+  phone?: string;
+  email?: string;
+  fullAddress?: string;
 };
 
 export default function DoctorForm({
@@ -45,6 +52,23 @@ export default function DoctorForm({
           Featured doctor (large card)
         </label>
       </div>
+
+      <div className="border-t border-slate-100 pt-5">
+        <h2 className="text-sm font-semibold text-slate-900">Profile page</h2>
+        <p className="mt-1 text-xs text-slate-500">Shown on this doctor&apos;s public profile at /doctors/{doctor?.slug || "…"}. Leave contact fields blank to fall back to the site-wide phone, email and address.</p>
+        <div className="mt-4 grid grid-cols-1 gap-4">
+          <label className="block text-sm font-medium text-slate-700">URL slug (optional — auto-generated from name if left blank)<input name="slug" defaultValue={doctor?.slug} placeholder="dr-jane-doe" className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+          <label className="block text-sm font-medium text-slate-700">Designation (full title shown on profile)<input name="designation" defaultValue={doctor?.designation} placeholder={doctor?.role} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+          <label className="block text-sm font-medium text-slate-700">About / bio (use a blank line between paragraphs)<textarea name="bio" defaultValue={doctor?.bio} rows={5} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+          <label className="block text-sm font-medium text-slate-700">Consultation timing<input name="timing" defaultValue={doctor?.timing} placeholder="Mon To Sat, 09:00AM-06:00PM" className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <label className="block text-sm font-medium text-slate-700">Direct phone (optional)<input name="phone" defaultValue={doctor?.phone} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+            <label className="block text-sm font-medium text-slate-700">Direct email (optional)<input name="email" type="email" defaultValue={doctor?.email} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+          </div>
+          <label className="block text-sm font-medium text-slate-700">Full address (optional)<textarea name="fullAddress" defaultValue={doctor?.fullAddress} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        </div>
+      </div>
+
       <button type="submit" className="w-fit inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50">{submitLabel}</button>
     </form>
   );

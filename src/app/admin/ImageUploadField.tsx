@@ -7,10 +7,14 @@ export default function ImageUploadField({
   label,
   currentImage,
   required,
+  fileFieldName = "imageFile",
+  currentFieldName = "currentImage",
 }: {
   label: string;
   currentImage?: string;
   required?: boolean;
+  fileFieldName?: string;
+  currentFieldName?: string;
 }) {
   const [preview, setPreview] = useState<string | null>(currentImage ?? null);
 
@@ -29,7 +33,7 @@ export default function ImageUploadField({
           {preview ? "Change photo" : "Upload photo"}
           <input
             type="file"
-            name="imageFile"
+            name={fileFieldName}
             accept="image/png,image/jpeg,image/webp,image/gif"
             required={required && !currentImage}
             className="sr-only"
@@ -40,7 +44,7 @@ export default function ImageUploadField({
           />
         </label>
       </div>
-      <input type="hidden" name="currentImage" value={currentImage ?? ""} />
+      <input type="hidden" name={currentFieldName} value={currentImage ?? ""} />
     </div>
   );
 }
