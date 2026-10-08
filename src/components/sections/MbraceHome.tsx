@@ -72,15 +72,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
     setDetail(next);
     dialog.current?.showModal();
   }
-  function goToServices(category: string) {
-    setServiceTab(
-      category === "Child Care"
-        ? "Child Care"
-        : category === "Fertility Care"
-          ? "Fertility"
-          : "Women Care",
-    );
-  }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
@@ -96,7 +87,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
     <div className="mbrace-home font-sans text-care-copy bg-white text-[15px] leading-[1.6] [--care-header-height:72px] sm:[--care-header-height:80px] xl:[--care-header-height:96px] xl:pt-0 pt-[var(--care-header-height)] [&_*]:box-border [&_section]:scroll-mt-[calc(var(--care-header-height)_+_20px)] xl:[&_section]:scroll-mt-[24px] [&_button]:cursor-pointer [&_button]:[transition:background_.2s,color_.2s,transform_.2s] [&_select]:cursor-pointer [&_a]:[transition:background_.2s,color_.2s,transform_.2s] [&_button:disabled]:cursor-wait [&_button:disabled]:opacity-[.6] [&_em]:not-italic [&_em]:text-care-gold [&_em]:font-bold [&_:focus-visible]:[outline:3px_solid_var(--color-care-navy)] [&_:focus-visible]:outline-offset-[4px] motion-reduce:[&_a]:[transition:none] motion-reduce:[&_button]:[transition:none] [&_.mb-container>*]:min-w-0 [&_[id]]:scroll-mt-[calc(var(--care-header-height)_+_20px)] xl:[&_[id]]:scroll-mt-[24px]">
       <HeroSection
         book={book}
-        goToServices={goToServices}
         careCategories={careCategories}
         hospital={hospital}
         hero={hero}
@@ -129,7 +119,7 @@ export default function MbraceHome({ data }: { data: HomeData }) {
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
-        homeDoctors={homeDoctors}
+        homeDoctors={homeDoctors.slice(0, 4)}
       />
       <AwardsSection stats={stats} />
       <TestimonialsSection homeTestimonials={homeTestimonials} />
@@ -156,7 +146,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
       <HomeFooter
         hospital={hospital}
         social={social}
-        goToServices={goToServices}
         serviceGroups={serviceGroups}
         setServiceTab={setServiceTab}
         setLocation={setLocation}

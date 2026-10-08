@@ -1,4 +1,7 @@
 import ImageUploadField from "@/app/admin/ImageUploadField";
+import SeoFields from "@/app/admin/SeoFields";
+import BlogBlocksEditor from "@/app/admin/(dashboard)/blogs/BlogBlocksEditor";
+import type { BlogBlock } from "@/components/sections/mbrace/blog/blogContent";
 
 export type LocationFormValues = {
   id?: number;
@@ -17,6 +20,9 @@ export type LocationFormValues = {
   carePromiseIntro?: string;
   whyChooseIntro?: string;
   reachIntro?: string;
+  blocks?: BlogBlock[] | unknown;
+  metaTitle?: string;
+  metaDescription?: string;
   order?: number;
 };
 
@@ -30,8 +36,9 @@ export default function LocationForm({
   submitLabel: string;
 }) {
   return (
-    <form action={action} className="mt-6 grid max-w-3xl gap-5 rounded-2xl bg-white p-5 sm:p-8 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
+    <form action={action} className="mt-6 grid w-full max-w-none gap-6 rounded-3xl bg-white p-5 shadow-[0_18px_55px_rgba(41,30,52,0.07)] ring-1 ring-[#e4dce9] sm:p-8 xl:p-10">
       {location?.id !== undefined && <input type="hidden" name="id" value={location.id} />}
+      <SeoFields metaTitle={location?.metaTitle} metaDescription={location?.metaDescription} titlePlaceholder={location?.name ? `M'Brace Hospital, ${location.name}` : undefined} descriptionPlaceholder={location?.introParagraph || location?.address} />
       <ImageUploadField label="Hero background photo" currentImage={location?.heroImage} required fileFieldName="heroImageFile" currentFieldName="heroCurrentImage" />
       <ImageUploadField label={'"Services Available" panel photo'} currentImage={location?.servicesImage} fileFieldName="servicesImageFile" currentFieldName="servicesCurrentImage" />
       <ImageUploadField label={'"Visit Our Clinic" photo'} currentImage={location?.clinicImage} fileFieldName="clinicImageFile" currentFieldName="clinicCurrentImage" />
@@ -58,6 +65,14 @@ export default function LocationForm({
           <label className="block text-sm font-medium text-slate-700">&quot;How To Reach&quot; intro<textarea name="reachIntro" defaultValue={location?.reachIntro} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
         </div>
       </div>
+
+      <section className="border-t border-slate-100 pt-5">
+        <h2 className="text-sm font-semibold text-slate-900">Dynamic page sections</h2>
+        <p className="mt-1 text-xs text-slate-500">Add, remove and reorder complete content sections unique to this location slug. When blocks are added, they replace the legacy fixed middle sections.</p>
+        <div className="mt-4">
+          <BlogBlocksEditor name="blocksJson" initialBlocks={(Array.isArray(location?.blocks) ? location.blocks : []) as BlogBlock[]} />
+        </div>
+      </section>
 
       <label className="block text-sm font-medium text-slate-700">Display order<input name="order" type="number" defaultValue={location?.order ?? 0} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
       <button type="submit" className="w-fit inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50">{submitLabel}</button>

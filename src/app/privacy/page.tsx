@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { hospital } from "@/lib/mbrace-home";
-const clinic = { ...hospital, name: "M’Brace by Kamineni Hospitals" };
+import { getHomeData } from "@/lib/queries";
+
+export const dynamic = "force-dynamic";
+
+const clinicName = "M’Brace by Kamineni Hospitals";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: `How ${clinic.name} collects, uses, and protects your information.`,
+  description: `How ${clinicName} collects, uses, and protects your information.`,
 };
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const { hospital } = await getHomeData();
+  const clinic = { ...hospital, name: clinicName };
+
   return (
     <article className="py-20 sm:py-24">
       <Container className="max-w-3xl">

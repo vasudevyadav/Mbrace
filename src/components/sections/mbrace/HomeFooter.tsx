@@ -12,7 +12,6 @@ type SubscribeStatus = "idle" | "sending" | "success" | "error";
 type Props = {
   hospital: HomeData["hospital"];
   social?: HomeData["social"];
-  goToServices: (category: string) => void;
   serviceGroups: HomeData["serviceGroups"];
   setServiceTab: (value: string) => void;
   setLocation: (value: string) => void;
@@ -22,7 +21,7 @@ type Props = {
 
 type SocialLink = { key: string; label: string; src: string; href?: string };
 
-export default function HomeFooter({ hospital, social, goToServices, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
+export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
   const socialCandidates: SocialLink[] = [
     { key: "instagram", label: "Instagram", src: "/images/figma/social-instagram.svg", href: social?.instagramUrl },
     { key: "facebook", label: "Facebook", src: "/images/figma/social-facebook.svg", href: social?.facebookUrl },
@@ -81,8 +80,16 @@ export default function HomeFooter({ hospital, social, goToServices, serviceGrou
           </div>
           <div>
             <h3>Quick Links</h3>
-            <ul>{[["Home", "home"], ["About Us", "about"], ["Women’s Care", "services"], ["Child Care", "services"], ["Our Team", "team"], ["Pregnancy & Birth Support", "services"], ["Fertility Care", "services"]].map(([text, href]) => <li key={text}>
-              <a href={`${basePath}#${href}`} onClick={() => goToServices(text.replace("’", "'"))}>{text}</a>
+            <ul>{[
+              ["Home", `${basePath}#home`],
+              ["About Us", "/about"],
+              ["Women’s Care", "/womens-care"],
+              ["Child Care", "/child-care"],
+              ["Our Team", `${basePath}#team`],
+              ["Pregnancy & Birth Support", "/pregnancy-birth-support"],
+              ["Fertility Care", "/fertility-care"],
+            ].map(([text, href]) => <li key={text}>
+              <a href={href}>{text}</a>
             </li>)}</ul>
           </div>
           <div>

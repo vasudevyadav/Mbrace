@@ -33,7 +33,53 @@ export const homeDoctors = [{
   qualifications: "MBBS, MS (Obstetrics & Gynaecology), FMAS",
   role: "Consultant Obstetrics",
   image: 13
+}, {
+  name: "DR. S NARASIMHA RAO",
+  qualifications: "MD Paediatrics, DCH",
+  role: "Professor & HOD Paediatrics",
+  image: 24
+}, {
+  name: "DR. SURESH THOMAS",
+  qualifications: "",
+  role: "Senior Consultant Paediatrician",
+  image: 25
+}, {
+  name: "DR. KANCHAN S",
+  qualifications: "MBBS, DNB Paediatrics, PGPN Boston, IDPCCM",
+  role: "Consultant Pediatrics",
+  image: 26
+}, {
+  name: "DR. R V SOUJANYA",
+  qualifications: "MBBS, DNB Paediatrics, FNNF",
+  role: "Consultant Paediatrician",
+  image: 27
+}, {
+  name: "DR. BHARGAVI",
+  qualifications: "",
+  role: "Consultant Paediatrician & Neonatologist",
+  image: 28
+}, {
+  name: "DR. SARIKA MUDARAPU",
+  qualifications: "",
+  role: "Consultant, Infertility Specialist",
+  image: 29
+}, {
+  name: "DR. SEERAM LAKSHMI",
+  qualifications: "",
+  role: "Consultant, Infertility Specialist",
+  image: 30
+}, {
+  name: "DR. M SRI LATHA",
+  qualifications: "",
+  role: "Consultant, Infertility Specialist",
+  image: 31
 }];
+export const featuredDoctor = {
+  name: "DR. K VASUNDHARA",
+  qualifications: "MBBS, DGO, DNB",
+  role: "Head of Obstetrics & Gynaecology and Medical Director of the Kamineni Fertility Center",
+  image: 14
+};
 export const homeTestimonials = [{
   name: "Ananya & Vivek",
   quote: "The team made us feel heard and supported throughout every appointment. Today, we are grateful parents."

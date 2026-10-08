@@ -26,7 +26,7 @@ export default function LocationSection({
   return (
     <section
       id="location"
-      className="mb-section bg-care-purple text-white rounded-[20px] py-12 md:rounded-[28px] md:py-15 lg:py-20 xl:pt-[75px] xl:pb-[59px] [&_.mb-heading_h2]:text-white [&_p]:leading-[1.55]"
+      className="mb-section bg-care-purple text-white rounded-[20px] py-8 md:rounded-[28px] md:py-15 lg:py-20 xl:pt-[75px] xl:pb-[59px] [&_.mb-heading_h2]:text-white [&_p]:leading-[1.55]"
     >
       <div className="mb-container mx-auto w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))]">
         <div className="mb-section-intro grid items-start mb-6.5 grid-cols-1 gap-4 md:mb-7.5 md:grid-cols-[1.08fr_1fr] md:gap-7.5 lg:gap-10 xl:mb-[45px] xl:grid-cols-[500px_560px] xl:gap-[65px] [&_.mb-heading]:mb-0 xl:[&_.mb-heading_h2]:text-[44px] xl:[&_.mb-heading_h2]:leading-[1.08] xl:[&_.mb-heading_.mb-eyebrow]:mb-[14px] xl:[&_.mb-heading_.mb-eyebrow]:text-[14px] xl:[&>p]:pt-[34px] xl:[&>p]:text-[15px] xl:[&>p]:font-semibold xl:[&>p]:leading-[1.45] xl:[&>p]:opacity-[.82]">

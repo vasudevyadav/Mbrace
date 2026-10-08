@@ -35,6 +35,15 @@ model HeroContent {
   updatedAt        DateTime @updatedAt
 }
 
+// SEO settings for fixed public pages that do not have their own content row.
+model PageSeo {
+  slug            String   @id
+  label           String
+  metaTitle       String   @default("")
+  metaDescription String   @default("")
+  updatedAt       DateTime @updatedAt
+}
+
 // Shared counters reused across sections (hero badge, About, Why Us, Awards)
 // so a single edit updates every place a number appears.
 model Stat {
@@ -52,6 +61,46 @@ model CareCategory {
   label    String
   order    Int       @default(0)
   faqItems FaqItem[]
+}
+
+// Copy for the four care-category landing pages (/womens-care, /child-care,
+// /pregnancy-birth-support, /fertility-care). One fixed row per page, keyed
+// by the page's own slug — independent of ServiceCategory/CareCategory keys,
+// since those don't map 1:1 onto these four routes (e.g. pregnancy-birth-
+// support reuses the "Women Care" ServiceCategory's services).
+model CareCategoryContent {
+  id    Int    @id @default(autoincrement())
+  slug  String @unique
+  label String
+
+  heroBadge             String @default("")
+  heroHeadingLine1      String @default("")
+  heroHeadingHighlight1 String @default("")
+  heroHeadingHighlight2 String @default("")
+  heroHeadingLine2      String @default("")
+  heroDescription       String @default("")
+  heroImage             String @default("")
+
+  journeyHeading   String @default("")
+  journeyHighlight String @default("")
+  // JourneyItem[] = {image, question, cta}[] — always 4 cards.
+  journey          Json   @default("[]")
+
+  talkToExpertsHeading String @default("")
+  talkToExpertsBody    String @default("")
+
+  whyChooseHeading    String @default("")
+  whyChooseHighlight  String @default("")
+  whyChooseBody       String @default("")
+
+  excellenceEyebrow   String @default("")
+  excellenceHeading   String @default("")
+  excellenceHighlight String @default("")
+  excellenceBody      String @default("")
+
+  // SEO overrides — blank falls back to label/heroDescription.
+  metaTitle       String @default("")
+  metaDescription String @default("")
 }
 
 model ServiceCategory {
@@ -75,6 +124,13 @@ model ServiceItem {
   // keep working without them.
   detail    String @default("")
   heroImage String @default("")
+  // Ordered page sections authored from the admin. Uses the same flexible
+  // section / callout / takeaway structure as blog articles.
+  blocks    Json   @default("[]")
+
+  // SEO overrides — blank falls back to name/description.
+  metaTitle       String @default("")
+  metaDescription String @default("")
 }
 
 model FaqItem {
@@ -108,6 +164,10 @@ model Doctor {
   phone       String @default("")
   email       String @default("")
   fullAddress String @default("")
+
+  // SEO overrides for /doctors/[slug].
+  metaTitle       String @default("")
+  metaDescription String @default("")
 }
 
 // "Doctors Talk" video/tip cards shown on the Doctors listing page.
@@ -125,14 +185,34 @@ model Testimonial {
   name  String
   quote String
   order Int    @default(0)
+
+  // Optional patient photo and video testimonial — blank photo falls back to
+  // an initials avatar; blank video just omits the play button.
+  image    String @default("")
+  videoUrl String @default("")
 }
 
 model Blog {
   id    Int    @id @default(autoincrement())
+  slug  String @unique
   title String
   date  String
   image String
   order Int    @default(0)
+
+  // Article page fields (/blog/[slug]) — category is the discriminator for
+  // "has a full article" (used by both the homepage teaser cards and the
+  // /blog listing + detail pages). blocks holds the rich body content as an
+  // ordered array of {kind:"section"|"alert"|"takeaway", ...} objects,
+  // authored through the admin's block editor.
+  category String @default("")
+  summary  String @default("")
+  intro    String @default("")
+  blocks   Json   @default("[]")
+
+  // SEO overrides — blank falls back to title/summary.
+  metaTitle       String @default("")
+  metaDescription String @default("")
 }
 
 // Submissions from the hero quick-booking widget and the main appointment
@@ -173,8 +253,15 @@ model Location {
   carePromiseIntro  String              @default("")
   whyChooseIntro    String              @default("")
   reachIntro        String              @default("")
+  // Fully custom ordered sections for this location slug. When present,
+  // these replace the legacy fixed middle-section layout.
+  blocks            Json                @default("[]")
   order             Int                 @default(0)
   highlights        LocationHighlight[]
+
+  // SEO overrides — blank falls back to name/address.
+  metaTitle       String @default("")
+  metaDescription String @default("")
 }
 
 // Repeating cards on a location page — what section they belong to is

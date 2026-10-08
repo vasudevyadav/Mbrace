@@ -12,7 +12,6 @@ type Props = {
   phoneHref: string;
   heroImage: string;
   book: BookAppointment;
-  goToServices: (category: string) => void;
   careCategories: HomeData["careCategories"];
   hospital: HomeData["hospital"];
 };
@@ -45,7 +44,7 @@ function HeroSelect({ label, options }: { label: string; options: string[] }) {
   );
 }
 
-export default function LocationHero({ name, heroImage, book, goToServices, careCategories, hospital }: Props) {
+export default function LocationHero({ name, heroImage, book, careCategories, hospital }: Props) {
   const nameParts = name.split(" ");
   const locationPrefix = nameParts[0] === "LB" ? "L.B." : nameParts[0];
   const locationSuffix = nameParts.slice(1).join(" ");
@@ -53,7 +52,7 @@ export default function LocationHero({ name, heroImage, book, goToServices, care
   return (
     <section className="mb-hero relative m-3 overflow-hidden rounded-[20px] [background:var(--care-gradient)] sm:rounded-[30px] lg:mx-8 lg:mb-0 lg:mt-4 lg:min-h-[720px] 2xl:mx-auto 2xl:max-w-[1376px] lg:[&_.mb-header]:relative lg:[&_.mb-header]:inset-auto lg:[&_.mb-header]:h-30 lg:[&_.mb-header]:border-0 lg:[&_.mb-header]:bg-transparent lg:[&_.mb-header]:px-10 lg:[&_.mb-header]:py-6 lg:[&_.mb-header]:shadow-none lg:[&_.mb-header]:backdrop-blur-none">
       {heroImage && <Image src={heroImage} alt="" fill priority sizes="100vw" className="object-cover" />}
-      <MbraceHeader onBook={() => book()} onService={goToServices} careCategories={careCategories} hospital={hospital} basePath="/" />
+      <MbraceHeader onBook={() => book()} careCategories={careCategories} hospital={hospital} basePath="/" />
       <div className="relative z-[1] px-5 pb-10 pt-28 sm:px-[7%] sm:pb-12 sm:pt-32 lg:absolute lg:inset-0 lg:p-0">
         <span className="inline-block rounded-[5px] bg-care-purple px-4 py-2 text-[16px] font-bold text-white lg:absolute lg:left-[7%] lg:top-[195px]">Hospital Location</span>
         <p className="mt-16 text-[24px] font-semibold text-[#343333] sm:text-[32px] lg:absolute lg:left-[7%] lg:top-[313px] lg:mt-0">Our Nearest Hospital</p>

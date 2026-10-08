@@ -77,7 +77,7 @@ export default async function EditLocationPage({
           </div>
         )}
 
-        <form action={createLocationHighlightAction} className="mt-6 max-w-2xl rounded-2xl bg-white p-5 sm:p-8 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
+        <form action={createLocationHighlightAction} className="mt-6 w-full max-w-none rounded-3xl bg-white p-5 shadow-[0_18px_55px_rgba(41,30,52,0.07)] ring-1 ring-[#e4dce9] sm:p-8 xl:p-10">
           <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Add to {activeSection.label}</h3>
           <input type="hidden" name="locationId" value={location.id} />
           <input type="hidden" name="section" value={activeSection.key} />

@@ -10,8 +10,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const doctor = await getDoctorBySlug(slug);
   if (!doctor) return {};
   return {
-    title: doctor.name,
-    description: doctor.designation || doctor.role,
+    title: doctor.metaTitle || doctor.name,
+    description: doctor.metaDescription || doctor.designation || doctor.role,
   };
 }
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { deleteTestimonialAction } from "@/app/admin/actions";
@@ -23,9 +24,14 @@ export default async function AdminTestimonialsPage() {
           {testimonials.map(t => (
             <div key={t.id} className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
               <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-medium text-slate-900">{t.name}</p>
-                  <p className="mt-1 text-sm text-slate-500">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-start gap-3.5">
+                  <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-brand-100 text-brand-700">
+                    {t.image ? <Image src={t.image} alt="" fill className="object-cover" /> : <span className="grid h-full w-full place-content-center text-sm font-semibold">{t.name.charAt(0).toUpperCase()}</span>}
+                  </div>
+                  <div>
+                    <p className="font-medium text-slate-900">{t.name}{t.videoUrl && <span className="ml-2 align-middle text-[10px] font-semibold uppercase tracking-wide text-brand-600">▶ Video</span>}</p>
+                    <p className="mt-1 text-sm text-slate-500">&ldquo;{t.quote}&rdquo;</p>
+                  </div>
                 </div>
                 <div className="flex shrink-0 gap-3">
                   <Link href={`/admin/testimonials/${t.id}`} className="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline">Edit</Link>

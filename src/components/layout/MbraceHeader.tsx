@@ -3,15 +3,20 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+const careCategoryHrefs: Record<string, string> = {
+  "Women's Care": "/womens-care",
+  "Child Care": "/child-care",
+  "Pregnancy & Birth Support": "/pregnancy-birth-support",
+  "Fertility Care": "/fertility-care",
+};
+
 export default function MbraceHeader({
   onBook,
-  onService,
   careCategories,
   hospital,
   basePath = "",
 }: {
   onBook: () => void;
-  onService: (category: string) => void;
   careCategories: string[];
   hospital: { phone: string; phoneHref: string };
   basePath?: string;
@@ -51,11 +56,6 @@ export default function MbraceHeader({
     };
   }, [open]);
 
-  function navigate(category?: string) {
-    close();
-    if (category) onService(category);
-  }
-
   return (
     <>
       <header className={`mb-header fixed z-[60] flex items-center top-0 right-0 bottom-auto left-0 h-[var(--care-header-height)] bg-[#fffdf9f5] [backdrop-filter:blur(16px)] [border-bottom:1px_solid_#764b9e18] shadow-[0_4px_24px_#33214c0a] gap-2.5 pt-2.5 pr-4 pb-2.5 pl-4 sm:gap-4 xl:gap-[25px] sm:pt-3 sm:pr-[clamp(20px,_3vw,_48px)] sm:pb-3 sm:pl-[clamp(20px,_3vw,_48px)] justify-between [transition:background_.25s,box-shadow_.25s,padding_.25s,height_.25s] ${scrolled ? "xl:fixed! xl:top-0! xl:right-0! xl:bottom-auto! xl:left-0! xl:h-[var(--care-header-height)]! xl:bg-[#fffdf9f5]! xl:pt-3! xl:pr-[clamp(20px,_3vw,_48px)]! xl:pb-3! xl:pl-[clamp(20px,_3vw,_48px)]! xl:[backdrop-filter:blur(16px)]! xl:[border-bottom:1px_solid_#764b9e18]! xl:shadow-[0_4px_24px_#33214c0a]!" : ""} [&_nav]:hidden [&_nav]:items-stretch [&_nav]:text-[14px] [&_nav]:absolute [&_nav]:top-full [&_nav]:left-5 [&_nav]:right-5 [&_nav]:bg-white [&_nav]:shadow-[0_12px_30px_#1f2b7020] [&_nav]:rounded-[12px] [&_nav]:pt-6 [&_nav]:pr-6 [&_nav]:pb-6 [&_nav]:pl-6 lg:[&_nav]:flex lg:[&_nav]:static lg:[&_nav]:bg-transparent lg:[&_nav]:shadow-none lg:[&_nav]:rounded-none lg:[&_nav]:pt-0 lg:[&_nav]:pr-0 lg:[&_nav]:pb-0 lg:[&_nav]:pl-0 lg:[&_nav]:items-center [&_nav]:justify-end [&_nav]:flex-1 [&_nav]:text-[#6b6969] [&_nav]:gap-[13px] xl:[&_nav]:gap-6 xl:[&_nav]:text-[12px] lg:[&_nav]:text-[11px] [&_nav>a:first-child]:text-care-purple [&_nav>a:first-child]:font-extrabold [&_.mb-button]:text-[12px] [&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2.5 [&_.mb-button]:pr-5.5 [&_.mb-button]:pb-2.5 [&_.mb-button]:pl-5.5 xl:[&_.mb-button]:text-[14px] xl:[&_.mb-button]:font-bold xl:[&_.mb-button]:pt-3.5 xl:[&_.mb-button]:pr-6 xl:[&_.mb-button]:pb-3.5 xl:[&_.mb-button]:pl-6 [&_nav.is-open]:flex [&_nav.is-open]:flex-col [&_.mb-logos_img]:w-22 sm:[&_.mb-logos_img]:w-27.5 xl:[&_.mb-logos_img]:w-[125px] [&_.mb-logos_img:last-child]:w-25.5 sm:[&_.mb-logos_img:last-child]:w-[125px] xl:[&_.mb-logos_img:last-child]:w-[145px] [&_.mb-desktop-nav]:gap-[clamp(12px,_1.4vw,_22px)] [&_.mb-desktop-nav]:text-[12px] [&_a:hover]:text-care-purple [&_.mb-logos]:gap-[9px] [&_.mb-logos>span]:h-8.5 [&_.mb-button:hover]:text-white`}>
@@ -85,11 +85,7 @@ export default function MbraceHeader({
           <a href={`${basePath}#home`}><span className="text-care-gold">{"‣ "}</span>Home</a>
           <a href="/about">About Us</a>
           {careCategories.map((name) => (
-            <a
-              href={`${basePath}#services`}
-              key={name}
-              onClick={() => onService(name)}
-            >
+            <a href={careCategoryHrefs[name] ?? `${basePath}#services`} key={name}>
               {name}
             </a>
           ))}
@@ -157,26 +153,26 @@ export default function MbraceHeader({
           </button>
         </div>
         <nav aria-label="Mobile navigation">
-          <a href={`${basePath}#home`} onClick={() => navigate()}>
+          <a href={`${basePath}#home`} onClick={close}>
             Home <span aria-hidden="true">↗</span>
           </a>
-          <a href="/about" onClick={() => navigate()}>
+          <a href="/about" onClick={close}>
             About Us <span aria-hidden="true">↗</span>
           </a>
           {careCategories.map((name) => (
             <a
-              href={`${basePath}#services`}
+              href={careCategoryHrefs[name] ?? `${basePath}#services`}
               key={name}
-              onClick={() => navigate(name)}
+              onClick={close}
             >
               {name}
               <span aria-hidden="true">↗</span>
             </a>
           ))}
-          <a href={`${basePath}#team`} onClick={() => navigate()}>
+          <a href={`${basePath}#team`} onClick={close}>
             Our Doctors<span aria-hidden="true">↗</span>
           </a>
-          <a href={`${basePath}#location`} onClick={() => navigate()}>
+          <a href={`${basePath}#location`} onClick={close}>
             Locations<span aria-hidden="true">↗</span>
           </a>
         </nav>

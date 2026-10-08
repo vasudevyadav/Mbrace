@@ -58,7 +58,7 @@ function StatCard({
 
 export default function WhyChooseUsSection({ stats }: Props) {
   return (
-    <section id="why-us" className="py-12 md:py-15 lg:py-20">
+    <section id="why-us" className="py-12 md:py-15 lg:py-20 bg-care-purple text-white rounded-[20px] md:rounded-[24px] lg:rounded-[26px] [&_.mb-heading_h2]:text-white">
       <div className="mx-auto w-full max-w-[1194px] px-5 md:px-6 lg:px-10 xl:px-8">
         <div className="mb-6.5 grid items-center gap-4 md:mb-7.5 md:grid-cols-[1.08fr_1fr] md:gap-7.5 lg:gap-10 xl:gap-[75px] [&_.mb-heading]:mb-0">
           <Heading label="Why Choose M’Brace">

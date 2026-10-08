@@ -53,6 +53,21 @@ function refreshSite() {
   revalidatePath("/");
 }
 
+export async function updatePageSeoAction(formData: FormData) {
+  await requireAdminSession();
+  const slug = str(formData, "slug");
+  const allowed = new Set(["home", "about", "doctors", "blog"]);
+  if (!allowed.has(slug)) throw new Error("Unsupported page.");
+  await prisma.pageSeo.upsert({
+    where: { slug },
+    create: { slug, label: str(formData, "label"), metaTitle: str(formData, "metaTitle"), metaDescription: str(formData, "metaDescription") },
+    update: { label: str(formData, "label"), metaTitle: str(formData, "metaTitle"), metaDescription: str(formData, "metaDescription") },
+  });
+  revalidatePath(`/${slug === "home" ? "" : slug}`);
+  revalidatePath(`/admin/pages/${slug}`);
+  redirect(`/admin/pages/${slug}?saved=1`);
+}
+
 // --- Site settings (common — contact & social, shared across every page) ---
 export async function updateSettingsAction(formData: FormData) {
   await requireAdminSession();
@@ -169,6 +184,8 @@ export async function createDoctorAction(formData: FormData) {
       phone: str(formData, "phone"),
       email: str(formData, "email"),
       fullAddress: str(formData, "fullAddress"),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
     },
   });
   refreshDoctors(slug);
@@ -200,6 +217,8 @@ export async function updateDoctorAction(formData: FormData) {
       phone: str(formData, "phone"),
       email: str(formData, "email"),
       fullAddress: str(formData, "fullAddress"),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
     },
   });
   refreshDoctors(slug);
@@ -288,6 +307,9 @@ export async function createServiceItemAction(formData: FormData) {
       description: str(formData, "description"),
       detail: str(formData, "detail"),
       heroImage: heroImage ?? "",
+      blocks: parseBlogBlocks(formData),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
     },
   });
@@ -309,6 +331,9 @@ export async function updateServiceItemAction(formData: FormData) {
       description: str(formData, "description"),
       detail: str(formData, "detail"),
       heroImage: heroImage ?? "",
+      blocks: parseBlogBlocks(formData),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
     },
   });
@@ -365,8 +390,9 @@ export async function deleteFaqAction(formData: FormData) {
 // --- Testimonials ---
 export async function createTestimonialAction(formData: FormData) {
   await requireAdminSession();
+  const image = await resolveImagePath(formData, "imageFile", "currentImage");
   await prisma.testimonial.create({
-    data: { name: str(formData, "name"), quote: str(formData, "quote"), order: num(formData, "order") },
+    data: { name: str(formData, "name"), quote: str(formData, "quote"), image, videoUrl: str(formData, "videoUrl"), order: num(formData, "order") },
   });
   refreshSite();
   redirect("/admin/testimonials");
@@ -375,9 +401,10 @@ export async function createTestimonialAction(formData: FormData) {
 export async function updateTestimonialAction(formData: FormData) {
   await requireAdminSession();
   const id = num(formData, "id");
+  const image = await resolveImagePath(formData, "imageFile", "currentImage");
   await prisma.testimonial.update({
     where: { id },
-    data: { name: str(formData, "name"), quote: str(formData, "quote"), order: num(formData, "order") },
+    data: { name: str(formData, "name"), quote: str(formData, "quote"), image, videoUrl: str(formData, "videoUrl"), order: num(formData, "order") },
   });
   refreshSite();
   redirect("/admin/testimonials");
@@ -392,19 +419,55 @@ export async function deleteTestimonialAction(formData: FormData) {
 }
 
 // --- Blogs ---
+async function uniqueBlogSlug(title: string, requestedSlug: string, excludeId?: number) {
+  const base = slugify(requestedSlug || title) || "post";
+  let slug = base;
+  let suffix = 2;
+  while (await prisma.blog.findFirst({ where: { slug, id: excludeId ? { not: excludeId } : undefined } })) {
+    slug = `${base}-${suffix++}`;
+  }
+  return slug;
+}
+
+function parseBlogBlocks(formData: FormData) {
+  const raw = str(formData, "blocksJson");
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function refreshBlogs(slug?: string) {
+  refreshSite();
+  revalidatePath("/blog");
+  if (slug) revalidatePath(`/blog/${slug}`);
+}
+
 export async function createBlogAction(formData: FormData) {
   await requireAdminSession();
   const image = await resolveImagePath(formData, "imageFile", "currentImage");
   if (!image) throw new Error("A cover photo is required.");
+  const title = str(formData, "title");
+  const slug = await uniqueBlogSlug(title, str(formData, "slug"));
   await prisma.blog.create({
     data: {
-      title: str(formData, "title"),
+      slug,
+      title,
       date: str(formData, "date"),
       image,
       order: num(formData, "order"),
+      category: str(formData, "category"),
+      summary: str(formData, "summary"),
+      intro: str(formData, "intro"),
+      blocks: parseBlogBlocks(formData),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
     },
   });
-  refreshSite();
+  refreshBlogs(slug);
   redirect("/admin/blogs");
 }
 
@@ -412,16 +475,25 @@ export async function updateBlogAction(formData: FormData) {
   await requireAdminSession();
   const id = num(formData, "id");
   const image = await resolveImagePath(formData, "imageFile", "currentImage");
+  const title = str(formData, "title");
+  const slug = await uniqueBlogSlug(title, str(formData, "slug"), id);
   await prisma.blog.update({
     where: { id },
     data: {
-      title: str(formData, "title"),
+      slug,
+      title,
       date: str(formData, "date"),
       image,
       order: num(formData, "order"),
+      category: str(formData, "category"),
+      summary: str(formData, "summary"),
+      intro: str(formData, "intro"),
+      blocks: parseBlogBlocks(formData),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
     },
   });
-  refreshSite();
+  refreshBlogs(slug);
   redirect("/admin/blogs");
 }
 
@@ -429,7 +501,7 @@ export async function deleteBlogAction(formData: FormData) {
   await requireAdminSession();
   const id = num(formData, "id");
   await prisma.blog.delete({ where: { id } });
-  refreshSite();
+  refreshBlogs();
   redirect("/admin/blogs");
 }
 
@@ -473,6 +545,9 @@ export async function createLocationAction(formData: FormData) {
       carePromiseIntro: str(formData, "carePromiseIntro"),
       whyChooseIntro: str(formData, "whyChooseIntro"),
       reachIntro: str(formData, "reachIntro"),
+      blocks: parseBlogBlocks(formData),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
     },
   });
@@ -506,6 +581,9 @@ export async function updateLocationAction(formData: FormData) {
       carePromiseIntro: str(formData, "carePromiseIntro"),
       whyChooseIntro: str(formData, "whyChooseIntro"),
       reachIntro: str(formData, "reachIntro"),
+      blocks: parseBlogBlocks(formData),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
     },
   });
@@ -567,6 +645,52 @@ export async function deleteLocationHighlightAction(formData: FormData) {
   await prisma.locationHighlight.delete({ where: { id } });
   refreshSite();
   redirect(`/admin/locations/${locationId}?section=${section}`);
+}
+
+// --- Care category pages (/womens-care, /child-care, /pregnancy-birth-support, /fertility-care) ---
+export async function updateCareCategoryContentAction(formData: FormData) {
+  await requireAdminSession();
+  const id = num(formData, "id");
+  const existing = await prisma.careCategoryContent.findUniqueOrThrow({ where: { id } });
+
+  const heroImage = await resolveImagePath(formData, "heroImageFile", "heroCurrentImage");
+  const journey = await Promise.all(
+    [0, 1, 2, 3].map(async i => ({
+      image: await resolveImagePath(formData, `journey${i}ImageFile`, `journey${i}CurrentImage`),
+      question: str(formData, `journey${i}Question`),
+      cta: str(formData, `journey${i}Cta`),
+    }))
+  );
+
+  await prisma.careCategoryContent.update({
+    where: { id },
+    data: {
+      heroBadge: str(formData, "heroBadge"),
+      heroHeadingLine1: str(formData, "heroHeadingLine1"),
+      heroHeadingHighlight1: str(formData, "heroHeadingHighlight1"),
+      heroHeadingHighlight2: str(formData, "heroHeadingHighlight2"),
+      heroHeadingLine2: str(formData, "heroHeadingLine2"),
+      heroDescription: str(formData, "heroDescription"),
+      heroImage,
+      journeyHeading: str(formData, "journeyHeading"),
+      journeyHighlight: str(formData, "journeyHighlight"),
+      journey,
+      talkToExpertsHeading: str(formData, "talkToExpertsHeading"),
+      talkToExpertsBody: str(formData, "talkToExpertsBody"),
+      whyChooseHeading: str(formData, "whyChooseHeading"),
+      whyChooseHighlight: str(formData, "whyChooseHighlight"),
+      whyChooseBody: str(formData, "whyChooseBody"),
+      excellenceEyebrow: str(formData, "excellenceEyebrow"),
+      excellenceHeading: str(formData, "excellenceHeading"),
+      excellenceHighlight: str(formData, "excellenceHighlight"),
+      excellenceBody: str(formData, "excellenceBody"),
+      metaTitle: str(formData, "metaTitle"),
+      metaDescription: str(formData, "metaDescription"),
+    },
+  });
+  refreshSite();
+  revalidatePath(`/${existing.slug}`);
+  redirect("/admin/care-pages");
 }
 
 // --- Appointment leads (common — submitted from any page) ---

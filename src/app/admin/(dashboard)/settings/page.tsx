@@ -11,7 +11,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
       <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Contact info and social links — shared across the header, footer and location section on every page.</p>
       {saved && <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">Saved.</p>}
 
-      <form action={updateSettingsAction} className="mt-6 grid max-w-3xl gap-6">
+      <form action={updateSettingsAction} className="mt-6 grid w-full max-w-none gap-6 xl:grid-cols-2">
         <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
           <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Contact & Locations</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">

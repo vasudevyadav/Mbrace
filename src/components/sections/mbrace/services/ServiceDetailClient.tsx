@@ -1,23 +1,20 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import type { ServiceItem, ServiceCategory } from "@prisma/client";
+import type { ServiceCategory, ServiceItem } from "@prisma/client";
 import type { HomeData } from "@/lib/queries";
 import { submitAppointmentRequestAction } from "@/lib/publicActions";
 import { locations } from "../content";
-import type { AppointmentStatus, DetailContent } from "../types";
-import ExcellenceSection from "../ExcellenceSection";
+import type { AppointmentStatus } from "../types";
 import DoctorsSection from "../DoctorsSection";
-import TestimonialsSection from "../TestimonialsSection";
 import FaqSection from "../FaqSection";
 import LocationSection from "../LocationSection";
-import BlogsSection from "../BlogsSection";
 import AppointmentSection from "../AppointmentSection";
 import HomeFooter from "../HomeFooter";
-import DetailsDialog from "../DetailsDialog";
 import ServiceHero from "./ServiceHero";
+import GynecologyDetailSections from "./GynecologyDetailSections";
+import DynamicPageSections from "../DynamicPageSections";
+import type { BlogBlock } from "../blog/blogContent";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -32,9 +29,8 @@ function matchCareCategory(categoryLabel: string, careCategories: string[]) {
   );
 }
 
-export default function ServiceDetailClient({ service, siblingServices, data }: { service: ServiceWithCategory; siblingServices: ServiceItem[]; data: HomeData }) {
-  const { hospital, careCategories, serviceGroups, doctors, featuredDoctor, homeTestimonials, homeFaqs, homeBlogs } = data;
-  const router = useRouter();
+export default function ServiceDetailClient({ service, data }: { service: ServiceWithCategory; data: HomeData }) {
+  const { hospital, careCategories, serviceGroups, doctors, featuredDoctor, homeFaqs } = data;
   const [location, setLocation] = useState(locations[0]);
   const [bookingService, setBookingService] = useState("");
   const [bookingLocation, setBookingLocation] = useState("");
@@ -43,12 +39,11 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
   const [bookingDoctor, setBookingDoctor] = useState("");
   const [bookingType, setBookingType] = useState("");
   const [status, setStatus] = useState<AppointmentStatus>("idle");
-  const [detail, setDetail] = useState<DetailContent | null>(null);
-  const dialog = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const faqCategory = matchCareCategory(service.category.label, careCategories);
+  const blocks = (Array.isArray(service.blocks) ? service.blocks : []) as BlogBlock[];
 
   function book(serviceName = "", doctorName = "", type = "") {
     setBookingService(serviceName || service.name);
@@ -56,16 +51,8 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
     if (doctorName) setBookingLocation("LB Nagar");
     setBookingType(type);
     setStatus("idle");
-    dialog.current?.close();
     document.getElementById("appointment")?.scrollIntoView({ behavior: "smooth" });
     formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
-  }
-  function showDetails(next: DetailContent) {
-    setDetail(next);
-    dialog.current?.showModal();
-  }
-  function goToServices() {
-    router.push("/#services");
   }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -83,40 +70,23 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
       <ServiceHero
         categoryLabel={service.category.label}
         name={service.name}
-        description={service.detail || service.description}
-        heroImage={service.heroImage}
+        description={service.description}
+        heroImage={service.heroImage || "/services-details-banner.png"}
         book={book}
-        goToServices={goToServices}
         careCategories={careCategories}
         hospital={hospital}
       />
-      <ExcellenceSection />
-
-      {siblingServices.length > 0 && (
-        <section className="mb-section pt-12 pb-12 md:pt-15 md:pb-15 lg:pt-20 lg:pb-20">
-          <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
-            <p className="mb-eyebrow text-[14px] font-semibold text-care-gold mb-3.5">{service.category.label}</p>
-            <h2 className="mb-7 font-semibold text-care-navy text-[30px] md:text-[35px] xl:text-[42px] leading-[1.35]">Related Services</h2>
-            <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
-              {siblingServices.map(item => (
-                <Link key={item.id} href={`/services/${item.slug}`} className="group flex flex-col rounded-[16px] border border-[#e9e4f0] bg-white p-5 shadow-[0_10px_18px_#33214c12] transition hover:bg-care-purple hover:text-white">
-                  <h3 className="text-[16px] font-bold leading-[1.4] text-care-navy group-hover:text-white">{item.name}</h3>
-                  <p className="mt-2 text-[13px] leading-[1.5] text-[#595959] group-hover:text-white/90">{item.description}</p>
-                  <span className="mt-3 text-[13px] text-care-purple group-hover:text-care-gold">Learn More →</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {blocks.length > 0 ? <DynamicPageSections blocks={blocks} /> : <GynecologyDetailSections book={() => book(service.name)} />}
 
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
         homeDoctors={doctors}
+        heading={<>Find Your <em>Gynaecologist</em></>}
+        description="Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad."
         getProfileHref={(d) => `/doctors/${d.slug}`}
+        layout="service-detail"
       />
-      <TestimonialsSection homeTestimonials={homeTestimonials} />
       <FaqSection careCategories={[faqCategory, ...careCategories.filter(c => c !== faqCategory)]} homeFaqs={homeFaqs} />
       <LocationSection
         location={location}
@@ -126,7 +96,6 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
         book={book}
         mapUrl={mapUrl}
       />
-      <BlogsSection homeBlogs={homeBlogs} showDetails={showDetails} />
       <AppointmentSection
         status={status}
         setStatus={setStatus}
@@ -147,14 +116,12 @@ export default function ServiceDetailClient({ service, siblingServices, data }: 
       />
       <HomeFooter
         hospital={hospital}
-        goToServices={goToServices}
         serviceGroups={serviceGroups}
         setServiceTab={() => {}}
         setLocation={setLocation}
         mapUrl={mapUrl}
         basePath="/"
       />
-      <DetailsDialog dialog={dialog} detail={detail} book={book} hospital={hospital} />
     </div>
   );
 }
