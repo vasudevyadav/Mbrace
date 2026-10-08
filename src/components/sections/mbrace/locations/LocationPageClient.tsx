@@ -18,12 +18,15 @@ import WhatToExpect from "./WhatToExpect";
 import OurCarePromise from "./OurCarePromise";
 import WhyPatientsChoose from "./WhyPatientsChoose";
 import VisitClinicCta from "./VisitClinicCta";
+import DynamicPageSections from "../DynamicPageSections";
+import type { BlogBlock } from "../blog/blogContent";
 
 type LocationWithHighlights = Location & { highlights: LocationHighlight[] };
 
 export default function LocationPageClient({ location, data }: { location: LocationWithHighlights; data: HomeData }) {
   const { hospital, careCategories, serviceGroups, homeTestimonials, homeFaqs } = data;
   const bysection = (section: string) => location.highlights.filter(h => h.section === section);
+  const blocks = (Array.isArray(location.blocks) ? location.blocks : []) as BlogBlock[];
 
   const router = useRouter();
   const [toggleLocation, setToggleLocation] = useState(toggleLocations[0]);
@@ -47,9 +50,6 @@ export default function LocationPageClient({ location, data }: { location: Locat
     document.getElementById("appointment")?.scrollIntoView({ behavior: "smooth" });
     formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
   }
-  function goToServices() {
-    router.push("/#services");
-  }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
@@ -69,18 +69,32 @@ export default function LocationPageClient({ location, data }: { location: Locat
         phoneHref={location.phoneHref}
         heroImage={location.heroImage}
         book={book}
-        goToServices={goToServices}
         careCategories={careCategories}
         hospital={hospital}
       />
-      <VisitClinicCta
-        locationName={location.name}
-        image={location.clinicImage || location.heroImage}
-        phone={location.phone}
-        phoneHref={location.phoneHref}
-        email={location.email}
-        book={book}
-      />
+      {blocks.length > 0 ? (
+        <DynamicPageSections blocks={blocks} />
+      ) : (
+        <>
+          <VisitClinicCta
+            locationName={location.name}
+            image={location.clinicImage || location.heroImage}
+            phone={location.phone}
+            phoneHref={location.phoneHref}
+            email={location.email}
+            book={book}
+          />
+          <WhyPatientsChoose
+            locationName={location.name}
+            intro={location.whyChooseIntro}
+            stats={bysection("stat").map(s => ({ value: s.title, label: s.description }))}
+            features={bysection("feature")}
+          />
+          <ServicesAtLocation locationName={location.name} intro={location.introParagraph} image={location.servicesImage || location.heroImage} items={bysection("service")} />
+          <WhatToExpect locationName={location.name} intro={location.whatToExpectIntro} steps={bysection("step")} />
+          <OurCarePromise locationName={location.name} intro={location.carePromiseIntro} cards={bysection("promise")} />
+        </>
+      )}
       <LocationSection
         location={toggleLocation}
         setLocation={setToggleLocation}
@@ -89,15 +103,6 @@ export default function LocationPageClient({ location, data }: { location: Locat
         book={book}
         mapUrl={mapUrl}
       />
-      <WhyPatientsChoose
-        locationName={location.name}
-        intro={location.whyChooseIntro}
-        stats={bysection("stat").map(s => ({ value: s.title, label: s.description }))}
-        features={bysection("feature")}
-      />
-      <ServicesAtLocation locationName={location.name} intro={location.introParagraph} image={location.servicesImage || location.heroImage} items={bysection("service")} />
-      <WhatToExpect locationName={location.name} intro={location.whatToExpectIntro} steps={bysection("step")} />
-      <OurCarePromise locationName={location.name} intro={location.carePromiseIntro} cards={bysection("promise")} />
       <TestimonialsSection homeTestimonials={homeTestimonials} />
       <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
       <AppointmentSection
@@ -120,7 +125,6 @@ export default function LocationPageClient({ location, data }: { location: Locat
       />
       <HomeFooter
         hospital={hospital}
-        goToServices={goToServices}
         serviceGroups={serviceGroups}
         setServiceTab={() => {}}
         setLocation={setToggleLocation}

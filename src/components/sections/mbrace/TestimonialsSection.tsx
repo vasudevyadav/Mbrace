@@ -64,7 +64,21 @@ export default function TestimonialsSection({ homeTestimonials }: Props) {
           <div className="mb-review-track [--items-per-view:1] min-h-57.5 overflow-x-auto [scroll-snap-type:x_mandatory] overscroll-x-contain [scrollbar-width:thin] [scrollbar-color:#fbad31_#ffffff25] pb-3.5 md:[--items-per-view:3] md:min-h-[255px] relative flex gap-5 lg:gap-5.5 flex-1 overflow-hidden scroll-smooth motion-reduce:scroll-auto" role="region" aria-label="Patient stories — swipe to browse" tabIndex={0} ref={reviewTrackRef} style={{ "--items-per-view": testimonialsPerView } as CSSProperties} aria-live="polite">{homeTestimonials.map(t => <figure key={t.name} className="mb-review-slide [flex:0_0_calc((100%_-_(var(--items-per-view)_-_1)_*_20px)_/_var(--items-per-view))] [background:var(--care-gradient)] text-[#585454] rounded-xl flex flex-col pt-[25px] pr-[25px] pb-[25px] pl-[25px] min-h-52.5 [scroll-snap-align:start] md:pt-6 md:pr-5 md:pb-6 md:pl-5 lg:pt-6.25 lg:pr-6.5 lg:pb-6.25 lg:pl-6.5 [&_blockquote]:text-[14px] [&_blockquote]:flex-1 [&_blockquote]:leading-[1.7] [&_figcaption]:font-semibold [&_figcaption]:text-[15px] [&_figcaption]:mt-6.5">
             <p className="mb-stars text-care-purple tracking-[2px] text-[18px] mb-[17px]" aria-label="5 stars">★★★★★</p>
             <blockquote>“{t.quote}”</blockquote>
-            <figcaption>{t.name}</figcaption>
+            <figcaption className="flex items-center gap-3">
+              <span className="relative block size-11 shrink-0 overflow-hidden rounded-full bg-white/50">
+                {t.image ? (
+                  <Image src={t.image} alt="" fill sizes="44px" className="object-cover" />
+                ) : (
+                  <span className="grid h-full w-full place-content-center text-care-purple">{t.name.charAt(0).toUpperCase()}</span>
+                )}
+                {t.videoUrl && (
+                  <a href={t.videoUrl} target="_blank" rel="noreferrer" aria-label={`Watch ${t.name}’s video testimonial`} className="absolute inset-0 grid place-content-center bg-black/35 text-white transition hover:bg-black/50">
+                    <span className="text-[12px]" aria-hidden="true">▶</span>
+                  </a>
+                )}
+              </span>
+              {t.name}
+            </figcaption>
           </figure>)}</div>
           <button type="button" className="mb-review-nav shrink-0 rounded-[50%] [background:rgba(255,255,255,0.15)] text-white items-center justify-center [transition:background_.2s] w-8.5 h-8.5 hidden md:w-11 md:h-11 md:flex [&:hover]:[background:rgba(255,255,255,0.28)] [&:disabled]:opacity-[.35] [&:disabled]:cursor-default [&:disabled:hover]:[background:rgba(255,255,255,0.15)] [&_svg]:w-4.5 [&_svg]:h-4.5 mb-review-next [&_svg]:[transform:rotate(180deg)]" onClick={() => goToTestimonial(Math.round((reviewTrackRef.current?.scrollLeft || 0) / ((reviewTrackRef.current?.firstElementChild as HTMLElement)?.offsetWidth + 20 || 1)) + 1)} disabled={testimonialIndex === testimonialMaxIndex} aria-label="Next testimonial">
             <ChevronIcon />

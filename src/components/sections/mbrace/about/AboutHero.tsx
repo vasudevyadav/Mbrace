@@ -10,7 +10,6 @@ import { aboutHero } from "./content";
 
 type Props = {
   book: BookAppointment;
-  goToServices: (category: string) => void;
   careCategories: HomeData["careCategories"];
   hospital: HomeData["hospital"];
   hero: HomeData["hero"];
@@ -23,13 +22,13 @@ type Props = {
   setBookingDate: (value: string) => void;
 };
 
-export default function AboutHero({ book, goToServices, careCategories, hospital, hero, stats, bookingService, setBookingService, bookingLocation, setBookingLocation, bookingDate, setBookingDate }: Props) {
+export default function AboutHero({ book, careCategories, hospital, hero, stats, bookingService, setBookingService, bookingLocation, setBookingLocation, bookingDate, setBookingDate }: Props) {
 
   return (
     <section className="mb-hero mt-3 mr-3 mb-3 ml-3 lg:mt-4.5 lg:mb-0 lg:min-h-180 lg:mr-8 lg:ml-8 2xl:mr-auto 2xl:ml-auto 2xl:max-w-384 min-h-auto rounded-[20px] sm:min-h-185 relative overflow-hidden [background:var(--care-gradient)] sm:rounded-[30px] [&_h1]:text-[29px] [&_h1]:leading-[1.4] [&_h1]:mt-5.5 sm:[&_h1]:text-[39px] xl:[&_h1]:text-[46px] sm:[&_h1]:leading-[1.5] sm:[&_h1]:mt-6 [&_h1]:text-[#343333] [&_h1]:font-normal [&_h1]:tracking-[-1px] [&_h1_strong]:block [&_h1_strong]:font-extrabold [&_h1_strong]:text-[#734a99] xl:[&_.mb-header]:relative xl:[&_.mb-header]:top-auto xl:[&_.mb-header]:right-auto xl:[&_.mb-header]:bottom-auto xl:[&_.mb-header]:left-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:pt-6 xl:[&_.mb-header]:pr-10 xl:[&_.mb-header]:pb-6 xl:[&_.mb-header]:pl-10 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:[border:0] xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none" id="about-hero">
       <Image src="/images/figma/asset-0.webp" alt="A mother cradling her newborn baby at M’Brace" fill priority sizes="100vw" className="mb-hero-photo object-cover z-[0] object-[65%_center] opacity-[.32] sm:object-[60%_center] sm:opacity-[.6] lg:hidden" />
       <Image src="/images/figma/home-hero-bg-alt.png" alt="A mother cradling her newborn baby at M’Brace" fill priority sizes="100vw" className="mb-hero-photo hidden lg:block object-cover z-[0] object-center opacity-100" />
-      <MbraceHeader onBook={() => book()} onService={goToServices} careCategories={careCategories} hospital={hospital} basePath="/" />
+      <MbraceHeader onBook={() => book()} careCategories={careCategories} hospital={hospital} basePath="/" />
 
       <div className="mb-hero-content relative z-[1] pt-8 pr-5.5 pb-8 pl-5.5 sm:pt-10.5 sm:pr-[5%] sm:pb-10.5 sm:pl-[5%] lg:pt-16 xl:pt-12.5 lg:pr-[7%] lg:pb-9.5 lg:pl-[7%] 2xl:pl-[8%]">
         <p className="mb-care-badge inline-block rounded-[4px] bg-care-purple text-white pt-[3px] pr-2 pb-[3px] pl-2 text-[14px] sm:text-[20px]">{hero.badgePrefix} <strong>{stats.yearsOfCare.value} Years of Care</strong>

@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { hospital } from "@/lib/mbrace-home";
-const clinic = { ...hospital, name: "M’Brace by Kamineni Hospitals" };
+import { getHomeData } from "@/lib/queries";
+
+export const dynamic = "force-dynamic";
+
+const clinicName = "M’Brace by Kamineni Hospitals";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: `Terms governing use of the ${clinic.name} website.`,
+  description: `Terms governing use of the ${clinicName} website.`,
 };
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const { hospital } = await getHomeData();
+  const clinic = { ...hospital, name: clinicName };
+
   return (
     <article className="py-20 sm:py-24">
       <Container className="max-w-3xl">

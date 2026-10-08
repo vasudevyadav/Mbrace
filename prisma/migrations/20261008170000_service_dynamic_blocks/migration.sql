@@ -1,0 +1,1 @@
+ALTER TABLE "ServiceItem" ADD COLUMN "blocks" JSONB NOT NULL DEFAULT '[]';

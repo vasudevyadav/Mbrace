@@ -1,5 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, type Prisma } from "@prisma/client";
 import { slugify } from "../src/lib/slugify";
+import { fallbackBlogArticles } from "../src/components/sections/mbrace/blog/blogContent";
+import { carePageSlugs, fallbackCareCategoryContent } from "../src/components/sections/mbrace/services/careCategoryContent";
 
 const prisma = new PrismaClient();
 
@@ -103,12 +105,21 @@ const homeFaqs: Record<string, { question: string; answer: string }[]> = {
   ],
 };
 
-const homeBlogs = [
-  { title: "When Should You See a Gynaecologist? A Guide for Every Life Stage", date: "May 08, 2026", image: asset(19) },
-  { title: "NICU vs PICU: What Every Parent Should Know", date: "May 12, 2026", image: asset(20) },
-  { title: "High-Risk Pregnancy: Signs to Watch For and When to See a Specialist", date: "May 18, 2026", image: asset(21) },
-  { title: "Fertility Evaluation: What It Is and When to Consider One", date: "May 22, 2026", image: asset(22) },
-];
+// Full articles (shown both as homepage teaser cards and at /blog, /blog/[slug]) —
+// seeded from the same copy the public pages fall back to when the database
+// is unreachable, so a fresh install starts with real, editable content
+// instead of empty admin rows.
+const blogSeedDates = ["May 08, 2026", "May 12, 2026", "May 16, 2026", "May 20, 2026", "May 24, 2026", "May 28, 2026", "Jun 01, 2026"];
+const homeBlogs = fallbackBlogArticles.map((article, i) => ({
+  slug: article.slug,
+  title: article.title,
+  date: blogSeedDates[i] ?? "Jun 01, 2026",
+  image: article.image,
+  category: article.category,
+  summary: article.summary,
+  intro: article.intro,
+  blocks: article.blocks as unknown as Prisma.InputJsonValue,
+}));
 
 async function main() {
   await prisma.siteSettings.upsert({
@@ -315,8 +326,17 @@ async function main() {
   }
 
   for (const [i, b] of homeBlogs.entries()) {
-    const existing = await prisma.blog.findFirst({ where: { title: b.title } });
+    const existing = await prisma.blog.findFirst({ where: { slug: b.slug } });
     if (!existing) await prisma.blog.create({ data: { ...b, order: i } });
+  }
+
+  for (const { slug, label } of carePageSlugs) {
+    const existing = await prisma.careCategoryContent.findUnique({ where: { slug } });
+    if (!existing) {
+      await prisma.careCategoryContent.create({
+        data: { ...fallbackCareCategoryContent[label], slug, label, journey: fallbackCareCategoryContent[label].journey as unknown as Prisma.InputJsonValue },
+      });
+    }
   }
 
   console.log("Seed complete.");

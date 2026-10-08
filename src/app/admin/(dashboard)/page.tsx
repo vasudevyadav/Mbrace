@@ -1,8 +1,28 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import LeadsTrendChart, { type LeadsTrendPoint } from "./LeadsTrendChart";
+
+const STATUS_STYLES: Record<string, string> = {
+  new: "bg-amber-50 text-amber-700 ring-amber-200",
+  contacted: "bg-sky-50 text-sky-700 ring-sky-200",
+  closed: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+};
+
+function timeAgo(date: Date) {
+  const minutes = Math.floor((Date.now() - date.getTime()) / 60000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
 
 export default async function AdminDashboardPage() {
-  const [doctors, services, faqs, testimonials, blogs, appointments, subscribers] = await Promise.all([
+  const trendStart = new Date();
+  trendStart.setHours(0, 0, 0, 0);
+  trendStart.setDate(trendStart.getDate() - 13);
+
+  const [doctors, services, faqs, testimonials, blogs, appointments, subscribers, recentRequestDates, recentLeads] = await Promise.all([
     prisma.doctor.count(),
     prisma.serviceItem.count(),
     prisma.faqItem.count(),
@@ -10,7 +30,21 @@ export default async function AdminDashboardPage() {
     prisma.blog.count(),
     prisma.appointmentRequest.count({ where: { status: "new" } }),
     prisma.subscriber.count(),
+    prisma.appointmentRequest.findMany({ where: { createdAt: { gte: trendStart } }, select: { createdAt: true } }),
+    prisma.appointmentRequest.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
   ]);
+
+  const leadsTrend: LeadsTrendPoint[] = Array.from({ length: 14 }, (_, i) => {
+    const date = new Date(trendStart);
+    date.setDate(trendStart.getDate() + i);
+    const count = recentRequestDates.filter(r => r.createdAt.toDateString() === date.toDateString()).length;
+    return {
+      label: String(date.getDate()),
+      fullLabel: date.toLocaleDateString("en-US", { weekday: "short", day: "numeric", month: "short" }),
+      count,
+    };
+  });
+  const leadsLast14Days = leadsTrend.reduce((sum, d) => sum + d.count, 0);
   const cards = [
     {
       label: "New leads",
@@ -97,6 +131,45 @@ export default async function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+
+      <div className="grid gap-6 mt-7 grid-cols-[1fr] md:grid-cols-[1.4fr_1fr]">
+        <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">Leads</p>
+              <h2 className="text-lg font-semibold text-slate-900">Last 14 days</h2>
+            </div>
+            <p className="text-right"><strong className="block text-2xl font-semibold tracking-tight text-[#503761]">{leadsLast14Days}</strong><span className="text-[11px] text-slate-500">appointment requests</span></p>
+          </div>
+          <div className="mt-5">
+            <LeadsTrendChart data={leadsTrend} />
+          </div>
+        </section>
+
+        <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
+          <div className="flex items-center justify-between gap-3">
+            <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">Leads</p>
+            <Link href="/admin/appointments" className="text-[11px] font-semibold text-brand-600 hover:text-brand-700 hover:underline">View all →</Link>
+          </div>
+          <h2 className="text-lg font-semibold text-slate-900">Recent requests</h2>
+          {recentLeads.length === 0 ? (
+            <p className="mt-4 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-sm text-slate-500">No appointment requests yet.</p>
+          ) : (
+            <div className="mt-4 flex flex-col gap-1">
+              {recentLeads.map(lead => (
+                <Link key={lead.id} href="/admin/appointments" className="flex items-center justify-between gap-3 rounded-lg px-2 py-2.5 transition hover:bg-slate-50">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-slate-900">{lead.name}</p>
+                    <p className="truncate text-xs text-slate-500">{lead.service} · {timeAgo(lead.createdAt)}</p>
+                  </div>
+                  <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ring-1 ${STATUS_STYLES[lead.status] ?? "bg-slate-50 text-slate-600 ring-slate-200"}`}>{lead.status}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+
       <div className="admin-overview-grid grid gap-6 mt-7 grid-cols-[1fr] md:grid-cols-[1.4fr_1fr]">
         <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
           <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">

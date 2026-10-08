@@ -14,8 +14,8 @@ export async function generateMetadata({
   const location = await getLocationBySlug(slug);
   if (!location) return {};
   return {
-    title: `M'Brace Hospital, ${location.name}`,
-    description: location.introParagraph || location.address,
+    title: location.metaTitle || `M'Brace Hospital, ${location.name}`,
+    description: location.metaDescription || location.introParagraph || location.address,
   };
 }
 

@@ -16,11 +16,49 @@ type Props = {
   heading?: ReactNode;
   description?: string;
   getProfileHref?: (doctor: { slug: string }) => string;
+  layout?: "default" | "service-detail";
 };
 
-export default function DoctorsSection({ featuredDoctor, book, homeDoctors, heading, description, getProfileHref }: Props) {
+export default function DoctorsSection({ featuredDoctor, book, homeDoctors, heading, description, getProfileHref, layout = "default" }: Props) {
   const nameLink = (doctor: { slug: string }, children: ReactNode) =>
     getProfileHref ? <Link href={getProfileHref(doctor)} className="hover:underline">{children}</Link> : children;
+
+  if (layout === "service-detail") {
+    return (
+      <section id="team" className="rounded-[28px] bg-[linear-gradient(110deg,#fff3df_0%,#f8edf1_52%,#f2e8fc_100%)] px-5 py-8 md:px-8 lg:py-[72px]">
+        <div className="mx-auto max-w-[1180px]">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-start lg:gap-[70px]">
+            <div>
+              <p className="text-[12px] font-bold uppercase text-care-purple">Our Team</p>
+              <h2 className="mt-3 text-[32px] font-semibold leading-[1.2] text-care-navy md:text-[36px] lg:text-[40px]">{heading ?? <>Find Your <em>Gynaecologist</em></>}</h2>
+              <div className="mt-5 h-px max-w-[400px] bg-[#d7c2e8]" />
+              <p className="mt-5 text-[14px] font-semibold leading-[1.5] text-[#656078]">Every doctor with us works from one principle:<strong className="block text-[16px] font-extrabold">Explain Clearly, Decide Together.</strong></p>
+            </div>
+            <p className="pt-7 text-[14px] leading-[1.45] text-[#5e6178] lg:max-w-[500px]">{description}</p>
+          </div>
+
+          <div className="mt-12 grid grid-flow-col auto-cols-[88%] gap-5 overflow-x-auto pb-2 [scroll-snap-type:x_mandatory] [scrollbar-width:thin] sm:auto-cols-[48%] lg:grid-flow-row lg:auto-cols-auto lg:grid-cols-4 lg:overflow-visible lg:pb-0">
+            {homeDoctors.slice(0, 4).map((doctor) => (
+              <article key={doctor.name} className="flex min-w-0 flex-col rounded-[12px] bg-white p-[10px] text-center [scroll-snap-align:start]">
+                <Photo src={doctor.image} alt={doctor.name} className="mb-4 h-[230px] rounded-[10px] [&_img]:object-top" />
+                <h3 className="text-[15px] font-extrabold leading-[1.25] text-care-purple">{nameLink(doctor, doctor.name)}</h3>
+                <p className="mt-2 min-h-[48px] text-[11px] leading-[1.35] text-[#595959]">{doctor.qualifications}<br />{doctor.role}</p>
+                <ul className="mt-auto flex flex-wrap justify-center gap-x-4 gap-y-2 border-t border-[#e6e1ea] pt-3 text-left text-[10px] text-care-purple">
+                  <li className="flex items-center gap-2"><Image src="/images/figma/doctor.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.yearsExperience}</span></li>
+                  <li className="flex items-center gap-2"><MapPinIcon /><span className="text-black">{doctor.location}</span></li>
+                  <li className="flex w-full items-center justify-center gap-2"><Image src="/images/figma/language.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.languages}</span></li>
+                </ul>
+                <div className="mt-4 flex gap-2">
+                  <button className="min-h-[30px] flex-1 rounded-[3px] bg-care-gold px-2 py-2 text-[10px] font-semibold text-white hover:bg-[#df9726]" onClick={() => book("Women's Care", doctor.name, "Online consultation")}>Book Consultation</button>
+                  <button className="min-h-[30px] flex-1 rounded-[3px] bg-care-purple px-2 py-2 text-[10px] font-semibold text-white hover:bg-[#603780]" onClick={() => book("Women's Care", doctor.name, "Hospital visit")}>Visit Hospital</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="team" className="mb-section pt-12 pb-12 md:pt-15 md:pb-15 lg:pt-20 lg:pb-20 [&_p]:leading-[1.65] mb-tinted [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple [&_h2_em]:not-italic [&_h2_em]:font-extrabold [&_h2_em]:text-care-gold mb-rounded rounded-[20px] md:rounded-[28px]">
