@@ -14,12 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PregnancyBirthSupportPage() {
-  // Pregnancy & birth support doesn't have its own ServiceCategory record —
-  // it reuses the "Women Care" group's services.
   const [content, data, category] = await Promise.all([
     getCareCategoryContent("pregnancy-birth-support"),
     getHomeData(),
-    getServiceCategoryByKey("Women Care"),
+    getServiceCategoryByKey("Pregnancy & Birth Support"),
   ]);
   if (!category) notFound();
 

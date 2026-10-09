@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { CalendarIcon, MapPinIcon, ShieldIcon, StethoscopeIcon } from "@/components/icons/icons";
-import type { HomeData } from "@/lib/queries";
 
 function EnvelopeIcon({ className }: { className?: string }) {
   return (
@@ -11,12 +10,12 @@ function EnvelopeIcon({ className }: { className?: string }) {
   );
 }
 
-export default function CareWhyChooseSection({ heading, highlight, body, stats }: { heading: string; highlight: string; body: string; stats: HomeData["stats"] }) {
+export default function CareWhyChooseSection({ heading, highlight, body }: { heading: string; highlight: string; body: string }) {
   const cards = [
-    { icon: StethoscopeIcon, title: "Lakhs of Happy Families", body: "Happy families supported with compassionate, personalized treatment across Hyderabad." },
-    { icon: ShieldIcon, title: `${stats.yearsOfCare.value} Years of Expertise`, body: "Decades of Mother & Child care experience with trusted clinical excellence.", featured: true },
-    { icon: CalendarIcon, title: "Easy Appointment Booking", body: "Book consultations at either of our two convenient Hyderabad locations, quickly and simply." },
-    { icon: EnvelopeIcon, title: "1,10,000+ Healthy Babies", body: "Healthy baby deliveries and growing families who trust M'Brace for every milestone." },
+    { icon: StethoscopeIcon, title: "Lakhs of Happy Families", body: "Families trust us from routine check-ups through to their children's health." },
+    { icon: ShieldIcon, title: "34+ Years of Expertise", body: "Specialist consultants across gynaecology, obstetrics, paediatrics, neonatology and fertility care.", featured: true },
+    { icon: CalendarIcon, title: "Easy Appointment Booking", body: "Located at LB Nagar & King Koti, call +91 93906 34074. Open 24 hours, 7 days a week." },
+    { icon: EnvelopeIcon, title: "1,10,000+ Healthy Babies", body: "Babies delivered by our teams, with newborn ICU care on hand." },
   ];
 
   return (

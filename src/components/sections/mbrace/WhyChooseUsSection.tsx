@@ -66,11 +66,7 @@ export default function WhyChooseUsSection({ stats }: Props) {
             <br />
             <em>Women, Mothers</em> &amp; <em>Children</em>
           </Heading>
-          <p className="font-semibold leading-[1.65]">
-            Two convenient locations across Hyderabad, compassionate counselling
-            through every hard decision, and treatment recommended only when
-            your diagnosis genuinely needs it.
-          </p>
+          <p className="font-semibold leading-[1.65]">At M&apos;Brace, you get the focus of a specialist women&apos;s health and fertility hospital in Hyderabad and the resources of a multispeciality one. We are backed by Kamineni Hospitals, recognised as Best Multispeciality Hospital – South Region.</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:gap-5 [&_.mb-photo]:min-h-47.5 [&_.mb-photo]:rounded-[14px] md:[&_.mb-photo]:min-h-55 lg:[&_.mb-photo]:min-h-[245px]">
