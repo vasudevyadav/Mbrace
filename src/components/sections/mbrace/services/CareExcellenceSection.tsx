@@ -2,7 +2,7 @@ import Photo from "../Photo";
 import Counter from "../Counter";
 import type { HomeData } from "@/lib/queries";
 
-export default function CareExcellenceSection({ eyebrow, heading, highlight, body, stats }: { eyebrow: string; heading: string; highlight: string; body: string; stats: HomeData["stats"] }) {
+export default function CareExcellenceSection({ eyebrow, heading, highlight, body, items, cta, stats }: { eyebrow: string; heading: string; highlight: string; body: string; items: string[]; cta?: string; stats: HomeData["stats"] }) {
   return (
     <section className="mb-section pt-12 pb-12 md:pt-15 md:pb-15 lg:pt-20 lg:pb-20">
       <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto grid items-center grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16">
@@ -10,7 +10,10 @@ export default function CareExcellenceSection({ eyebrow, heading, highlight, bod
           <p className="mb-eyebrow text-[14px] font-semibold text-care-gold mb-3.5">{eyebrow}</p>
           <h2 className="font-semibold text-care-navy text-[28px] md:text-[32px] xl:text-[38px] leading-[1.3]">{heading} <span className="text-care-gold">{highlight}</span></h2>
           <p className="mt-5 text-[14px] leading-[1.75] text-[#5d6078]">{body}</p>
-          <a className="mb-button mt-6 inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] border-0 text-[13px] font-semibold no-underline hover:bg-[#603780]" href="#team">Know More</a>
+          <ul className="mt-5 grid gap-2 text-[14px] leading-[1.65] text-[#5d6078]">
+            {items.map(item => <li key={item} className="flex gap-2 before:mt-[9px] before:size-1.5 before:shrink-0 before:rounded-full before:bg-care-gold before:content-['']">{item}</li>)}
+          </ul>
+          {cta && <a className="mb-button mt-6 inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] border-0 text-[13px] font-semibold no-underline hover:bg-[#603780]" href="#team">{cta}</a>}
         </div>
         <div className="relative max-w-115">
           <Photo src="/images/figma/portrait-unused.png" alt="A smiling M'Brace patient" className="h-85 md:h-100" />

@@ -7,9 +7,14 @@ import type { HomeData } from "@/lib/queries";
 type Props = {
   careCategories: HomeData["careCategories"];
   homeFaqs: HomeData["homeFaqs"];
+  heading?: string;
+  highlight?: string;
+  description?: string;
+  showCategories?: boolean;
+  label?: string;
 };
 
-export default function FaqSection({ careCategories, homeFaqs }: Props) {
+export default function FaqSection({ careCategories, homeFaqs, heading = "Your Queries,", highlight = "Answered Simply!", description = "From women’s health, to delivery, postpartum and child care, find expert answers to all your common questions with us.", showCategories = true, label = "Frequently Asked Questions" }: Props) {
   const [faqCategory, setFaqCategory] = useState<string>(careCategories[0]);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   return (
@@ -18,18 +23,11 @@ export default function FaqSection({ careCategories, homeFaqs }: Props) {
       className="mb-section pt-8 pb-8 lg:pt-20 lg:pb-20 [&_p]:leading-[1.65] mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto lg:[#services>&]:w-[min(1200px,_calc(100%_-_80px))] mb-faq grid grid-cols-[1fr] gap-7 md:grid-cols-[420fr_650fr] md:gap-10 lg:gap-[65px] xl:gap-26 [&>div>p]:text-[15px] [&>div>p]:font-semibold [&>div>p]:leading-[1.6]"
     >
       <div>
-        <Heading label="Frequently Asked Questions">
-          Your Queries,
-          <br />
-          <em className="not-italic text-care-gold font-extrabold">
-            Answered Simply!
-          </em>
+        <Heading label={label}>
+          {heading}{highlight && <><br /><em className="not-italic text-care-gold font-extrabold">{highlight}</em></>}
         </Heading>
-        <p>
-          From women’s health, to delivery, postpartum and child care, find
-          expert answers to all your common questions with us.
-        </p>
-        <div
+        {description && <p>{description}</p>}
+        {showCategories && <div
           className="mb-faq-categories flex flex-col gap-2.5 mt-7 md:mt-[35px] lg:mt-[65px] [&_button]:pt-[15px] [&_button]:pr-4.5 [&_button]:pb-[15px] [&_button]:pl-4.5 [&_button]:text-[13px] [&_button]:min-h-12.5 md:[&_button]:pt-[17px] md:[&_button]:pr-5.5 md:[&_button]:pb-[17px] md:[&_button]:pl-5.5 md:[&_button]:text-[16px] md:[&_button]:min-h-14 [&_button]:rounded-[8px] [&_button]:bg-care-soft [&_button]:text-care-navy [&_button]:font-extrabold [&_button]:text-left [&_button]:[transition:background_.2s,_color_.2s] [&_button:hover]:bg-[#efe7f8] [&_button[aria-pressed=true]]:bg-care-gold [&_button[aria-pressed=true]]:text-white [&_button[aria-pressed=true]:hover]:bg-care-gold [&_button:focus-visible]:[outline:2px_solid_var(--color-care-purple)] [&_button:focus-visible]:outline-offset-[2px]"
           aria-label="FAQ categories"
         >
@@ -47,7 +45,7 @@ export default function FaqSection({ careCategories, homeFaqs }: Props) {
               {x}
             </button>
           ))}
-        </div>
+        </div>}
       </div>
       <div
         id="faq-questions"

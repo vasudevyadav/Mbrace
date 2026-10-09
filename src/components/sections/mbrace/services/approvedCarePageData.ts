@@ -82,3 +82,76 @@ export const approvedCareFaqs: Record<string, { question: string; answer: string
     ["Are these treatments safe, and what are the risks?", "Your doctor explains the risks, benefits and alternatives before any treatment starts. Medicines may cause bloating or mood changes, and some treatments raise the chance of twins. Egg collection may cause mild pain or spotting, and most people recover in one to two days."],
   ].map(([question, answer]) => ({ question, answer })),
 };
+
+export type ApprovedCarePageSection = {
+  heroCta: string;
+  talkCta: string;
+  guideItems: string[];
+  faqHeading: string;
+  faqHighlight: string;
+  faqDescription: string;
+  teamCta?: string;
+};
+
+export const approvedCarePageSections: Record<string, ApprovedCarePageSection> = {
+  "Women's Care": {
+    heroCta: "Book Women’s Care Appointment",
+    talkCta: "Book a Gynaecology Consultation",
+    guideItems: [
+      "Very heavy bleeding that disrupts your day.",
+      "Bleeding between periods.",
+      "Pelvic pain that keeps coming back.",
+      "Any bleeding after menopause.",
+      "For severe pain or bleeding that will not stop, seek emergency care straight away. Book a gynaecology consultation at LB Nagar or King Koti. Pregnant or trying to conceive? See pregnancy and birth support and fertility care.",
+    ],
+    faqHeading: "Questions Women Ask",
+    faqHighlight: "Before Booking!",
+    faqDescription: "Clear answers on check-ups, pregnancy planning, menopause and surgery.",
+  },
+  "Child Care": {
+    heroCta: "Book Pediatric Appointment",
+    talkCta: "Book a Paediatric Consultation",
+    guideItems: [
+      "Fast or difficult breathing.",
+      "A fit (seizure) or sudden unusual drowsiness.",
+      "Blue or very pale lips or skin.",
+      "Fever in a baby under three months old.",
+      "Very little urine, a dry mouth or refusing all feeds.",
+      "A serious injury, such as a fall from a height or a deep cut.",
+    ],
+    faqHeading: "Questions Parents Ask",
+    faqHighlight: "Before Booking!",
+    faqDescription: "Clear answers on locations, timings, vaccination, insurance and newborn care.",
+    teamCta: "Book a paediatric consultation now.",
+  },
+  "Pregnancy & Birth Support": {
+    heroCta: "Book a Consultation",
+    talkCta: "Book a Pregnancy Check-Up",
+    guideItems: [
+      "Heavy vaginal bleeding.",
+      "Severe or constant stomach pain.",
+      "Your baby moving much less than usual.",
+      "A fit, or a severe headache with blurred vision.",
+      "Sudden swelling of your face or hands.",
+      "Waters breaking, or regular painful contractions.",
+    ],
+    faqHeading: "Questions Expecting Parents",
+    faqHighlight: "Ask Before Booking!",
+    faqDescription: "Clear answers on booking, check-ups, scans, delivery and insurance.",
+    teamCta: "Meet Our Obstetricians & Neonatologists.",
+  },
+  "Fertility Care": {
+    heroCta: "Book a Consultation",
+    talkCta: "Book a First Visit",
+    guideItems: [
+      "Evaluation: Your specialist reviews your history and test results with you.",
+      "Plan: You agree on a treatment plan based on those results.",
+      "Cycle monitoring or IUI: Tried first when they may help.",
+      "IVF or ICSI: An IVF cycle usually takes about three weeks.",
+      "Embryo transfer: A pregnancy test follows, and your specialist reviews the result with you.",
+    ],
+    faqHeading: "Questions Couples & Individuals",
+    faqHighlight: "Ask Before Booking!",
+    faqDescription: "Clear answers on booking, tests, treatment choices, egg freezing and expectations.",
+  },
+};

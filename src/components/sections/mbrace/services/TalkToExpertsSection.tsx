@@ -29,10 +29,12 @@ export default function TalkToExpertsSection({
   heading,
   body,
   book,
+  buttonLabel,
 }: {
   heading: string;
   body: string;
   book: () => void;
+  buttonLabel: string;
 }) {
   return (
     <section className="mb-section pt-0 pb-0 overflow-visible mb-14">
@@ -51,7 +53,7 @@ export default function TalkToExpertsSection({
                 onClick={book}
                 className="mt-4 inline-flex min-h-[38px] items-center justify-center self-start rounded-[5px] border-0 bg-white px-5 text-[12px] font-bold text-[#252331] no-underline shadow-[0_1px_2px_rgba(0,0,0,0.08)] hover:bg-[#f3f0fa]"
               >
-                Book an Appointment
+                {buttonLabel}
               </button>
             </div>
           </div>

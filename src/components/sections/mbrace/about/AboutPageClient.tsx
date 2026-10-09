@@ -10,6 +10,8 @@ import AboutSection from "../AboutSection";
 import WhyChooseUsSection from "../WhyChooseUsSection";
 import DoctorsSection from "../DoctorsSection";
 import HomeFooter from "../HomeFooter";
+import FaqSection from "../FaqSection";
+import { aboutFaqs } from "./content";
 
 export default function AboutPageClient({ data }: { data: HomeData }) {
   const { hospital, careCategories, serviceGroups, doctors: homeDoctors, featuredDoctor, hero, stats } = data;
@@ -43,7 +45,22 @@ export default function AboutPageClient({ data }: { data: HomeData }) {
       <MissionVisionValues />
       <WhyChooseUsSection stats={stats} />
       <DirectorMessage featuredDoctor={featuredDoctor} />
-      <DoctorsSection featuredDoctor={featuredDoctor} book={book} homeDoctors={homeDoctors} />
+      <DoctorsSection
+        featuredDoctor={featuredDoctor}
+        book={book}
+        homeDoctors={homeDoctors}
+        heading={<>Meet the Doctors<br />Behind Your Care</>}
+        description="Our team brings together obstetricians, gynaecologists, infertility specialists, an embryologist, paediatricians and neonatologists. Among them are laparoscopic and robotic surgeons, a paediatric intensivist and senior consultants with qualifications including MD, MS, DNB and specialist fellowships."
+      />
+      <FaqSection
+        careCategories={["About Us"]}
+        homeFaqs={{ "About Us": aboutFaqs }}
+        label="FAQ"
+        heading=""
+        highlight=""
+        description=""
+        showCategories={false}
+      />
       <HomeFooter
         hospital={hospital}
         serviceGroups={serviceGroups}

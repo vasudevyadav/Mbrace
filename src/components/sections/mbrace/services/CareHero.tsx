@@ -20,9 +20,10 @@ type Props = {
   setBookingLocation: (value: string) => void;
   bookingDate: string;
   setBookingDate: (value: string) => void;
+  buttonLabel: string;
 };
 
-export default function CareHero({ content, book, careCategories, hospital, bookingService, setBookingService, bookingLocation, setBookingLocation, bookingDate, setBookingDate }: Props) {
+export default function CareHero({ content, book, careCategories, hospital, bookingService, setBookingService, bookingLocation, setBookingLocation, bookingDate, setBookingDate, buttonLabel }: Props) {
   return (
     <section className="mb-hero mt-3 mr-3 mb-3 ml-3 lg:mt-4.5 lg:mb-0 lg:min-h-180 lg:mr-8 lg:ml-8 2xl:mr-auto 2xl:ml-auto 2xl:max-w-384 min-h-auto rounded-[20px] sm:min-h-185 relative overflow-hidden [background:var(--care-gradient)] sm:rounded-[30px] [&_h1]:text-[29px] [&_h1]:leading-[1.4] [&_h1]:mt-5.5 sm:[&_h1]:text-[39px] xl:[&_h1]:text-[48px] sm:[&_h1]:leading-[1.5] sm:[&_h1]:mt-6 [&_h1]:text-[#343333] [&_h1]:font-normal [&_h1_strong]:font-extrabold xl:[&_.mb-header]:relative xl:[&_.mb-header]:top-auto xl:[&_.mb-header]:right-auto xl:[&_.mb-header]:bottom-auto xl:[&_.mb-header]:left-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:pt-6 xl:[&_.mb-header]:pr-10 xl:[&_.mb-header]:pb-6 xl:[&_.mb-header]:pl-10 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:[border:0] xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none">
       <Image src={content.heroImage} alt="" fill priority sizes="100vw" className="mb-hero-photo object-cover z-[0] object-[65%_center] opacity-[.32] sm:object-[60%_center] sm:opacity-[.6] lg:object-center lg:opacity-100" />
@@ -50,7 +51,7 @@ export default function CareHero({ content, book, careCategories, hospital, book
               <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
             </div>
             <input className="pr-12! [color-scheme:light]" aria-label="Appointment date" type="date" min={new Date().toISOString().split("T")[0]} value={bookingDate} onChange={e => setBookingDate(e.target.value)} />
-            <button type="button" onClick={() => book()} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-md border border-care-gold text-[14px] font-semibold [font-family:var(--font-manrope)] no-underline [&:hover]:bg-[#603780]">Get Appointment</button>
+            <button type="button" onClick={() => book()} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-md border border-care-gold text-[14px] font-semibold [font-family:var(--font-manrope)] no-underline [&:hover]:bg-[#603780]">{buttonLabel}</button>
           </div>
         </div>
       </div>
