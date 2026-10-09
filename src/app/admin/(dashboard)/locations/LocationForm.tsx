@@ -1,7 +1,6 @@
 import ImageUploadField from "@/app/admin/ImageUploadField";
 import SeoFields from "@/app/admin/SeoFields";
-import BlogBlocksEditor from "@/app/admin/(dashboard)/blogs/BlogBlocksEditor";
-import type { BlogBlock } from "@/components/sections/mbrace/blog/blogContent";
+import DynamicPageSectionsEditor from "@/app/admin/DynamicPageSectionsEditor";
 
 export type LocationFormValues = {
   id?: number;
@@ -20,7 +19,7 @@ export type LocationFormValues = {
   carePromiseIntro?: string;
   whyChooseIntro?: string;
   reachIntro?: string;
-  blocks?: BlogBlock[] | unknown;
+  blocks?: unknown;
   metaTitle?: string;
   metaDescription?: string;
   order?: number;
@@ -38,10 +37,13 @@ export default function LocationForm({
   return (
     <form action={action} className="mt-6 grid w-full max-w-none gap-6 rounded-3xl bg-white p-5 shadow-[0_18px_55px_rgba(41,30,52,0.07)] ring-1 ring-[#e4dce9] sm:p-8 xl:p-10">
       {location?.id !== undefined && <input type="hidden" name="id" value={location.id} />}
-      <SeoFields metaTitle={location?.metaTitle} metaDescription={location?.metaDescription} titlePlaceholder={location?.name ? `M'Brace Hospital, ${location.name}` : undefined} descriptionPlaceholder={location?.introParagraph || location?.address} />
+      <section className="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6"><h2 className="mb-4 text-base font-bold text-slate-900">SEO Meta</h2><SeoFields metaTitle={location?.metaTitle} metaDescription={location?.metaDescription} titlePlaceholder={location?.name ? `M'Brace Hospital, ${location.name}` : undefined} descriptionPlaceholder={location?.introParagraph || location?.address} /></section>
+      <section className="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6"><div><h2 className="text-base font-bold text-slate-900">Hero &amp; Page Images</h2><p className="mt-1 text-xs text-slate-500">Images used across this location page.</p></div>
       <ImageUploadField label="Hero background photo" currentImage={location?.heroImage} required fileFieldName="heroImageFile" currentFieldName="heroCurrentImage" />
       <ImageUploadField label={'"Services Available" panel photo'} currentImage={location?.servicesImage} fileFieldName="servicesImageFile" currentFieldName="servicesCurrentImage" />
       <ImageUploadField label={'"Visit Our Clinic" photo'} currentImage={location?.clinicImage} fileFieldName="clinicImageFile" currentFieldName="clinicCurrentImage" />
+      </section>
+      <section className="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6"><h2 className="text-base font-bold text-slate-900">Location &amp; Contact Details</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium text-slate-700">Name<input name="name" defaultValue={location?.name} required placeholder="LB Nagar" className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
         <label className="block text-sm font-medium text-slate-700">URL slug (optional — auto-generated from name)<input name="slug" defaultValue={location?.slug} placeholder="lb-nagar" className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
@@ -53,24 +55,21 @@ export default function LocationForm({
         <label className="block text-sm font-medium text-slate-700">Email<input name="email" type="email" defaultValue={location?.email} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
       </div>
       <label className="block text-sm font-medium text-slate-700">Google Maps URL<input name="mapUrl" defaultValue={location?.mapUrl} required placeholder="https://www.google.com/maps/search/?api=1&query=..." className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+      </section>
 
-      <div className="border-t border-slate-100 pt-5">
-        <h2 className="text-sm font-semibold text-slate-900">Page intros</h2>
-        <p className="mt-1 text-xs text-slate-500">Short paragraphs shown above each section on this location&apos;s public page.</p>
-        <div className="mt-4 grid gap-4">
-          <label className="block text-sm font-medium text-slate-700">Services section intro<textarea name="introParagraph" defaultValue={location?.introParagraph} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-          <label className="block text-sm font-medium text-slate-700">&quot;What To Expect&quot; intro<textarea name="whatToExpectIntro" defaultValue={location?.whatToExpectIntro} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-          <label className="block text-sm font-medium text-slate-700">&quot;Our Care Promise&quot; intro<textarea name="carePromiseIntro" defaultValue={location?.carePromiseIntro} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-          <label className="block text-sm font-medium text-slate-700">&quot;Why Patients Choose Us&quot; intro<textarea name="whyChooseIntro" defaultValue={location?.whyChooseIntro} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-          <label className="block text-sm font-medium text-slate-700">&quot;How To Reach&quot; intro<textarea name="reachIntro" defaultValue={location?.reachIntro} rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-        </div>
+      <div className="grid gap-5 lg:grid-cols-2">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="font-bold text-slate-900">Services Available Section</h2><label className="mt-4 block text-sm font-medium text-slate-700">Section intro<textarea name="introParagraph" defaultValue={location?.introParagraph} rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm" /></label></section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="font-bold text-slate-900">What To Expect Section</h2><label className="mt-4 block text-sm font-medium text-slate-700">Section intro<textarea name="whatToExpectIntro" defaultValue={location?.whatToExpectIntro} rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm" /></label></section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="font-bold text-slate-900">Our Care Promise Section</h2><label className="mt-4 block text-sm font-medium text-slate-700">Section intro<textarea name="carePromiseIntro" defaultValue={location?.carePromiseIntro} rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm" /></label></section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="font-bold text-slate-900">Why Patients Choose Us Section</h2><label className="mt-4 block text-sm font-medium text-slate-700">Section intro<textarea name="whyChooseIntro" defaultValue={location?.whyChooseIntro} rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm" /></label></section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-2"><h2 className="font-bold text-slate-900">How To Reach Section</h2><label className="mt-4 block text-sm font-medium text-slate-700">Section intro<textarea name="reachIntro" defaultValue={location?.reachIntro} rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm" /></label></section>
       </div>
 
-      <section className="border-t border-slate-100 pt-5">
-        <h2 className="text-sm font-semibold text-slate-900">Dynamic page sections</h2>
+      <section className="rounded-2xl border border-brand-200 bg-brand-50/20 p-5 sm:p-6">
+        <h2 className="text-base font-bold text-slate-900">Additional Dynamic Sections</h2>
         <p className="mt-1 text-xs text-slate-500">Add, remove and reorder complete content sections unique to this location slug. When blocks are added, they replace the legacy fixed middle sections.</p>
         <div className="mt-4">
-          <BlogBlocksEditor name="blocksJson" initialBlocks={(Array.isArray(location?.blocks) ? location.blocks : []) as BlogBlock[]} />
+          <DynamicPageSectionsEditor name="blocksJson" initialSections={Array.isArray(location?.blocks) ? location.blocks : []} />
         </div>
       </section>
 

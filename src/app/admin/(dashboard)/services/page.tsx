@@ -4,7 +4,7 @@ import { createServiceItemAction, deleteServiceItemAction } from "@/app/admin/ac
 import DeleteButton from "@/app/admin/DeleteButton";
 import ImageUploadField from "@/app/admin/ImageUploadField";
 import SeoFields from "@/app/admin/SeoFields";
-import BlogBlocksEditor from "@/app/admin/(dashboard)/blogs/BlogBlocksEditor";
+import DynamicPageSectionsEditor from "@/app/admin/DynamicPageSectionsEditor";
 
 export default async function AdminServicesPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const { category } = await searchParams;
@@ -82,7 +82,7 @@ export default async function AdminServicesPage({ searchParams }: { searchParams
             <div className="mt-5 border-t border-slate-100 pt-5">
               <h3 className="text-sm font-semibold text-slate-900">Detail page sections</h3>
               <p className="mt-1 text-xs text-slate-500">These ordered blocks are unique to the new service slug.</p>
-              <div className="mt-4"><BlogBlocksEditor name="blocksJson" initialBlocks={[]} /></div>
+              <div className="mt-4"><DynamicPageSectionsEditor name="blocksJson" initialSections={[]} /></div>
             </div>
             <label className="mt-4 block text-sm font-medium text-slate-700">Display order<input name="order" type="number" defaultValue={items.length} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
             <button type="submit" className="mt-4 inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50">Add service</button>
