@@ -22,6 +22,7 @@ import TalkToExpertsSection from "./TalkToExpertsSection";
 import CareWhyChooseSection from "./CareWhyChooseSection";
 import CareExcellenceSection from "./CareExcellenceSection";
 import type { CareCategoryContent } from "./careCategoryContent";
+import { approvedCarePageSections } from "./approvedCarePageData";
 
 type CategoryWithItems = ServiceCategory & { items: ServiceItem[] };
 
@@ -58,6 +59,7 @@ export default function CareCategoryPageClient({
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const servicesCopy = serviceSectionCopy[careCategoryLabel];
+  const approvedSections = approvedCarePageSections[careCategoryLabel];
 
   function book(serviceName = "", doctorName = "", type = "") {
     setBookingService(serviceName || careCategoryLabel);
@@ -98,9 +100,10 @@ export default function CareCategoryPageClient({
         setBookingLocation={setBookingLocation}
         bookingDate={bookingDate}
         setBookingDate={setBookingDate}
+        buttonLabel={approvedSections.heroCta}
       />
       <CareJourneySection heading={content.journeyHeading} highlight={content.journeyHighlight} journey={content.journey} />
-      <TalkToExpertsSection heading={content.talkToExpertsHeading} body={content.talkToExpertsBody} book={() => book()} />
+      <TalkToExpertsSection heading={content.talkToExpertsHeading} body={content.talkToExpertsBody} buttonLabel={approvedSections.talkCta} book={() => book()} />
 
       {category.items.length > 0 && (
         <section id="services" className="mb-section pt-12 pb-12 md:pt-15 md:pb-15 lg:pt-20 lg:pb-20 [&_p]:leading-[1.65] mb-tinted [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple mb-rounded rounded-[20px] md:rounded-[28px]">
@@ -128,13 +131,23 @@ export default function CareCategoryPageClient({
         featuredDoctor={featuredDoctor}
         book={book}
         homeDoctors={doctors.slice(0, 4)}
+        heading={<>Meet the Experts Behind<br />Every Check-Up, Surgery &amp; Delivery</>}
+        description="M'Brace in Hyderabad brings together gynaecologists, obstetricians, paediatricians, neonatologists and fertility specialists. Backed by 34+ years of hospital experience, our team includes doctors with MD and DNB postgraduate degrees and fellowship training. Specialists include laparoscopic (keyhole) and robotic surgeons, and embryologists in the fertility lab."
         getProfileHref={(d) => `/doctors/${d.slug}`}
       />
 
-      <CareExcellenceSection eyebrow={content.excellenceEyebrow} heading={content.excellenceHeading} highlight={content.excellenceHighlight} body={content.excellenceBody} stats={stats} />
+      <CareExcellenceSection eyebrow={content.excellenceEyebrow} heading={content.excellenceHeading} highlight={content.excellenceHighlight} body={content.excellenceBody} items={approvedSections.guideItems} cta={approvedSections.teamCta} stats={stats} />
 
       <TestimonialsSection homeTestimonials={homeTestimonials} />
-      <FaqSection careCategories={[careCategoryLabel, ...careCategories.filter(c => c !== careCategoryLabel)]} homeFaqs={homeFaqs} />
+      <FaqSection
+        careCategories={[careCategoryLabel]}
+        homeFaqs={homeFaqs}
+        heading={approvedSections.faqHeading}
+        highlight={approvedSections.faqHighlight}
+        description={approvedSections.faqDescription}
+        showCategories={false}
+        label="FAQ"
+      />
       <LocationSection
         location={location}
         setLocation={setLocation}

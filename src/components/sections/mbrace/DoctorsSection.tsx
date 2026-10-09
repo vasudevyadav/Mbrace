@@ -32,7 +32,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
               <p className="text-[12px] font-bold uppercase text-care-purple">Our Team</p>
               <h2 className="mt-3 text-[32px] font-semibold leading-[1.2] text-care-navy md:text-[36px] lg:text-[40px]">{heading ?? <>Find Your <em>Gynaecologist</em></>}</h2>
               <div className="mt-5 h-px max-w-[400px] bg-[#d7c2e8]" />
-              <p className="mt-5 text-[14px] font-semibold leading-[1.5] text-[#656078]">Every doctor with us works from one principle:<strong className="block text-[16px] font-extrabold">Explain Clearly, Decide Together.</strong></p>
+              <p className="mt-5 text-[14px] font-semibold leading-[1.5] text-[#656078]">Every doctor works from one principle:<strong className="block text-[16px] font-extrabold">Explain Clearly, Decide Together!</strong></p>
             </div>
             <p className="pt-7 text-[14px] leading-[1.45] text-[#5e6178] lg:max-w-[500px]">{description}</p>
           </div>
@@ -68,7 +68,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
             <Heading label="OUR TEAM">{heading ?? <>Meet <em>The Experts</em>
               <br />Behind Your Journey</>}</Heading>
             <p className="font-semibold">{description ?? "Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad."}</p>
-            <p className="mb-team-principle mt-5.5 pt-4.5 [border-top:1px_solid_#ddd4e2] font-bold text-[16px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[20px] [&_strong]:mt-[5px]">Every doctor with us works from one principle:<strong>Explain Clearly, Decide Together.</strong>
+            <p className="mb-team-principle mt-5.5 pt-4.5 [border-top:1px_solid_#ddd4e2] font-bold text-[16px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[20px] [&_strong]:mt-[5px]">Every doctor works from one principle:<strong>Explain Clearly, Decide Together!</strong>
             </p>
           </div>{featuredDoctor && <article className="mb-featured-doctor grid bg-white rounded-[14px] items-center grid-cols-[minmax(100px,_.85fr)_minmax(0,_1fr)] pt-3.5 pr-3.5 pb-3.5 pl-3.5 md:grid-cols-[200px_1fr] lg:grid-cols-[.9fr_1fr] gap-[15px] xl:gap-6 md:pt-4.5 md:pr-4.5 md:pb-4.5 md:pl-4.5 [&>.mb-photo]:h-67.5 md:[&>.mb-photo]:h-65 lg:[&>.mb-photo]:h-78 [&_h3]:text-[15px] md:[&_h3]:text-[18px] lg:[&_h3]:text-[14px] xl:[&_h3]:text-[20px] [&_h3]:leading-[1.3] [&_h3]:font-extrabold [&_h3]:text-care-purple [&_h3]:mb-2.5 [&_p]:text-[10px] md:[&_p]:text-[13px] [&_p]:leading-[1.5] [&_p]:text-[#595959] [&_p]:font-medium [&_.mb-doctor-meta]:grid [&_.mb-doctor-meta]:text-[10px] [&_.mb-doctor-meta]:gap-2 md:[&_.mb-doctor-meta]:text-[12px] [&_.mb-doctor-actions]:max-w-75 [&_.mb-doctor-actions]:flex-col [&_.mb-doctor-actions]:mt-[13px] [&_.mb-doctor-actions]:gap-1.5">
             <Photo src={featuredDoctor.image} alt={featuredDoctor.name} />

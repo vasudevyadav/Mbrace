@@ -59,3 +59,22 @@ export const directorMessage = {
   subheading: "Listened to, Informed & Care For!",
   cta: "Meet the Doctors",
 };
+
+export const aboutFaqs = [
+  {
+    question: "Is M'Brace part of Kamineni Hospitals?",
+    answer: "Yes. M'Brace is a unit of Kamineni Hospitals Pvt. Ltd., launched in January 2026 as a women and child care hospital in Hyderabad. It is a separate brand from Kamineni Fertility, but patients have access to Kamineni Hospitals' diagnostics, surgery, emergency and critical-care support when needed.",
+  },
+  {
+    question: "Where is M'Brace located in Hyderabad?",
+    answer: "M'Brace has two locations in Hyderabad: LB Nagar, on the Inner Ring Road (Telangana 500068), and King Koti. All M'Brace services are available at both locations, so families can choose the one that is easier to reach.",
+  },
+  {
+    question: "Is M'Brace NABH accredited?",
+    answer: "M'Brace is backed by NABH- and NABL-accredited Kamineni Hospitals, which has also been recognised as Best Multispeciality Hospital – South Region. These credentials belong to Kamineni Hospitals, the parent organisation that supports M'Brace's clinical care.",
+  },
+  {
+    question: "What happens if my pregnancy or my child's condition needs more specialised care?",
+    answer: "Care is stepped up based on what the condition requires. Pregnancies that need closer monitoring can be assessed in the Fetal Medicine Unit. Newborns and children who need intensive care are treated in the NICU or PICU. If wider support is needed, Kamineni Hospitals' surgical and critical-care teams are available.",
+  },
+];
