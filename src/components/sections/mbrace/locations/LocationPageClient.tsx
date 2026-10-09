@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import type { Location, LocationHighlight } from "@prisma/client";
 import type { HomeData } from "@/lib/queries";
 import { submitAppointmentRequestAction } from "@/lib/publicActions";
@@ -20,15 +19,15 @@ import WhyPatientsChoose from "./WhyPatientsChoose";
 import VisitClinicCta from "./VisitClinicCta";
 import DynamicPageSections from "../DynamicPageSections";
 import type { BlogBlock } from "../blog/blogContent";
+import type { DynamicPageSection } from "../dynamicPageContent";
 
 type LocationWithHighlights = Location & { highlights: LocationHighlight[] };
 
 export default function LocationPageClient({ location, data }: { location: LocationWithHighlights; data: HomeData }) {
   const { hospital, careCategories, serviceGroups, homeTestimonials, homeFaqs } = data;
   const bysection = (section: string) => location.highlights.filter(h => h.section === section);
-  const blocks = (Array.isArray(location.blocks) ? location.blocks : []) as BlogBlock[];
+  const blocks = (Array.isArray(location.blocks) ? location.blocks : []) as Array<BlogBlock | DynamicPageSection>;
 
-  const router = useRouter();
   const [toggleLocation, setToggleLocation] = useState(toggleLocations[0]);
   const [bookingService, setBookingService] = useState("");
   const [bookingLocation, setBookingLocation] = useState(location.name);

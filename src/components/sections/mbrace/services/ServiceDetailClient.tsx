@@ -15,6 +15,7 @@ import ServiceHero from "./ServiceHero";
 import GynecologyDetailSections from "./GynecologyDetailSections";
 import DynamicPageSections from "../DynamicPageSections";
 import type { BlogBlock } from "../blog/blogContent";
+import type { DynamicPageSection } from "../dynamicPageContent";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -43,7 +44,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const faqCategory = matchCareCategory(service.category.label, careCategories);
-  const blocks = (Array.isArray(service.blocks) ? service.blocks : []) as BlogBlock[];
+  const blocks = (Array.isArray(service.blocks) ? service.blocks : []) as Array<BlogBlock | DynamicPageSection>;
 
   function book(serviceName = "", doctorName = "", type = "") {
     setBookingService(serviceName || service.name);

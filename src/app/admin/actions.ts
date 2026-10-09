@@ -307,7 +307,7 @@ export async function createServiceItemAction(formData: FormData) {
       description: str(formData, "description"),
       detail: str(formData, "detail"),
       heroImage: heroImage ?? "",
-      blocks: parseBlogBlocks(formData),
+      blocks: await parseDynamicPageSections(formData),
       metaTitle: str(formData, "metaTitle"),
       metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
@@ -331,7 +331,7 @@ export async function updateServiceItemAction(formData: FormData) {
       description: str(formData, "description"),
       detail: str(formData, "detail"),
       heroImage: heroImage ?? "",
-      blocks: parseBlogBlocks(formData),
+      blocks: await parseDynamicPageSections(formData),
       metaTitle: str(formData, "metaTitle"),
       metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
@@ -440,6 +440,18 @@ function parseBlogBlocks(formData: FormData) {
   }
 }
 
+async function parseDynamicPageSections(formData: FormData) {
+  const sections = parseBlogBlocks(formData) as Array<{ image?: string; items?: Array<{ image?: string }> }>;
+  return Promise.all(sections.map(async (section, sectionIndex) => ({
+    ...section,
+    image: await resolveImagePath(formData, `sectionImageFile_${sectionIndex}`, `unusedSectionImage_${sectionIndex}`) || section.image || "",
+    items: await Promise.all((section.items ?? []).map(async (item, itemIndex) => ({
+      ...item,
+      image: await resolveImagePath(formData, `sectionItemImageFile_${sectionIndex}_${itemIndex}`, `unusedSectionItemImage_${sectionIndex}_${itemIndex}`) || item.image || "",
+    }))),
+  })));
+}
+
 function refreshBlogs(slug?: string) {
   refreshSite();
   revalidatePath("/blog");
@@ -545,7 +557,7 @@ export async function createLocationAction(formData: FormData) {
       carePromiseIntro: str(formData, "carePromiseIntro"),
       whyChooseIntro: str(formData, "whyChooseIntro"),
       reachIntro: str(formData, "reachIntro"),
-      blocks: parseBlogBlocks(formData),
+      blocks: await parseDynamicPageSections(formData),
       metaTitle: str(formData, "metaTitle"),
       metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
@@ -581,7 +593,7 @@ export async function updateLocationAction(formData: FormData) {
       carePromiseIntro: str(formData, "carePromiseIntro"),
       whyChooseIntro: str(formData, "whyChooseIntro"),
       reachIntro: str(formData, "reachIntro"),
-      blocks: parseBlogBlocks(formData),
+      blocks: await parseDynamicPageSections(formData),
       metaTitle: str(formData, "metaTitle"),
       metaDescription: str(formData, "metaDescription"),
       order: num(formData, "order"),
