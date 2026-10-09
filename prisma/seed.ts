@@ -2,33 +2,13 @@ import { PrismaClient, type Prisma } from "@prisma/client";
 import { slugify } from "../src/lib/slugify";
 import { fallbackBlogArticles } from "../src/components/sections/mbrace/blog/blogContent";
 import { carePageSlugs, fallbackCareCategoryContent } from "../src/components/sections/mbrace/services/careCategoryContent";
+import { approvedCareFaqs, approvedServiceGroups } from "../src/components/sections/mbrace/services/approvedCarePageData";
 
 const prisma = new PrismaClient();
 
 const careCategories = ["Women's Care", "Child Care", "Pregnancy & Birth Support", "Fertility Care"];
 
-const womenServices: [string, string][] = [
-  ["Gynaecology", "Personalized IVF programs using advanced reproductive techniques."],
-  ["High-risk pregnancy care", "Egg, sperm and embryo freezing for future family planning."],
-  ["Maternity care", "Supportive, carefully monitored intrauterine insemination care."],
-  ["Laparoscopic surgery", "Complete evaluation and treatment for male fertility concerns."],
-  ["Menopause care", "Diagnosis and tailored care for hormonal and reproductive health."],
-  ["Preventive women's health packages", "Secure cryopreservation with expert laboratory support."],
-  ["Preconception counselling", "Ethical, confidential egg, sperm and embryo donor options."],
-  ["Women's wellness support", "Thorough fertility assessment and one-to-one expert guidance."],
-];
-
-const serviceGroups: Record<string, [string, string][]> = {
-  "Women Care": womenServices,
-  "Child Care": [
-    "Paediatrics & Neonatology", "Vaccination", "Developmental Paediatrics", "NICU – Neonatal Intensive Care",
-    "Paediatric Surgery", "Nephrology", "Pulmonology", "PICU – Paediatric Intensive Care",
-  ].map(name => [name, "Connected child care, backed by a multidisciplinary team and advanced hospital support."]),
-  "Fertility": [
-    "IVF", "Fertility preservation", "Intrauterine insemination", "Male fertility care",
-    "Hormonal & reproductive health", "Cryopreservation", "Donor programmes", "Fertility evaluation",
-  ].map((name, i) => [name, womenServices[i][1]]),
-};
+const serviceGroups = approvedServiceGroups;
 
 const asset = (n: number) => `/images/figma/asset-${n}.webp`;
 
@@ -80,30 +60,7 @@ const homeTestimonials = [
   { name: "Meera & Arjun", quote: "Every question was answered honestly. The experience felt personal, respectful and reassuring." },
 ];
 
-const homeFaqs: Record<string, { question: string; answer: string }[]> = {
-  "Women's Care": [
-    { question: "What does M'Brace's Women's Care cover?", answer: "M'Brace's Women's Care covers gynaecology, high-risk pregnancy support, maternity care, laparoscopic surgery, menopause care and preventive health check-ups for women of all ages." },
-    { question: "Do I need a referral to see a gynaecologist at M'Brace?", answer: "Please contact our care team to confirm appointment and referral requirements for your consultation." },
-    { question: "Does M'Brace offer preconception counselling?", answer: "Preconception counselling is included in M'Brace's women's care services. Contact our team to arrange a consultation." },
-    { question: "Can M'Brace help with menopause-related concerns?", answer: "Menopause care is part of M'Brace's women's care services. Our care team can help you book a consultation." },
-    { question: "Is laparoscopic surgery available at M'Brace?", answer: "Laparoscopic surgery is listed among M'Brace's women's care services. Discuss your individual needs with a specialist during consultation." },
-  ],
-  "Child Care": [
-    { question: "What child care services does M'Brace offer?", answer: "Our child care services include paediatrics and neonatology, vaccination, developmental paediatrics, neonatal intensive care and paediatric surgery." },
-    { question: "Does M'Brace have NICU and PICU support?", answer: "M'Brace's multidisciplinary team is supported by advanced NICU and PICU facilities." },
-    { question: "How can I book a vaccination appointment?", answer: "Choose Book Vaccine or contact our care team to discuss availability and arrange your child's visit." },
-  ],
-  "Pregnancy & Birth Support": [
-    { question: "What pregnancy and birth support is available?", answer: "Our team brings together obstetricians, gynaecologists, paediatricians and neonatologists for connected pregnancy, maternity and newborn care." },
-    { question: "Does M'Brace provide high-risk pregnancy care?", answer: "High-risk pregnancy care is included in our services, backed by advanced hospital and critical care support." },
-    { question: "Where can I book a maternity consultation?", answer: "M'Brace welcomes you at LB Nagar and King Koti in Hyderabad. Select your preferred location when requesting an appointment." },
-  ],
-  "Fertility Care": [
-    { question: "What fertility services are available at M'Brace?", answer: "Our fertility services include IVF, fertility evaluation, IUI, fertility preservation and reproductive health support." },
-    { question: "Who will guide my fertility journey?", answer: "Our panel includes fertility specialists and embryologists. Every doctor works from one principle: explain clearly, decide together." },
-    { question: "How do I request a fertility consultation?", answer: "Select Fertility Care in the appointment form and choose your preferred location. You can also call our care team." },
-  ],
-};
+const homeFaqs = approvedCareFaqs;
 
 // Full articles (shown both as homepage teaser cards and at /blog, /blog/[slug]) —
 // seeded from the same copy the public pages fall back to when the database
@@ -170,11 +127,9 @@ async function main() {
   }
 
   for (const [categoryKey, faqs] of Object.entries(homeFaqs)) {
+    await prisma.faqItem.deleteMany({ where: { categoryKey } });
     for (const [i, faq] of faqs.entries()) {
-      const existing = await prisma.faqItem.findFirst({ where: { categoryKey, question: faq.question } });
-      if (!existing) {
-        await prisma.faqItem.create({ data: { categoryKey, question: faq.question, answer: faq.answer, order: i } });
-      }
+      await prisma.faqItem.create({ data: { categoryKey, question: faq.question, answer: faq.answer, order: i } });
     }
   }
 
@@ -183,23 +138,21 @@ async function main() {
     const category = await prisma.serviceCategory.upsert({
       where: { key },
       create: { key, label: key, order: i },
-      update: {},
+      update: { label: key, order: i },
     });
+    await prisma.serviceItem.deleteMany({ where: { categoryId: category.id } });
     for (const [j, [name, description]] of serviceGroups[key].entries()) {
-      const existing = await prisma.serviceItem.findFirst({ where: { categoryId: category.id, name } });
-      if (!existing) {
-        await prisma.serviceItem.create({
-          data: {
-            categoryId: category.id,
-            slug: slugify(name),
-            name,
-            description,
-            order: j,
-            detail: `${description} Our specialists take the time to understand your history and concerns first, then recommend a plan tailored to you — explained clearly, at every step.`,
-            heroImage: asset(serviceHeroImages[j % serviceHeroImages.length]),
-          },
-        });
-      }
+      await prisma.serviceItem.create({
+        data: {
+          categoryId: category.id,
+          slug: slugify(name),
+          name,
+          description,
+          order: j,
+          detail: description,
+          heroImage: asset(serviceHeroImages[j % serviceHeroImages.length]),
+        },
+      });
     }
   }
 
@@ -331,12 +284,17 @@ async function main() {
   }
 
   for (const { slug, label } of carePageSlugs) {
-    const existing = await prisma.careCategoryContent.findUnique({ where: { slug } });
-    if (!existing) {
-      await prisma.careCategoryContent.create({
-        data: { ...fallbackCareCategoryContent[label], slug, label, journey: fallbackCareCategoryContent[label].journey as unknown as Prisma.InputJsonValue },
-      });
-    }
+    const content = {
+      ...fallbackCareCategoryContent[label],
+      slug,
+      label,
+      journey: fallbackCareCategoryContent[label].journey as unknown as Prisma.InputJsonValue,
+    };
+    await prisma.careCategoryContent.upsert({
+      where: { slug },
+      create: content,
+      update: content,
+    });
   }
 
   console.log("Seed complete.");

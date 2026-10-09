@@ -22,6 +22,8 @@ type Props = {
 type SocialLink = { key: string; label: string; src: string; href?: string };
 
 export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
+  const footerServiceKey = serviceGroups["Child Care"] ? "Child Care" : Object.keys(serviceGroups)[0];
+  const footerServices = footerServiceKey ? serviceGroups[footerServiceKey] ?? [] : [];
   const socialCandidates: SocialLink[] = [
     { key: "instagram", label: "Instagram", src: "/images/figma/social-instagram.svg", href: social?.instagramUrl },
     { key: "facebook", label: "Facebook", src: "/images/figma/social-facebook.svg", href: social?.facebookUrl },
@@ -94,8 +96,8 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
           </div>
           <div>
             <h3>Services</h3>
-            <ul>{serviceGroups["Child Care"].slice(0, 7).map(([name]) => <li key={name}>
-              <a href={`${basePath}#services`} onClick={() => setServiceTab("Child Care")}>{name}</a>
+            <ul>{footerServices.slice(0, 7).map(([name]) => <li key={name}>
+              <a href={`${basePath}#services`} onClick={() => footerServiceKey && setServiceTab(footerServiceKey)}>{name}</a>
             </li>)}</ul>
           </div>
           <div>

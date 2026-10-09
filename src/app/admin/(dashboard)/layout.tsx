@@ -7,13 +7,13 @@ import { prisma } from "@/lib/prisma";
 import AdminNav, { type AdminNavEntry } from "@/app/admin/AdminNav";
 
 async function getNavEntries(): Promise<AdminNavEntry[]> {
-  const carePages: AdminNavEntry = { type: "entity", section: "Care & services", entity: { key: "care-pages", label: "Main & Child Services", listHref: "/admin/care-pages", addHref: "/admin/services", addLabel: "Add child service", activePrefixes: ["/admin/care-pages", "/admin/services"], children: [] } };
-  const faqs: AdminNavEntry = { type: "entity", section: "Home page", entity: { key: "faqs", label: "FAQs", listHref: "/admin/faqs", addHref: "/admin/faqs", addLabel: "Add FAQ", children: [] } };
-  const testimonials: AdminNavEntry = { type: "entity", section: "Home page", entity: { key: "testimonials", label: "Testimonials", listHref: "/admin/testimonials", addHref: "/admin/testimonials/new", addLabel: "Add testimonial", children: [] } };
-  const blogs: AdminNavEntry = { type: "entity", section: "Blog page", entity: { key: "blogs", label: "Blog & Articles", listHref: "/admin/blogs", addHref: "/admin/blogs/new", addLabel: "Add blog post", activePrefixes: ["/admin/blogs", "/admin/pages/blog"], children: [] } };
+  const carePages: AdminNavEntry = { type: "entity", section: "Services", entity: { key: "care-pages", label: "Main & Child Services", listHref: "/admin/care-pages", addHref: "/admin/services", addLabel: "Add child service", activePrefixes: ["/admin/care-pages", "/admin/services"], children: [] } };
+  const faqs: AdminNavEntry = { type: "entity", section: "Home", entity: { key: "faqs", label: "FAQs", listHref: "/admin/faqs", addHref: "/admin/faqs", addLabel: "Add FAQ", children: [] } };
+  const testimonials: AdminNavEntry = { type: "entity", section: "Home", entity: { key: "testimonials", label: "Testimonials", listHref: "/admin/testimonials", addHref: "/admin/testimonials/new", addLabel: "Add testimonial", children: [] } };
+  const blogs: AdminNavEntry = { type: "entity", section: "Blog", entity: { key: "blogs", label: "Blog & Articles", listHref: "/admin/blogs", addHref: "/admin/blogs/new", addLabel: "Add blog post", activePrefixes: ["/admin/blogs", "/admin/pages/blog"], children: [] } };
   const doctors: AdminNavEntry = { type: "entity", section: "Doctors page", entity: { key: "doctors", label: "Doctors", listHref: "/admin/doctors", addHref: "/admin/doctors/new", addLabel: "Add doctor", activePrefixes: ["/admin/doctors", "/admin/pages/doctors"], children: [] } };
   const doctorTips: AdminNavEntry = { type: "entity", section: "Doctors page", entity: { key: "doctor-tips", label: "Doctor Tips", listHref: "/admin/doctor-tips", addHref: "/admin/doctor-tips/new", addLabel: "Add doctor tip", children: [] } };
-  const locations: AdminNavEntry = { type: "entity", section: "Location pages", entity: { key: "locations", label: "Locations", listHref: "/admin/locations", addHref: "/admin/locations/new", addLabel: "Add location", children: [] } };
+  const locations: AdminNavEntry = { type: "entity", section: "Locations", entity: { key: "locations", label: "Locations", listHref: "/admin/locations", addHref: "/admin/locations/new", addLabel: "Add location", children: [] } };
 
   try {
     const [carePageRows, serviceCategories, careCategories, faqItems, testimonialRows, blogRows, doctorRows, doctorTipRows, locationRows] = await Promise.all([
@@ -60,28 +60,26 @@ async function getNavEntries(): Promise<AdminNavEntry[]> {
   return [
     { type: "link", section: "Overview", link: { key: "dashboard", label: "Dashboard", href: "/admin" } },
 
-    // Real, dynamic pages first — the accordion lists every individual
-    // /services/[slug], /blog/[slug], /doctors/[slug] and /locations/[slug]
-    // page that currently exists.
-    carePages,
-    blogs,
-    doctors,
-    doctorTips,
-    locations,
-
-    { type: "link", section: "Site-wide", link: { key: "settings", label: "Site Settings", href: "/admin/settings" } },
-
-    // Homepage-only content, lowest priority — not a page of its own.
-    { type: "link", section: "Home page", link: { key: "home-page", label: "Page & SEO Settings", href: "/admin/pages/home" } },
-    { type: "link", section: "Home page", link: { key: "hero", label: "Hero Section", href: "/admin/hero" } },
-    { type: "link", section: "Home page", link: { key: "stats", label: "Statistics", href: "/admin/stats" } },
+    // Page-first CMS order: Home → About → Services → Locations → Blog.
+    { type: "link", section: "Home", link: { key: "home-page", label: "Home Page & SEO", href: "/admin/pages/home" } },
+    { type: "link", section: "Home", link: { key: "hero", label: "Hero Section", href: "/admin/hero" } },
+    { type: "link", section: "Home", link: { key: "stats", label: "Statistics", href: "/admin/stats" } },
     faqs,
     testimonials,
 
-    { type: "link", section: "About page", link: { key: "about-page", label: "About Page & SEO", href: "/admin/pages/about" } },
+    { type: "link", section: "About Us", link: { key: "about-page", label: "About Page & SEO", href: "/admin/pages/about" } },
+
+    carePages,
+    locations,
+    blogs,
+
+    doctors,
+    doctorTips,
 
     { type: "link", section: "Leads", link: { key: "appointments", label: "Appointment Leads", href: "/admin/appointments" } },
     { type: "link", section: "Leads", link: { key: "subscribers", label: "Subscribers", href: "/admin/subscribers" } },
+
+    { type: "link", section: "Site-wide", link: { key: "settings", label: "Site Settings", href: "/admin/settings" } },
   ];
 }
 
