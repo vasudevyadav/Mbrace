@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PhoneIcon } from "@/components/icons/icons";
 import { asset } from "./content";
 import type { HomeData } from "@/lib/queries";
@@ -23,7 +24,7 @@ type Props = {
 
 type SocialLink = { key: string; label: string; src: string; href?: string };
 
-export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "", ctaHeading, ctaDescription }: Props) {
+export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, mapUrl, basePath = "", ctaHeading, ctaDescription }: Props) {
   const footerServiceKey = serviceGroups["Child Care"] ? "Child Care" : Object.keys(serviceGroups)[0];
   const footerServices = footerServiceKey ? serviceGroups[footerServiceKey] ?? [] : [];
   const socialCandidates: SocialLink[] = [
@@ -89,11 +90,11 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
               ["About Us", "/about"],
               ["Women’s Care", "/womens-care"],
               ["Child Care", "/child-care"],
-              ["Our Team", `${basePath}#team`],
+              ["Our Doctors", "/doctors"],
               ["Pregnancy & Birth Support", "/pregnancy-birth-support"],
               ["Fertility Care", "/fertility-care"],
             ].map(([text, href]) => <li key={text}>
-              <a href={href}>{text}</a>
+              <Link href={href}>{text}</Link>
             </li>)}</ul>
           </div>
           <div>
@@ -105,9 +106,9 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
           <div>
             <h3>Location</h3>
             <div className="mb-footer-locations flex gap-4.5 text-[12px] mb-4 [&>a:first-child]:text-care-gold">
-              <a href={`${basePath}#location`} onClick={() => setLocation("LB Nagar")}>LB Nagar</a>
+              <Link href="/locations/lb-nagar">LB Nagar</Link>
               <span>|</span>
-              <a href={`${basePath}#location`} onClick={() => setLocation("King Koti")}>King Koti</a>
+              <Link href="/locations/king-koti">King Koti</Link>
             </div>
             <a className="mb-footer-map block relative rounded-[8px] overflow-hidden max-w-87.5 [&_img]:w-full [&_img]:object-cover [&_img]:h-45 md:[&_img]:h-35 [&>span]:absolute [&>span]:right-2 [&>span]:bottom-2 [&>span]:bg-[#fff] [&>span]:text-[#333] [&>span]:pt-[5px] [&>span]:pr-2 [&>span]:pb-[5px] [&>span]:pl-2 [&>span]:rounded-[3px] [&>span]:text-[10px]" href={mapUrl} target="_blank" rel="noreferrer">
               <Image src={asset(6)} width={280} height={140} alt="Hospital location map" />
