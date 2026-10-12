@@ -32,13 +32,13 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
               <p className="text-[12px] font-bold uppercase text-care-purple">Our Team</p>
               <h2 className="mt-3 text-[32px] font-semibold leading-[1.2] text-care-navy md:text-[36px] lg:text-[40px]">{heading ?? <>Find Your <em>Gynaecologist</em></>}</h2>
               <div className="mt-5 h-px max-w-[400px] bg-[#d7c2e8]" />
-              <p className="mt-5 text-[14px] font-semibold leading-[1.5] text-[#656078]">Every doctor works from one principle:<strong className="block text-[16px] font-extrabold">Explain Clearly, Decide Together!</strong></p>
+              <p className="mt-5 text-[14px] font-semibold leading-[1.5] text-[#656078]">Every doctor with us works from one principle:<strong className="block text-[16px] font-extrabold">Explain Clearly. Decide Together.</strong></p>
             </div>
             <p className="pt-7 text-[14px] leading-[1.45] text-[#5e6178] lg:max-w-[500px]">{description}</p>
           </div>
 
-          <div className="mt-12 grid grid-flow-col auto-cols-[88%] gap-5 overflow-x-auto pb-2 [scroll-snap-type:x_mandatory] [scrollbar-width:thin] sm:auto-cols-[48%] lg:grid-flow-row lg:auto-cols-auto lg:grid-cols-4 lg:overflow-visible lg:pb-0">
-            {homeDoctors.slice(0, 4).map((doctor) => (
+          <div className="mt-12 grid grid-flow-col auto-cols-[88%] gap-5 overflow-x-auto pb-2 [scroll-snap-type:x_mandatory] [scrollbar-width:thin] sm:auto-cols-[48%] lg:grid-flow-row lg:auto-cols-auto lg:grid-cols-4 lg:overflow-visible lg:pb-0 xl:grid-cols-5">
+            {homeDoctors.slice(0, 5).map((doctor) => (
               <article key={doctor.name} className="flex min-w-0 flex-col rounded-[12px] bg-white p-[10px] text-center [scroll-snap-align:start]">
                 <Photo src={doctor.image} alt={doctor.name} className="mb-4 h-[230px] rounded-[10px] [&_img]:object-top" />
                 <h3 className="text-[15px] font-extrabold leading-[1.25] text-care-purple">{nameLink(doctor, doctor.name)}</h3>

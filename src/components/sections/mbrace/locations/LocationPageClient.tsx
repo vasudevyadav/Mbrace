@@ -15,7 +15,6 @@ import LocationHero from "./LocationHero";
 import ServicesAtLocation from "./ServicesAtLocation";
 import WhatToExpect from "./WhatToExpect";
 import OurCarePromise from "./OurCarePromise";
-import WhyPatientsChoose from "./WhyPatientsChoose";
 import VisitClinicCta from "./VisitClinicCta";
 import DynamicPageSections from "../DynamicPageSections";
 import type { BlogBlock } from "../blog/blogContent";
@@ -83,25 +82,21 @@ export default function LocationPageClient({ location, data }: { location: Locat
             email={location.email}
             book={book}
           />
-          <WhyPatientsChoose
-            locationName={location.name}
-            intro={location.whyChooseIntro}
-            stats={bysection("stat").map(s => ({ value: s.title, label: s.description }))}
-            features={bysection("feature")}
+          <LocationSection
+            location={location.name}
+            setLocation={setToggleLocation}
+            hospital={hospital}
+            setBookingLocation={setBookingLocation}
+            book={book}
+            mapUrl={location.mapUrl || mapUrl}
+            detailPage
+            reachIntro={location.reachIntro}
           />
           <ServicesAtLocation locationName={location.name} intro={location.introParagraph} image={location.servicesImage || location.heroImage} items={bysection("service")} />
           <WhatToExpect locationName={location.name} intro={location.whatToExpectIntro} steps={bysection("step")} />
           <OurCarePromise locationName={location.name} intro={location.carePromiseIntro} cards={bysection("promise")} />
         </>
       )}
-      <LocationSection
-        location={toggleLocation}
-        setLocation={setToggleLocation}
-        hospital={hospital}
-        setBookingLocation={setBookingLocation}
-        book={book}
-        mapUrl={mapUrl}
-      />
       <TestimonialsSection homeTestimonials={homeTestimonials} />
       <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
       <AppointmentSection

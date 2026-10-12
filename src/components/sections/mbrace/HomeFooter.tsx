@@ -17,11 +17,13 @@ type Props = {
   setLocation: (value: string) => void;
   mapUrl: string;
   basePath?: string;
+  ctaHeading?: string;
+  ctaDescription?: string;
 };
 
 type SocialLink = { key: string; label: string; src: string; href?: string };
 
-export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "" }: Props) {
+export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, setLocation, mapUrl, basePath = "", ctaHeading, ctaDescription }: Props) {
   const footerServiceKey = serviceGroups["Child Care"] ? "Child Care" : Object.keys(serviceGroups)[0];
   const footerServices = footerServiceKey ? serviceGroups[footerServiceKey] ?? [] : [];
   const socialCandidates: SocialLink[] = [
@@ -55,8 +57,8 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
         <div className="mb-footer-cta grid items-center pb-9.5 [border-bottom:1px_solid_#ffffff40] grid-cols-[1fr] gap-[25px] md:grid-cols-[1fr_1fr] lg:grid-cols-[1.4fr_1fr] md:gap-7.5 xl:gap-[55px] [&_h2]:text-[28px] md:[&_h2]:text-[25px] lg:[&_h2]:text-[27px] xl:[&_h2]:text-[32px] [&_h2]:leading-[1.5] [&_h2]:font-bold [&_h2]:tracking-[-.6px] [&_.mb-eyebrow]:text-[13px] [&_.mb-eyebrow]:text-white [&_.mb-eyebrow]:mb-2.5 [&_p:last-child]:text-[13px] [&_p:last-child]:mt-3.5 [&_form]:flex [&_form]:[background:linear-gradient(90deg,_#fff3df,_#f3e9fc)] [&_form]:pt-[7px] [&_form]:pr-[7px] [&_form]:pb-[7px] [&_form]:pl-[7px] [&_form]:rounded-[5px] [&_form]:max-w-full [&_input]:min-w-0 [&_input]:w-full [&_input]:text-[12px] [&_input]:pt-2.5 [&_input]:pr-2.5 [&_input]:pb-2.5 [&_input]:pl-2.5 [&_input]:text-[#464646] [&_input]:outline-offset-[0] [&_input]:bg-transparent [&_.mb-button]:min-h-9 [&_.mb-button]:pt-[13px] [&_.mb-button]:pr-[22px] [&_.mb-button]:pb-[13px] [&_.mb-button]:pl-[22px] [&_.mb-button]:rounded-[6px] [&_.mb-button.mb-gold]:bg-care-purple">
           <div>
             <p className="mb-eyebrow text-[12px] md:text-[14px] font-bold text-care-gold mb-3.5">Ready to Talk?</p>
-            <h2>Schedule Your <em className="not-italic text-care-gold font-extrabold">Consultation</em> Today!</h2>
-            <p className="text-[15px]! font-medium!">Whether you want to know about women&apos;s health, your child&apos;s care, pregnancy or fertility support, our expert multidisciplinary team is ready to assist.</p>
+            <h2>{ctaHeading ?? <>Schedule Your <em className="not-italic text-care-gold font-extrabold">Consultation</em> Today!</>}</h2>
+            <p className="text-[15px]! font-medium!">{ctaDescription ?? "Whether you want to know about women’s health, your child’s care, pregnancy or fertility support, our expert multidisciplinary team is ready to assist."}</p>
           </div>
           {subscribeStatus === "success" ? (
             <p className="rounded-[5px] bg-[#ffffff26] px-4 py-3.5 text-[13px] font-semibold" role="status">Thanks! We’ll keep you updated.</p>

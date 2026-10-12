@@ -45,6 +45,28 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const faqCategory = matchCareCategory(service.category.label, careCategories);
   const blocks = (Array.isArray(service.blocks) ? service.blocks : []) as Array<BlogBlock | DynamicPageSection>;
+  const isGynecology = service.slug === "gynaecology";
+  const gynecologyFaqs = {
+    "Your First Visit": [
+      { question: "Do I need a referral to see a gynaecologist?", answer: "No. You can book directly at LB Nagar or King Koti. Bring any earlier scan reports and blood tests, and a note of your cycle dates and symptoms." },
+      { question: "Can I see a gynaecologist during my period?", answer: "Yes, for most concerns. If a Pap smear or swab is planned, a mid-cycle appointment is better, but heavy bleeding or pain should be checked at any time." },
+      { question: "When should a young woman first see a gynaecologist?", answer: "Whenever period problems, severe pain or other concerns arise. Many girls first visit in their teens, and an internal examination is usually not needed at that age." },
+    ],
+    "Common Conditions": [
+      { question: "Are fibroids dangerous?", answer: "Most fibroids are non-cancerous and cause no symptoms. Treatment is needed only if they cause heavy bleeding, pain, pressure or fertility problems, and the approach depends on their size and position." },
+      { question: "Can PCOS be cured?", answer: "PCOS cannot be cured, but its symptoms can be controlled. Regular cycles, ovulation and skin symptoms often improve with lifestyle changes and medicines, and fertility treatment is available if needed." },
+      { question: "Is period pain normal?", answer: "Mild cramps are common. Pain that stops daily activities, worsens over time or comes with heavy bleeding may point to endometriosis, fibroids or infection, and should be checked." },
+    ],
+    Treatment: [
+      { question: "Will I need surgery?", answer: "Not necessarily. Many conditions respond to medicines. Surgery is advised only when symptoms persist, a growth is large or a diagnosis needs confirmation, and keyhole methods are preferred where suitable." },
+      { question: "Can treatment affect my fertility?", answer: "Your gynaecologist considers your pregnancy plans before choosing treatment. Fertility-sparing options, such as removing fibroids or cysts while keeping the uterus and ovaries, are preferred whenever possible." },
+    ],
+    "About M’Brace": [
+      { question: "Is gynaecology available in LB Nagar and King Koti?", answer: "Yes. M’Brace offers gynaecology in LB Nagar and gynaecology in King Koti, with consultations, ultrasound, lab tests and procedures at both Kamineni Hospitals units." },
+      { question: "How do I choose the best gynaecologist in Hyderabad?", answer: "Look for consultant-level qualifications, surgical experience if a procedure may be needed, on-site ultrasound and laboratory facilities, and a clear explanation of your options. M’Brace’s gynaecologists hold DGO, DNB, MD or MS qualifications, with laparoscopic and fertility expertise in the same team." },
+      { question: "What should I look for in the best obstetrics & gynecology hospital in Hyderabad?", answer: "Pregnancy care and gynaecology under one roof, with ultrasound, laboratory, theatres and a NICU on site. M’Brace combines these within NABH- and NABL-accredited Kamineni Hospitals, so care continues from gynaecology to pregnancy and delivery." },
+    ],
+  };
 
   function book(serviceName = "", doctorName = "", type = "") {
     setBookingService(serviceName || service.name);
@@ -76,19 +98,27 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         book={book}
         careCategories={careCategories}
         hospital={hospital}
+        isGynecology={isGynecology}
       />
       {blocks.length > 0 ? <DynamicPageSections blocks={blocks} /> : <GynecologyDetailSections book={() => book(service.name)} />}
 
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
-        homeDoctors={doctors}
+        homeDoctors={isGynecology && featuredDoctor ? [featuredDoctor, ...doctors.filter((doctor) => doctor.slug !== featuredDoctor.slug)] : doctors}
         heading={<>Find Your <em>Gynaecologist</em></>}
-        description="Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad."
+        description={isGynecology ? "Looking for a gynaecologist in Hyderabad? M’Brace’s five senior consultants cover medical gynaecology, laparoscopic and robotic surgery, and fertility, so one team can manage your condition from diagnosis to recovery." : undefined}
         getProfileHref={(d) => `/doctors/${d.slug}`}
         layout="service-detail"
       />
-      <FaqSection careCategories={[faqCategory, ...careCategories.filter(c => c !== faqCategory)]} homeFaqs={homeFaqs} />
+      <FaqSection
+        careCategories={isGynecology ? Object.keys(gynecologyFaqs) : [faqCategory, ...careCategories.filter(c => c !== faqCategory)]}
+        homeFaqs={isGynecology ? gynecologyFaqs : homeFaqs}
+        label={isGynecology ? "Frequently Asked Questions" : undefined}
+        heading={isGynecology ? "Your Queries" : undefined}
+        highlight={isGynecology ? "Answered by Experts." : undefined}
+        description={isGynecology ? "What women most often ask before seeing a gynaecologist." : undefined}
+      />
       <LocationSection
         location={location}
         setLocation={setLocation}
@@ -114,6 +144,9 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         bookingLocation={bookingLocation}
         setBookingLocation={setBookingLocation}
         hospital={hospital}
+        label={isGynecology ? "Have a Gynaecological Concern?" : undefined}
+        heading={isGynecology ? "Book Appointment Today" : undefined}
+        description={isGynecology ? "Fill in the form and the M’Brace care team will call you to fix a consultation with a gynaecologist in LB Nagar or King Koti." : undefined}
       />
       <HomeFooter
         hospital={hospital}
@@ -122,6 +155,8 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         setLocation={setLocation}
         mapUrl={mapUrl}
         basePath="/"
+        ctaHeading={isGynecology ? "Speak to a Women’s Specialist" : undefined}
+        ctaDescription={isGynecology ? "Questions about pregnancy, gynaecology, menopause or preventive health? Share your email and the M’Brace team will contact you to arrange a consultation." : undefined}
       />
     </div>
   );
