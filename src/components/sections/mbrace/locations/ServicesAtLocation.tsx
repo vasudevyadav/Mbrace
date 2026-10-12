@@ -11,7 +11,7 @@ export default function ServicesAtLocation({ locationName, intro, image, items }
 
   return (
     <section className="mb-section mb-rounded rounded-[20px] bg-[linear-gradient(110deg,#fff3df,#f3e9fc)] py-12 md:rounded-[28px] md:py-16 lg:py-20">
-      <div className="mb-container mx-auto grid w-full gap-10 px-5 sm:px-6 lg:max-w-6xl lg:grid-cols-2 lg:items-start lg:px-8">
+      <div className="mb-container mx-auto grid w-full gap-10 px-5 sm:px-6 lg:max-w-[1130px] lg:grid-cols-[560px_555px] lg:items-start lg:gap-[45px] lg:px-0">
         <div>
           <p className="mb-eyebrow text-[14px] font-bold text-care-purple mb-3">Services Available</p>
           <h2 className="mb-5 text-[28px] font-bold leading-[1.2] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
@@ -38,7 +38,7 @@ export default function ServicesAtLocation({ locationName, intro, image, items }
           <p className="hidden text-[15px] leading-[1.65] text-[#5d6078] lg:block">{intro}</p>
           {image && (
             <div className="relative h-80 overflow-hidden rounded-[20px] lg:h-[440px]">
-              <Image src={image} alt={`M'Brace, ${locationName}`} fill className="object-cover" />
+              <Image src={image} alt={`M'Brace, ${locationName}`} fill sizes="(max-width: 1023px) 100vw, 555px" className="object-cover" />
               <div className="absolute bottom-0 left-12 min-w-[194px] rounded-t-[12px] bg-care-gold px-7 py-4 text-center text-white">
                 <strong className="block text-[22px]">35+</strong><span className="text-[13px]">Years of Expert Care</span>
               </div>

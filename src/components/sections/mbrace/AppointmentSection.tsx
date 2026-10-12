@@ -25,18 +25,20 @@ type Props = {
   bookingLocation: string;
   setBookingLocation: (value: string) => void;
   hospital: HomeData["hospital"];
+  label?: string;
+  heading?: string;
+  description?: string;
 };
 
-export default function AppointmentSection({ status, setStatus, formRef, submitAppointment, bookingDoctor, bookingType, bookingEmail, setBookingEmail, bookingDate, setBookingDate, bookingService, setBookingService, careCategories, bookingLocation, setBookingLocation, hospital }: Props) {
+export default function AppointmentSection({ status, setStatus, formRef, submitAppointment, bookingDoctor, bookingType, bookingEmail, setBookingEmail, bookingDate, setBookingDate, bookingService, setBookingService, careCategories, bookingLocation, setBookingLocation, hospital, label = "BOOK AN APPOINTMENT", heading = "Book Appointment Today!", description = "Complete the form and our care team will contact you to schedule a confidential consultation." }: Props) {
 
   return (
     <section id="appointment" className="mb-section mb-tinted mb-rounded rounded-[20px] py-12 [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple [&_p]:leading-[1.65] md:rounded-[26px] md:py-10 lg:py-20">
       <div className="mb-container mb-appointment mx-auto grid w-full items-center gap-8 px-5 md:px-6 md:grid-cols-2 md:gap-9 lg:max-w-6xl lg:gap-26 lg:px-8 [&_.mb-heading]:mb-4.5 [&>div>p]:text-[14px] [&>.mb-photo]:h-90 md:[&>.mb-photo]:h-140">
         <Photo n={18} alt="A mother smiles at her baby" />
         <div>
-          <Heading label="BOOK AN APPOINTMENT">
-            <em className="not-italic text-care-gold font-extrabold">Book Appointment</em> Today!</Heading>
-          <p>Complete the form and our care team will contact you to schedule a confidential consultation.</p>
+          <Heading label={label}>{heading}</Heading>
+          <p>{description}</p>
           {status === "success" ? <div className="mb-form-result pt-7.5 pr-7.5 pb-7.5 pl-7.5 bg-white rounded-[15px] mt-5 [&_svg]:w-10 [&_svg]:text-care-purple [&_h3]:font-bold [&_h3]:text-[21px] [&_h3]:text-care-navy [&_h3]:mt-[15px] [&_h3]:mb-[15px] [&_.mb-button]:mt-5" role="status">
             <CheckIcon />
             <h3>Appointment request sent</h3>

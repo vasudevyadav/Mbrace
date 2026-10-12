@@ -5,34 +5,32 @@ import { useState } from "react";
 
 const understanding = [
   [
-    "Discuss Your Concerns",
-    "Share your symptoms, health history, and questions with our specialist in a safe, supportive environment.",
+    "Describe Your Symptoms",
+    "Cycle pattern, bleeding, pain, discharge and bladder symptoms are recorded, along with pregnancy plans and current medicines.",
   ],
   [
-    "Assess Your Health",
-    "Undergo necessary examinations and diagnostics to get a clear picture of your gynaecological health.",
+    "Get Examined",
+    "A pelvic examination is carried out only with your consent, and its purpose is explained beforehand.",
   ],
   [
-    "Explore Your Options",
-    "Understand all available care pathways — from lifestyle guidance to clinical treatment — tailored to your needs.",
+    "Confirm the Cause",
+    "Pelvic ultrasound, hormone and blood tests, a Pap smear or swabs identify the exact condition.",
   ],
   [
-    "Plan Follow-up Care",
-    "Leave with a clear follow-up plan, next steps, and ongoing support from the M'Brace care team.",
+    "Choose Your Treatment",
+    "Medicines, minor procedures or keyhole surgery are compared, with fertility and future plans taken into account.",
   ],
 ];
 
 const concerns = [
-  ["PCOS & Ovulation", "Questions about your cycle, PCOS, or ovulation."],
-  ["Period Concerns", "Heavy, painful, irregular, or missed periods."],
-  [
-    "Fibroids & Ovarian Cysts",
-    "Understanding your diagnosis and care options.",
-  ],
-  ["Pelvic Pain & Endometriosis", "Persistent discomfort or pelvic pain."],
-  ["Menopause", "Support with symptoms during this transition."],
-  ["Vaginal Health", "Intimate discharge, itching, or discomfort."],
-  ["Family Planning", "Honest contraception and pregnancy planning."],
+  ["Period Problems", "Heavy, painful, irregular or missed periods."],
+  ["PCOS", "Irregular cycles, acne and ovulation problems."],
+  ["Fibroids", "Non-cancerous growths causing bleeding, pain or pressure."],
+  ["Ovarian Cysts", "Fluid-filled sacs needing monitoring or removal."],
+  ["Endometriosis", "Painful periods, pelvic pain or difficulty conceiving."],
+  ["Pelvic Infections", "Pelvic inflammatory disease and recurrent vaginal infections."],
+  ["Cervical Changes", "Abnormal Pap smears, cervical polyps or erosion."],
+  ["Prolapse & Bladder", "Pelvic heaviness, leaking or urgency."],
 ];
 
 const concernIcons = [
@@ -43,137 +41,138 @@ const concernIcons = [
   "/Icon BG.png",
   "/healthicons_syringe.png",
   "/healthicons_child-care.png",
+  "/gridicons_lo.png",
 ];
 
 const tools = [
   {
     category: "Imaging",
     title: "Pelvic Ultrasound",
-    description: "Imaging to assess the uterus and ovaries.",
+    description: "Shows the uterus, ovaries and lining, including fibroids and cysts.",
     image: "/images/figma/asset-21.webp",
   },
   {
-    category: "Diagnostics",
-    title: "Laboratory Investigations",
-    description: "Tests selected for your symptoms and health history.",
+    category: "Laboratory",
+    title: "Hormone & Blood Tests",
+    description: "Check hormones, thyroid, haemoglobin and infection markers.",
     image: "/images/figma/asset-19.webp",
   },
   {
-    category: "Endoscopy",
-    title: "Hysteroscopy",
-    description: "A small camera to examine the inside of the uterus.",
+    category: "Screening",
+    title: "Pap Smear & Swabs",
+    description: "Detect cervical changes and identify vaginal infections.",
     image: "/images/figma/asset-20.webp",
   },
   {
-    category: "Surgery",
-    title: "Laparoscopy",
-    description: "A surgical approach for selected conditions.",
+    category: "Advanced Imaging",
+    title: "Pelvic MRI",
+    description: "Maps deep endometriosis or complex fibroids when needed.",
     image: "/images/figma/location-services-alt.png",
   },
 ];
 
 const treatmentPlans = [
   {
-    label: "Menstrual Health",
+    label: "Medicines",
     icon: "/icon-3.png",
-    journey: "Menstrual Health — Your journey, step by step",
+    journey: "First-Line Treatment for Many Conditions",
     stages: [
       [
-        "Consultation & Menstrual Health Assessment",
-        "Discuss heavy, painful, irregular or missed periods, cycle patterns, and your medical history. Your doctor may recommend appropriate examinations or tests based on your symptoms.",
+        "When Medicines Are Used",
+        "Heavy or painful periods, PCOS, infections and small fibroids are often managed with tablets, hormonal treatment or antibiotics before any procedure is considered.",
       ],
       [
-        "Personalised Treatment & Follow-Up",
-        "Discuss suitable options based on your assessment, preferences and health goals. Your doctor will guide you on symptom tracking and plan a follow-up that works for you.",
+        "Reviewing the Response",
+        "Your gynaecologist checks bleeding, pain and test results after a few months, and changes the plan if symptoms persist.",
       ],
     ],
-    cta: "Discuss Your Period Concerns",
-    overlay: "Care guided by your diagnosis",
+    cta: "Discuss Treatment Options",
+    overlay: "Treatment guided by your diagnosis",
   },
   {
-    label: "PCOS Care",
+    label: "Hysteroscopy",
     icon: "/healthicons_medical-records-outline.png",
-    journey: "PCOS Care — Clarity at every step",
+    journey: "A Look Inside the Uterus",
     stages: [
       [
-        "PCOS Consultation & Assessment",
-        "Review cycle changes, symptoms, health history and previous reports. Your doctor may advise focused examinations or investigations.",
+        "What It Shows",
+        "A thin camera passed through the cervix examines the uterine lining for polyps, fibroids or causes of abnormal bleeding, without any cuts.",
       ],
       [
-        "Personalised PCOS Care Plan",
-        "Receive guidance for symptom management, lifestyle support and follow-up based on your diagnosis and individual health goals.",
+        "Treatment in the Same Sitting",
+        "Polyps or small fibroids inside the uterus can often be removed during the same procedure, usually as a day-care case.",
       ],
     ],
-    cta: "Discuss Your PCOS Concerns",
-    overlay: "PCOS care shaped around you",
+    cta: "Ask About Hysteroscopy",
+    overlay: "A clear view of the uterine lining",
   },
   {
-    label: "Fibroid & Cyst Care",
+    label: "Colposcopy",
     icon: "/gridicons_lo.png",
-    journey: "Fibroid & Cyst Care — Informed next steps",
+    journey: "After an Abnormal Pap Smear",
     stages: [
       [
-        "Clinical Review & Diagnosis",
-        "Discuss pain, bleeding or pressure symptoms. Your specialist will review your history and recommend imaging or tests where appropriate.",
+        "Magnified Examination",
+        "A colposcope magnifies the cervix so abnormal areas can be seen clearly, with a small biopsy taken if needed.",
       ],
       [
-        "Treatment & Monitoring Plan",
-        "Understand suitable medical, monitoring or procedural options, with a clear follow-up plan tailored to your condition.",
+        "Treating Early Changes",
+        "Precancerous changes found early can be treated before they progress, followed by repeat screening at agreed intervals.",
       ],
     ],
-    cta: "Discuss Fibroid & Cyst Care",
-    overlay: "Clear options for confident decisions",
+    cta: "Discuss Your Pap Result",
+    overlay: "Early changes assessed carefully",
   },
   {
-    label: "Endometriosis",
+    label: "Keyhole Surgery",
     icon: "/Vector.png",
-    journey: "Endometriosis — Support through every stage",
+    journey: "When an Operation Is Needed",
     stages: [
       [
-        "Symptoms & Health Assessment",
-        "Share your pain patterns, cycle concerns and medical history in a supportive consultation focused on understanding your symptoms.",
+        "Conditions Treated",
+        "Larger fibroids, ovarian cysts, endometriosis and some cases of chronic pelvic pain may need laparoscopic surgery.",
       ],
       [
-        "Ongoing Endometriosis Care",
-        "Explore appropriate treatment and symptom-management options with regular review and follow-up from your care team.",
+        "Preserving Fertility",
+        "Wherever possible, the uterus and healthy ovarian tissue are preserved, especially for women planning a pregnancy.",
       ],
     ],
-    cta: "Discuss Endometriosis Care",
-    overlay: "Care that listens to your symptoms",
+    cta: "Explore Laparoscopic Surgery",
+    overlay: "Surgery planned around your future",
   },
   {
-    label: "Menopause Care",
+    label: "Pelvic Floor Care",
     icon: "/Icon BG.png",
-    journey: "Menopause Care — Support for your transition",
+    journey: "Prolapse and Bladder Symptoms",
     stages: [
       [
-        "Menopause Health Consultation",
-        "Discuss physical and emotional changes, symptoms, lifestyle and health history with an experienced specialist.",
+        "Non-Surgical Options",
+        "Pelvic floor exercises, vaginal pessaries and treatment for constipation or chronic cough can ease heaviness and mild leaking.",
       ],
       [
-        "Personalised Symptom Support",
-        "Receive practical guidance, suitable treatment options and ongoing monitoring designed around your comfort and wellbeing.",
+        "Surgical Repair",
+        "When symptoms persist, vaginal wall repair or pelvic floor reconstruction restores support to the pelvic organs.",
       ],
     ],
-    cta: "Discuss Menopause Care",
-    overlay: "Support for every stage of change",
+    cta: "Discuss Pelvic Symptoms",
+    overlay: "Support for pelvic floor symptoms",
   },
   {
-    label: "Fertility Assessment",
+    label: "Ongoing Monitoring",
     icon: "/healthicons_doctor-female.png",
-    journey: "Fertility Assessment — A clear way forward",
+    journey: "Conditions That Need Regular Review",
     stages: [
       [
-        "Fertility Consultation & Review",
-        "Your specialist will understand your history, goals and concerns, then recommend the most relevant initial assessments.",
+        "Watchful Follow-up",
+        "Small cysts, fibroids without symptoms and mild endometriosis are often monitored with periodic ultrasound rather than treated straight away.",
       ],
       [
-        "Guidance & Next-Step Planning",
-        "Review your results and possible pathways with clear explanations, personalised recommendations and continued support.",
+        "When to Return Sooner",
+        "Sudden severe pain, very heavy bleeding, fever or bleeding after menopause need prompt review before the next scheduled visit.",
       ],
     ],
-    cta: "Book a Fertility Assessment",
-    overlay: "Your fertility journey, thoughtfully guided",
+    cta: "Plan Your Follow-up",
+    overlay: "Monitoring matched to your condition",
   },
 ];
 
@@ -224,19 +223,18 @@ export default function GynecologyDetailSections({
         <div className="mx-auto grid max-w-[1320px] gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:gap-20">
           <div>
             <p className="text-[12px] font-bold text-care-gold lg:text-[13px]">
-              How M&apos;Brace Works for You
+              How M&apos;Brace Plans Your Treatment
             </p>
             <h2 className="mt-5 text-[28px] font-semibold leading-[1.35] md:text-[32px] lg:text-[36px]">
-              Care That Starts With
+              From 1st Symptom to Clear Diagnosis
               <br />
-              Understanding You
+              Treatment Based On Real Findings!
             </h2>
           </div>
           <p className="max-w-[500px] text-[13px] leading-[1.75] text-white/90 lg:text-[14px]">
-            Gynaecology focuses on menstrual and reproductive health through
-            different stages of life. A consultation can help you understand
-            your symptoms and discuss your next steps — so you feel heard,
-            informed, and cared for.
+            Many gynaecological conditions are treated with medicines alone,
+            while others need a procedure. Your gynaecologist decides only
+            after examination and test results show what is causing your symptoms.
           </p>
         </div>
         <div className="relative z-10 mx-auto mt-8 flex max-w-[1305px] snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:absolute lg:inset-x-[2.5%] lg:top-[calc(100%-135px)] lg:mt-0 lg:grid-cols-4 lg:gap-[18px]">
@@ -268,24 +266,24 @@ export default function GynecologyDetailSections({
         <div className="mx-auto grid max-w-[1180px] items-center gap-10 lg:grid-cols-[1fr_520px] lg:gap-[72px]">
           <div>
             <p className="text-[13px] font-semibold text-care-gold">
-              Gynaecology Care
+              Why Choose Us
             </p>
             <h2 className="mt-4 text-[31px] font-semibold leading-[1.22] text-care-navy md:text-[36px] lg:text-[40px]">
-              Expert <span className="text-care-gold">Gynaecology</span>
+              Specialist <span className="text-care-gold">Gynaecology</span>
               <br />
-              Treatment in Hyderabad
+              in Hyderabad
             </h2>
             <p className="mt-7 max-w-[560px] text-[15px] leading-[1.78] text-[#656078] lg:text-[16px]">
-              M&apos;Brace, part of the Kamineni Healthcare Group, offers
-              gynaecology care for women at every stage of life. Discuss
-              menstrual concerns, hormonal changes and reproductive health
-              questions with our specialists.
+              Your care is led by senior consultant gynaecologists, including
+              laparoscopic and robotics surgeons and fertility specialists. If a
+              condition needs surgery or affects fertility, treatment continues
+              with the same team rather than a referral elsewhere.
             </p>
             <p className="mt-6 max-w-[560px] text-[15px] leading-[1.78] text-[#656078] lg:text-[16px]">
-              Your consultation includes a review of your symptoms and health
-              history, with assessments as needed. Treatment recommendations are
-              guided by your diagnosis, with clear explanations of your options
-              and follow-up care.
+              As a gynaecology hospital in Hyderabad within NABH- and
+              NABL-accredited Kamineni Hospitals, M&apos;Brace has ultrasound,
+              laboratory testing, hysteroscopy and sterile theatres on site, so
+              diagnosis and any procedure happen in the same place.
             </p>
             <button
               onClick={book}
@@ -320,25 +318,24 @@ export default function GynecologyDetailSections({
         <div className="mx-auto grid max-w-[1250px] gap-10 lg:grid-cols-[370px_1fr] lg:gap-[76px]">
           <div>
             <p className="text-sm font-bold uppercase tracking-[3px] text-care-gold">
-              Our Specialities
+              Conditions Treated
             </p>
             <h2 className="mt-5 text-[32px] font-semibold leading-lighr text-care-navy md:text-[36px] lg:text-4xl">
-              What Can We
+              Which Conditions Do We
               <br />
-              <span className="text-care-gold">Help</span> You With?
+              <span className="text-care-gold">Treat?</span>
             </h2>
             <p className="mt-8 text-[15px] leading-[1.72] text-[#57535d] lg:text-[16px]">
-              Every woman&apos;s health journey is unique. Our gynaecology team
-              offers compassionate, expert care across a wide range of concerns
-              — from everyday questions to complex conditions. We&apos;re here
-              to listen, guide, and support you.
+              These are the concerns gynaecologists see most often. Several
+              share symptoms, such as pain or heavy bleeding, which is why
+              diagnosis comes before treatment.
             </p>
             <div className="mt-8 h-1 w-12 rounded-full bg-care-gold" />
             <ul className="mt-7 space-y-4 text-[14px] font-medium text-[#56515c]">
               {[
-                "Personalised care plans",
-                "Care at every life stage",
-                "Clear guidance on your options",
+                "Diagnosis confirmed before treatment",
+                "Medicines tried before surgery where suitable",
+                "Fertility protected wherever possible",
               ].map((x) => (
                 <li key={x} className="flex items-center gap-3">
                   <span className="size-2 rounded-full bg-care-purple" />
@@ -350,7 +347,7 @@ export default function GynecologyDetailSections({
               onClick={book}
               className="mt-8 min-h-[52px] w-full rounded-[6px] bg-care-purple px-6 py-3.5 text-[14px] font-bold text-white sm:w-auto sm:min-w-[245px]"
             >
-              Discuss Your Concern&nbsp;&nbsp; →
+              Speak to a Gynaecologist&nbsp;&nbsp; →
             </button>
           </div>
           <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:hidden">
@@ -435,21 +432,21 @@ export default function GynecologyDetailSections({
                 Treatment Pathways
               </p>
               <h2 className="mt-7 text-[30px] font-semibold leading-[1.25] md:text-[36px] lg:text-[40px]">
-                Treatment Planned Around
-                <br className="hidden sm:block" /> Your Needs
+                Which Women Concerns
+                <br className="hidden sm:block" /> Need Attention?
               </h2>
             </div>
             <div>
               <p className="text-[16px] leading-[1.55] text-white/90 lg:text-[17px]">
-                Your doctor will explain suitable options based on your
-                symptoms, assessment, and health goals — giving you clarity and
-                confidence at every step.
+                Gynaecology treatment at M&apos;Brace starts with the least invasive
+                option that suits your condition. Select a treatment to see when
+                it is used and what it involves.
               </p>
               <button
                 onClick={book}
                 className="mt-5 min-h-[52px] w-full rounded-[6px] bg-care-gold px-7 py-3.5 text-[14px] font-bold text-[#21172b] sm:w-auto sm:min-w-[220px]"
               >
-                Book a Consultation
+                Speak to a Gynaecologist
               </button>
             </div>
           </div>
@@ -560,14 +557,14 @@ export default function GynecologyDetailSections({
                 Diagnostics &amp; Procedures
               </p>
               <h2 className="mt-4 text-[32px] font-semibold leading-[1.18] text-care-navy md:text-[36px] lg:text-[40px]">
-                Tools That <span className="text-care-gold">Support</span>
+                Tests That <span className="text-care-gold">Confirm</span>
                 <br />
-                Your Care
+                Your Diagnosis
               </h2>
             </div>
             <p className="max-w-[510px] text-[15px] leading-[1.55] text-[#343238] lg:text-[16px]">
-              Your doctor may recommend investigations or procedures based on
-              your clinical needs.
+              Your gynaecologist chooses tests according to your symptoms, age
+              and examination findings.
             </p>
             <button
               onClick={book}
