@@ -11,9 +11,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "high-risk-pregnancy-care": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist High-Risk Pregnancy Care",
-      "body": "",
+      "eyebrow": "How M’Brace Plans Your Treatment",
+      "heading": "From 1st Visit to Birth\nExpert Care With A Clear Plan!",
+      "body": "Compared with routine antenatal care, you can expect more frequent check-ups, targeted scans and tests, and a delivery plan agreed in advance. Your obstetrician sets each step according to your condition and stage of pregnancy.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -158,9 +158,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "maternity-care": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Maternity Care",
-      "body": "",
+      "eyebrow": "How M’Brace Supports Your Pregnancy",
+      "heading": "From +ve Test to Going Home\nClear Plans for Every Step!",
+      "body": "Your antenatal schedule, scans, birth preferences and newborn checks are set out early, so you know what each visit covers and who to call between appointments.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -305,9 +305,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "laparoscopic-surgery": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Laparoscopy Surgery",
-      "body": "",
+      "eyebrow": "How M’Brace Plans Your Surgery",
+      "heading": "From 1st Scan to Operation Day\nEvery Step Explained Clearly!",
+      "body": "Before any operation is booked, your surgeon confirms the cause, checks whether a keyhole approach suits you and compares it with other options, so you decide with full information.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -452,9 +452,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "menopause-care": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Menopause Care",
-      "body": "",
+      "eyebrow": "How M’Brace Plans Your Care",
+      "heading": "From 1st Symptoms to\nLong-Term Health, Explained Clearly!",
+      "body": "Your first visit looks at your current symptoms and at health risks that rise after menopause, such as bone loss and heart disease, so treatment addresses both today and the years ahead.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -599,9 +599,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "preventive-women-s-health-packages": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Preventive Women's Health Packages",
-      "body": "",
+      "eyebrow": "How M’Brace Plans Your Screening",
+      "heading": "From Booking to Results Review\nScreening That Fits Your Age!",
+      "body": "Rather than one fixed list for everyone, your package is chosen after a short review of your age, symptoms and family history, so you are screened for what matters most at your life stage.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -746,9 +746,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "preconception-counselling": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Preconception Counselling",
-      "body": "",
+      "eyebrow": "How M’Brace Prepares You",
+      "heading": "From 1st Consultation to Conception\nA Clear Checklist for Both Partners!",
+      "body": "The aim is to find and fix anything that could affect conception or early pregnancy, from vitamin levels to long-term conditions, while there is still time to act.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -893,9 +893,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "women-s-wellness-support": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Women's Wellness Support",
-      "body": "",
+      "eyebrow": "How M’Brace Supports Your Wellbeing",
+      "heading": "From Vague Symptoms to Clear Answers\nA Plan That Fits Your Routine!",
+      "body": "Symptoms such as fatigue or weight gain can have several causes, from anaemia to thyroid or hormonal changes. Your plan starts with finding the cause, not just treating the symptom.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1040,9 +1040,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "paediatrics-neonatology": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Paediatrics & Neonatology",
-      "body": "",
+      "eyebrow": "How M’Brace Cares for Your Child",
+      "heading": "From First Check-Up to School Years\nCare That Grows With Your Child!",
+      "body": "Routine visits track growth, development and immunisation at set ages, while sick visits focus on finding the cause quickly. Seeing both together means patterns in your child’s health are noticed early.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1187,9 +1187,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "developmental-paediatrics": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Developmental Paediatrics",
-      "body": "",
+      "eyebrow": "How M’Brace Assesses Development",
+      "heading": "From First Concern to Support Plan\nClear Answers, Step by Step!",
+      "body": "Assessment looks at what your child can do across several areas, not just the one that worried you, so related delays are not missed.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1334,9 +1334,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "nicu-neonatal-intensive-care": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist NICU",
-      "body": "",
+      "eyebrow": "How M’Brace Cares for Your Baby",
+      "heading": "From Admission to Going Home\nYour Baby’s Progress Explained Clearly!",
+      "body": "Every NICU stay follows the same principle: stabilise first, support what your baby cannot yet do alone, then step down as your baby grows stronger.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1481,9 +1481,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "picu-paediatric-intensive-care": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist PICU",
-      "body": "",
+      "eyebrow": "How M’Brace Cares for Critically Ill Children",
+      "heading": "From Emergency to Recovery\nEvery Decision Explained to You!",
+      "body": "Intensive care supports breathing, circulation and the brain while the underlying illness is treated, then reduces that support as your child improves.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1628,9 +1628,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "paediatric-emergency": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Paediatric Emergency",
-      "body": "",
+      "eyebrow": "How M’Brace Handles Emergencies",
+      "heading": "From Arrival to Admission or Home\nAll Process Under One Roof!",
+      "body": "Every child is assessed on arrival so the sickest are treated first. Parents are told what is happening at each stage, and children who can go home leave with clear instructions.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1727,7 +1727,7 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
     {
       "kind": "content",
       "eyebrow": "Diagnostics & Monitoring",
-      "heading": "Tests Used in Paediatric Emergencies",
+      "heading": "Tests May Used in Paediatric Emergencies",
       "body": "Tests are done close to the emergency area, so results guide treatment quickly.",
       "image": "",
       "imageAlt": "",
@@ -1775,9 +1775,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "fertility-evaluation": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Fertility Evaluation",
-      "body": "",
+      "eyebrow": "How M’Brace Evaluates Fertility",
+      "heading": "Care From 1st Consultation to a Clear Diagnosis",
+      "body": "Infertility can involve the woman, the man or both, and sometimes more than one factor at once. Testing both partners together avoids months of treatment aimed at the wrong cause.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -1922,9 +1922,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "male-fertility-care": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Male Fertility Care",
-      "body": "",
+      "eyebrow": "How M’Brace Assesses Male Fertility",
+      "heading": "From Semen Report to Treatment Plan,\nAll Covered!",
+      "body": "Male factors are involved in many couples’ fertility difficulties, and most can be assessed with simple tests. The aim is to find a cause that can be treated, not just to work around it.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -2069,9 +2069,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "ovulation-tracking": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Ovulation Tracking",
-      "body": "",
+      "eyebrow": "How M’Brace Tracks Ovulation",
+      "heading": "Everyday From Day 2 Scan to\nYour Fertile Window!",
+      "body": "Apps and kits estimate ovulation, while scans confirm it. Tracking shows whether a follicle grows, when it is ready and whether the egg is released.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -2216,9 +2216,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "ivf-in-vitro-fertilisation": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist IVF Treatment",
-      "body": "",
+      "eyebrow": "How M’Brace Plans IVF",
+      "heading": "From 1st Consultation to Pregnancy Test",
+      "body": "IVF is not the first answer for every couple. It is considered when the tubes are blocked, sperm quality is low, egg reserve is reduced, or simpler treatments have not worked.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -2363,9 +2363,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "iui-intrauterine-insemination": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist IUI Treatment",
-      "body": "",
+      "eyebrow": "How M’Brace Plans IUI",
+      "heading": "From Evaluation to Insemination\nTimed to Your Ovulation!",
+      "body": "IUI works only when at least one fallopian tube is open and sperm quality is reasonable. Tests confirm this first, then the cycle is monitored so insemination happens at the right time.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -2510,9 +2510,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "icsi-intracytoplasmic-sperm-injection": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist ICSI Treatment",
-      "body": "",
+      "eyebrow": "How M’Brace Plans ICSI",
+      "heading": "From Sperm Assessment to Embryo Transfer",
+      "body": "ICSI follows the same steps as IVF for the woman. The difference is in the lab, where a single selected sperm is injected into each mature egg instead of leaving them to fertilise on their own.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",
@@ -2657,9 +2657,9 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
   "egg-freezing": [
     {
       "kind": "content",
-      "eyebrow": "How M'Brace Plans Your Care",
-      "heading": "Specialist Egg Freezing",
-      "body": "",
+      "eyebrow": "How M’Brace Plans Egg Freezing",
+      "heading": "From Reserve Check to Stored Eggs\nRealistic Advice, Always!",
+      "body": "Egg freezing uses the first half of an IVF cycle. Eggs are collected after stimulation and frozen unfertilised, to be thawed, fertilised and transferred if you choose to use them later.",
       "image": "",
       "imageAlt": "",
       "layout": "cards",

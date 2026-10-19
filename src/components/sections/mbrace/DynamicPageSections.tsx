@@ -105,7 +105,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", serviceNam
       {process && (
         <section id={slugifyHeading(process.heading)} className="relative mx-3 mt-8 rounded-[24px] bg-care-purple px-5 pb-6 pt-10 text-white md:mx-5 md:px-8 md:pb-8 md:pt-12 lg:mx-8 lg:min-h-[410px] lg:px-[8%] lg:pb-20 lg:pt-16">
           <div className="mx-auto grid max-w-[1320px] gap-8 text-center lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-20 lg:text-left">
-            <div><p className="text-[12px] font-bold text-care-gold lg:text-[13px]">{process.eyebrow}</p><h2 className="mt-5 text-[28px] font-semibold leading-[1.3] md:text-[32px] lg:text-[38px]">{process.heading}</h2></div>
+            <div><p className="text-[12px] font-bold text-care-gold lg:text-[13px]">{process.eyebrow}</p><h2 className="mt-5 whitespace-pre-line text-[28px] font-semibold leading-[1.3] md:text-[32px] lg:text-[38px]">{process.heading}</h2></div>
             {process.body && <p className="mx-auto max-w-[520px] whitespace-pre-line text-[14px] leading-[1.75] text-white/90 lg:mx-0 lg:text-[16px]">{process.body}</p>}
           </div>
           <div className="relative z-10 mx-auto mt-8 flex max-w-[1305px] snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:absolute lg:inset-x-[2.5%] lg:top-[calc(100%-135px)] lg:mt-0 lg:grid-cols-4 lg:gap-[18px]">

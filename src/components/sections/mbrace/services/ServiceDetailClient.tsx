@@ -49,7 +49,8 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const faqCategory = matchCareCategory(service.category.label, careCategories);
   const dbBlocks = (Array.isArray(service.blocks) ? service.blocks : []) as Array<BlogBlock | DynamicPageSection>;
-  const blocks = dbBlocks.length > 0 ? dbBlocks : (serviceDetailBlocks[service.slug] ?? []);
+  const approvedBlocks = serviceDetailBlocks[service.slug] ?? [];
+  const blocks = approvedBlocks.length > 0 ? approvedBlocks : dbBlocks;
   const isGynecology = service.slug === "gynaecology";
   const faqData = serviceFaqs[service.slug];
   const pageCopy = servicePageCopy[service.slug];

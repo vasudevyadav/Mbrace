@@ -22,7 +22,7 @@ import TalkToExpertsSection from "./TalkToExpertsSection";
 import CareWhyChooseSection from "./CareWhyChooseSection";
 import CareExcellenceSection from "./CareExcellenceSection";
 import type { CareCategoryContent } from "./careCategoryContent";
-import { approvedCarePageSections } from "./approvedCarePageData";
+import { approvedCareFaqs, approvedCarePageSections, approvedServiceGroups } from "./approvedCarePageData";
 
 type CategoryWithItems = ServiceCategory & { items: ServiceItem[] };
 
@@ -60,6 +60,12 @@ export default function CareCategoryPageClient({
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const servicesCopy = serviceSectionCopy[careCategoryLabel];
   const approvedSections = approvedCarePageSections[careCategoryLabel];
+  const approvedServiceKey = careCategoryLabel === "Fertility Care" ? "Fertility" : careCategoryLabel === "Women's Care" ? "Women Care" : careCategoryLabel;
+  const approvedServices = approvedServiceGroups[approvedServiceKey] ?? [];
+  const approvedFaqMap = {
+    ...homeFaqs,
+    [careCategoryLabel]: approvedCareFaqs[careCategoryLabel] ?? homeFaqs[careCategoryLabel] ?? [],
+  };
 
   function book(serviceName = "", doctorName = "", type = "") {
     setBookingService(serviceName || careCategoryLabel);
@@ -112,14 +118,15 @@ export default function CareCategoryPageClient({
               <h2 className="text-[26px] md:text-[31px] lg:text-[35px] font-semibold text-care-navy leading-[1.35]"><span className="mb-eyebrow block text-[14px] font-semibold text-care-gold mb-2">Services We Offer</span>{servicesCopy.line1}<br /><em>{servicesCopy.line2}</em></h2>
             </div>
             <div className="mb-service-grid grid grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(4,1fr)] gap-3 md:gap-4.5 lg:gap-6 [&_article]:flex [&_article]:flex-col [&_article]:bg-[#fff] [&_article]:[border:1px_solid_#e5e7eb] [&_article]:rounded-[16px] [&_article]:[transition:background_.2s,_color_.2s] [&_article]:shadow-[0_14px_14px_rgba(0,0,0,0.07),0_2px_4px_rgba(0,0,0,0.04)] [&_article]:min-h-67.5 [&_article]:pt-4 [&_article]:pr-4 [&_article]:pb-4 [&_article]:pl-4 md:[&_article]:min-h-[245px] md:[&_article]:pt-5 md:[&_article]:pr-5 md:[&_article]:pb-5 md:[&_article]:pl-5 [&_h3]:text-[18px] [&_h3]:font-bold [&_h3]:text-care-navy [&_h3]:leading-[1.45] [&_h3]:mb-3 [&_h3]:[transition:color_.2s] [&_p]:text-[14px] md:[&_p]:text-[13px] [&_p]:[flex:initial] [&_a]:[align-self:start] [&_a]:text-care-purple [&_a]:text-[13px] [&_a]:mt-3 [&_a]:[transition:color_.2s] [&_article:hover]:bg-care-purple [&_article:hover]:text-white [&_article:hover]:[border-color:var(--color-care-purple)] [&_article:hover_h3]:text-white [&_article:hover_a]:text-care-gold [&>*]:min-w-0">
-              {category.items.map((item, index) => (
-                <article key={item.id}>
+              {category.items.map((item, index) => {
+                const approvedItem = approvedServices[index];
+                return <article key={item.id}>
                   <Image className="mb-service-icon w-11 h-11 mb-3.5" src={`/images/figma/service-${index % 8}.svg`} width={44} height={44} alt="" />
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
+                  <h3>{approvedItem?.[0] ?? item.name}</h3>
+                  <p>{approvedItem?.[1] ?? item.description}</p>
                   <Link href={`/services/${item.slug}`}>Learn More <span aria-hidden="true">→</span></Link>
-                </article>
-              ))}
+                </article>;
+              })}
             </div>
           </div>
         </section>
@@ -141,7 +148,7 @@ export default function CareCategoryPageClient({
       <TestimonialsSection homeTestimonials={homeTestimonials} />
       <FaqSection
         careCategories={[careCategoryLabel]}
-        homeFaqs={homeFaqs}
+        homeFaqs={approvedFaqMap}
         heading={approvedSections.faqHeading}
         highlight={approvedSections.faqHighlight}
         description={approvedSections.faqDescription}
