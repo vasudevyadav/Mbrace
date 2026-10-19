@@ -6,6 +6,7 @@
 // preserve that source copy word-for-word until those tabs are revised.
 import type { DynamicPageSection } from "../dynamicPageContent";
 import type { BlogBlock } from "../blog/blogContent";
+import { pregnancyServiceDetailBlocks } from "./pregnancyServiceContent";
 
 export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | BlogBlock>> = {
   "high-risk-pregnancy-care": [
@@ -2805,3 +2806,4 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
 
 serviceDetailBlocks["paediatric-surgery"] = serviceDetailBlocks["picu-paediatric-intensive-care"];
 serviceDetailBlocks["embryology-support"] = serviceDetailBlocks["ovulation-tracking"];
+Object.assign(serviceDetailBlocks, pregnancyServiceDetailBlocks);

@@ -166,8 +166,8 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         setLocation={setLocation}
         mapUrl={mapUrl}
         basePath="/"
-        ctaHeading={category.includes("child") ? "Speak to a Paediatric Specialist" : category.includes("fertility") ? "Speak to a Fertility Specialist" : "Speak to a Women’s Specialist"}
-        ctaDescription={category.includes("child") ? "Questions about your newborn’s feeding, your child’s growth and development, or a recent illness? Share your email and the M’Brace team will contact you to arrange a consultation." : category.includes("fertility") ? "Trying to conceive, planning IVF or IUI, or considering egg freezing? Share your email and the M’Brace team will contact you to arrange a confidential consultation for you or your partner." : "Questions about pregnancy, gynaecology, menopause or preventive health? Share your email and the M’Brace team will contact you to arrange a consultation."}
+        ctaHeading={category.includes("child") ? "Speak to a Paediatric Specialist" : category.includes("fertility") ? "Speak to a Fertility Specialist" : category.includes("pregnancy") ? "Speak to an Obstetrician" : "Speak to a Women’s Specialist"}
+        ctaDescription={category.includes("child") ? "Questions about your newborn’s feeding, your child’s growth and development, or a recent illness? Share your email and the M’Brace team will contact you to arrange a consultation." : category.includes("fertility") ? "Trying to conceive, planning IVF or IUI, or considering egg freezing? Share your email and the M’Brace team will contact you to arrange a confidential consultation for you or your partner." : category.includes("pregnancy") ? "Questions about pregnancy scans, nutrition, your birth plan or delivery facilities? Share your email and the M’Brace team will contact you to arrange a consultation." : "Questions about pregnancy, gynaecology, menopause or preventive health? Share your email and the M’Brace team will contact you to arrange a consultation."}
       />
     </div>
   );

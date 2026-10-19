@@ -38,6 +38,26 @@ function pathwayStages(bullet: string) {
   ];
 }
 
+function pathwayDetails(bullet: string) {
+  const ctaMatch = bullet.match(/\nCTA:\s*(.+)$/);
+  const withoutCta = ctaMatch ? bullet.slice(0, ctaMatch.index).trim() : bullet;
+  const detail = withoutCta.includes("—") ? withoutCta.split("—").slice(1).join("—").trim() : withoutCta.trim();
+  const lines = detail.split("\n").map((line) => line.trim()).filter(Boolean);
+
+  if (lines.length >= 5 && lines[1].startsWith("Stage 01:") && lines[3].startsWith("Stage 02:")) {
+    return {
+      intro: lines[0],
+      cta: ctaMatch?.[1]?.trim() ?? "",
+      stages: [
+        { title: lines[1].replace(/^Stage 01:\s*/, ""), description: lines[2] },
+        { title: lines[3].replace(/^Stage 02:\s*/, ""), description: lines.slice(4).join(" ") },
+      ],
+    };
+  }
+
+  return { intro: "", cta: ctaMatch?.[1]?.trim() ?? "", stages: pathwayStages(withoutCta) };
+}
+
 function toolCopy(description: string) {
   const match = description.match(/\s*\(([^()]+)\)\s*$/);
   return {
@@ -92,7 +112,8 @@ export default function DynamicPageSections({ blocks, heroImage = "", serviceNam
   const [process, whyChoose, concerns, tools] = contentBlocks;
   const pathwayItems = pathway?.bullets ?? [];
   const activePathwayText = pathwayItems[activePathway] ?? "";
-  const activeStages = pathwayStages(activePathwayText);
+  const activePathwayDetails = pathwayDetails(activePathwayText);
+  const activeStages = activePathwayDetails.stages;
   const concernBody = concerns ? splitBody(concerns.body) : { intro: "", notes: [] };
   const concernColumns = concerns
     ? [concerns.items.filter((_, index) => index % 2 === 0), concerns.items.filter((_, index) => index % 2 === 1)]
@@ -172,10 +193,11 @@ export default function DynamicPageSections({ blocks, heroImage = "", serviceNam
           <div className="mx-auto grid max-w-[1250px] gap-12 px-5 pb-14 pt-14 lg:grid-cols-[1fr_500px] lg:gap-[88px] lg:px-0 lg:pb-[58px] lg:pt-9">
             <div>
               <div className="flex items-center gap-3 text-[13px] font-bold text-care-gold"><span className="grid size-9 place-items-center rounded-full bg-white/10"><Image src={processIcons[activePathway % processIcons.length]} width={24} height={24} alt="" className="size-6 object-contain" /></span>{pathwayLabel(activePathwayText, activePathway)}</div>
+              {activePathwayDetails.intro && <h3 className="mt-5 text-[20px] font-bold leading-[1.35] text-white lg:text-[22px]">{activePathwayDetails.intro}</h3>}
               <div className="relative mt-8 space-y-9 pl-14 before:absolute before:bottom-7 before:left-[17px] before:top-[14px] before:w-px before:bg-white/15">
                 {activeStages.map((stage, index) => <div key={`${stage.title}-${index}`} className="relative"><span className="absolute -left-14 top-0 grid size-6 place-items-center rounded-full border-[3px] border-care-gold bg-[#5b267e]"><span className="size-1.5 rounded-full bg-care-gold" /></span><p className="text-[11px] font-bold uppercase tracking-[1.5px] text-care-gold">Stage {String(index + 1).padStart(2, "0")}</p>{stage.title && <h3 className="mt-3 text-[18px] font-bold lg:text-[20px]">{stage.title}</h3>}<p className="mt-3 max-w-[610px] text-[14px] leading-[1.65] text-white/70">{stage.description}</p></div>)}
               </div>
-              <button onClick={onBook} className="mt-9 min-h-[50px] w-full rounded-[6px] border-2 border-care-gold bg-white px-5 py-3 text-[13px] font-bold text-[#261631] sm:w-auto sm:min-w-[280px] sm:px-6 sm:text-[14px]">{pathway.trailing || ctaLabel}&nbsp;&nbsp;→</button>
+              <button onClick={onBook} className="mt-9 min-h-[50px] w-full rounded-[6px] border-2 border-care-gold bg-white px-5 py-3 text-[13px] font-bold text-[#261631] sm:w-auto sm:min-w-[280px] sm:px-6 sm:text-[14px]">{activePathwayDetails.cta || pathway.trailing || ctaLabel}&nbsp;&nbsp;→</button>
             </div>
             <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]"><Image src={heroImage || "/services-details-banner.png"} alt={`${serviceName} treatment discussion`} fill sizes="(max-width:1023px) 100vw, 500px" className="object-cover object-center" /><div className="absolute bottom-8 left-8 right-8 rounded-[12px] bg-[#27143e]/90 px-7 py-6 backdrop-blur-[2px]"><h3 className="text-[16px] font-bold text-care-gold">{pathwayLabel(activePathwayText, activePathway)}</h3>{pathway.trailing && <p className="mt-3 text-[14px] text-white/75">{pathway.trailing}</p>}</div></div>
           </div>

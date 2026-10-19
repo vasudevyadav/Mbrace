@@ -1,3 +1,5 @@
+import { pregnancyServiceHeroCopy } from "./pregnancyServiceContent";
+
 // Per-service hero copy, transcribed word-for-word from the
 // “MBrace - Website Content” Google Doc. Keeping the complete hero here avoids
 // reusing the shorter service-card description on an inner page.
@@ -165,3 +167,5 @@ export const serviceHeroCopy: Record<string, ServiceHeroCopy> = {
     cta: "Check Your Egg Reserve",
   },
 };
+
+Object.assign(serviceHeroCopy, pregnancyServiceHeroCopy);

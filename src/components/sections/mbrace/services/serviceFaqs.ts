@@ -1,3 +1,5 @@
+import { pregnancyServiceFaqs } from "./pregnancyServiceContent";
+
 // Per-service FAQ content, transcribed word-for-word from the
 // "MBrace - Website Content" Google Doc, keyed by ServiceItem.slug.
 export type ServiceFaqGroup = { heading: string; faqs: { question: string; answer: string }[] };
@@ -1311,3 +1313,4 @@ export const serviceFaqs: Record<string, ServiceFaqData> = {
 // replacement medical content.
 serviceFaqs["paediatric-surgery"] = serviceFaqs["picu-paediatric-intensive-care"];
 serviceFaqs["embryology-support"] = serviceFaqs["ovulation-tracking"];
+Object.assign(serviceFaqs, pregnancyServiceFaqs);

@@ -11,6 +11,7 @@ import {
 } from "@/lib/mbrace-home";
 import { fallbackBlogArticles, findBlogArticle, type BlogArticle, type BlogBlock } from "@/components/sections/mbrace/blog/blogContent";
 import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent } from "@/components/sections/mbrace/services/careCategoryContent";
+import { pregnancyServicesBySlug } from "@/components/sections/mbrace/services/pregnancyServiceContent";
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -293,10 +294,42 @@ export async function getDoctorTips() {
 }
 
 export async function getServiceItemBySlug(slug: string) {
+  const approvedPregnancyService = pregnancyServicesBySlug[slug];
   try {
-    return await prisma.serviceItem.findUnique({ where: { slug }, include: { category: true } });
+    const row = await prisma.serviceItem.findUnique({ where: { slug }, include: { category: true } });
+    if (!approvedPregnancyService) return row;
+    return {
+      id: row?.id ?? -(approvedPregnancyService.order + 1),
+      categoryId: row?.categoryId ?? 0,
+      slug,
+      name: approvedPregnancyService.name,
+      description: approvedPregnancyService.description,
+      detail: approvedPregnancyService.description,
+      heroImage: row?.heroImage ?? "/images/freepik/pregnancy-care.jpg",
+      blocks: row?.blocks ?? [],
+      metaTitle: approvedPregnancyService.metaTitle,
+      metaDescription: approvedPregnancyService.metaDescription,
+      order: approvedPregnancyService.order,
+      category: row?.category ?? { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
+    };
   } catch (error) {
     console.warn(`Database unavailable; using fallback service for ${slug}.`, error);
+    if (approvedPregnancyService) {
+      return {
+        id: -(approvedPregnancyService.order + 1),
+        categoryId: 0,
+        slug,
+        name: approvedPregnancyService.name,
+        description: approvedPregnancyService.description,
+        detail: approvedPregnancyService.description,
+        heroImage: "/images/freepik/pregnancy-care.jpg",
+        blocks: [],
+        metaTitle: approvedPregnancyService.metaTitle,
+        metaDescription: approvedPregnancyService.metaDescription,
+        order: approvedPregnancyService.order,
+        category: { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
+      };
+    }
     const name = slug
       .split("-")
       .filter(Boolean)
