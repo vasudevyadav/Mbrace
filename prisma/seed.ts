@@ -3,6 +3,7 @@ import { slugify } from "../src/lib/slugify";
 import { fallbackBlogArticles } from "../src/components/sections/mbrace/blog/blogContent";
 import { carePageSlugs, fallbackCareCategoryContent } from "../src/components/sections/mbrace/services/careCategoryContent";
 import { approvedCareFaqs, approvedServiceGroups } from "../src/components/sections/mbrace/services/approvedCarePageData";
+import { serviceDetailBlocks } from "../src/components/sections/mbrace/services/serviceDetailBlocks";
 
 const prisma = new PrismaClient();
 
@@ -142,15 +143,17 @@ async function main() {
     });
     await prisma.serviceItem.deleteMany({ where: { categoryId: category.id } });
     for (const [j, [name, description]] of serviceGroups[key].entries()) {
+      const slug = slugify(name);
       await prisma.serviceItem.create({
         data: {
           categoryId: category.id,
-          slug: slugify(name),
+          slug,
           name,
           description,
           order: j,
           detail: description,
           heroImage: asset(serviceHeroImages[j % serviceHeroImages.length]),
+          blocks: (serviceDetailBlocks[slug] ?? []) as Prisma.InputJsonValue,
         },
       });
     }
