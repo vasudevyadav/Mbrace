@@ -10,7 +10,7 @@ import {
   serviceGroups as fallbackServiceGroups,
 } from "@/lib/mbrace-home";
 import { fallbackBlogArticles, findBlogArticle, type BlogArticle, type BlogBlock } from "@/components/sections/mbrace/blog/blogContent";
-import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent, type JourneyItem } from "@/components/sections/mbrace/services/careCategoryContent";
+import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent } from "@/components/sections/mbrace/services/careCategoryContent";
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -30,10 +30,6 @@ function toBlogArticle(row: { slug: string; title: string; category: string; ima
   };
 }
 
-function toJourney(value: unknown, fallback: JourneyItem[]): JourneyItem[] {
-  return Array.isArray(value) && value.length > 0 ? (value as JourneyItem[]) : fallback;
-}
-
 export async function getCareCategoryContent(slug: string): Promise<CareCategoryContent & { slug: string; label: string }> {
   const label = carePageSlugs.find(p => p.slug === slug)?.label ?? slug;
   const fallback = { ...fallbackCareCategoryContent[label], slug, label };
@@ -41,27 +37,9 @@ export async function getCareCategoryContent(slug: string): Promise<CareCategory
     const row = await prisma.careCategoryContent.findUnique({ where: { slug } });
     if (!row) return fallback;
     return {
-      slug: row.slug,
-      label: row.label,
-      heroBadge: row.heroBadge,
-      heroHeadingLine1: row.heroHeadingLine1,
-      heroHeadingHighlight1: row.heroHeadingHighlight1,
-      heroHeadingHighlight2: row.heroHeadingHighlight2,
-      heroHeadingLine2: row.heroHeadingLine2,
-      heroDescription: row.heroDescription,
-      heroImage: row.heroImage,
-      journeyHeading: row.journeyHeading,
-      journeyHighlight: row.journeyHighlight,
-      journey: toJourney(row.journey, fallback.journey),
-      talkToExpertsHeading: row.talkToExpertsHeading,
-      talkToExpertsBody: row.talkToExpertsBody,
-      whyChooseHeading: row.whyChooseHeading,
-      whyChooseHighlight: row.whyChooseHighlight,
-      whyChooseBody: row.whyChooseBody,
-      excellenceEyebrow: row.excellenceEyebrow,
-      excellenceHeading: row.excellenceHeading,
-      excellenceHighlight: row.excellenceHighlight,
-      excellenceBody: row.excellenceBody,
+      ...fallback,
+      // Editorial copy and approved page imagery come from the reviewed local
+      // source. The CMS still owns optional SEO overrides.
       metaTitle: row.metaTitle || undefined,
       metaDescription: row.metaDescription || undefined,
     };

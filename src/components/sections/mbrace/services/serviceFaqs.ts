@@ -1305,3 +1305,9 @@ export const serviceFaqs: Record<string, ServiceFaqData> = {
     ]
   }
 };
+
+// These two approved Google Doc tabs currently repeat another service page.
+// Keep the website in exact sync with the supplied copy rather than inventing
+// replacement medical content.
+serviceFaqs["paediatric-surgery"] = serviceFaqs["picu-paediatric-intensive-care"];
+serviceFaqs["embryology-support"] = serviceFaqs["ovulation-tracking"];
