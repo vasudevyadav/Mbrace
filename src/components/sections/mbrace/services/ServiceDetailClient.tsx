@@ -18,6 +18,8 @@ import type { BlogBlock } from "../blog/blogContent";
 import type { DynamicPageSection } from "../dynamicPageContent";
 import { serviceDetailBlocks } from "./serviceDetailBlocks";
 import { serviceFaqs } from "./serviceFaqs";
+import { serviceHeroCopy } from "./serviceHeroCopy";
+import { servicePageCopy } from "./servicePageCopy";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -50,6 +52,13 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   const blocks = dbBlocks.length > 0 ? dbBlocks : (serviceDetailBlocks[service.slug] ?? []);
   const isGynecology = service.slug === "gynaecology";
   const faqData = serviceFaqs[service.slug];
+  const pageCopy = servicePageCopy[service.slug];
+  const category = service.category.label.toLowerCase();
+  const categoryDoctors = category.includes("child")
+    ? doctors.filter((doctor) => /paedi|pedi|neonat/i.test(`${doctor.role} ${doctor.designation}`))
+    : category.includes("fertility")
+      ? doctors.filter((doctor) => /fertility|infertility|embryolog/i.test(`${doctor.role} ${doctor.designation}`))
+      : [featuredDoctor, ...doctors.filter((doctor) => /obstet|gynae|fertility|infertility/i.test(`${doctor.role} ${doctor.designation}`))].filter((doctor): doctor is NonNullable<typeof doctor> => Boolean(doctor));
   const faqCategories = faqData ? faqData.groups.map((g) => g.heading) : [faqCategory, ...careCategories.filter((c) => c !== faqCategory)];
   const faqMap = faqData
     ? Object.fromEntries(faqData.groups.map((g) => [g.heading, g.faqs]))
@@ -88,24 +97,27 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         hospital={hospital}
         isGynecology={isGynecology}
       />
-      {isGynecology ? <GynecologyDetailSections book={() => book(service.name)} /> : blocks.length > 0 ? <DynamicPageSections blocks={blocks} /> : null}
+      {isGynecology ? <GynecologyDetailSections book={() => book(service.name)} /> : blocks.length > 0 ? (
+        <DynamicPageSections
+          blocks={blocks}
+          heroImage={service.heroImage || "/services-details-banner.png"}
+          serviceName={service.name}
+          ctaLabel={serviceHeroCopy[service.slug]?.cta || "Book Appointment"}
+          onBook={() => book(service.name)}
+        />
+      ) : null}
 
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
-        homeDoctors={isGynecology && featuredDoctor ? [featuredDoctor, ...doctors.filter((doctor) => doctor.slug !== featuredDoctor.slug)] : doctors}
-        heading={<>Find Your <em>Gynaecologist</em></>}
-        description={isGynecology ? "Looking for a gynaecologist in Hyderabad? M’Brace’s five senior consultants cover medical gynaecology, laparoscopic and robotic surgery, and fertility, so one team can manage your condition from diagnosis to recovery." : undefined}
+        homeDoctors={categoryDoctors}
+        heading={pageCopy?.teamHeading}
+        description={pageCopy?.teamDescription}
+        principleLead={pageCopy?.teamPrincipleLead}
+        principle={pageCopy?.teamPrinciple}
+        serviceName={service.name}
         getProfileHref={(d) => `/doctors/${d.slug}`}
         layout="service-detail"
-      />
-      <FaqSection
-        careCategories={faqCategories}
-        homeFaqs={faqMap}
-        label={faqData?.label}
-        heading={faqData?.heading}
-        highlight={faqData?.highlight}
-        description={faqData?.description}
       />
       <LocationSection
         location={location}
@@ -114,6 +126,14 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         setBookingLocation={setBookingLocation}
         book={book}
         mapUrl={mapUrl}
+      />
+      <FaqSection
+        careCategories={faqCategories}
+        homeFaqs={faqMap}
+        label={faqData?.label}
+        heading={faqData?.heading}
+        highlight={faqData?.highlight}
+        description={faqData?.description}
       />
       <AppointmentSection
         status={status}
@@ -132,9 +152,9 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         bookingLocation={bookingLocation}
         setBookingLocation={setBookingLocation}
         hospital={hospital}
-        label={isGynecology ? "Have a Gynaecological Concern?" : undefined}
-        heading={isGynecology ? "Book Appointment Today" : undefined}
-        description={isGynecology ? "Fill in the form and the M’Brace care team will call you to fix a consultation with a gynaecologist in LB Nagar or King Koti." : undefined}
+        label={pageCopy?.appointmentLabel}
+        heading="Book Appointment Today"
+        description={pageCopy?.appointmentDescription}
       />
       <HomeFooter
         hospital={hospital}
@@ -143,8 +163,8 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         setLocation={setLocation}
         mapUrl={mapUrl}
         basePath="/"
-        ctaHeading={isGynecology ? "Speak to a Women’s Specialist" : undefined}
-        ctaDescription={isGynecology ? "Questions about pregnancy, gynaecology, menopause or preventive health? Share your email and the M’Brace team will contact you to arrange a consultation." : undefined}
+        ctaHeading={category.includes("child") ? "Speak to a Paediatric Specialist" : category.includes("fertility") ? "Speak to a Fertility Specialist" : "Speak to a Women’s Specialist"}
+        ctaDescription={category.includes("child") ? "Questions about your newborn’s feeding, your child’s growth and development, or a recent illness? Share your email and the M’Brace team will contact you to arrange a consultation." : category.includes("fertility") ? "Trying to conceive, planning IVF or IUI, or considering egg freezing? Share your email and the M’Brace team will contact you to arrange a confidential consultation for you or your partner." : "Questions about pregnancy, gynaecology, menopause or preventive health? Share your email and the M’Brace team will contact you to arrange a consultation."}
       />
     </div>
   );

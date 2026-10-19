@@ -33,6 +33,8 @@ export default function ServiceHero({ categoryLabel, name, slug, description, he
           className="object-cover object-[62%_center] sm:object-center"
         />
       )}
+      <div aria-hidden="true" className="absolute inset-0 bg-[#fff8eb]/65 sm:bg-[linear-gradient(90deg,rgba(255,249,239,.95)_0%,rgba(255,249,239,.72)_34%,rgba(255,249,239,.08)_56%,rgba(255,249,239,0)_74%)]" />
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/75 to-transparent" />
       <MbraceHeader onBook={() => book()} careCategories={careCategories} hospital={hospital} basePath="/" />
       <div className="relative z-[1] px-5 pb-6 pt-26 lg:min-h-[625px] lg:px-[7%] lg:pb-7 lg:pt-8">
         <div className="relative z-10 flex max-w-[620px] flex-col justify-center py-8 lg:min-h-[520px] lg:w-[52%] lg:py-5">

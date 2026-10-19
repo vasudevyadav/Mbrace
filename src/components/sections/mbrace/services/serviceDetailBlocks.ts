@@ -1,9 +1,9 @@
 // Service detail-page content blocks, transcribed word-for-word from the
 // "MBrace - Website Content" Google Doc for each inner service page.
-// Rendered by DynamicPageSections via ServiceDetailClient. Paediatric Surgery
-// and Embryology Support are intentionally absent: their doc sections are
-// verbatim duplicates of PICU and Ovulation Tracking respectively (a source
-// doc authoring error), so no page-specific content exists to transcribe yet.
+// Rendered by DynamicPageSections via ServiceDetailClient. The approved source
+// currently repeats the PICU copy under Paediatric Surgery and the Ovulation
+// Tracking copy under Embryology Support. The aliases at the end deliberately
+// preserve that source copy word-for-word until those tabs are revised.
 import type { DynamicPageSection } from "../dynamicPageContent";
 import type { BlogBlock } from "../blog/blogContent";
 
@@ -2802,3 +2802,6 @@ export const serviceDetailBlocks: Record<string, Array<DynamicPageSection | Blog
     }
   ]
 };
+
+serviceDetailBlocks["paediatric-surgery"] = serviceDetailBlocks["picu-paediatric-intensive-care"];
+serviceDetailBlocks["embryology-support"] = serviceDetailBlocks["ovulation-tracking"];

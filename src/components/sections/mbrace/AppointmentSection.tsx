@@ -31,20 +31,23 @@ type Props = {
 };
 
 export default function AppointmentSection({ status, setStatus, formRef, submitAppointment, bookingDoctor, bookingType, bookingEmail, setBookingEmail, bookingDate, setBookingDate, bookingService, setBookingService, careCategories, bookingLocation, setBookingLocation, hospital, label = "BOOK AN APPOINTMENT", heading = "Book Appointment Today!", description = "Complete the form and our care team will contact you to schedule a confidential consultation." }: Props) {
+  const serviceOptions = bookingService && !careCategories.includes(bookingService)
+    ? [bookingService, ...careCategories]
+    : careCategories;
 
   return (
     <section id="appointment" className="mb-section mb-tinted mb-rounded rounded-[20px] py-12 [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple [&_p]:leading-[1.65] md:rounded-[26px] md:py-10 lg:py-20">
       <div className="mb-container mb-appointment mx-auto grid w-full items-center gap-8 px-5 md:px-6 md:grid-cols-2 md:gap-9 lg:max-w-6xl lg:gap-26 lg:px-8 [&_.mb-heading]:mb-4.5 [&>div>p]:text-[14px] [&>.mb-photo]:h-90 md:[&>.mb-photo]:h-140">
         <Photo n={18} alt="A mother smiles at her baby" />
-        <div>
+        <div className="text-center md:text-left">
           <Heading label={label}>{heading}</Heading>
-          <p>{description}</p>
+          <p className="mx-auto max-w-[560px] md:mx-0">{description}</p>
           {status === "success" ? <div className="mb-form-result pt-7.5 pr-7.5 pb-7.5 pl-7.5 bg-white rounded-[15px] mt-5 [&_svg]:w-10 [&_svg]:text-care-purple [&_h3]:font-bold [&_h3]:text-[21px] [&_h3]:text-care-navy [&_h3]:mt-[15px] [&_h3]:mb-[15px] [&_.mb-button]:mt-5" role="status">
             <CheckIcon />
             <h3>Appointment request sent</h3>
             <p>Our care team will contact you to confirm availability.</p>
             <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" onClick={() => setStatus("idle")}>Request another appointment</button>
-          </div> : <form className="mb-appointment-form mt-6 grid gap-2.5 [&_.mb-button]:mt-2 [&_.mb-button]:w-full [&_.mb-button]:[justify-self:start] [&_input]:min-h-[45px] [&_input]:w-full [&_input]:rounded-[6px] [&_input]:bg-white [&_input]:px-4 [&_input]:py-[11px] [&_input]:text-[16px] [&_input]:text-care-copy [&_input]:[border:1px_solid_#d9dee8] [&_select]:min-h-[45px] [&_select]:w-full [&_select]:rounded-[6px] [&_select]:bg-white [&_select]:px-4 [&_select]:py-[11px] [&_select]:text-[16px] [&_select]:text-care-copy [&_select]:[border:1px_solid_#d9dee8] md:[&_.mb-button]:w-auto md:[&_input]:text-[13px] md:[&_select]:text-[13px]" ref={formRef} onSubmit={submitAppointment}>
+          </div> : <form className="mb-appointment-form mt-6 grid gap-2.5 text-left [&_.mb-button]:mt-2 [&_.mb-button]:w-full [&_.mb-button]:justify-self-center [&_input]:min-h-[45px] [&_input]:w-full [&_input]:rounded-[6px] [&_input]:bg-white [&_input]:px-4 [&_input]:py-[11px] [&_input]:text-[16px] [&_input]:text-care-copy [&_input]:[border:1px_solid_#d9dee8] [&_select]:min-h-[45px] [&_select]:w-full [&_select]:rounded-[6px] [&_select]:bg-white [&_select]:px-4 [&_select]:py-[11px] [&_select]:text-[16px] [&_select]:text-care-copy [&_select]:[border:1px_solid_#d9dee8] md:[&_.mb-button]:w-auto md:[&_.mb-button]:justify-self-start md:[&_input]:text-[13px] md:[&_select]:text-[13px]" ref={formRef} onSubmit={submitAppointment}>
             {(bookingDoctor || bookingType) && <p className="mb-booking-selection text-[12px]! text-care-purple bg-[#fff9] pt-2.5 pr-2.5 pb-2.5 pl-2.5 rounded-[5px]">{[bookingDoctor, bookingType].filter(Boolean).join(" · ")}</p>}
             <label>
               <span className="sr-only">Full Name</span>
@@ -65,7 +68,7 @@ export default function AppointmentSection({ status, setStatus, formRef, submitA
             <label className="relative block">
               <span className="sr-only">Select Service</span>
               <select className="appearance-none pr-12!" name="service" required value={bookingService} onChange={e => setBookingService(e.target.value)}>
-                <option value="" disabled>Select Service</option>{careCategories.map(x => <option key={x}>{x}</option>)}</select>
+                <option value="" disabled>Select Service</option>{serviceOptions.map(x => <option key={x}>{x}</option>)}</select>
               <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
             </label>
             <label className="relative block">
