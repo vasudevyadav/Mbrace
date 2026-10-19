@@ -20,6 +20,7 @@ import { serviceDetailBlocks } from "./serviceDetailBlocks";
 import { serviceFaqs } from "./serviceFaqs";
 import { serviceHeroCopy } from "./serviceHeroCopy";
 import { servicePageCopy } from "./servicePageCopy";
+import { serviceHeroImages } from "./serviceImages";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -51,6 +52,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   const dbBlocks = (Array.isArray(service.blocks) ? service.blocks : []) as Array<BlogBlock | DynamicPageSection>;
   const approvedBlocks = serviceDetailBlocks[service.slug] ?? [];
   const blocks = approvedBlocks.length > 0 ? approvedBlocks : dbBlocks;
+  const heroImage = serviceHeroImages[service.slug] || service.heroImage || "/services-details-banner.png";
   const isGynecology = service.slug === "gynaecology";
   const faqData = serviceFaqs[service.slug];
   const pageCopy = servicePageCopy[service.slug];
@@ -92,7 +94,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         name={service.name}
         slug={service.slug}
         description={service.description}
-        heroImage={service.heroImage || "/services-details-banner.png"}
+        heroImage={heroImage}
         book={book}
         careCategories={careCategories}
         hospital={hospital}
@@ -101,7 +103,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
       {isGynecology ? <GynecologyDetailSections book={() => book(service.name)} /> : blocks.length > 0 ? (
         <DynamicPageSections
           blocks={blocks}
-          heroImage={service.heroImage || "/services-details-banner.png"}
+          heroImage={heroImage}
           serviceName={service.name}
           ctaLabel={serviceHeroCopy[service.slug]?.cta || "Book Appointment"}
           onBook={() => book(service.name)}

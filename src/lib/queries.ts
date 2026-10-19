@@ -38,9 +38,8 @@ export async function getCareCategoryContent(slug: string): Promise<CareCategory
     if (!row) return fallback;
     return {
       ...fallback,
-      // Editorial copy on these public pages is approved in the content
-      // document. The CMS still owns presentation assets and SEO overrides.
-      heroImage: row.heroImage || fallback.heroImage,
+      // Editorial copy and approved page imagery come from the reviewed local
+      // source. The CMS still owns optional SEO overrides.
       metaTitle: row.metaTitle || undefined,
       metaDescription: row.metaDescription || undefined,
     };
