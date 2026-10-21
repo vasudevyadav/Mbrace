@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
@@ -15,8 +15,14 @@ import {
   isValidPendingTwoFactorToken,
   isValidSessionToken,
 } from "@/lib/adminAuth";
+import { clearLoginAttempts, isLoginLocked, registerFailedLogin } from "@/lib/rateLimit";
 import { resolveImagePath } from "@/lib/upload";
 import { slugify } from "@/lib/slugify";
+
+async function clientKey() {
+  const h = await headers();
+  return h.get("x-forwarded-for")?.split(",")[0].trim() || h.get("x-real-ip") || "unknown";
+}
 
 function str(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -42,9 +48,17 @@ function safeNext(requestedNext: string) {
 export async function loginAction(formData: FormData) {
   const password = str(formData, "password");
   const next = safeNext(str(formData, "next"));
+  const key = `pwd:${await clientKey()}`;
+
+  const lock = isLoginLocked(key);
+  if (lock.locked) {
+    redirect(`/admin/login?error=locked&next=${encodeURIComponent(next)}`);
+  }
   if (!checkAdminPassword(password)) {
+    registerFailedLogin(key);
     redirect(`/admin/login?error=1&next=${encodeURIComponent(next)}`);
   }
+  clearLoginAttempts(key);
 
   const jar = await cookies();
 
@@ -71,13 +85,20 @@ export async function verifyTotpAction(formData: FormData) {
   const next = safeNext(str(formData, "next"));
   const code = str(formData, "code");
   const pendingToken = str(formData, "pending");
+  const key = `totp:${await clientKey()}`;
 
   if (!isValidPendingTwoFactorToken(pendingToken)) {
     redirect(`/admin/login?next=${encodeURIComponent(next)}`);
   }
+  const lock = isLoginLocked(key);
+  if (lock.locked) {
+    redirect(`/admin/login?step=totp&error=locked&next=${encodeURIComponent(next)}&pending=${encodeURIComponent(pendingToken)}`);
+  }
   if (!checkAuthenticatorCode(code)) {
+    registerFailedLogin(key);
     redirect(`/admin/login?step=totp&error=1&next=${encodeURIComponent(next)}&pending=${encodeURIComponent(pendingToken)}`);
   }
+  clearLoginAttempts(key);
 
   const jar = await cookies();
 

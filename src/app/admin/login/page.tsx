@@ -55,7 +55,12 @@ export default async function AdminLoginPage({
               <p className="mt-2 text-sm text-slate-500">Open Google Authenticator and enter the 6-digit code for M&rsquo;Brace Admin.</p>
 
               <form action={verifyTotpAction} className="mt-8">
-                {params.error && (
+                {params.error === "locked" && (
+                  <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    Too many incorrect codes. Try again in 15 minutes.
+                  </p>
+                )}
+                {params.error && params.error !== "locked" && (
                   <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
                     Incorrect or expired code. Try again.
                   </p>
@@ -91,7 +96,12 @@ export default async function AdminLoginPage({
               <p className="mt-2 text-sm text-slate-500">Sign in to manage your team, services and patient stories.</p>
 
               <form action={loginAction} className="mt-8">
-                {params.error && (
+                {params.error === "locked" && (
+                  <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    Too many failed attempts. Try again in 15 minutes.
+                  </p>
+                )}
+                {params.error && params.error !== "locked" && (
                   <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
                     Incorrect password. Try again.
                   </p>
