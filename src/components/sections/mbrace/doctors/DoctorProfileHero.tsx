@@ -78,7 +78,7 @@ export default function DoctorProfileHero({ doctor, hospital, careCategories, bo
               <p className="flex min-w-0 flex-wrap gap-x-1 text-[16px]"><strong className="font-bold">Email:</strong><a className="break-all" href={`mailto:${email}`}>{email}</a></p>
             </div>
             <div className="grid grid-cols-[32px_minmax(0,1fr)] items-start gap-3.5 px-7 py-[22px] sm:px-8">
-              <Image src="/clarity_map-marker-solid-badged.png" alt="" width={27} height={31} />
+              <Image src="/clarity_map-marker-solid-badged.png" alt="" width={72} height={82} className="h-[31px] w-auto" />
               <p className="flex min-w-0 flex-wrap gap-x-1 text-[16px] leading-[1.55]"><strong className="font-bold">Location:</strong><span>{address}</span></p>
             </div>
             <div className="px-7 pt-2 sm:px-8">

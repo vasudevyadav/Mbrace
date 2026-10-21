@@ -50,7 +50,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
                 <ul className="mt-auto flex flex-wrap justify-center gap-x-4 gap-y-2 border-t border-[#e6e1ea] pt-3 text-left text-[10px] text-care-purple">
                   {doctor.yearsExperience && <li className="flex items-center gap-2"><Image src="/images/figma/doctor.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.yearsExperience}</span></li>}
                   <li className="flex items-center gap-2"><MapPinIcon /><span className="text-black">{doctor.location}</span></li>
-                  <li className="flex w-full items-center justify-center gap-2"><Image src="/images/figma/language.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.languages}</span></li>
+                  <li className="flex w-full items-center justify-center gap-2"><Image src="/images/figma/language.svg" width={28} height={25} alt="" className="h-[18px] w-auto" /><span className="text-black">{doctor.languages}</span></li>
                 </ul>
                 <div className="mt-4 flex gap-2">
                   <button className="min-h-[30px] flex-1 rounded-[3px] bg-care-gold px-2 py-2 text-[10px] font-semibold text-white hover:bg-[#df9726]" onClick={() => book(serviceName, doctor.name, "Online consultation")}>Book Consultation</button>
@@ -84,7 +84,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
                   <Image src="/images/figma/doctor.svg" width={20} height={20} alt="" /> <span>{featuredDoctor.yearsExperience}</span>
                 </li>
                 <li>
-                  <Image src="/images/figma/language.svg" width={20} height={20} alt="" /> <span>{featuredDoctor.languages}</span>
+                  <Image src="/images/figma/language.svg" width={28} height={25} alt="" className="h-5 w-auto" /> <span>{featuredDoctor.languages}</span>
                 </li>
                 <li>
                   <MapPinIcon />
@@ -110,7 +110,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
               <span>{d.location}</span>
             </li>
             <li>
-              <Image src="/images/figma/language.svg" width={20} height={20} alt="" /> <span>{d.languages}</span>
+              <Image src="/images/figma/language.svg" width={28} height={25} alt="" className="h-5 w-auto" /> <span>{d.languages}</span>
             </li>
           </ul>
           <div className="mb-doctor-actions flex mt-5 gap-[5px] xl:gap-2 [&_.mb-button]:min-h-11 [&_.mb-button]:whitespace-normal md:[&_.mb-button]:min-h-[27px] md:[&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2 [&_.mb-button]:pr-2 [&_.mb-button]:pb-2 [&_.mb-button]:pl-2 [&_.mb-button]:text-[11px] lg:[&_.mb-button]:pt-1.5 lg:[&_.mb-button]:pr-[5px] lg:[&_.mb-button]:pb-1.5 lg:[&_.mb-button]:pl-[5px] lg:[&_.mb-button]:text-[10px] xl:[&_.mb-button]:pt-[7px] xl:[&_.mb-button]:pr-2 xl:[&_.mb-button]:pb-[7px] xl:[&_.mb-button]:pl-2 xl:[&_.mb-button]:text-[11px] [&_.mb-button]:flex-1 [&_.mb-button]:rounded-[2px]">

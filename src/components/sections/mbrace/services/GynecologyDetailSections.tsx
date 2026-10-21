@@ -320,7 +320,7 @@ export default function GynecologyDetailSections({
             <p className="text-sm font-bold uppercase tracking-[3px] text-care-gold">
               Conditions Treated
             </p>
-            <h2 className="mt-5 text-[32px] font-semibold leading-lighr text-care-navy md:text-[36px] lg:text-4xl">
+            <h2 className="mt-5 text-[32px] font-semibold leading-tight text-care-navy md:text-[36px] lg:text-4xl">
               Which Conditions Do We
               <br />
               <span className="text-care-gold">Treat?</span>

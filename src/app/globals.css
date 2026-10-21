@@ -220,31 +220,6 @@
   }
 }
 
-/* Scroll-reveal entrance for each major section, done entirely with CSS
-   scroll-driven animations (no JavaScript, no extra wrapper elements).
-   Feature-queried: browsers without support simply never match this block,
-   so every section always renders fully visible either way. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .mbrace-home .mb-section {
-      animation: mb-reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 25%;
-    }
-  }
-}
-
-@keyframes mb-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(36px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Admin studio: shared form controls and content hierarchy. Keeping this
    scoped to .admin-shell prevents the CMS treatment from leaking into the
    public website. */
