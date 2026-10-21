@@ -19,6 +19,8 @@ import VisitClinicCta from "./VisitClinicCta";
 import DynamicPageSections from "../DynamicPageSections";
 import type { BlogBlock } from "../blog/blogContent";
 import type { DynamicPageSection } from "../dynamicPageContent";
+import LocationSheetSections from "./LocationSheetSections";
+import { findApprovedLocationContent } from "./locationContent";
 
 type LocationWithHighlights = Location & { highlights: LocationHighlight[] };
 
@@ -26,6 +28,7 @@ export default function LocationPageClient({ location, data }: { location: Locat
   const { hospital, careCategories, serviceGroups, homeTestimonials, homeFaqs } = data;
   const bysection = (section: string) => location.highlights.filter(h => h.section === section);
   const blocks = (Array.isArray(location.blocks) ? location.blocks : []) as Array<BlogBlock | DynamicPageSection>;
+  const sheetContent = findApprovedLocationContent(location.slug);
 
   const [toggleLocation, setToggleLocation] = useState(toggleLocations[0]);
   const [bookingService, setBookingService] = useState("");
@@ -69,8 +72,11 @@ export default function LocationPageClient({ location, data }: { location: Locat
         book={book}
         careCategories={careCategories}
         hospital={hospital}
+        content={sheetContent}
       />
-      {blocks.length > 0 ? (
+      {sheetContent ? (
+        <LocationSheetSections content={sheetContent} location={location} onBook={() => book()} />
+      ) : blocks.length > 0 ? (
         <DynamicPageSections blocks={blocks} />
       ) : (
         <>
@@ -97,8 +103,8 @@ export default function LocationPageClient({ location, data }: { location: Locat
           <OurCarePromise locationName={location.name} intro={location.carePromiseIntro} cards={bysection("promise")} />
         </>
       )}
-      <TestimonialsSection homeTestimonials={homeTestimonials} />
-      <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
+      {!sheetContent && <TestimonialsSection homeTestimonials={homeTestimonials} />}
+      {!sheetContent && <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />}
       <AppointmentSection
         status={status}
         setStatus={setStatus}

@@ -20,26 +20,26 @@ export default async function EditServiceItemPage({
   return (
     <div>
       <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">Edit service</h1>
-      <form action={updateServiceItemAction} className="mt-6 grid w-full max-w-none gap-6 rounded-3xl bg-white p-5 shadow-[0_18px_55px_rgba(41,30,52,0.07)] ring-1 ring-[#e4dce9] sm:p-8 xl:p-10">
+      <form action={updateServiceItemAction} className="mt-6 grid w-full gap-6 lg:grid-cols-12">
         <input type="hidden" name="id" value={item.id} />
         <input type="hidden" name="categoryId" value={category ?? item.categoryId} />
-        <section className="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6"><h2 className="mb-4 text-base font-bold text-slate-900">SEO Meta</h2><SeoFields metaTitle={item.metaTitle} metaDescription={item.metaDescription} titlePlaceholder={item.name} descriptionPlaceholder={item.description} /></section>
-        <section className="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6"><h2 className="text-base font-bold text-slate-900">Service Basic Information</h2>
+        <section className="p-5 sm:p-6 lg:col-span-7"><SeoFields metaTitle={item.metaTitle} metaDescription={item.metaDescription} titlePlaceholder={item.name} descriptionPlaceholder={item.description} /></section>
+        <section className="p-5 sm:p-6 lg:col-span-5"><div className="mb-5"><h2 className="text-base font-bold text-slate-900">Hero image</h2><p className="mt-1 text-xs leading-5 text-slate-500">This wide image appears at the top of the service page.</p></div><ImageUploadField label="Banner image" currentImage={item.heroImage} helpText="Recommended: 2200 × 1300px, JPG or WebP." /></section>
+        <section className="p-5 sm:p-6 lg:col-span-12"><div><h2 className="text-base font-bold text-slate-900">Service information</h2><p className="mt-1 text-xs text-slate-500">Core page identity and summaries.</p></div>
+        <div className="mt-5 grid gap-5 md:grid-cols-2">
         <label className="block text-sm font-medium text-slate-700">Name<input name="name" defaultValue={item.name} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
         <label className="block text-sm font-medium text-slate-700">URL slug (public page: /services/{item.slug || "…"})<input name="slug" defaultValue={item.slug} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-        <label className="block text-sm font-medium text-slate-700">Short description (shown in the homepage card)<textarea name="description" defaultValue={item.description} required rows={2} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-        <label className="block text-sm font-medium text-slate-700">Full detail (shown on the /services/[slug] page)<textarea name="detail" defaultValue={item.detail} rows={5} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <label className="block text-sm font-medium text-slate-700">Short description (shown in the homepage card)<textarea name="description" defaultValue={item.description} required rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <label className="block text-sm font-medium text-slate-700">Full detail (shown on the /services/[slug] page)<textarea name="detail" defaultValue={item.detail} rows={3} className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        </div>
         </section>
-        <section className="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6"><h2 className="mb-4 text-base font-bold text-slate-900">Hero Section</h2>
-        <ImageUploadField label="Hero image" currentImage={item.heroImage} />
-        </section>
-        <section className="rounded-2xl border border-brand-200 bg-brand-50/20 p-5 sm:p-6">
+        <section className="p-5 sm:p-6 lg:col-span-12">
           <h2 className="text-base font-bold text-slate-900">Detail Page Sections</h2>
           <p className="mt-1 text-xs text-slate-500">Add and reorder the complete content shown uniquely on this service slug.</p>
           <div className="mt-4"><DynamicPageSectionsEditor name="blocksJson" initialSections={Array.isArray(item.blocks) ? item.blocks : []} /></div>
         </section>
-        <label className="block text-sm font-medium text-slate-700">Display order<input name="order" type="number" defaultValue={item.order} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
-        <button type="submit" className="w-fit inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50">Save changes</button>
+        <label className="block text-sm font-medium text-slate-700 lg:col-span-3">Display order<input name="order" type="number" defaultValue={item.order} required className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20" /></label>
+        <div className="flex items-end lg:col-span-9 lg:justify-end"><button type="submit" className="inline-flex min-h-12 w-full shrink-0 items-center justify-center rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 sm:w-auto">Save changes</button></div>
       </form>
     </div>
   );

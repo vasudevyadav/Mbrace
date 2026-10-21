@@ -1,20 +1,18 @@
-const womenCareImage = "/images/freepik/women-care.jpg";
 const pregnancyCareImage = "/images/freepik/pregnancy-care.jpg";
 const childCareImage = "/images/freepik/child-care.jpg";
 const fertilityLabImage = "/images/freepik/fertility-lab-landscape.jpg";
 
-// Locally hosted Freepik free-photo assets selected by care area. Keeping the
-// mapping here gives every inner page a relevant image without changing its
-// approved layout or relying on third-party hotlinks at runtime.
+// Approved named banners take precedence. Remaining pages use locally hosted
+// care-area imagery so no page depends on a third-party hotlink at runtime.
 export const serviceHeroImages: Record<string, string> = {
-  gynaecology: womenCareImage,
-  "laparoscopic-surgery": womenCareImage,
-  "menopause-care": womenCareImage,
-  "preventive-women-s-health-packages": womenCareImage,
-  "women-s-wellness-support": womenCareImage,
-  "preconception-counselling": pregnancyCareImage,
-  "maternity-care": pregnancyCareImage,
-  "high-risk-pregnancy-care": pregnancyCareImage,
+  gynaecology: "/images/banners/gynaecology-hero-banner.jpg",
+  "laparoscopic-surgery": "/images/banners/laparoscopic-surgery-hero-banner.jpg",
+  "menopause-care": "/images/banners/menopause-care-hero-banner.jpg",
+  "preventive-women-s-health-packages": "/images/banners/preventive-womens-health-hero-banner.jpg",
+  "women-s-wellness-support": "/images/banners/womens-wellness-support-hero-banner.jpg",
+  "preconception-counselling": "/images/banners/preconception-counselling-hero-banner.jpg",
+  "maternity-care": "/images/banners/maternity-care-hero-banner.jpg",
+  "high-risk-pregnancy-care": "/images/banners/high-risk-pregnancy-care-hero-banner.jpg",
   "antenatal-check-ups": pregnancyCareImage,
   "nutrition-guidance": pregnancyCareImage,
   "fetal-medicine": pregnancyCareImage,

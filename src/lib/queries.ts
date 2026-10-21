@@ -11,6 +11,7 @@ import { fallbackBlogArticles, findBlogArticle, type BlogArticle, type BlogBlock
 import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent } from "@/components/sections/mbrace/services/careCategoryContent";
 import { pregnancyServicesBySlug } from "@/components/sections/mbrace/services/pregnancyServiceContent";
 import { approvedDoctors, findApprovedDoctor } from "@/components/sections/mbrace/doctors/doctorContent";
+import { findApprovedLocationContent } from "@/components/sections/mbrace/locations/locationContent";
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -39,7 +40,8 @@ export async function getCareCategoryContent(slug: string): Promise<CareCategory
     return {
       ...fallback,
       // Editorial copy and approved page imagery come from the reviewed local
-      // source. The CMS still owns optional SEO overrides.
+      // source. The CMS owns explicit hero-image and SEO overrides.
+      heroImage: row.heroImage || fallback.heroImage,
       metaTitle: row.metaTitle || undefined,
       metaDescription: row.metaDescription || undefined,
     };
@@ -338,10 +340,67 @@ export async function getServiceCategoryByKey(key: string) {
 }
 
 export async function getLocationBySlug(slug: string) {
-  return prisma.location.findUnique({
-    where: { slug },
-    include: { highlights: { orderBy: { order: "asc" } } },
-  });
+  const approved = findApprovedLocationContent(slug);
+  try {
+    const row = await prisma.location.findUnique({
+      where: { slug },
+      include: { highlights: { orderBy: { order: "asc" } } },
+    });
+    if (!approved) return row;
+    return {
+      id: row?.id ?? (slug === "lb-nagar" ? -1 : -2),
+      slug,
+      name: approved.name,
+      address: slug === "lb-nagar"
+        ? "Inner Ring Road, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana 500068."
+        : "Boggulakunta, King Koti, Abids, Hyderabad 500001.",
+      phone: approved.phone,
+      phoneHref: approved.phoneHref,
+      email: row?.email || "mbrace@kaminenihospitals.com",
+      mapUrl: row?.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`M'Brace Kamineni Hospitals ${approved.name} Hyderabad`)}`,
+      heroImage: row?.heroImage || "/images/figma/location-hero-bg.png",
+      servicesImage: row?.servicesImage || "/images/figma/location-services.png",
+      clinicImage: row?.clinicImage || "/images/figma/location-clinic.png",
+      introParagraph: approved.about.paragraphs[0],
+      whatToExpectIntro: approved.visit.body,
+      carePromiseIntro: approved.whyChoose.body,
+      whyChooseIntro: approved.whyChoose.body,
+      reachIntro: approved.reach.body,
+      blocks: row?.blocks ?? [],
+      order: row?.order ?? (slug === "lb-nagar" ? 0 : 1),
+      metaTitle: row?.metaTitle || approved.heroHeading,
+      metaDescription: row?.metaDescription || approved.about.paragraphs[0],
+      highlights: row?.highlights ?? [],
+    };
+  } catch (error) {
+    console.warn(`Database unavailable; using local location content for ${slug}.`, error);
+    if (!approved) return null;
+    return {
+      id: slug === "lb-nagar" ? -1 : -2,
+      slug,
+      name: approved.name,
+      address: slug === "lb-nagar"
+        ? "Inner Ring Road, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana 500068."
+        : "Boggulakunta, King Koti, Abids, Hyderabad 500001.",
+      phone: approved.phone,
+      phoneHref: approved.phoneHref,
+      email: "mbrace@kaminenihospitals.com",
+      mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`M'Brace Kamineni Hospitals ${approved.name} Hyderabad`)}`,
+      heroImage: "/images/figma/location-hero-bg.png",
+      servicesImage: "/images/figma/location-services.png",
+      clinicImage: "/images/figma/location-clinic.png",
+      introParagraph: approved.about.paragraphs[0],
+      whatToExpectIntro: approved.visit.body,
+      carePromiseIntro: approved.whyChoose.body,
+      whyChooseIntro: approved.whyChoose.body,
+      reachIntro: approved.reach.body,
+      blocks: [],
+      order: slug === "lb-nagar" ? 0 : 1,
+      metaTitle: approved.heroHeading,
+      metaDescription: approved.about.paragraphs[0],
+      highlights: [],
+    };
+  }
 }
 
 export async function getLocations() {

@@ -5,11 +5,11 @@ import { useId, useState } from "react";
 export type LeadsTrendPoint = { label: string; fullLabel: string; count: number };
 
 const WIDTH = 600;
-const HEIGHT = 200;
+const HEIGHT = 220;
 const PAD_LEFT = 28;
 const PAD_RIGHT = 12;
-const PAD_TOP = 16;
-const PAD_BOTTOM = 26;
+const PAD_TOP = 20;
+const PAD_BOTTOM = 30;
 
 export default function LeadsTrendChart({ data }: { data: LeadsTrendPoint[] }) {
   const gradientId = useId();
@@ -45,33 +45,34 @@ export default function LeadsTrendChart({ data }: { data: LeadsTrendPoint[] }) {
       <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label="Appointment leads received per day over the last 14 days">
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-brand-300)" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="var(--color-brand-300)" stopOpacity="0" />
+            <stop offset="0%" stopColor="#9c6cbb" stopOpacity="0.32" />
+            <stop offset="72%" stopColor="#d9c2e7" stopOpacity="0.09" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
         </defs>
 
         {gridY.map(y => (
-          <line key={y} x1={PAD_LEFT} x2={WIDTH - PAD_RIGHT} y1={y} y2={y} stroke="#edeaf2" strokeWidth="1" />
+          <line key={y} x1={PAD_LEFT} x2={WIDTH - PAD_RIGHT} y1={y} y2={y} stroke="#eee8f1" strokeWidth="1" strokeDasharray="3 5" />
         ))}
 
         {points.length > 0 && (
           <>
             <path d={areaPath} fill={`url(#${gradientId})`} stroke="none" />
-            <path d={linePath} fill="none" stroke="var(--color-brand-600)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path className="admin-chart-line" d={linePath} fill="none" stroke="#76508f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           </>
         )}
 
         {points.map((p, i) => (
           <g key={p.fullLabel}>
             {i % 2 === 0 && (
-              <text x={p.x} y={HEIGHT - 8} textAnchor="middle" fontSize="9" fill="#9a8fa6">
+              <text x={p.x} y={HEIGHT - 8} textAnchor="middle" fontSize="9" fontWeight="600" fill="#a39aa8">
                 {p.label}
               </text>
             )}
             {hoverIndex === i && (
               <>
-                <line x1={p.x} x2={p.x} y1={PAD_TOP} y2={PAD_TOP + innerHeight} stroke="var(--color-brand-400)" strokeWidth="1" strokeDasharray="3 3" />
-                <circle cx={p.x} cy={p.y} r="4.5" fill="var(--color-brand-600)" stroke="white" strokeWidth="2" />
+                <line x1={p.x} x2={p.x} y1={PAD_TOP} y2={PAD_TOP + innerHeight} stroke="#9d78b6" strokeWidth="1" strokeDasharray="3 4" />
+                <circle cx={p.x} cy={p.y} r="5" fill="#76508f" stroke="white" strokeWidth="2.5" />
               </>
             )}
           </g>

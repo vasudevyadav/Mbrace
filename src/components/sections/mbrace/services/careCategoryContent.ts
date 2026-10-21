@@ -41,7 +41,7 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     heroHeadingHighlight2: "of Womanhood",
     heroHeadingLine2: "LB Nagar | King Koti",
     heroDescription: "From preconception counselling to menopause care, speak openly with senior gynaecologists and laparoscopic and robotics surgeons who assist with diagnosis, treatment and wellness support.",
-    heroImage: "/images/freepik/women-care.jpg",
+    heroImage: "/images/banners/women-care-hero-banner.jpg",
     journeyHeading: "Whatever Brings You In,",
     journeyHighlight: "Start a Conversation!",
     journey: [

@@ -4,6 +4,7 @@ import { fallbackBlogArticles } from "../src/components/sections/mbrace/blog/blo
 import { carePageSlugs, fallbackCareCategoryContent } from "../src/components/sections/mbrace/services/careCategoryContent";
 import { approvedCareFaqs, approvedServiceGroups } from "../src/components/sections/mbrace/services/approvedCarePageData";
 import { serviceDetailBlocks } from "../src/components/sections/mbrace/services/serviceDetailBlocks";
+import { serviceHeroImages } from "../src/components/sections/mbrace/services/serviceImages";
 import { approvedDoctors } from "../src/components/sections/mbrace/doctors/doctorContent";
 
 const prisma = new PrismaClient();
@@ -99,7 +100,7 @@ async function main() {
     }
   }
 
-  const serviceHeroImages = [3, 4, 5, 7, 8, 9, 18, 6];
+  const serviceHeroAssetIds = [3, 4, 5, 7, 8, 9, 18, 6];
   for (const [i, key] of Object.keys(serviceGroups).entries()) {
     const category = await prisma.serviceCategory.upsert({
       where: { key },
@@ -117,7 +118,7 @@ async function main() {
           description,
           order: j,
           detail: description,
-          heroImage: asset(serviceHeroImages[j % serviceHeroImages.length]),
+          heroImage: serviceHeroImages[slug] ?? asset(serviceHeroAssetIds[j % serviceHeroAssetIds.length]),
           blocks: (serviceDetailBlocks[slug] ?? []) as Prisma.InputJsonValue,
         },
       });

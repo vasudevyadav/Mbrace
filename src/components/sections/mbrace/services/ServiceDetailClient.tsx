@@ -52,7 +52,10 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   const dbBlocks = (Array.isArray(service.blocks) ? service.blocks : []) as Array<BlogBlock | DynamicPageSection>;
   const approvedBlocks = serviceDetailBlocks[service.slug] ?? [];
   const blocks = approvedBlocks.length > 0 ? approvedBlocks : dbBlocks;
-  const heroImage = serviceHeroImages[service.slug] || service.heroImage || "/services-details-banner.png";
+  // The service record is admin-managed, so an uploaded/selected admin image
+  // must win. Named local banners remain the reliable fallback for offline or
+  // newly seeded pages.
+  const heroImage = service.heroImage || serviceHeroImages[service.slug] || "/services-details-banner.png";
   const isGynecology = service.slug === "gynaecology";
   const faqData = serviceFaqs[service.slug];
   const pageCopy = servicePageCopy[service.slug];

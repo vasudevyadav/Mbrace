@@ -43,8 +43,6 @@ const contact = {
   metaDescription: "",
 } as const;
 
-const childCareImage = "/images/freepik/child-care.jpg";
-
 export const approvedDoctors: ApprovedDoctor[] = [
   {
     ...contact,
@@ -179,7 +177,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr J Kavya Rao",
     qualifications: "MS, FLCH",
     role: "Vitreoretina, Uvea & ROP Consultant",
-    image: childCareImage,
+    image: "",
     yearsExperience: "11+ Years",
     isFeatured: false,
     order: 9,
@@ -193,7 +191,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr G Satyanarayana",
     qualifications: "MS, MCh (Paediatric Surgery), FMAS",
     role: "Consultant Surgical Gastroenterologist",
-    image: childCareImage,
+    image: "",
     yearsExperience: "20+ Years",
     isFeatured: false,
     order: 10,
@@ -207,7 +205,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr Kiranmayee",
     qualifications: "MBBS, MD (Paediatrics)",
     role: "Consultant Paediatrician",
-    image: childCareImage,
+    image: "",
     yearsExperience: "5+ Years",
     isFeatured: false,
     order: 11,
@@ -221,7 +219,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr Keerthi Kundani",
     qualifications: "",
     role: "Paediatric Neurologist",
-    image: childCareImage,
+    image: "",
     yearsExperience: "",
     isFeatured: false,
     order: 12,
@@ -235,7 +233,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr Vishnu Priya",
     qualifications: "",
     role: "Developmental Paediatrician",
-    image: childCareImage,
+    image: "",
     yearsExperience: "",
     isFeatured: false,
     order: 13,
@@ -249,7 +247,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr Arjun",
     qualifications: "",
     role: "Paediatric Orthopaedics",
-    image: childCareImage,
+    image: "",
     yearsExperience: "",
     isFeatured: false,
     order: 14,
