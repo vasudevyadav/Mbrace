@@ -59,7 +59,9 @@ export default function MbraceHeader({
 
   return (
     <>
-      <header className={`mb-header fixed z-[60] flex items-center top-0 right-0 bottom-auto left-0 h-[var(--care-header-height)] bg-[#fffdf9f5] [backdrop-filter:blur(16px)] [border-bottom:1px_solid_#764b9e18] shadow-[0_4px_24px_#33214c0a] gap-2.5 pt-2.5 pr-4 pb-2.5 pl-4 sm:gap-4 xl:gap-4 min-[1400px]:gap-[25px] sm:pt-3 sm:pr-[clamp(20px,_3vw,_48px)] sm:pb-3 sm:pl-[clamp(20px,_3vw,_48px)] justify-between [transition:background_.25s,box-shadow_.25s,padding_.25s,height_.25s] ${scrolled ? "xl:fixed! xl:top-0! xl:right-0! xl:bottom-auto! xl:left-0! xl:h-[var(--care-header-height)]! xl:bg-[#fffdf9f5]! xl:pt-3! xl:pr-[clamp(20px,_3vw,_48px)]! xl:pb-3! xl:pl-[clamp(20px,_3vw,_48px)]! xl:[backdrop-filter:blur(16px)]! xl:[border-bottom:1px_solid_#764b9e18]! xl:shadow-[0_4px_24px_#33214c0a]!" : ""} [&_nav]:hidden [&_nav]:items-stretch [&_nav]:text-[14px] [&_nav]:absolute [&_nav]:top-full [&_nav]:left-5 [&_nav]:right-5 [&_nav]:bg-white [&_nav]:shadow-[0_12px_30px_#1f2b7020] [&_nav]:rounded-[12px] [&_nav]:pt-6 [&_nav]:pr-6 [&_nav]:pb-6 [&_nav]:pl-6 xl:[&_nav]:flex xl:[&_nav]:static xl:[&_nav]:bg-transparent xl:[&_nav]:shadow-none xl:[&_nav]:rounded-none xl:[&_nav]:pt-0 xl:[&_nav]:pr-0 xl:[&_nav]:pb-0 xl:[&_nav]:pl-0 xl:[&_nav]:items-center [&_nav]:justify-end [&_nav]:flex-1 [&_nav]:text-[#6b6969] [&_nav]:gap-[13px] min-[1400px]:[&_nav]:gap-6 xl:[&_nav]:text-[11px] min-[1400px]:[&_nav]:text-[14px] [&_nav>a]:whitespace-nowrap [&_nav>a]:font-bold [&_nav>a:first-child]:text-care-purple [&_nav>a:first-child]:font-extrabold [&_.mb-button]:text-[12px] [&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2.5 [&_.mb-button]:pr-5.5 [&_.mb-button]:pb-2.5 [&_.mb-button]:pl-5.5 xl:[&_.mb-button]:text-[12px] min-[1400px]:[&_.mb-button]:text-[14px] xl:[&_.mb-button]:font-bold xl:[&_.mb-button]:pt-3.5 xl:[&_.mb-button]:pr-6 xl:[&_.mb-button]:pb-3.5 xl:[&_.mb-button]:pl-6 [&_nav.is-open]:flex [&_nav.is-open]:flex-col [&_.mb-logos_img]:w-22 sm:[&_.mb-logos_img]:w-27.5 xl:[&_.mb-logos_img]:w-[125px] [&_.mb-logos_img:last-child]:w-25.5 sm:[&_.mb-logos_img:last-child]:w-[125px] xl:[&_.mb-logos_img:last-child]:w-[145px] [&_.mb-desktop-nav]:gap-[clamp(12px,_1.4vw,_22px)] [&_.mb-desktop-nav]:text-[12px] [&_a:hover]:text-care-purple [&_.mb-logos]:gap-[9px] [&_.mb-logos>span]:h-8.5 [&_.mb-button:hover]:text-white`}>
+      <header
+        className={`mb-header fixed z-[60] flex items-center top-0 right-0 bottom-auto left-0 h-[var(--care-header-height)] bg-[#fffdf9f5] [backdrop-filter:blur(16px)] [border-bottom:1px_solid_#764b9e18] shadow-[0_4px_24px_#33214c0a] gap-2.5 pt-2.5 pr-4 pb-2.5 pl-4 sm:gap-4 xl:gap-4 min-[1400px]:gap-[25px] sm:pt-3 sm:pr-[clamp(20px,_3vw,_48px)] sm:pb-3 sm:pl-[clamp(20px,_3vw,_48px)] justify-between [transition:background_.25s,box-shadow_.25s,padding_.25s,height_.25s] ${scrolled ? "xl:fixed! xl:top-0! xl:right-0! xl:bottom-auto! xl:left-0! xl:h-[var(--care-header-height)]! xl:bg-[#fffdf9f5]! xl:pt-3! xl:pr-[clamp(20px,_3vw,_48px)]! xl:pb-3! xl:pl-[clamp(20px,_3vw,_48px)]! xl:[backdrop-filter:blur(16px)]! xl:[border-bottom:1px_solid_#764b9e18]! xl:shadow-[0_4px_24px_#33214c0a]!" : ""} [&_nav]:hidden [&_nav]:items-stretch [&_nav]:text-[14px] [&_nav]:absolute [&_nav]:top-full [&_nav]:left-5 [&_nav]:right-5 [&_nav]:bg-white [&_nav]:shadow-[0_12px_30px_#1f2b7020] [&_nav]:rounded-[12px] [&_nav]:pt-6 [&_nav]:pr-6 [&_nav]:pb-6 [&_nav]:pl-6 xl:[&_nav]:flex xl:[&_nav]:static xl:[&_nav]:bg-transparent xl:[&_nav]:shadow-none xl:[&_nav]:rounded-none xl:[&_nav]:pt-0 xl:[&_nav]:pr-0 xl:[&_nav]:pb-0 xl:[&_nav]:pl-0 xl:[&_nav]:items-center [&_nav]:justify-end [&_nav]:flex-1 [&_nav]:text-[#6b6969] [&_nav]:gap-[13px] min-[1400px]:[&_nav]:gap-6 xl:[&_nav]:text-[11px] min-[1400px]:[&_nav]:text-[14px] [&_nav>a]:whitespace-nowrap [&_nav>a]:font-bold [&_nav>a:first-child]:text-care-purple [&_nav>a:first-child]:font-extrabold [&_.mb-button]:text-[12px] [&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2.5 [&_.mb-button]:pr-5.5 [&_.mb-button]:pb-2.5 [&_.mb-button]:pl-5.5 xl:[&_.mb-button]:text-[12px] min-[1400px]:[&_.mb-button]:text-[14px] xl:[&_.mb-button]:font-bold xl:[&_.mb-button]:pt-3.5 xl:[&_.mb-button]:pr-6 xl:[&_.mb-button]:pb-3.5 xl:[&_.mb-button]:pl-6 [&_nav.is-open]:flex [&_nav.is-open]:flex-col [&_.mb-logos_img]:w-22 sm:[&_.mb-logos_img]:w-27.5 xl:[&_.mb-logos_img]:w-[125px] [&_.mb-logos_img:last-child]:w-25.5 sm:[&_.mb-logos_img:last-child]:w-[125px] xl:[&_.mb-logos_img:last-child]:w-[145px] [&_.mb-desktop-nav]:gap-[clamp(12px,_1.4vw,_22px)] [&_.mb-desktop-nav]:text-[12px] [&_a:hover]:text-care-purple [&_.mb-logos]:gap-[9px] [&_.mb-logos>span]:h-8.5 [&_.mb-button:hover]:text-white`}
+      >
         <Link
           className="mb-logos flex items-center shrink-0 gap-2.5 sm:gap-[15px] [&_img]:w-22.5 sm:[&_img]:w-27.5 xl:[&_img]:w-[145px] [&_img]:h-auto [&_img]:object-contain [&_img]:mix-blend-multiply [&_img:last-child]:w-27.5 sm:[&_img:last-child]:w-[125px] xl:[&_img:last-child]:w-40 [&>span]:h-[35px] sm:[&>span]:h-13 [&>span]:w-[1px] [&>span]:bg-[#8b847f]"
           href="/"
@@ -80,13 +82,18 @@ export default function MbraceHeader({
           />
         </Link>
         <nav
-          className="mb-desktop-nav xl:text-[11px]! min-[1400px]:text-[14px]! [&>a]:pt-3 [&>a]:pb-3 [font-family:var(--font-manrope)]"
+          className="mb-desktop-nav xl:text-[14px]! min-[1400px]:text-[12px]! [&>a]:pt-3 [&>a]:pb-3 [font-family:var(--font-manrope)]"
           aria-label="Main navigation"
         >
-          <Link href={`${basePath}#home`}><span className="text-care-gold">{"‣ "}</span>Home</Link>
+          <Link href={`${basePath}#home`}>
+            <span className="text-care-gold">{"‣ "}</span>Home
+          </Link>
           <Link href="/about">About Us</Link>
           {careCategories.map((name) => (
-            <Link href={careCategoryHrefs[name] ?? `${basePath}#services`} key={name}>
+            <Link
+              href={careCategoryHrefs[name] ?? `${basePath}#services`}
+              key={name}
+            >
               {name}
             </Link>
           ))}
