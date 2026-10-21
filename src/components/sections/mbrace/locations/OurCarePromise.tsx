@@ -13,14 +13,14 @@ export default function OurCarePromise({ locationName, intro, cards }: { locatio
         <div className="mb-10 grid items-center gap-4 md:grid-cols-2 md:gap-10">
           <div>
             <p className="mb-eyebrow text-[14px] font-bold text-care-gold mb-3">Our Care Promise</p>
-            <h2 className="text-[28px] font-bold leading-[1.2] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
+            <h2 className="text-[23px] font-bold leading-[1.25] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
               What Sets Our Care <span className="text-care-purple">Apart</span> at {locationName}
             </h2>
           </div>
           <p className="text-[15px] leading-[1.65] text-[#5d6078]">{intro}</p>
         </div>
         <div className="mb-8 border-t border-[#e8dff5]" />
-        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible">
+        <div className="flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:items-start sm:overflow-visible">
           {cards.map((card, i) => {
             const Icon = promiseIcons[i % promiseIcons.length];
             return (
