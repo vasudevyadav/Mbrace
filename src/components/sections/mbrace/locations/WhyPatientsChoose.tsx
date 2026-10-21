@@ -14,7 +14,7 @@ export default function WhyPatientsChoose({ locationName, intro, stats, features
         <div className="mb-8 grid items-center gap-4 md:grid-cols-2 md:gap-10">
           <div>
             <p className="mb-eyebrow text-[14px] font-bold text-care-gold mb-3">Trusted By Thousands</p>
-            <h2 className="text-[28px] font-bold leading-[1.2] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
+            <h2 className="text-[23px] font-bold leading-[1.25] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
               Why Patients Choose <span className="text-care-purple">M&apos;Brace</span> at {locationName}
             </h2>
           </div>
@@ -33,7 +33,7 @@ export default function WhyPatientsChoose({ locationName, intro, stats, features
         )}
 
         {features.length > 0 && (
-          <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-4">
+          <div className="flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-start md:overflow-visible lg:grid-cols-4">
             {features.map((feature, i) => {
               const Icon = featureIcons[i % featureIcons.length];
               return (

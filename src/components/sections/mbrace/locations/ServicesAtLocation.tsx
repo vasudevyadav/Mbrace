@@ -14,7 +14,7 @@ export default function ServicesAtLocation({ locationName, intro, image, items }
       <div className="mb-container mx-auto grid w-full gap-10 px-5 sm:px-6 lg:max-w-[1130px] lg:grid-cols-[560px_555px] lg:items-start lg:gap-[45px] lg:px-0">
         <div>
           <p className="mb-eyebrow text-[14px] font-bold text-care-purple mb-3">Services Available</p>
-          <h2 className="mb-5 text-[28px] font-bold leading-[1.2] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
+          <h2 className="mb-5 text-[23px] font-bold leading-[1.25] text-[#1f2b70] md:text-[34px] lg:text-[40px]">
             How M&apos;Brace at <span className="text-care-purple">{locationName}</span> Helps You?
           </h2>
           <p className="mb-7 text-[15px] leading-[1.65] text-[#5d6078] lg:hidden">{intro}</p>
