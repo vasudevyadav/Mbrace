@@ -50,15 +50,15 @@ export async function loginAction(formData: FormData) {
   const next = safeNext(str(formData, "next"));
   const key = `pwd:${await clientKey()}`;
 
-  const lock = isLoginLocked(key);
+  const lock = await isLoginLocked(key);
   if (lock.locked) {
     redirect(`/admin/login?error=locked&next=${encodeURIComponent(next)}`);
   }
   if (!checkAdminPassword(password)) {
-    registerFailedLogin(key);
+    await registerFailedLogin(key);
     redirect(`/admin/login?error=1&next=${encodeURIComponent(next)}`);
   }
-  clearLoginAttempts(key);
+  await clearLoginAttempts(key);
 
   const jar = await cookies();
 
@@ -90,15 +90,15 @@ export async function verifyTotpAction(formData: FormData) {
   if (!isValidPendingTwoFactorToken(pendingToken)) {
     redirect(`/admin/login?next=${encodeURIComponent(next)}`);
   }
-  const lock = isLoginLocked(key);
+  const lock = await isLoginLocked(key);
   if (lock.locked) {
     redirect(`/admin/login?step=totp&error=locked&next=${encodeURIComponent(next)}&pending=${encodeURIComponent(pendingToken)}`);
   }
   if (!checkAuthenticatorCode(code)) {
-    registerFailedLogin(key);
+    await registerFailedLogin(key);
     redirect(`/admin/login?step=totp&error=1&next=${encodeURIComponent(next)}&pending=${encodeURIComponent(pendingToken)}`);
   }
-  clearLoginAttempts(key);
+  await clearLoginAttempts(key);
 
   const jar = await cookies();
 

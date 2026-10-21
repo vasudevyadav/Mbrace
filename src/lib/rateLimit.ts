@@ -1,44 +1,38 @@
-// In-memory throttle for login attempts and public form submissions. Stops a
-// script from hammering an endpoint at unlimited speed. This resets on
-// server restart and isn't shared across instances — fine for a single
-// process under normal attack traffic; upgrade to a DB-backed or Redis store
-// if this ever runs across multiple serverless instances under sustained abuse.
+import { prisma } from "@/lib/prisma";
 
-type Entry = { count: number; windowStart: number; lockedUntil: number };
+// DB-backed throttle for login attempts and public form submissions.
+// Deliberately NOT in-memory — Vercel (and most serverless hosts) runs each
+// request on one of several independent instances with their own memory, so
+// an in-memory counter gives a different, inconsistent answer depending on
+// which instance happens to handle the request. The database is the one
+// shared source of truth every instance reads and writes.
 
 function makeLimiter(maxAttempts: number, windowMs: number, lockoutMs: number) {
-  const attempts = new Map<string, Entry>();
-
-  function prune(now: number) {
-    for (const [key, entry] of attempts) {
-      if (entry.lockedUntil < now && now - entry.windowStart > windowMs) {
-        attempts.delete(key);
-      }
-    }
-  }
-
   return {
-    isLocked(key: string): { locked: boolean; retryAfterSeconds: number } {
-      const now = Date.now();
-      const entry = attempts.get(key);
-      if (!entry || entry.lockedUntil <= now) return { locked: false, retryAfterSeconds: 0 };
-      return { locked: true, retryAfterSeconds: Math.ceil((entry.lockedUntil - now) / 1000) };
+    async isLocked(key: string): Promise<{ locked: boolean; retryAfterSeconds: number }> {
+      const row = await prisma.rateLimitAttempt.findUnique({ where: { key } });
+      if (!row?.lockedUntil || row.lockedUntil <= new Date()) return { locked: false, retryAfterSeconds: 0 };
+      return { locked: true, retryAfterSeconds: Math.ceil((row.lockedUntil.getTime() - Date.now()) / 1000) };
     },
-    registerFailure(key: string) {
-      const now = Date.now();
-      prune(now);
-      const entry = attempts.get(key);
-      if (!entry || now - entry.windowStart > windowMs) {
-        attempts.set(key, { count: 1, windowStart: now, lockedUntil: 0 });
+    async registerFailure(key: string): Promise<void> {
+      const now = new Date();
+      const row = await prisma.rateLimitAttempt.findUnique({ where: { key } });
+      if (!row || now.getTime() - row.windowStart.getTime() > windowMs) {
+        await prisma.rateLimitAttempt.upsert({
+          where: { key },
+          create: { key, count: 1, windowStart: now, lockedUntil: null },
+          update: { count: 1, windowStart: now, lockedUntil: null },
+        });
         return;
       }
-      entry.count += 1;
-      if (entry.count >= maxAttempts) {
-        entry.lockedUntil = now + lockoutMs;
-      }
+      const count = row.count + 1;
+      await prisma.rateLimitAttempt.update({
+        where: { key },
+        data: { count, lockedUntil: count >= maxAttempts ? new Date(now.getTime() + lockoutMs) : row.lockedUntil },
+      });
     },
-    clear(key: string) {
-      attempts.delete(key);
+    async clear(key: string): Promise<void> {
+      await prisma.rateLimitAttempt.deleteMany({ where: { key } });
     },
   };
 }
@@ -53,9 +47,5 @@ export const clearLoginAttempts = loginLimiter.clear;
 // 10 minutes, then throttled for 10 minutes. Looser than login since these
 // have no "wrong answer" to count failures by — every submission counts.
 const formLimiter = makeLimiter(5, 10 * 60 * 1000, 10 * 60 * 1000);
-export function isFormThrottled(key: string) {
-  return formLimiter.isLocked(key);
-}
-export function registerFormSubmission(key: string) {
-  formLimiter.registerFailure(key);
-}
+export const isFormThrottled = formLimiter.isLocked;
+export const registerFormSubmission = formLimiter.registerFailure;
