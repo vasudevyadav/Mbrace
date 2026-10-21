@@ -3,7 +3,7 @@
 import { type RefObject, type FormEvent } from "react";
 import Photo from "./Photo";
 import Heading from "./Heading";
-import { CheckIcon, ChevronDownIcon } from "@/components/icons/icons";
+import { CheckIcon, ChevronDownIcon, PlayIcon } from "@/components/icons/icons";
 import { locations } from "./content";
 import type { HomeData } from "@/lib/queries";
 import type { AppointmentStatus } from "./types";
@@ -35,13 +35,23 @@ export default function AppointmentSection({ status, setStatus, formRef, submitA
     ? [bookingService, ...careCategories]
     : careCategories;
 
+  const emphasisPrefix = "Book Appointment";
+  const headingContent = heading.startsWith(emphasisPrefix)
+    ? <><em>{emphasisPrefix}</em>{heading.slice(emphasisPrefix.length)}</>
+    : heading;
+
   return (
-    <section id="appointment" className="mb-section mb-tinted mb-rounded rounded-[20px] py-12 [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple [&_p]:leading-[1.65] md:rounded-[26px] md:py-10 lg:py-20">
-      <div className="mb-container mb-appointment mx-auto grid w-full items-center gap-8 px-5 md:px-6 md:grid-cols-2 md:gap-9 lg:max-w-6xl lg:gap-26 lg:px-8 [&_.mb-heading]:mb-4.5 [&>div>p]:text-[14px] [&>.mb-photo]:h-90 md:[&>.mb-photo]:h-140">
-        <Photo n={18} alt="A mother smiles at her baby" />
+    <section id="appointment" className="mb-section mb-tinted mb-rounded rounded-[20px] py-12 [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple [&_h2_em]:not-italic [&_h2_em]:font-extrabold [&_h2_em]:text-care-gold [&_p]:leading-[1.65] md:rounded-[26px] md:py-10 lg:py-20">
+      <div className="mb-container mb-appointment mx-auto grid w-full items-center gap-8 px-5 md:px-6 md:grid-cols-2 md:gap-9 lg:max-w-6xl lg:gap-26 lg:px-8 [&_.mb-heading]:mb-4.5 [&>div>p]:text-[14px] [&>.mb-photo-frame]:h-90 md:[&>.mb-photo-frame]:h-140">
+        <div className="mb-photo-frame relative">
+          <Photo n={18} alt="A mother smiles at her baby" className="h-full" />
+          <span className="absolute right-5 bottom-5 inline-flex size-12 items-center justify-center rounded-full bg-care-gold text-white shadow-lg md:right-6 md:bottom-6 md:size-14" aria-hidden="true">
+            <PlayIcon className="ml-0.5 size-5 md:size-6" />
+          </span>
+        </div>
         <div className="text-center md:text-left">
-          <Heading label={label}>{heading}</Heading>
-          <p className="mx-auto max-w-[560px] md:mx-0">{description}</p>
+          <Heading label={label}>{headingContent}</Heading>
+          <p className="mx-auto max-w-[560px] text-care-copy md:mx-0">{description}</p>
           {status === "success" ? <div className="mb-form-result pt-7.5 pr-7.5 pb-7.5 pl-7.5 bg-white rounded-[15px] mt-5 [&_svg]:w-10 [&_svg]:text-care-purple [&_h3]:font-bold [&_h3]:text-[21px] [&_h3]:text-care-navy [&_h3]:mt-[15px] [&_h3]:mb-[15px] [&_.mb-button]:mt-5" role="status">
             <CheckIcon />
             <h3>Appointment request sent</h3>

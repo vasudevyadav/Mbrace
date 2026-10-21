@@ -34,8 +34,8 @@ function StatCard({
     <div
       className={`relative flex min-h-47.5 flex-col justify-center rounded-[14px] px-[15px] pb-5 pt-15 text-white md:min-h-55 md:px-6 md:pb-6 md:pt-17 lg:min-h-[245px] lg:px-7.5 lg:pb-10 ${
         reverseGradient
-          ? "[background:linear-gradient(90deg,#fbad31,#764b9e)]"
-          : "[background:linear-gradient(90deg,#764b9e,#fbad31)]"
+          ? "[background:linear-gradient(90deg,var(--color-care-gold),var(--color-care-purple))]"
+          : "[background:linear-gradient(90deg,var(--color-care-purple),var(--color-care-gold))]"
       } ${className}`}
     >
       <Image
@@ -69,7 +69,7 @@ export default function WhyChooseUsSection({ stats }: Props) {
           <p className="font-semibold leading-[1.65]">At M&apos;Brace, you get the focus of a specialist women&apos;s health and fertility hospital in Hyderabad and the resources of a multispeciality one. We are backed by Kamineni Hospitals, recognised as Best Multispeciality Hospital – South Region.</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:gap-5 [&_.mb-photo]:min-h-47.5 [&_.mb-photo]:rounded-[14px] md:[&_.mb-photo]:min-h-55 lg:[&_.mb-photo]:min-h-[245px]">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:gap-5 xl:gap-6 [&_.mb-photo]:min-h-47.5 [&_.mb-photo]:rounded-[14px] md:[&_.mb-photo]:min-h-55 lg:[&_.mb-photo]:min-h-[245px]">
           <Photo
             n={7}
             alt="Mother embracing her newborn"

@@ -110,7 +110,7 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
               <span>|</span>
               <Link href="/locations/king-koti">King Koti</Link>
             </div>
-            <a className="mb-footer-map block relative rounded-[8px] overflow-hidden max-w-87.5 [&_img]:w-full [&_img]:object-cover [&_img]:h-45 md:[&_img]:h-35 [&>span]:absolute [&>span]:right-2 [&>span]:bottom-2 [&>span]:bg-[#fff] [&>span]:text-[#333] [&>span]:pt-[5px] [&>span]:pr-2 [&>span]:pb-[5px] [&>span]:pl-2 [&>span]:rounded-[3px] [&>span]:text-[10px]" href={mapUrl} target="_blank" rel="noreferrer">
+            <a className="mb-footer-map block relative max-w-87.5 [&_img]:w-full [&_img]:object-cover [&_img]:h-45 md:[&_img]:h-35 [&_img]:rounded-[14px] [&>span]:absolute [&>span]:left-1/2 [&>span]:-translate-x-1/2 [&>span]:bottom-0 [&>span]:translate-y-1/2 [&>span]:bg-[#fff] [&>span]:text-[#333] [&>span]:pt-[5px] [&>span]:pr-2 [&>span]:pb-[5px] [&>span]:pl-2 [&>span]:rounded-[3px] [&>span]:text-[10px]" href={mapUrl} target="_blank" rel="noreferrer">
               <Image src={asset(6)} width={280} height={140} alt="Hospital location map" />
               <span>View on Map</span>
             </a>

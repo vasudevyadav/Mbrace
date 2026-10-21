@@ -5,7 +5,7 @@
   --color-care-gold: #fbad31;
   --color-care-navy: #1f2b70;
   --color-care-copy: #5d6078;
-  --color-care-soft: #f8f5fc;
+  --color-care-soft: #f7f6fd;
   --animate-drawer-enter: drawer-enter .25s ease-out;
   @keyframes drawer-enter {
     from { transform: translateX(100%); }
