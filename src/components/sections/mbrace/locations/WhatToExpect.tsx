@@ -1,6 +1,6 @@
 type Step = { title: string };
 
-export default function WhatToExpect({ locationName, intro, steps }: { locationName: string; intro: string; steps: Step[] }) {
+export default function WhatToExpect({ locationName, intro, steps, phone, phoneHref }: { locationName: string; intro: string; steps: Step[]; phone?: string; phoneHref?: string }) {
   if (steps.length === 0) return null;
 
   return (
@@ -13,12 +13,18 @@ export default function WhatToExpect({ locationName, intro, steps }: { locationN
         <p className="mx-auto mb-10 max-w-165 text-[15px] leading-[1.65] text-white/90">{intro}</p>
         <div className="grid gap-4 text-left md:grid-cols-2">
           {steps.map((step, i) => (
-            <div key={step.title} className="flex items-center gap-4 rounded-[12px] border border-white/15 bg-white/10 p-5">
-              <span className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-[19px] bg-care-gold text-[16px] font-extrabold text-white">{i + 1}</span>
-              <p className="text-[15px] font-semibold text-white">{step.title}</p>
+            <div key={step.title} className="flex items-center gap-4 rounded-[12px] bg-white p-5 text-care-navy transition-colors duration-200 hover:bg-[#fff8ec]">
+              <span className={`flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-[19px] text-[16px] font-extrabold text-white ${i % 2 === 0 ? "bg-care-purple" : "bg-care-gold"}`}>{i + 1}</span>
+              <p className="text-[15px] font-semibold">{step.title}</p>
             </div>
           ))}
         </div>
+        {phone && (
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href="#appointment" className="inline-flex min-h-[49px] items-center justify-center rounded-[6px] bg-care-gold px-7 text-[14px] font-semibold text-[#2d2037] hover:bg-[#df9726]">Book Your Visit</a>
+            <p className="text-[14px] text-white/85">Questions? <a className="font-bold text-care-gold underline" href={phoneHref}>Call {phone}</a></p>
+          </div>
+        )}
       </div>
     </section>
   );

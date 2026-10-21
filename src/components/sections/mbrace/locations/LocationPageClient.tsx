@@ -75,7 +75,7 @@ export default function LocationPageClient({ location, data }: { location: Locat
         content={sheetContent}
       />
       {sheetContent ? (
-        <LocationSheetSections content={sheetContent} location={location} onBook={() => book()} />
+        <LocationSheetSections content={sheetContent} location={location} hospital={hospital} homeTestimonials={homeTestimonials} onBook={() => book()} />
       ) : blocks.length > 0 ? (
         <DynamicPageSections blocks={blocks} />
       ) : (
