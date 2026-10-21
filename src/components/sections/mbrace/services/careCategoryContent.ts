@@ -67,7 +67,7 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     heroHeadingHighlight2: "Under One Roof",
     heroHeadingLine2: "LB Nagar | King Koti",
     heroDescription: "Paediatricians, neonatologists and a paediatric intensivist, caring for children from birth to 18. Emergency care: open 24 hours a day, 7 days a week.",
-    heroImage: "/images/freepik/child-care.jpg",
+    heroImage: "/images/banners/child-care-hero-banner.jpg",
     journeyHeading: "What is Worrying You",
     journeyHighlight: "About Your Child?",
     journey: [
@@ -93,7 +93,7 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     heroHeadingHighlight2: "1st Days.",
     heroHeadingLine2: "LB Nagar | King Koti",
     heroDescription: "Senior obstetricians and gynaecologists, with neonatologists ready to care for your baby if needed. Pregnancy emergencies care open 24/7.",
-    heroImage: "/images/freepik/pregnancy-care.jpg",
+    heroImage: "/images/banners/pregnancy-birth-support-hero-banner.jpg",
     journeyHeading: "What is Worrying You",
     journeyHighlight: "About Your Pregnancy?",
     journey: [
@@ -119,7 +119,7 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     heroHeadingHighlight2: "With One Team",
     heroHeadingLine2: "LB Nagar | King Koti",
     heroDescription: "Specialists and embryologists supporting couples and individuals, from the first test through their entire fertility journey, starting from conception treatment assistance, to early pregnancy.",
-    heroImage: "/images/freepik/fertility-lab-landscape.jpg",
+    heroImage: "/images/banners/fertility-care-hero-banner.jpg",
     journeyHeading: "What Are You Facing",
     journeyHighlight: "While Trying to Conceive?",
     journey: [
