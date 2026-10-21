@@ -20,9 +20,10 @@ type Props = {
   serviceName?: string;
   getProfileHref?: (doctor: { slug: string }) => string;
   layout?: "default" | "service-detail";
+  showPrinciple?: boolean;
 };
 
-export default function DoctorsSection({ featuredDoctor, book, homeDoctors, heading, description, principleLead, principle, serviceName = "Women's Care", getProfileHref, layout = "default" }: Props) {
+export default function DoctorsSection({ featuredDoctor, book, homeDoctors, heading, description, principleLead, principle, serviceName = "Women's Care", getProfileHref, layout = "default", showPrinciple = true }: Props) {
   const nameLink = (doctor: { slug: string }, children: ReactNode) =>
     getProfileHref ? <Link href={getProfileHref(doctor)} className="hover:underline">{children}</Link> : children;
 
@@ -45,9 +46,9 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
               <article key={doctor.name} className="flex min-w-0 flex-col rounded-[12px] bg-white p-[10px] text-center [scroll-snap-align:start]">
                 <Photo src={doctor.image} alt={doctor.name} className="mb-4 h-[230px] rounded-[10px] [&_img]:object-top" />
                 <h3 className="text-[15px] font-extrabold leading-[1.25] text-care-purple">{nameLink(doctor, doctor.name)}</h3>
-                <p className="mt-2 min-h-[48px] text-[11px] leading-[1.35] text-[#595959]">{doctor.qualifications}<br />{doctor.role}</p>
+                <p className="mt-2 min-h-[48px] text-[11px] leading-[1.35] text-[#595959]">{doctor.qualifications && <>{doctor.qualifications}<br /></>}{doctor.role}</p>
                 <ul className="mt-auto flex flex-wrap justify-center gap-x-4 gap-y-2 border-t border-[#e6e1ea] pt-3 text-left text-[10px] text-care-purple">
-                  <li className="flex items-center gap-2"><Image src="/images/figma/doctor.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.yearsExperience}</span></li>
+                  {doctor.yearsExperience && <li className="flex items-center gap-2"><Image src="/images/figma/doctor.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.yearsExperience}</span></li>}
                   <li className="flex items-center gap-2"><MapPinIcon /><span className="text-black">{doctor.location}</span></li>
                   <li className="flex w-full items-center justify-center gap-2"><Image src="/images/figma/language.svg" width={18} height={18} alt="" /><span className="text-black">{doctor.languages}</span></li>
                 </ul>
@@ -71,8 +72,8 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
             <Heading label="OUR TEAM">{heading ?? <>Meet <em>The Experts</em>
               <br />Behind Your Journey</>}</Heading>
             <p className="font-semibold">{description ?? "Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad."}</p>
-            <p className="mb-team-principle mt-5.5 pt-4.5 [border-top:1px_solid_#ddd4e2] font-bold text-[16px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[20px] [&_strong]:mt-[5px]">Every doctor works from one principle:<strong>Explain Clearly, Decide Together!</strong>
-            </p>
+            {showPrinciple && <p className="mb-team-principle mt-5.5 pt-4.5 [border-top:1px_solid_#ddd4e2] font-bold text-[16px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[20px] [&_strong]:mt-[5px]">{principleLead ?? "Every doctor works from one principle:"}<strong>{principle ?? "Explain Clearly, Decide Together!"}</strong>
+            </p>}
           </div>{featuredDoctor && <article className="mb-featured-doctor grid bg-white rounded-[14px] items-center grid-cols-[minmax(100px,_.85fr)_minmax(0,_1fr)] pt-3.5 pr-3.5 pb-3.5 pl-3.5 md:grid-cols-[200px_1fr] lg:grid-cols-[.9fr_1fr] gap-[15px] xl:gap-6 md:pt-4.5 md:pr-4.5 md:pb-4.5 md:pl-4.5 [&>.mb-photo]:h-67.5 md:[&>.mb-photo]:h-65 lg:[&>.mb-photo]:h-78 [&_h3]:text-[15px] md:[&_h3]:text-[18px] lg:[&_h3]:text-[14px] xl:[&_h3]:text-[20px] [&_h3]:leading-[1.3] [&_h3]:font-extrabold [&_h3]:text-care-purple [&_h3]:mb-2.5 [&_p]:text-[10px] md:[&_p]:text-[13px] [&_p]:leading-[1.5] [&_p]:text-[#595959] [&_p]:font-medium [&_.mb-doctor-meta]:grid [&_.mb-doctor-meta]:text-[10px] [&_.mb-doctor-meta]:gap-2 md:[&_.mb-doctor-meta]:text-[12px] [&_.mb-doctor-actions]:max-w-75 [&_.mb-doctor-actions]:flex-col [&_.mb-doctor-actions]:mt-[13px] [&_.mb-doctor-actions]:gap-1.5">
             <Photo src={featuredDoctor.image} alt={featuredDoctor.name} />
             <div>
@@ -99,11 +100,11 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
         <div className="mb-doctor-grid grid grid-flow-col auto-cols-[100%] md:auto-cols-[calc(50%-11px)] lg:grid-flow-row lg:auto-cols-auto lg:grid-cols-[repeat(4,1fr)] gap-3.5 md:gap-5.5 overflow-x-auto lg:overflow-visible [scroll-snap-type:x_mandatory] overscroll-x-contain [scrollbar-width:thin] pb-2 lg:pb-0 [&>*]:min-w-0 [&>*]:[scroll-snap-align:start]" role="region" aria-label="Our doctors">{homeDoctors.map(d => <article className="mb-doctor-card [&_h3]:text-[17px] [&_h3]:leading-[1.3] [&_h3]:font-extrabold [&_h3]:text-care-purple [&_h3]:mb-2.5 [&_p]:text-[13px] [&_p]:leading-[1.5] [&_p]:text-[#595959] [&_p]:font-medium [&_p]:min-h-[55px] md:[&_p]:min-h-[45px] lg:[&_p]:min-h-14 pt-[9px] pr-[9px] pb-3.5 pl-[9px] md:pt-3 md:pr-3 md:pb-4.5 md:pl-3 bg-[#fdfdfd] rounded-[13px] text-center flex flex-col [&>.mb-photo]:h-70 lg:[&>.mb-photo]:h-[235px] [&>.mb-photo]:mb-3.5 md:[&>.mb-photo]:mb-5 [&>.mb-photo]:rounded-[12px] [&>.mb-photo_img]:object-[top] [&_.mb-doctor-meta]:mt-auto [&_.mb-doctor-meta]:justify-center [&_.mb-doctor-meta]:text-left [&_.mb-doctor-meta]:text-[13px] [&_.mb-doctor-meta]:gap-[7px] [&_.mb-doctor-meta_li:last-child]:w-full [&_.mb-doctor-meta_li:last-child]:justify-center [&_.mb-doctor-actions]:flex-row [&_.mb-doctor-actions]:gap-1.5 [&_.mb-doctor-actions]:mt-[15px]" key={d.name}>
           <Photo src={d.image} alt={d.name} />
           <h3>{nameLink(d, d.name)}</h3>
-          <p>{d.qualifications}<br />{d.role}</p>
+          <p>{d.qualifications && <>{d.qualifications}<br /></>}{d.role}</p>
           <ul className="mb-doctor-meta list-none mt-4 pt-3.5 [border-top:1px_solid_#e6e1ea] text-[12px] text-care-purple flex flex-wrap gap-2.5 [&_li]:flex [&_li]:items-center [&_li]:gap-[7px] [&_span]:text-black [&_span]:font-medium [&_svg]:w-[20px] [&_svg]:h-[20px]">
-            <li>
+            {d.yearsExperience && <li>
               <Image src="/images/figma/doctor.svg" width={20} height={20} alt="" /> <span>{d.yearsExperience}</span>
-            </li>
+            </li>}
             <li>
               <MapPinIcon />
               <span>{d.location}</span>

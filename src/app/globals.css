@@ -137,6 +137,240 @@
   }
 }
 
+/* ---------------------------------------------------------------------
+   Site-wide hover polish and entrance animation. Scoped to .mbrace-home
+   (the shared wrapper every public mbrace page already uses) and keyed to
+   class/id hooks already present in the markup, so none of this needs any
+   component file to change. Respects the prefers-reduced-motion kill-switch
+   above automatically, since that rule forces every transition/animation
+   duration to ~0.
+   ------------------------------------------------------------------- */
+@layer utilities {
+  /* Every solid purple/gold call-to-action (button or link) gets a gentle
+     lift + shadow on hover, and a light press-down on click. */
+  .mbrace-home .bg-care-purple:is(button, a),
+  .mbrace-home .bg-care-gold:is(button, a) {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+  }
+  .mbrace-home .bg-care-purple:is(button, a):hover,
+  .mbrace-home .bg-care-gold:is(button, a):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(31, 27, 54, 0.22);
+  }
+  .mbrace-home .bg-care-purple:is(button, a):active,
+  .mbrace-home .bg-care-gold:is(button, a):active {
+    transform: translateY(-1px) scale(0.98);
+  }
+
+  /* Every photo across the site (Photo.tsx already clips with
+     overflow-hidden) gets a soft zoom on hover. */
+  .mbrace-home .mb-photo img {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mbrace-home .mb-photo:hover img {
+    transform: scale(1.06);
+  }
+
+  /* Animated underline for the desktop nav links. */
+  .mbrace-home .mb-desktop-nav > a {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  }
+  .mbrace-home .mb-desktop-nav > a:hover {
+    background-size: 100% 2px;
+  }
+
+  /* Card-style grids: home page services, doctors, testimonials, blog posts.
+     Each rule folds in the transition properties that section already
+     declares (so existing colour/border transitions keep their timing)
+     and adds a smooth lift + shadow on top. */
+  .mbrace-home #service-list article {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mbrace-home #service-list article:hover {
+    transform: translateY(-6px);
+  }
+
+  .mbrace-home .mb-doctor-card,
+  .mbrace-home .mb-featured-doctor {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .mbrace-home .mb-doctor-card:hover,
+  .mbrace-home .mb-featured-doctor:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(31, 27, 54, 0.12);
+  }
+
+  .mbrace-home .mb-review-slide {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mbrace-home .mb-review-slide:hover {
+    transform: translateY(-6px);
+  }
+
+  .mbrace-home #blog-list article {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  }
+  .mbrace-home #blog-list article:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(31, 27, 54, 0.1);
+  }
+}
+
+/* Scroll-reveal entrance for each major section, done entirely with CSS
+   scroll-driven animations (no JavaScript, no extra wrapper elements).
+   Feature-queried: browsers without support simply never match this block,
+   so every section always renders fully visible either way. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mbrace-home .mb-section {
+      animation: mb-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+}
+
+@keyframes mb-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Admin studio: shared form controls and content hierarchy. Keeping this
+   scoped to .admin-shell prevents the CMS treatment from leaking into the
+   public website. */
+.admin-shell .admin-content h1 {
+  color: #22182b;
+  font-size: clamp(1.65rem, 2.2vw, 2.25rem);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.admin-shell .admin-content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.admin-shell .admin-content select,
+.admin-shell .admin-content textarea {
+  width: 100%;
+  border: 1px solid #e2dce7;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #2f2935;
+  box-shadow: 0 1px 2px rgba(43, 29, 53, 0.025);
+}
+
+.admin-shell .admin-content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover,
+.admin-shell .admin-content select:hover,
+.admin-shell .admin-content textarea:hover {
+  border-color: #cbb5dc;
+}
+
+.admin-shell .admin-content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+.admin-shell .admin-content select:focus,
+.admin-shell .admin-content textarea:focus {
+  border-color: #8e66ac;
+  box-shadow: 0 0 0 4px rgba(142, 102, 172, 0.11);
+  outline: none;
+}
+
+.admin-shell .admin-content textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.admin-shell .admin-content form > section,
+.admin-shell .admin-content .admin-form-card {
+  border: 1px solid rgba(226, 220, 231, 0.95);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 38px rgba(45, 31, 56, 0.055);
+}
+
+.admin-shell .admin-content form > button[type="submit"] {
+  min-height: 3rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 24px rgba(116, 81, 143, 0.2);
+}
+
+.admin-shell .admin-content form > button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(116, 81, 143, 0.26);
+}
+
+.admin-shell .admin-content a,
+.admin-shell .admin-content button {
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-duration: 240ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.admin-shell .admin-premium-card {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.admin-shell a.admin-premium-card:hover {
+  transform: translateY(-4px);
+  border-color: #cfbadc;
+  box-shadow: 0 18px 42px rgba(48, 29, 60, 0.1);
+}
+
+.admin-shell .admin-chart-line {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: admin-chart-draw 1.1s cubic-bezier(0.22, 1, 0.36, 1) 180ms forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .admin-shell .admin-dashboard > * {
+    animation: admin-rise 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .admin-shell .admin-dashboard > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+
+  .admin-shell .admin-dashboard > :nth-child(3) {
+    animation-delay: 130ms;
+  }
+
+  .admin-shell .admin-dashboard > :nth-child(4) {
+    animation-delay: 190ms;
+  }
+}
+
+@keyframes admin-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes admin-chart-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-shell .admin-content form > button[type="submit"] {
+    width: 100%;
+  }
+}
+
 /* Desktop values are taken from the 1440px Figma homepage frame. Keeping
    these shared here prevents individual sections from drifting apart. */
 @media (min-width: 1280px) {

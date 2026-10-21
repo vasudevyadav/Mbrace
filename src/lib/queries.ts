@@ -1,9 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import {
   careCategories as fallbackCareCategories,
-  featuredDoctor as fallbackFeaturedDoctor,
   homeBlogs as fallbackBlogs,
-  homeDoctors as fallbackDoctors,
   homeFaqs as fallbackFaqs,
   homeTestimonials as fallbackTestimonials,
   hospital as fallbackHospital,
@@ -11,6 +9,9 @@ import {
 } from "@/lib/mbrace-home";
 import { fallbackBlogArticles, findBlogArticle, type BlogArticle, type BlogBlock } from "@/components/sections/mbrace/blog/blogContent";
 import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent } from "@/components/sections/mbrace/services/careCategoryContent";
+import { pregnancyServicesBySlug } from "@/components/sections/mbrace/services/pregnancyServiceContent";
+import { approvedDoctors, findApprovedDoctor } from "@/components/sections/mbrace/doctors/doctorContent";
+import { findApprovedLocationContent } from "@/components/sections/mbrace/locations/locationContent";
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -39,7 +40,8 @@ export async function getCareCategoryContent(slug: string): Promise<CareCategory
     return {
       ...fallback,
       // Editorial copy and approved page imagery come from the reviewed local
-      // source. The CMS still owns optional SEO overrides.
+      // source. The CMS owns explicit hero-image and SEO overrides.
+      heroImage: row.heroImage || fallback.heroImage,
       metaTitle: row.metaTitle || undefined,
       metaDescription: row.metaDescription || undefined,
     };
@@ -50,50 +52,8 @@ export async function getCareCategoryContent(slug: string): Promise<CareCategory
 }
 
 function getFallbackHomeData() {
-  const doctorBio =
-    "Dedicated to listening first and treating second, our specialists combine advanced diagnostics with a calm, patient-first approach — so every consultation starts with understanding your history, not repeating it.\n\nEvery doctor with us works from one principle: explain clearly, decide together.";
-  const doctors = fallbackDoctors.map((doctor, index) => ({
-    id: index + 1,
-    slug: doctor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-    name: doctor.name,
-    qualifications: doctor.qualifications,
-    role: doctor.role,
-    image: `/images/figma/asset-${doctor.image}.webp`,
-    yearsExperience: "15+ Years",
-    languages: "English, Hindi, Telugu",
-    location: index % 2 === 0 ? "LB Nagar" : "King Koti",
-    isFeatured: false,
-    order: index,
-    designation: doctor.role,
-    bio: doctorBio,
-    timing: "",
-    phone: "",
-    email: "",
-    fullAddress: "",
-    metaTitle: "",
-    metaDescription: "",
-  }));
-  const featuredDoctor = {
-    id: 0,
-    slug: fallbackFeaturedDoctor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-    name: fallbackFeaturedDoctor.name,
-    qualifications: fallbackFeaturedDoctor.qualifications,
-    role: fallbackFeaturedDoctor.role,
-    image: `/images/figma/asset-${fallbackFeaturedDoctor.image}.webp`,
-    yearsExperience: "35+ Years",
-    languages: "English, Hindi, Telugu",
-    location: "LB Nagar",
-    isFeatured: true,
-    order: -1,
-    designation: fallbackFeaturedDoctor.role,
-    bio: "Dr. K Vasundhara is a senior obstetrician and gynaecologist with extensive experience in women’s health, pregnancy care and fertility support. As Medical Director of the Kamineni Fertility Center, she guides patients with clear explanations, evidence-based treatment and compassionate care.\n\nHer clinical approach focuses on understanding each patient’s history, discussing every available option and making treatment decisions together.",
-    timing: "Sat To Sun, 09:00AM-08:00PM",
-    phone: "+91 70362 70362",
-    email: "info@kaminenihospitals.com",
-    fullAddress: "Inner Ring Rd, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana",
-    metaTitle: "",
-    metaDescription: "",
-  };
+  const doctors = approvedDoctors.filter(doctor => !doctor.isFeatured);
+  const featuredDoctor = approvedDoctors.find(doctor => doctor.isFeatured) ?? null;
 
   return {
     hospital: {
@@ -138,7 +98,6 @@ export async function getHomeData() {
     careCategories,
     serviceCategories,
     faqItems,
-    doctors,
     testimonials,
     blogs,
   ] = await Promise.all([
@@ -148,7 +107,6 @@ export async function getHomeData() {
     prisma.careCategory.findMany({ orderBy: { order: "asc" } }),
     prisma.serviceCategory.findMany({ orderBy: { order: "asc" }, include: { items: { orderBy: { order: "asc" } } } }),
     prisma.faqItem.findMany({ orderBy: { order: "asc" } }),
-    prisma.doctor.findMany({ orderBy: { order: "asc" } }),
     prisma.testimonial.findMany({ orderBy: { order: "asc" } }),
     prisma.blog.findMany({ orderBy: { order: "asc" } }),
   ]);
@@ -167,8 +125,8 @@ export async function getHomeData() {
       .map(f => ({ question: f.question, answer: f.answer }));
   }
 
-  const featuredDoctor = doctors.find(d => d.isFeatured) ?? null;
-  const otherDoctors = doctors.filter(d => !d.isFeatured);
+  const featuredDoctor = approvedDoctors.find(d => d.isFeatured) ?? null;
+  const otherDoctors = approvedDoctors.filter(d => !d.isFeatured);
 
   return {
     hospital: {
@@ -249,12 +207,13 @@ export async function getPageSeo(slug: PageSeoSlug) {
 }
 
 export async function getDoctorBySlug(slug: string) {
+  const approvedDoctor = findApprovedDoctor(slug);
+  if (approvedDoctor) return approvedDoctor;
   try {
     return await prisma.doctor.findUnique({ where: { slug } });
   } catch (error) {
     console.warn(`Database unavailable; using local doctor fallback for ${slug}.`, error);
-    const fallback = getFallbackHomeData();
-    return [fallback.featuredDoctor, ...fallback.doctors].find((doctor) => doctor.slug === slug) ?? null;
+    return null;
   }
 }
 
@@ -293,10 +252,42 @@ export async function getDoctorTips() {
 }
 
 export async function getServiceItemBySlug(slug: string) {
+  const approvedPregnancyService = pregnancyServicesBySlug[slug];
   try {
-    return await prisma.serviceItem.findUnique({ where: { slug }, include: { category: true } });
+    const row = await prisma.serviceItem.findUnique({ where: { slug }, include: { category: true } });
+    if (!approvedPregnancyService) return row;
+    return {
+      id: row?.id ?? -(approvedPregnancyService.order + 1),
+      categoryId: row?.categoryId ?? 0,
+      slug,
+      name: approvedPregnancyService.name,
+      description: approvedPregnancyService.description,
+      detail: approvedPregnancyService.description,
+      heroImage: row?.heroImage ?? "/images/freepik/pregnancy-care.jpg",
+      blocks: row?.blocks ?? [],
+      metaTitle: approvedPregnancyService.metaTitle,
+      metaDescription: approvedPregnancyService.metaDescription,
+      order: approvedPregnancyService.order,
+      category: row?.category ?? { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
+    };
   } catch (error) {
     console.warn(`Database unavailable; using fallback service for ${slug}.`, error);
+    if (approvedPregnancyService) {
+      return {
+        id: -(approvedPregnancyService.order + 1),
+        categoryId: 0,
+        slug,
+        name: approvedPregnancyService.name,
+        description: approvedPregnancyService.description,
+        detail: approvedPregnancyService.description,
+        heroImage: "/images/freepik/pregnancy-care.jpg",
+        blocks: [],
+        metaTitle: approvedPregnancyService.metaTitle,
+        metaDescription: approvedPregnancyService.metaDescription,
+        order: approvedPregnancyService.order,
+        category: { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
+      };
+    }
     const name = slug
       .split("-")
       .filter(Boolean)
@@ -349,10 +340,67 @@ export async function getServiceCategoryByKey(key: string) {
 }
 
 export async function getLocationBySlug(slug: string) {
-  return prisma.location.findUnique({
-    where: { slug },
-    include: { highlights: { orderBy: { order: "asc" } } },
-  });
+  const approved = findApprovedLocationContent(slug);
+  try {
+    const row = await prisma.location.findUnique({
+      where: { slug },
+      include: { highlights: { orderBy: { order: "asc" } } },
+    });
+    if (!approved) return row;
+    return {
+      id: row?.id ?? (slug === "lb-nagar" ? -1 : -2),
+      slug,
+      name: approved.name,
+      address: slug === "lb-nagar"
+        ? "Inner Ring Road, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana 500068."
+        : "Boggulakunta, King Koti, Abids, Hyderabad 500001.",
+      phone: approved.phone,
+      phoneHref: approved.phoneHref,
+      email: row?.email || "mbrace@kaminenihospitals.com",
+      mapUrl: row?.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`M'Brace Kamineni Hospitals ${approved.name} Hyderabad`)}`,
+      heroImage: row?.heroImage || "/images/figma/location-hero-bg.png",
+      servicesImage: row?.servicesImage || "/images/figma/location-services.png",
+      clinicImage: row?.clinicImage || "/images/figma/location-clinic.png",
+      introParagraph: approved.about.paragraphs[0],
+      whatToExpectIntro: approved.visit.body,
+      carePromiseIntro: approved.whyChoose.body,
+      whyChooseIntro: approved.whyChoose.body,
+      reachIntro: approved.reach.body,
+      blocks: row?.blocks ?? [],
+      order: row?.order ?? (slug === "lb-nagar" ? 0 : 1),
+      metaTitle: row?.metaTitle || approved.heroHeading,
+      metaDescription: row?.metaDescription || approved.about.paragraphs[0],
+      highlights: row?.highlights ?? [],
+    };
+  } catch (error) {
+    console.warn(`Database unavailable; using local location content for ${slug}.`, error);
+    if (!approved) return null;
+    return {
+      id: slug === "lb-nagar" ? -1 : -2,
+      slug,
+      name: approved.name,
+      address: slug === "lb-nagar"
+        ? "Inner Ring Road, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana 500068."
+        : "Boggulakunta, King Koti, Abids, Hyderabad 500001.",
+      phone: approved.phone,
+      phoneHref: approved.phoneHref,
+      email: "mbrace@kaminenihospitals.com",
+      mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`M'Brace Kamineni Hospitals ${approved.name} Hyderabad`)}`,
+      heroImage: "/images/figma/location-hero-bg.png",
+      servicesImage: "/images/figma/location-services.png",
+      clinicImage: "/images/figma/location-clinic.png",
+      introParagraph: approved.about.paragraphs[0],
+      whatToExpectIntro: approved.visit.body,
+      carePromiseIntro: approved.whyChoose.body,
+      whyChooseIntro: approved.whyChoose.body,
+      reachIntro: approved.reach.body,
+      blocks: [],
+      order: slug === "lb-nagar" ? 0 : 1,
+      metaTitle: approved.heroHeading,
+      metaDescription: approved.about.paragraphs[0],
+      highlights: [],
+    };
+  }
 }
 
 export async function getLocations() {

@@ -17,6 +17,28 @@ function timeAgo(date: Date) {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
+function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function MetricIcon({ type }: { type: "leads" | "doctors" | "services" | "subscribers" }) {
+  const paths = {
+    leads: <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0M18 8v6m-3-3h6" />,
+    doctors: <path d="M12 13a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm-7 7a7 7 0 0 1 14 0M12 16v4m-2-2h4" />,
+    services: <path d="M4 7.5h16v11H4v-11ZM8 7.5V5h8v2.5M9 13h6m-3-3v6" />,
+    subscribers: <path d="M4 6h16v12H4V6Zm1 1 7 6 7-6" />,
+  };
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5">
+      <g stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{paths[type]}</g>
+    </svg>
+  );
+}
+
 export default async function AdminDashboardPage() {
   const trendStart = new Date();
   trendStart.setHours(0, 0, 0, 0);
@@ -37,132 +59,95 @@ export default async function AdminDashboardPage() {
   const leadsTrend: LeadsTrendPoint[] = Array.from({ length: 14 }, (_, i) => {
     const date = new Date(trendStart);
     date.setDate(trendStart.getDate() + i);
-    const count = recentRequestDates.filter(r => r.createdAt.toDateString() === date.toDateString()).length;
+    const count = recentRequestDates.filter(request => request.createdAt.toDateString() === date.toDateString()).length;
     return {
       label: String(date.getDate()),
       fullLabel: date.toLocaleDateString("en-US", { weekday: "short", day: "numeric", month: "short" }),
       count,
     };
   });
-  const leadsLast14Days = leadsTrend.reduce((sum, d) => sum + d.count, 0);
-  const cards = [
-    {
-      label: "New leads",
-      count: appointments,
-      href: "/admin/appointments",
-      note: "Appointment requests",
-    },
-    {
-      label: "Subscribers",
-      count: subscribers,
-      href: "/admin/subscribers",
-      note: "Newsletter signups",
-    },
-    {
-      label: "Doctors",
-      count: doctors,
-      href: "/admin/doctors",
-      note: "Your care team",
-    },
-    {
-      label: "Services",
-      count: services,
-      href: "/admin/services",
-      note: "Care you offer",
-    },
-    {
-      label: "FAQs",
-      count: faqs,
-      href: "/admin/faqs",
-      note: "Helpful answers",
-    },
-    {
-      label: "Testimonials",
-      count: testimonials,
-      href: "/admin/testimonials",
-      note: "Patient stories",
-    },
-    {
-      label: "Blog posts",
-      count: blogs,
-      href: "/admin/blogs",
-      note: "Expert insights",
-    },
+  const leadsLast14Days = leadsTrend.reduce((sum, day) => sum + day.count, 0);
+
+  const metrics = [
+    { label: "New leads", count: appointments, href: "/admin/appointments", note: "Needs your attention", type: "leads" as const, iconClass: "bg-[#fff2d9] text-[#d88716]", accentClass: "from-[#fff9ed] to-white" },
+    { label: "Doctors", count: doctors, href: "/admin/doctors", note: "Active care team", type: "doctors" as const, iconClass: "bg-[#efe6f7] text-[#754996]", accentClass: "from-[#f9f4fc] to-white" },
+    { label: "Services", count: services, href: "/admin/services", note: "Published services", type: "services" as const, iconClass: "bg-[#e5f4f2] text-[#32847c]", accentClass: "from-[#f1fbf9] to-white" },
+    { label: "Subscribers", count: subscribers, href: "/admin/subscribers", note: "Newsletter audience", type: "subscribers" as const, iconClass: "bg-[#eeeefe] text-[#5b5eb0]", accentClass: "from-[#f6f6ff] to-white" },
   ];
+
+  const quickActions = [
+    { href: "/admin/doctors/new", title: "Add doctor", text: "Create a specialist profile", number: "01" },
+    { href: "/admin/blogs/new", title: "Write article", text: "Publish a health insight", number: "02" },
+    { href: "/admin/testimonials/new", title: "Add story", text: "Share a patient experience", number: "03" },
+  ];
+
   return (
-    <div>
-      <div className="admin-page-heading flex justify-between mb-7.5 items-start gap-4 flex-col md:items-center md:gap-6">
-        <div>
-          <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">
-            Your workspace, at a glance
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
-            Website overview
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-            Manage the people, services and stories behind M’Brace.
-          </p>
-        </div>
-        <Link
-          href="/"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
-        >
-          View website{" "}
-          <span className="ml-3" aria-hidden="true">
-            ↗
-          </span>
-        </Link>
-      </div>
-      <div className="admin-metrics grid grid-cols-[repeat(2,minmax(0,1fr))] gap-3 sm:grid-cols-[repeat(3,minmax(0,1fr))] xl:grid-cols-[repeat(5,minmax(0,1fr))] sm:gap-4">
-        {cards.map((card) => (
-          <Link
-            key={card.label}
-            href={card.href}
-            className="admin-metric pt-4.5 pr-4.5 pb-4.5 pl-4.5 sm:pt-5.5 sm:pr-5.5 sm:pb-5.5 sm:pl-5.5 [border:1px_solid_#e7e1eb] rounded-[14px] bg-white shadow-[0_4px_20px_#291e3403] [transition:border-color_.2s,_transform_.2s] [&:hover]:[transform:translateY(-3px)] [&:hover]:[border-color:#ac8bc5] [&_strong]:block [&_strong]:mt-5 [&_strong]:mr-0 [&_strong]:mb-2 [&_strong]:ml-0 [&_strong]:text-[36px] [&_strong]:leading-[1] [&_strong]:font-semibold [&_strong]:tracking-[-1px] [&_strong]:text-[#503761] [&_p]:text-[10px] [&_p]:text-[#777080] [&:last-child]:col-[1_/_-1]"
-          >
-            <div className="admin-metric-top flex justify-between gap-1.5 text-[#716779] text-[11px] font-medium [&>span:last-child]:text-[#9a85a9]">
-              <span>{card.label}</span>
-              <span aria-hidden="true">↗</span>
+    <div className="admin-dashboard space-y-5 sm:space-y-6">
+      <section className="admin-dashboard-hero relative isolate overflow-hidden rounded-[26px] bg-[#24152f] px-5 py-7 text-white shadow-[0_24px_60px_rgba(38,20,49,0.22)] sm:px-8 sm:py-9 lg:px-10">
+        <div className="pointer-events-none absolute -right-20 -top-28 h-72 w-72 rounded-full bg-[#8d5aad]/35 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 left-[38%] h-64 w-64 rounded-full bg-[#e8a532]/15 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.055] [background-image:linear-gradient(rgba(255,255,255,.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.7)_1px,transparent_1px)] [background-size:34px_34px]" />
+        <div className="relative flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#f3c566] backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#f7b43b] shadow-[0_0_0_4px_rgba(247,180,59,.12)]" />
+              M&apos;Brace Content Studio
             </div>
-            <strong>{card.count.toString().padStart(2, "0")}</strong>
-            <p>{card.note}</p>
+            <h1 className="!text-white">Welcome back, Administrator</h1>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-white/62 sm:text-[15px]">Your website, care team and patient enquiries are all together in one calm workspace.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/admin/blogs/new" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#f5ad2e] px-4 py-2.5 text-sm font-semibold text-[#291b31] shadow-[0_10px_28px_rgba(245,173,46,.2)] hover:bg-[#ffc255]">Create content <ArrowIcon /></Link>
+            <Link href="/" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.08] px-4 py-2.5 text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/[0.14]">View live website <span aria-hidden="true">↗</span></Link>
+          </div>
+        </div>
+        <div className="relative mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-5 text-xs text-white/55">
+          <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,.1)]" /> Website is live</span>
+          <span>Changes publish when you save</span>
+        </div>
+      </section>
+
+      <section aria-label="Website overview" className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+        {metrics.map(metric => (
+          <Link key={metric.label} href={metric.href} className={`admin-premium-card group relative overflow-hidden rounded-[20px] border border-[#e8e1ec] bg-gradient-to-br ${metric.accentClass} p-4 shadow-[0_10px_32px_rgba(39,25,49,0.055)] sm:p-5`}>
+            <div className="flex items-start justify-between gap-3">
+              <span className={`grid h-10 w-10 place-items-center rounded-xl ${metric.iconClass}`}><MetricIcon type={metric.type} /></span>
+              <span className="grid h-8 w-8 place-items-center rounded-full border border-slate-200/80 bg-white/80 text-slate-400 transition group-hover:border-[#c6a9d9] group-hover:text-[#74518f]"><ArrowIcon className="h-3.5 w-3.5 -rotate-45" /></span>
+            </div>
+            <strong className="mt-5 block text-[28px] font-bold leading-none tracking-[-0.04em] text-[#2d2035] sm:text-[34px]">{metric.count.toString().padStart(2, "0")}</strong>
+            <p className="mt-2 text-xs font-semibold text-[#473a4e] sm:text-sm">{metric.label}</p>
+            <p className="mt-1 hidden text-[11px] text-slate-500 sm:block">{metric.note}</p>
           </Link>
         ))}
-      </div>
+      </section>
 
-      <div className="grid gap-6 mt-7 grid-cols-[1fr] md:grid-cols-[1.4fr_1fr]">
-        <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
-          <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="grid gap-5 xl:grid-cols-12">
+        <section className="admin-premium-card rounded-[22px] border border-[#e8e1ec] bg-white p-5 shadow-[0_12px_36px_rgba(39,25,49,0.055)] sm:p-6 xl:col-span-8">
+          <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">Leads</p>
-              <h2 className="text-lg font-semibold text-slate-900">Last 14 days</h2>
+              <p className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#8a5aa8]">Appointment activity</p>
+              <h2 className="mt-2 text-xl font-bold tracking-[-0.025em] text-[#2d2035]">Leads over the last 14 days</h2>
+              <p className="mt-1 text-xs text-slate-500">Daily enquiries received through your website.</p>
             </div>
-            <p className="text-right"><strong className="block text-2xl font-semibold tracking-tight text-[#503761]">{leadsLast14Days}</strong><span className="text-[11px] text-slate-500">appointment requests</span></p>
+            <div className="rounded-2xl bg-[#f7f2fa] px-4 py-2.5 text-right"><strong className="block text-xl font-bold leading-none text-[#604176]">{leadsLast14Days}</strong><span className="mt-1 block text-[10px] font-medium text-slate-500">total requests</span></div>
           </div>
-          <div className="mt-5">
-            <LeadsTrendChart data={leadsTrend} />
-          </div>
+          <div className="mt-5 xl:min-h-[220px]"><LeadsTrendChart data={leadsTrend} /></div>
         </section>
 
-        <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
-          <div className="flex items-center justify-between gap-3">
-            <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">Leads</p>
-            <Link href="/admin/appointments" className="text-[11px] font-semibold text-brand-600 hover:text-brand-700 hover:underline">View all →</Link>
+        <section className="admin-premium-card flex flex-col rounded-[22px] border border-[#e8e1ec] bg-white p-5 shadow-[0_12px_36px_rgba(39,25,49,0.055)] sm:p-6 xl:col-span-4 xl:min-h-[390px]">
+          <div className="flex items-start justify-between gap-3">
+            <div><p className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#8a5aa8]">Inbox</p><h2 className="mt-2 text-xl font-bold tracking-[-0.025em] text-[#2d2035]">Recent requests</h2></div>
+            <Link href="/admin/appointments" className="rounded-full bg-[#f7f2fa] px-3 py-1.5 text-[10px] font-bold text-[#6c4785] hover:bg-[#eee3f5]">View all</Link>
           </div>
-          <h2 className="text-lg font-semibold text-slate-900">Recent requests</h2>
           {recentLeads.length === 0 ? (
-            <p className="mt-4 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-sm text-slate-500">No appointment requests yet.</p>
+            <div className="mt-5 grid flex-1 place-items-center rounded-2xl border border-dashed border-[#ded3e5] bg-[#fbf9fc] px-4 py-8 text-center text-sm text-slate-500">No appointment requests yet.</div>
           ) : (
-            <div className="mt-4 flex flex-col gap-1">
-              {recentLeads.map(lead => (
-                <Link key={lead.id} href="/admin/appointments" className="flex items-center justify-between gap-3 rounded-lg px-2 py-2.5 transition hover:bg-slate-50">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-slate-900">{lead.name}</p>
-                    <p className="truncate text-xs text-slate-500">{lead.service} · {timeAgo(lead.createdAt)}</p>
-                  </div>
-                  <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ring-1 ${STATUS_STYLES[lead.status] ?? "bg-slate-50 text-slate-600 ring-slate-200"}`}>{lead.status}</span>
+            <div className="mt-5 flex flex-1 flex-col divide-y divide-[#f0ebf2]">
+              {recentLeads.map((lead, index) => (
+                <Link key={lead.id} href="/admin/appointments" className="group flex items-center gap-3 rounded-xl px-1 py-3 transition hover:bg-[#fbf8fc] sm:px-2">
+                  <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-xs font-bold ${index % 3 === 0 ? "bg-[#f3e9f8] text-[#754996]" : index % 3 === 1 ? "bg-[#fff1d8] text-[#b96f0c]" : "bg-[#e5f4f2] text-[#287970]"}`}>{lead.name.trim().slice(0, 1).toUpperCase()}</span>
+                  <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold text-[#34283b]">{lead.name}</span><span className="mt-0.5 block truncate text-[11px] text-slate-500">{lead.service} · {timeAgo(lead.createdAt)}</span></span>
+                  <span className={`shrink-0 rounded-full px-2 py-1 text-[9px] font-bold capitalize ring-1 ${STATUS_STYLES[lead.status] ?? "bg-slate-50 text-slate-600 ring-slate-200"}`}>{lead.status}</span>
                 </Link>
               ))}
             </div>
@@ -170,95 +155,40 @@ export default async function AdminDashboardPage() {
         </section>
       </div>
 
-      <div className="admin-overview-grid grid gap-6 mt-7 grid-cols-[1fr] md:grid-cols-[1.4fr_1fr]">
-        <section className="rounded-2xl bg-white p-5 sm:p-6 shadow-[0_4px_24px_rgba(41,30,52,0.03)] ring-1 ring-slate-200">
-          <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">
-            Content management
-          </p>
-          <h2 className="text-lg font-semibold text-slate-900">
-            Make your next update
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-            Keep your website welcoming, useful and current.
-          </p>
-          <div className="admin-quick-links mt-5 [&_a]:flex [&_a]:items-center [&_a]:gap-3.5 [&_a]:pt-4.5 [&_a]:pr-0 [&_a]:pb-4.5 [&_a]:pl-0 [&_a]:[border-top:1px_solid_#eee9f1] [&_a:hover_strong]:text-[#74518f] [&_strong]:block [&_strong]:text-[12px] [&_strong]:font-medium [&_small]:block [&_small]:text-[11px] [&_small]:text-[#777080] [&_small]:mt-[5px]">
-            {[
-              {
-                href: "/admin/doctors/new",
-                title: "Introduce a doctor",
-                text: "Add a profile to your specialist team.",
-              },
-              {
-                href: "/admin/blogs/new",
-                title: "Share an expert insight",
-                text: "Create a health article for your patients.",
-              },
-              {
-                href: "/admin/testimonials/new",
-                title: "Add a patient story",
-                text: "Share a family's experience of your care.",
-              },
-            ].map((item) => (
-              <Link href={item.href} key={item.href}>
-                <span
-                  className="admin-action-icon w-9 h-9 shrink-0 grid place-content-center rounded-[10px] bg-[#f4eff8] text-[#74518f] text-[20px]"
-                  aria-hidden="true"
-                >
-                  +
-                </span>
-                <span>
-                  <strong>{item.title}</strong>
-                  <small>{item.text}</small>
-                </span>
-                <span className="ml-auto" aria-hidden="true">
-                  →
-                </span>
+      <div className="grid gap-5 xl:grid-cols-12">
+        <section className="admin-premium-card rounded-[22px] border border-[#e8e1ec] bg-white p-5 shadow-[0_12px_36px_rgba(39,25,49,0.055)] sm:p-6 xl:col-span-7">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div><p className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#8a5aa8]">Quick actions</p><h2 className="mt-2 text-xl font-bold tracking-[-0.025em] text-[#2d2035]">What would you like to update?</h2></div>
+            <p className="text-[11px] text-slate-500">Most-used shortcuts</p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {quickActions.map(action => (
+              <Link key={action.href} href={action.href} className="group rounded-2xl border border-[#ece5ef] bg-[#fcfafc] p-4 transition hover:border-[#cbb5dc] hover:bg-white hover:shadow-[0_14px_30px_rgba(55,34,68,.08)]">
+                <span className="flex items-center justify-between text-[10px] font-bold tracking-[0.12em] text-[#a48cad]"><span>{action.number}</span><ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+                <strong className="mt-8 block text-sm font-bold text-[#392b41]">{action.title}</strong>
+                <span className="mt-1.5 block text-[11px] leading-5 text-slate-500">{action.text}</span>
               </Link>
             ))}
           </div>
         </section>
-        <section className="admin-settings-card bg-[#eee7f4] [border:1px_solid_#e3d8ee] rounded-[16px] flex flex-col items-start pt-6 pr-6 pb-6 pl-6 sm:pt-7 sm:pr-7 sm:pb-7 sm:pl-7 [&_h2]:text-[25px] [&_h2]:tracking-[-.7px] [&_h2]:leading-[1.4] [&_h2]:font-semibold [&_h2]:text-[#503761] [&>p:not(.admin-eyebrow)]:text-[12px] [&>p:not(.admin-eyebrow)]:leading-[1.9] [&>p:not(.admin-eyebrow)]:text-[#716779] [&>p:not(.admin-eyebrow)]:mt-4 [&>p:not(.admin-eyebrow)]:mr-0 [&>p:not(.admin-eyebrow)]:mb-6 [&>p:not(.admin-eyebrow)]:ml-0">
-          <p className="admin-eyebrow text-[#74518f] uppercase text-[10px] font-semibold tracking-[.14em] mb-2.5">
-            The essentials
-          </p>
-          <h2>
-            Make a thoughtful
-            <br />
-            first impression.
-          </h2>
-          <p>
-            Update your homepage introduction, hospital contacts and the numbers
-            that tell your story.
-          </p>
-          <Link
-            href="/admin/settings"
-            className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Edit site settings{" "}
-            <span className="ml-3" aria-hidden="true">
-              →
-            </span>
-          </Link>
-          <Link
-            href="/admin/hero"
-            className="admin-stat-link flex gap-6 mt-4.5 text-[11px] font-medium text-[#604176]"
-          >
-            Edit hero section <span aria-hidden="true">↗</span>
-          </Link>
-          <Link
-            href="/admin/stats"
-            className="admin-stat-link flex gap-6 mt-2.5 text-[11px] font-medium text-[#604176]"
-          >
-            Manage statistics <span aria-hidden="true">↗</span>
-          </Link>
+
+        <section className="admin-premium-card relative overflow-hidden rounded-[22px] bg-gradient-to-br from-[#6f4788] to-[#3b234b] p-5 text-white shadow-[0_18px_44px_rgba(64,38,79,.2)] sm:p-6 xl:col-span-5">
+          <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full border-[28px] border-white/[0.04]" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#f4c664]">Content health</p>
+          <div className="relative mt-5 grid grid-cols-3 gap-2">
+            {[
+              { label: "FAQs", count: faqs, href: "/admin/faqs" },
+              { label: "Stories", count: testimonials, href: "/admin/testimonials" },
+              { label: "Articles", count: blogs, href: "/admin/blogs" },
+            ].map(item => (
+              <Link key={item.label} href={item.href} className="rounded-2xl border border-white/10 bg-white/[0.08] px-3 py-4 backdrop-blur-sm transition hover:bg-white/[0.14]"><strong className="block text-2xl font-bold tracking-tight">{item.count.toString().padStart(2, "0")}</strong><span className="mt-1 block text-[10px] text-white/60">{item.label}</span></Link>
+            ))}
+          </div>
+          <div className="relative mt-5 flex flex-wrap gap-2 border-t border-white/10 pt-5">
+            <Link href="/admin/settings" className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-white px-3.5 py-2 text-xs font-bold text-[#513665] hover:bg-[#fff8e9]">Site settings <ArrowIcon className="h-3.5 w-3.5" /></Link>
+            <Link href="/admin/hero" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/15 px-3.5 py-2 text-xs font-bold text-white hover:bg-white/10">Edit homepage</Link>
+          </div>
         </section>
-      </div>
-      <div className="admin-publishing-note flex items-center gap-3 mt-6.5 text-[11px] leading-[1.8] text-[#777080] [&_strong]:font-medium [&_strong]:text-[#514559]">
-        <span aria-hidden="true">ⓘ</span>
-        <p>
-          <strong>Changes go live when you save.</strong> Review your updates on
-          the website after editing.
-        </p>
       </div>
     </div>
   );

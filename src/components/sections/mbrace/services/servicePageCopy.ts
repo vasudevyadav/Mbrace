@@ -1,3 +1,5 @@
+import { pregnancyServicePageCopy } from "./pregnancyServiceContent";
+
 export type ServicePageCopy = {
   teamHeading: string;
   teamPrincipleLead: string;
@@ -173,3 +175,4 @@ export const servicePageCopy: Record<string, ServicePageCopy> = {
 
 servicePageCopy["paediatric-surgery"] = servicePageCopy["picu-paediatric-intensive-care"];
 servicePageCopy["embryology-support"] = servicePageCopy["ovulation-tracking"];
+Object.assign(servicePageCopy, pregnancyServicePageCopy);

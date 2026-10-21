@@ -4,6 +4,8 @@ import { fallbackBlogArticles } from "../src/components/sections/mbrace/blog/blo
 import { carePageSlugs, fallbackCareCategoryContent } from "../src/components/sections/mbrace/services/careCategoryContent";
 import { approvedCareFaqs, approvedServiceGroups } from "../src/components/sections/mbrace/services/approvedCarePageData";
 import { serviceDetailBlocks } from "../src/components/sections/mbrace/services/serviceDetailBlocks";
+import { serviceHeroImages } from "../src/components/sections/mbrace/services/serviceImages";
+import { approvedDoctors } from "../src/components/sections/mbrace/doctors/doctorContent";
 
 const prisma = new PrismaClient();
 
@@ -12,42 +14,6 @@ const careCategories = ["Women's Care", "Child Care", "Pregnancy & Birth Support
 const serviceGroups = approvedServiceGroups;
 
 const asset = (n: number) => `/images/figma/asset-${n}.webp`;
-
-const doctorBio =
-  "Dedicated to listening first and treating second, our specialists combine advanced diagnostics with a calm, patient-first approach — so every consultation starts with understanding your history, not repeating it.\n\nEvery doctor with us works from one principle: explain clearly, decide together.";
-
-const homeDoctors = [
-  { name: "DR. B MENAKA", qualifications: "MBBS, MD", role: "Consultant Obstetrics Gynecologist", image: asset(10) },
-  { name: "DR. ARCHANA DINESH", qualifications: "MBBS, MD, DGO", role: "Consultant Obstetrics & Gynaecologist", image: asset(11) },
-  { name: "DR. A PRASANNA LATHA", qualifications: "MBBS, DNB, DGO", role: "Consultant Obstetrician", image: asset(12) },
-  { name: "DR. VASAVI", qualifications: "MBBS, MS (Obstetrics & Gynaecology), FMAS", role: "Consultant Obstetrics", image: asset(13) },
-  { name: "DR. S NARASIMHA RAO", qualifications: "MD Paediatrics, DCH", role: "Professor & HOD Paediatrics", image: asset(24) },
-  { name: "DR. SURESH THOMAS", qualifications: "", role: "Senior Consultant Paediatrician", image: asset(25) },
-  { name: "DR. KANCHAN S", qualifications: "MBBS, DNB Paediatrics, PGPN Boston, IDPCCM", role: "Consultant Pediatrics", image: asset(26) },
-  { name: "DR. R V SOUJANYA", qualifications: "MBBS, DNB Paediatrics, FNNF", role: "Consultant Paediatrician", image: asset(27) },
-  { name: "DR. BHARGAVI", qualifications: "", role: "Consultant Paediatrician & Neonatologist", image: asset(28) },
-  { name: "DR. SARIKA MUDARAPU", qualifications: "", role: "Consultant, Infertility Specialist", image: asset(29) },
-  { name: "DR. SEERAM LAKSHMI", qualifications: "", role: "Consultant, Infertility Specialist", image: asset(30) },
-  { name: "DR. M SRI LATHA", qualifications: "", role: "Consultant, Infertility Specialist", image: asset(31) },
-].map(doctor => ({
-  ...doctor,
-  slug: slugify(doctor.name),
-  designation: doctor.role,
-  bio: doctorBio,
-  timing: "Mon To Sat, 09:00AM-06:00PM",
-}));
-
-const featuredDoctor = {
-  name: "DR. K VASUNDHARA",
-  qualifications: "MBBS, DGO, DNB",
-  role: "Head of Obstetrics & Gynaecology and Medical Director of the Kamineni Fertility Center",
-  image: asset(14),
-  yearsExperience: "35+ Years",
-  slug: slugify("DR. K VASUNDHARA"),
-  designation: "Head of Obstetrics & Gynaecology and Medical Director of the Kamineni Fertility Center",
-  bio: doctorBio,
-  timing: "Sat To Sun, 09:00AM-08:00PM",
-};
 
 const doctorTips = [
   { title: "Mosquitoes Love Clean Water! Check Your Balcony Today", doctorName: "Dr. Kiranmayee", image: "/images/figma/doctor-tip-mosquito.png" },
@@ -134,7 +100,7 @@ async function main() {
     }
   }
 
-  const serviceHeroImages = [3, 4, 5, 7, 8, 9, 18, 6];
+  const serviceHeroAssetIds = [3, 4, 5, 7, 8, 9, 18, 6];
   for (const [i, key] of Object.keys(serviceGroups).entries()) {
     const category = await prisma.serviceCategory.upsert({
       where: { key },
@@ -152,7 +118,7 @@ async function main() {
           description,
           order: j,
           detail: description,
-          heroImage: asset(serviceHeroImages[j % serviceHeroImages.length]),
+          heroImage: serviceHeroImages[slug] ?? asset(serviceHeroAssetIds[j % serviceHeroAssetIds.length]),
           blocks: (serviceDetailBlocks[slug] ?? []) as Prisma.InputJsonValue,
         },
       });
@@ -256,19 +222,14 @@ async function main() {
     }
   }
 
-  const existingFeatured = await prisma.doctor.findFirst({ where: { name: featuredDoctor.name } });
-  if (!existingFeatured) {
-    await prisma.doctor.create({
-      data: { ...featuredDoctor, languages: "English, Hindi, Telugu", location: "LB Nagar", isFeatured: true, order: 0 },
+  for (const doctor of approvedDoctors) {
+    const { id: _id, ...data } = doctor;
+    void _id;
+    await prisma.doctor.upsert({
+      where: { slug: doctor.slug },
+      create: data,
+      update: data,
     });
-  }
-  for (const [i, doctor] of homeDoctors.entries()) {
-    const existing = await prisma.doctor.findFirst({ where: { name: doctor.name } });
-    if (!existing) {
-      await prisma.doctor.create({
-        data: { ...doctor, yearsExperience: "20+ Years", languages: "English, Hindi, Telugu", location: "LB Nagar", isFeatured: false, order: i + 1 },
-      });
-    }
   }
 
   for (const [i, tip] of doctorTips.entries()) {

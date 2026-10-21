@@ -34,11 +34,11 @@ export default function DoctorProfileHero({ doctor, hospital, careCategories, bo
           <div className="flex flex-col items-start gap-4 p-7 xl:px-[34px] xl:pb-8 xl:pt-[29px]">
             <span className="inline-flex w-fit rounded-[5px] bg-care-purple px-3.5 py-1 text-[13px] font-bold text-white">Our Experts</span>
             <h1 className="!m-0 !text-[28px] font-extrabold leading-[1.2] text-care-purple [font-family:var(--font-manrope)]">{doctor.name}</h1>
-            <p className="!m-0 text-[13px] font-medium leading-[1.5] text-[#363435]/80 [font-family:var(--font-manrope)]">{doctor.designation || doctor.role}</p>
-            <p className="!m-0 text-[13px] font-medium text-[#363435]/65 [font-family:var(--font-manrope)]">Qualifications: {doctor.qualifications}</p>
+            <p className="!m-0 text-[13px] font-medium leading-[1.5] text-[#363435]/80 [font-family:var(--font-manrope)]">{doctor.role}</p>
+            {doctor.qualifications && <p className="!m-0 text-[13px] font-medium text-[#363435]/65 [font-family:var(--font-manrope)]">Qualifications: {doctor.qualifications}</p>}
             <div className="grid w-full gap-2.5 border-t border-[#e9e2ef] pt-4 text-[13px] font-semibold text-[#363435] [font-family:var(--font-manrope)]">
               <div className="flex flex-wrap items-center gap-6">
-                <span>{doctor.yearsExperience}</span>
+                {doctor.yearsExperience && <span>{doctor.yearsExperience}</span>}
                 <span>{doctor.languages}</span>
               </div>
               <span className="flex items-center gap-2"><MapPinIcon className="h-4.5 w-4.5 text-care-purple" />{doctor.location}</span>

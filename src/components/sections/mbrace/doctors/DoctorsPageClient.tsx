@@ -10,6 +10,7 @@ import FaqSection from "../FaqSection";
 import LocationSection from "../LocationSection";
 import HomeFooter from "../HomeFooter";
 import DoctorTipsSection from "./DoctorTipsSection";
+import { doctorsPageCopy } from "./doctorContent";
 
 type DoctorTip = { id: number; title: string; doctorName: string; image: string; videoUrl: string };
 
@@ -30,15 +31,18 @@ export default function DoctorsPageClient({ data, tips }: { data: HomeData; tips
         book={book}
         careCategories={careCategories}
         hospital={hospital}
-        titleTop="Doctors"
-        titleBottom="& Our Specialists"
-        description="Multidisciplinary team of specialists, including gynaecologists, obstetricians, paediatricians and neonatologists, working as one team with advanced NICU and PICU support."
+        titleTop={doctorsPageCopy.heroTitleTop}
+        titleBottom={doctorsPageCopy.heroTitleBottom}
+        description={doctorsPageCopy.heroDescription}
         backgroundImage="/images/figma/doctors-hero-bg.png"
       />
       <DoctorsSection
         featuredDoctor={featuredDoctor}
         book={book}
         homeDoctors={doctors}
+        heading={<>{doctorsPageCopy.teamHeading}<br /><em>{doctorsPageCopy.teamHeadingHighlight}</em></>}
+        description={doctorsPageCopy.teamDescription}
+        showPrinciple={false}
         getProfileHref={(doctor) => `/doctors/${doctor.slug}`}
       />
       <DoctorTipsSection tips={tips} />
