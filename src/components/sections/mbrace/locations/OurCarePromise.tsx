@@ -20,18 +20,18 @@ export default function OurCarePromise({ locationName, intro, cards }: { locatio
           <p className="text-[15px] leading-[1.65] text-[#5d6078]">{intro}</p>
         </div>
         <div className="mb-8 border-t border-[#e8dff5]" />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible">
           {cards.map((card, i) => {
             const Icon = promiseIcons[i % promiseIcons.length];
             return (
-            <div key={card.title} className={`group min-h-60 rounded-[16px] p-7 transition-colors duration-200 ${i === 1 || i === 5 ? "bg-white hover:bg-care-purple" : i % 2 === 0 ? "bg-[#f8f1fa]" : "bg-[#fff8ec]"}`}>
+            <div key={card.title} className={`group min-h-60 w-[82%] shrink-0 snap-start rounded-[16px] p-7 transition-colors duration-200 sm:w-auto sm:shrink ${i === 1 || i === 5 ? "bg-white hover:bg-care-purple" : i % 2 === 0 ? "bg-[#f8f1fa]" : "bg-[#fff8ec]"}`}>
               <span className={`mb-4 flex size-13 items-center justify-center rounded-full transition-colors duration-200 ${i === 1 || i === 5 ? "bg-care-purple text-care-gold group-hover:bg-white/15" : i % 2 === 0 ? "bg-care-gold text-white" : "bg-care-purple text-care-gold"}`}><Icon className="size-6" /></span>
               <p className={`mb-2 text-[17px] font-bold text-care-navy transition-colors duration-200 ${i === 1 || i === 5 ? "group-hover:text-white" : ""}`}>{card.title}</p>
               <p className={`text-[14px] leading-[1.6] text-care-copy transition-colors duration-200 ${i === 1 || i === 5 ? "group-hover:text-white/80" : ""}`}>{card.description}</p>
             </div>
             );
           })}
-          <div className="flex min-h-60 flex-col items-start justify-center rounded-[16px] bg-care-purple p-7 text-white">
+          <div className="flex min-h-60 w-[82%] shrink-0 snap-start flex-col items-start justify-center rounded-[16px] bg-care-purple p-7 text-white sm:w-auto sm:shrink">
             <h3 className="max-w-[430px] text-[22px] font-bold leading-[1.3]">Ready to experience the M&apos;Brace difference?</h3>
             <p className="mt-3 max-w-[500px] text-[14px] leading-[1.6] text-white/80">Book your consultation today and meet the specialist who is right for your family&apos;s needs — in person, at {locationName}.</p>
             <a href="#appointment" className="mt-5 inline-flex rounded-[6px] bg-care-gold px-7 py-3 text-[14px] font-semibold text-white hover:bg-[#e99c26]">Book Appointment</a>
