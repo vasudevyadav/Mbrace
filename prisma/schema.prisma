@@ -285,3 +285,14 @@ model Subscriber {
   source    String?
   createdAt DateTime @default(now())
 }
+
+// Login/form throttle counters, keyed e.g. "pwd:<ip>", "totp:<ip>",
+// "appointment:<ip>". DB-backed (not in-memory) so the count is consistent
+// across serverless instances — an in-memory counter sees a different value
+// on every cold start, which made lockouts inconsistent in production.
+model RateLimitAttempt {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+  lockedUntil DateTime?
+}
