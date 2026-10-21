@@ -25,8 +25,7 @@ type Props = {
 type SocialLink = { key: string; label: string; src: string; href?: string };
 
 export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, mapUrl, basePath = "", ctaHeading, ctaDescription }: Props) {
-  const footerServiceKey = serviceGroups["Child Care"] ? "Child Care" : Object.keys(serviceGroups)[0];
-  const footerServices = footerServiceKey ? serviceGroups[footerServiceKey] ?? [] : [];
+  const [openServiceCategory, setOpenServiceCategory] = useState<string | null>(null);
   const socialCandidates: SocialLink[] = [
     { key: "instagram", label: "Instagram", src: "/images/figma/social-instagram.svg", href: social?.instagramUrl },
     { key: "facebook", label: "Facebook", src: "/images/figma/social-facebook.svg", href: social?.facebookUrl },
@@ -67,12 +66,12 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
             <form onSubmit={handleSubscribe}>
               <label className="sr-only" htmlFor="footer-email">Email address</label>
               <input id="footer-email" type="email" placeholder="Enter your email address" required value={subscribeEmail} onChange={e => setSubscribeEmail(e.target.value)} />
-              <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-gold [&.mb-gold]:bg-care-gold text-white [&.mb-gold:hover]:bg-[#df9726]" type="submit" disabled={subscribeStatus === "sending"}>{subscribeStatus === "sending" ? "Sending…" : "Send"}</button>
+              <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" type="submit" disabled={subscribeStatus === "sending"}>{subscribeStatus === "sending" ? "Sending…" : "Send"}</button>
             </form>
           )}
           {subscribeStatus === "error" && <p className="mt-2 text-[12px] font-medium text-[#ffd7e0]" role="alert">Something went wrong. Please try again.</p>}
         </div>
-        <div className="mb-footer-grid grid pt-[45px] pb-[45px] grid-cols-[repeat(2,1fr)] lg:grid-cols-[1fr_.8fr_1fr_1.05fr] gap-[35px_25px] md:gap-[35px] lg:gap-[25px] xl:gap-10 [&_p]:text-[13px] [&_p]:mt-[17px] [&_p]:leading-[1.8] [&_h3]:text-[16px] [&_h3]:font-bold [&_h3]:mb-5 [&_ul]:list-none [&_ul]:grid [&_ul]:gap-[13px] [&_ul]:text-[13px] [&_ul]:font-semibold [&_a:hover]:underline [&>div:first-child]:col-[1_/_-1] [&>div:first-child]:max-w-87.5 [&>div:last-child]:col-[1_/_-1]">
+        <div className="mb-footer-grid grid pt-[45px] pb-[45px] grid-cols-[repeat(2,1fr)] lg:grid-cols-[1fr_.8fr_1fr_1.05fr] gap-[35px_25px] md:gap-[35px] lg:gap-[25px] xl:gap-10 [&_p]:text-[13px] [&_p]:mt-[17px] [&_p]:leading-[1.8] [&_h3]:text-[16px] [&_h3]:font-bold [&_h3]:mb-5 [&_ul]:list-none [&_ul]:grid [&_ul]:gap-[13px] [&_ul]:text-[13px] [&_ul]:font-semibold [&_a:hover]:underline [&>div:first-child]:col-span-2 [&>div:first-child]:max-w-87.5 lg:[&>div:first-child]:col-span-1">
           <div>
             <a href={`${basePath}#home`} className="mb-footer-brands flex items-center gap-3.5 [&_img]:w-[44%] [&_img]:h-auto [&>span]:w-[1px] [&>span]:h-11.5 [&>span]:bg-[#fff8]">
               <Image src={asset(1)} width={155} height={45} alt="Kamineni Hospitals" />
@@ -88,20 +87,36 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
             <ul>{[
               ["Home", `${basePath}#home`],
               ["About Us", "/about"],
-              ["Women’s Care", "/womens-care"],
-              ["Child Care", "/child-care"],
               ["Our Doctors", "/doctors"],
-              ["Pregnancy & Birth Support", "/pregnancy-birth-support"],
-              ["Fertility Care", "/fertility-care"],
+              ["Blog", "/blog"],
             ].map(([text, href]) => <li key={text}>
               <Link href={href}>{text}</Link>
             </li>)}</ul>
           </div>
           <div>
             <h3>Services</h3>
-            <ul>{footerServices.slice(0, 7).map(([name]) => <li key={name}>
-              <a href={`${basePath}#services`} onClick={() => footerServiceKey && setServiceTab(footerServiceKey)}>{name}</a>
-            </li>)}</ul>
+            <ul className="mb-footer-services">{Object.keys(serviceGroups).map(category => {
+              const items = serviceGroups[category] ?? [];
+              const isOpen = openServiceCategory === category;
+              return (
+              <li key={category}>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between gap-2 text-left"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenServiceCategory(isOpen ? null : category)}
+                >
+                  {category}
+                  <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
+                </button>
+                {isOpen && <ul className="mt-2.5 grid gap-2.5 border-l border-white/15 pl-3 font-normal lg:max-h-48 lg:overflow-y-auto lg:pr-2">
+                  {items.map(([name]) => <li key={name}>
+                    <a href={`${basePath}#services`} onClick={() => setServiceTab(category)}>{name}</a>
+                  </li>)}
+                </ul>}
+              </li>
+              );
+            })}</ul>
           </div>
           <div>
             <h3>Location</h3>
@@ -121,7 +136,7 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
             <p>© 2026 M’Brace. All rights reserved.</p>
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms &amp; Conditions</a>
-            <a href="https://www.freepik.com/" target="_blank" rel="noreferrer">Selected imagery by Freepik</a>
+            {/* <a href="https://www.freepik.com/" target="_blank" rel="noreferrer">Selected imagery by Freepik</a> */}
             <a href={`mailto:${hospital.email}`}>{hospital.email}</a>
           </div>
           {socialLinks.length > 0 && <div className="mb-footer-social flex items-center gap-4.5 [&_img]:size-[19.43px]">
