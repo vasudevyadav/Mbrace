@@ -1,9 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import {
   careCategories as fallbackCareCategories,
-  featuredDoctor as fallbackFeaturedDoctor,
   homeBlogs as fallbackBlogs,
-  homeDoctors as fallbackDoctors,
   homeFaqs as fallbackFaqs,
   homeTestimonials as fallbackTestimonials,
   hospital as fallbackHospital,
@@ -12,6 +10,7 @@ import {
 import { fallbackBlogArticles, findBlogArticle, type BlogArticle, type BlogBlock } from "@/components/sections/mbrace/blog/blogContent";
 import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent } from "@/components/sections/mbrace/services/careCategoryContent";
 import { pregnancyServicesBySlug } from "@/components/sections/mbrace/services/pregnancyServiceContent";
+import { approvedDoctors, findApprovedDoctor } from "@/components/sections/mbrace/doctors/doctorContent";
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -51,50 +50,8 @@ export async function getCareCategoryContent(slug: string): Promise<CareCategory
 }
 
 function getFallbackHomeData() {
-  const doctorBio =
-    "Dedicated to listening first and treating second, our specialists combine advanced diagnostics with a calm, patient-first approach — so every consultation starts with understanding your history, not repeating it.\n\nEvery doctor with us works from one principle: explain clearly, decide together.";
-  const doctors = fallbackDoctors.map((doctor, index) => ({
-    id: index + 1,
-    slug: doctor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-    name: doctor.name,
-    qualifications: doctor.qualifications,
-    role: doctor.role,
-    image: `/images/figma/asset-${doctor.image}.webp`,
-    yearsExperience: "15+ Years",
-    languages: "English, Hindi, Telugu",
-    location: index % 2 === 0 ? "LB Nagar" : "King Koti",
-    isFeatured: false,
-    order: index,
-    designation: doctor.role,
-    bio: doctorBio,
-    timing: "",
-    phone: "",
-    email: "",
-    fullAddress: "",
-    metaTitle: "",
-    metaDescription: "",
-  }));
-  const featuredDoctor = {
-    id: 0,
-    slug: fallbackFeaturedDoctor.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-    name: fallbackFeaturedDoctor.name,
-    qualifications: fallbackFeaturedDoctor.qualifications,
-    role: fallbackFeaturedDoctor.role,
-    image: `/images/figma/asset-${fallbackFeaturedDoctor.image}.webp`,
-    yearsExperience: "35+ Years",
-    languages: "English, Hindi, Telugu",
-    location: "LB Nagar",
-    isFeatured: true,
-    order: -1,
-    designation: fallbackFeaturedDoctor.role,
-    bio: "Dr. K Vasundhara is a senior obstetrician and gynaecologist with extensive experience in women’s health, pregnancy care and fertility support. As Medical Director of the Kamineni Fertility Center, she guides patients with clear explanations, evidence-based treatment and compassionate care.\n\nHer clinical approach focuses on understanding each patient’s history, discussing every available option and making treatment decisions together.",
-    timing: "Sat To Sun, 09:00AM-08:00PM",
-    phone: "+91 70362 70362",
-    email: "info@kaminenihospitals.com",
-    fullAddress: "Inner Ring Rd, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana",
-    metaTitle: "",
-    metaDescription: "",
-  };
+  const doctors = approvedDoctors.filter(doctor => !doctor.isFeatured);
+  const featuredDoctor = approvedDoctors.find(doctor => doctor.isFeatured) ?? null;
 
   return {
     hospital: {
@@ -139,7 +96,6 @@ export async function getHomeData() {
     careCategories,
     serviceCategories,
     faqItems,
-    doctors,
     testimonials,
     blogs,
   ] = await Promise.all([
@@ -149,7 +105,6 @@ export async function getHomeData() {
     prisma.careCategory.findMany({ orderBy: { order: "asc" } }),
     prisma.serviceCategory.findMany({ orderBy: { order: "asc" }, include: { items: { orderBy: { order: "asc" } } } }),
     prisma.faqItem.findMany({ orderBy: { order: "asc" } }),
-    prisma.doctor.findMany({ orderBy: { order: "asc" } }),
     prisma.testimonial.findMany({ orderBy: { order: "asc" } }),
     prisma.blog.findMany({ orderBy: { order: "asc" } }),
   ]);
@@ -168,8 +123,8 @@ export async function getHomeData() {
       .map(f => ({ question: f.question, answer: f.answer }));
   }
 
-  const featuredDoctor = doctors.find(d => d.isFeatured) ?? null;
-  const otherDoctors = doctors.filter(d => !d.isFeatured);
+  const featuredDoctor = approvedDoctors.find(d => d.isFeatured) ?? null;
+  const otherDoctors = approvedDoctors.filter(d => !d.isFeatured);
 
   return {
     hospital: {
@@ -250,12 +205,13 @@ export async function getPageSeo(slug: PageSeoSlug) {
 }
 
 export async function getDoctorBySlug(slug: string) {
+  const approvedDoctor = findApprovedDoctor(slug);
+  if (approvedDoctor) return approvedDoctor;
   try {
     return await prisma.doctor.findUnique({ where: { slug } });
   } catch (error) {
     console.warn(`Database unavailable; using local doctor fallback for ${slug}.`, error);
-    const fallback = getFallbackHomeData();
-    return [fallback.featuredDoctor, ...fallback.doctors].find((doctor) => doctor.slug === slug) ?? null;
+    return null;
   }
 }
 
