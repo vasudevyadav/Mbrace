@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { loginAction } from "@/app/admin/actions";
+import { loginAction, verifyTotpAction } from "@/app/admin/actions";
+import { isValidPendingTwoFactorToken } from "@/lib/adminAuth";
 
 export default async function AdminLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; next?: string }>;
+  searchParams: Promise<{ error?: string; next?: string; step?: string; pending?: string }>;
 }) {
   const params = await searchParams;
   const next = params.next || "/admin";
+  const awaitingTotp = params.step === "totp" && isValidPendingTwoFactorToken(params.pending);
 
   return (
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
@@ -47,35 +49,85 @@ export default async function AdminLoginPage({
             </div>
           </div>
 
-          <h1 className="text-2xl font-semibold text-slate-900 sm:text-3xl">Welcome back</h1>
-          <p className="mt-2 text-sm text-slate-500">Sign in to manage your team, services and patient stories.</p>
+          {awaitingTotp ? (
+            <>
+              <h1 className="text-2xl font-semibold text-slate-900 sm:text-3xl">Enter your code</h1>
+              <p className="mt-2 text-sm text-slate-500">Open Google Authenticator and enter the 6-digit code for M&rsquo;Brace Admin.</p>
 
-          <form action={loginAction} className="mt-8">
-            {params.error && (
-              <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
-                Incorrect password. Try again.
-              </p>
-            )}
-            <input type="hidden" name="next" value={next} />
-            <label className="block text-sm font-medium text-slate-700">
-              Password
-              <input
-                type="password"
-                name="password"
-                required
-                autoComplete="current-password"
-                placeholder="Enter your password"
-                autoFocus
-                className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-              />
-            </label>
-            <button
-              type="submit"
-              className="mt-6 inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Sign in to your workspace &rarr;
-            </button>
-          </form>
+              <form action={verifyTotpAction} className="mt-8">
+                {params.error === "locked" && (
+                  <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    Too many incorrect codes. Try again in 15 minutes.
+                  </p>
+                )}
+                {params.error && params.error !== "locked" && (
+                  <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    Incorrect or expired code. Try again.
+                  </p>
+                )}
+                <input type="hidden" name="next" value={next} />
+                <input type="hidden" name="pending" value={params.pending ?? ""} />
+                <label className="block text-sm font-medium text-slate-700">
+                  Authenticator code
+                  <input
+                    type="text"
+                    name="code"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={6}
+                    required
+                    autoComplete="one-time-code"
+                    placeholder="123456"
+                    autoFocus
+                    className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-center text-lg tracking-[.3em] text-slate-900 placeholder:text-slate-400 placeholder:tracking-[.3em] focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+                  />
+                </label>
+                <button
+                  type="submit"
+                  className="mt-6 inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Verify &amp; sign in &rarr;
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl font-semibold text-slate-900 sm:text-3xl">Welcome back</h1>
+              <p className="mt-2 text-sm text-slate-500">Sign in to manage your team, services and patient stories.</p>
+
+              <form action={loginAction} className="mt-8">
+                {params.error === "locked" && (
+                  <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    Too many failed attempts. Try again in 15 minutes.
+                  </p>
+                )}
+                {params.error && params.error !== "locked" && (
+                  <p role="alert" className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    Incorrect password. Try again.
+                  </p>
+                )}
+                <input type="hidden" name="next" value={next} />
+                <label className="block text-sm font-medium text-slate-700">
+                  Password
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                    autoFocus
+                    className="mt-1.5 block w-full rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+                  />
+                </label>
+                <button
+                  type="submit"
+                  className="mt-6 inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Sign in to your workspace &rarr;
+                </button>
+              </form>
+            </>
+          )}
 
           <p className="mt-6 text-center text-xs text-slate-500">
             <Link href="/" className="font-medium text-brand-700 hover:underline">&larr; Back to M&rsquo;Brace website</Link>

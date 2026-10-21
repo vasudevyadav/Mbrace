@@ -1,10 +1,20 @@
 "use server";
 
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { isFormThrottled, registerFormSubmission } from "@/lib/rateLimit";
 
 function str(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
+
+async function clientKey() {
+  const h = await headers();
+  return h.get("x-forwarded-for")?.split(",")[0].trim() || h.get("x-real-ip") || "unknown";
+}
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^[+\d][\d\s-]{6,19}$/;
 
 async function forwardToWebhook(payload: Record<string, unknown>) {
   const url = process.env.LEAD_WEBHOOK_URL || process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL;
@@ -36,6 +46,19 @@ export async function submitAppointmentRequestAction(formData: FormData): Promis
   if (!name || !email || !phone || !preferredDate || !service || !location) {
     return { ok: false, message: "Please fill in all required fields." };
   }
+  if (!EMAIL_PATTERN.test(email)) {
+    return { ok: false, message: "Enter a valid email address." };
+  }
+  if (!PHONE_PATTERN.test(phone)) {
+    return { ok: false, message: "Enter a valid phone number." };
+  }
+
+  const key = `appointment:${await clientKey()}`;
+  const throttle = isFormThrottled(key);
+  if (throttle.locked) {
+    return { ok: false, message: "Too many requests. Please try again in a few minutes." };
+  }
+  registerFormSubmission(key);
 
   try {
     await prisma.appointmentRequest.create({
@@ -66,9 +89,16 @@ export async function subscribeAction(formData: FormData): Promise<SubscribeActi
   const email = str(formData, "email");
   const source = str(formData, "source") || "footer";
 
-  if (!email || !email.includes("@")) {
+  if (!email || !EMAIL_PATTERN.test(email)) {
     return { ok: false, message: "Enter a valid email address." };
   }
+
+  const key = `subscribe:${await clientKey()}`;
+  const throttle = isFormThrottled(key);
+  if (throttle.locked) {
+    return { ok: false, message: "Too many requests. Please try again in a few minutes." };
+  }
+  registerFormSubmission(key);
 
   try {
     await prisma.subscriber.upsert({
