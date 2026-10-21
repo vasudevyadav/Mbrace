@@ -4,7 +4,17 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { ADMIN_COOKIE_NAME, ADMIN_COOKIE_MAX_AGE, checkAdminPassword, createSessionToken, isValidSessionToken } from "@/lib/adminAuth";
+import {
+  ADMIN_COOKIE_NAME,
+  ADMIN_COOKIE_MAX_AGE,
+  checkAdminPassword,
+  checkAuthenticatorCode,
+  createPendingTwoFactorToken,
+  createSessionToken,
+  isTwoFactorConfigured,
+  isValidPendingTwoFactorToken,
+  isValidSessionToken,
+} from "@/lib/adminAuth";
 import { resolveImagePath } from "@/lib/upload";
 import { slugify } from "@/lib/slugify";
 
@@ -25,14 +35,52 @@ async function requireAdminSession() {
   }
 }
 
+function safeNext(requestedNext: string) {
+  return /^\/admin(?:\/[a-zA-Z0-9_-]+)*$/.test(requestedNext) ? requestedNext : "/admin";
+}
+
 export async function loginAction(formData: FormData) {
   const password = str(formData, "password");
-  const requestedNext = str(formData, "next");
-  const next = /^\/admin(?:\/[a-zA-Z0-9_-]+)*$/.test(requestedNext) ? requestedNext : "/admin";
+  const next = safeNext(str(formData, "next"));
   if (!checkAdminPassword(password)) {
     redirect(`/admin/login?error=1&next=${encodeURIComponent(next)}`);
   }
+
   const jar = await cookies();
+
+  if (!isTwoFactorConfigured()) {
+    // No authenticator enrolled yet — fall back to password-only login.
+    jar.set(ADMIN_COOKIE_NAME, createSessionToken(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: ADMIN_COOKIE_MAX_AGE,
+      path: "/",
+    });
+    redirect(next);
+  }
+
+  // Carried forward as a hidden field on the code-entry form (see page.tsx),
+  // not re-read from a cookie on submit — a signed, time-limited proof that
+  // the password step passed, nothing more.
+  const pendingToken = createPendingTwoFactorToken();
+  redirect(`/admin/login?step=totp&next=${encodeURIComponent(next)}&pending=${encodeURIComponent(pendingToken)}`);
+}
+
+export async function verifyTotpAction(formData: FormData) {
+  const next = safeNext(str(formData, "next"));
+  const code = str(formData, "code");
+  const pendingToken = str(formData, "pending");
+
+  if (!isValidPendingTwoFactorToken(pendingToken)) {
+    redirect(`/admin/login?next=${encodeURIComponent(next)}`);
+  }
+  if (!checkAuthenticatorCode(code)) {
+    redirect(`/admin/login?step=totp&error=1&next=${encodeURIComponent(next)}&pending=${encodeURIComponent(pendingToken)}`);
+  }
+
+  const jar = await cookies();
+
   jar.set(ADMIN_COOKIE_NAME, createSessionToken(), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
