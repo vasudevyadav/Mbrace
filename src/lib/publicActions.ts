@@ -54,11 +54,11 @@ export async function submitAppointmentRequestAction(formData: FormData): Promis
   }
 
   const key = `appointment:${await clientKey()}`;
-  const throttle = isFormThrottled(key);
+  const throttle = await isFormThrottled(key);
   if (throttle.locked) {
     return { ok: false, message: "Too many requests. Please try again in a few minutes." };
   }
-  registerFormSubmission(key);
+  await registerFormSubmission(key);
 
   try {
     await prisma.appointmentRequest.create({
@@ -94,11 +94,11 @@ export async function subscribeAction(formData: FormData): Promise<SubscribeActi
   }
 
   const key = `subscribe:${await clientKey()}`;
-  const throttle = isFormThrottled(key);
+  const throttle = await isFormThrottled(key);
   if (throttle.locked) {
     return { ok: false, message: "Too many requests. Please try again in a few minutes." };
   }
-  registerFormSubmission(key);
+  await registerFormSubmission(key);
 
   try {
     await prisma.subscriber.upsert({
