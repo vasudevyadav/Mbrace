@@ -34,7 +34,7 @@ export default function CareWhyChooseSection({ heading, highlight, body }: { hea
         </div>
         <div className="relative min-h-[620px] lg:min-h-0">
             <Image src="/images/figma/location-services-alt.png" alt="" fill sizes="(max-width: 1023px) 100vw, 55vw" className="object-cover object-center" />
-            <div className="absolute inset-x-4 inset-y-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:bottom-[67px] lg:left-[-53px] lg:right-[5%] lg:top-[67px] lg:gap-[14px]">
+            <div className="absolute inset-x-4 inset-y-10 grid grid-cols-2 gap-2 sm:gap-3 lg:bottom-[67px] lg:left-[-53px] lg:right-[5%] lg:top-[67px] lg:gap-[14px]">
               {cards.map(card => (
                 <div key={card.title} className={`flex min-h-[188px] flex-col justify-center rounded-[14px] p-5 shadow-[0_2px_6px_rgba(31,43,112,0.08)] lg:p-[21px] ${card.featured ? "[background:linear-gradient(120deg,#fbad31_0%,#d88a6d_49%,#764b9e_100%)]" : "bg-white text-[#211d49]"}`}>
                   <div className={`mb-3 grid size-9 place-items-center rounded-[9px] ${card.featured ? "bg-white/20" : "bg-care-purple text-white"}`}>

@@ -79,8 +79,8 @@ export default function LocationSheetSections({ content, location, hospital, hom
             <h2 className="mt-4 text-[30px] font-semibold leading-[1.2] text-white md:text-[36px] lg:text-[40px]">{content.reach.heading}</h2>
             <p className="mt-5 text-[15px] leading-[1.7] text-white/85">{content.reach.body}</p>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {content.reach.items.map((item, index) => <article key={item.title} className="group rounded-[18px] bg-white p-6 text-[#45405a] shadow-[0_10px_26px_rgba(31,16,56,.15)] transition-colors duration-200 hover:bg-care-gold hover:text-[#2d2037]">
+          <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3">
+            {content.reach.items.map((item, index) => <article key={item.title} className="group w-[82%] shrink-0 snap-start rounded-[18px] bg-white p-6 text-[#45405a] shadow-[0_10px_26px_rgba(31,16,56,.15)] transition-colors duration-200 hover:bg-care-gold hover:text-[#2d2037] md:w-auto md:shrink">
               <span className="grid size-10 place-items-center rounded-full bg-care-purple text-[14px] font-extrabold text-white">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-4 text-[17px] font-bold text-care-navy transition-colors duration-200 group-hover:text-[#2d2037]">{item.title}</h3>
               <p className="mt-3 whitespace-pre-line text-[14px] leading-[1.65] text-[#656078] transition-colors duration-200 group-hover:text-[#2d2037]/85">{item.description}</p>

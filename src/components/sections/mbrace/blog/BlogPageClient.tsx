@@ -15,6 +15,8 @@ function isBlogCategory(value: string | null): value is (typeof categories)[numb
   return categories.includes(value as (typeof categories)[number]);
 }
 
+const MOBILE_PAGE_SIZE = 6;
+
 export default function BlogPageClient({ data, articles }: { data: HomeData; articles: BlogArticle[] }) {
   const { hospital, social, careCategories, serviceGroups } = data;
   const router = useRouter();
@@ -25,6 +27,7 @@ export default function BlogPageClient({ data, articles }: { data: HomeData; art
     return isBlogCategory(requested) ? requested : "All Articles";
   });
   const [location, setLocation] = useState("LB Nagar");
+  const [mobileVisibleCount, setMobileVisibleCount] = useState(MOBILE_PAGE_SIZE);
 
   const visibleArticles = useMemo(() => {
     const search = query.trim().toLowerCase();
@@ -34,6 +37,11 @@ export default function BlogPageClient({ data, articles }: { data: HomeData; art
       return categoryMatches && searchMatches;
     });
   }, [articles, category, query]);
+
+  function selectCategory(name: (typeof categories)[number]) {
+    setCategory(name);
+    setMobileVisibleCount(MOBILE_PAGE_SIZE);
+  }
 
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
@@ -52,11 +60,11 @@ export default function BlogPageClient({ data, articles }: { data: HomeData; art
         </div>
       </section>
 
-      <main className="mx-auto grid w-[calc(100%_-_40px)] max-w-[1280px] gap-10 py-12 md:w-[calc(100%_-_64px)] lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-[38px] lg:py-16">
-        <aside className="space-y-8">
+      <main className="mx-auto grid w-[calc(100%_-_40px)] max-w-[1280px] gap-10 py-12 md:w-[calc(100%_-_64px)] lg:grid-cols-[280px_minmax(0,1fr)] lg:grid-rows-[auto_auto] lg:gap-[38px] lg:py-16">
+        <aside className="space-y-8 lg:col-start-1 lg:row-start-1">
           <label className="flex overflow-hidden rounded-[7px] border border-[#dfd8e6] bg-white">
             <span className="sr-only">Search articles</span>
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search articles..." className="min-w-0 flex-1 px-4 py-3 text-[13px] outline-none" />
+            <input value={query} onChange={(event) => { setQuery(event.target.value); setMobileVisibleCount(MOBILE_PAGE_SIZE); }} placeholder="Search articles..." className="min-w-0 flex-1 px-4 py-3 text-[13px] outline-none" />
             <span className="grid w-12 place-items-center bg-care-purple text-white" aria-hidden="true">⌕</span>
           </label>
 
@@ -64,14 +72,47 @@ export default function BlogPageClient({ data, articles }: { data: HomeData; art
             <h2 className="mb-4 text-[15px] font-extrabold text-[#302e33]">Categories</h2>
             <div className="grid gap-3">
               {categories.slice(1).map((name, index) => (
-                <button key={name} type="button" onClick={() => setCategory(name)} aria-pressed={category === name} className="flex min-h-[58px] items-center gap-3 rounded-[7px] border border-[#e5dfe9] px-4 text-left text-[12px] font-bold text-care-navy aria-pressed:border-transparent aria-pressed:bg-[#f1e4fb]">
+                <button key={name} type="button" onClick={() => selectCategory(name)} aria-pressed={category === name} className="flex min-h-[58px] items-center gap-3 rounded-[7px] border border-[#e5dfe9] px-4 text-left text-[12px] font-bold text-care-navy aria-pressed:border-transparent aria-pressed:bg-[#f1e4fb]">
                   <Image src={`/images/figma/service-${index}.svg`} width={22} height={22} alt="" />
                   <span>{name}<small className="block text-[9px] font-medium text-[#99939f]">Explore topics</small></span>
                 </button>
               ))}
             </div>
           </div>
+        </aside>
 
+        <section aria-labelledby="all-articles-heading" className="lg:col-start-2 lg:row-start-1 lg:row-span-2">
+          <div className="mb-6 flex items-center justify-between gap-4"><h2 id="all-articles-heading" className="text-[23px] font-extrabold text-[#302e33]">{category}</h2><span className="text-[11px] font-bold text-care-purple">{visibleArticles.length} Articles</span></div>
+          {visibleArticles.length ? (
+            <div className="grid gap-6 md:grid-cols-2">
+              {visibleArticles.map((article, index) => (
+                <article key={article.slug} className={`overflow-hidden rounded-[12px] border border-[#ded9e2] bg-white ${index >= mobileVisibleCount ? "hidden lg:block" : ""}`}>
+                  <Link href={`/blog/${article.slug}`} className="relative block h-[210px] overflow-hidden">
+                    <Image src={article.image} alt={article.title} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover transition-transform duration-500 hover:scale-[1.03]" />
+                    <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[9px] font-extrabold text-white ${index % 2 ? "bg-care-gold" : "bg-care-purple"}`}>{article.category}</span>
+                  </Link>
+                  <div className="p-5">
+                    <h3 className="text-[17px] font-extrabold leading-[1.35] text-[#302e33]"><Link href={`/blog/${article.slug}`}>{article.title}</Link></h3>
+                    <p className="mt-3 text-[12px] leading-[1.65] text-[#77717f]">{article.summary}</p>
+                    <Link href={`/blog/${article.slug}`} className="mt-4 inline-block text-[11px] font-extrabold text-care-purple">▧ &nbsp; Read More →</Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : <p className="rounded-[12px] bg-[#f8f3fb] p-8 text-center text-[#77717f]">No articles found. Try a different search.</p>}
+          {mobileVisibleCount < visibleArticles.length && (
+            <button
+              type="button"
+              onClick={() => setMobileVisibleCount(count => count + MOBILE_PAGE_SIZE)}
+              className="mt-8 w-full rounded-[6px] border border-care-purple bg-white py-3 text-[12px] font-bold text-care-purple lg:hidden"
+            >
+              See More
+            </button>
+          )}
+          <nav className="mt-10 hidden gap-2 lg:flex" aria-label="Blog pagination"><button className="size-10 rounded-[6px] bg-care-purple text-white">1</button><button className="size-10 rounded-[6px] border border-[#ded9e2]">2</button><button className="size-10 rounded-[6px] border border-[#ded9e2]">3</button><button className="size-10 rounded-[6px] border border-[#ded9e2]">→</button></nav>
+        </section>
+
+        <aside className="mt-2 space-y-8 lg:col-start-1 lg:row-start-2 lg:mt-0">
           <div>
             <h2 className="mb-4 text-[15px] font-extrabold text-[#302e33]">Recent Articles</h2>
             <div className="grid gap-3">
@@ -93,28 +134,6 @@ export default function BlogPageClient({ data, articles }: { data: HomeData; art
 
           <div className="text-[12px] leading-[1.8]"><h2 className="mb-2 font-extrabold text-[#302e33]">Contact Us</h2><p>📍 LB Nagar &amp; King Koti, Hyderabad</p><p>☎ <a href={hospital.phoneHref}>{hospital.phone}</a></p><p>✉ <a href={`mailto:${hospital.email}`}>{hospital.email}</a></p></div>
         </aside>
-
-        <section aria-labelledby="all-articles-heading">
-          <div className="mb-6 flex items-center justify-between gap-4"><h2 id="all-articles-heading" className="text-[23px] font-extrabold text-[#302e33]">{category}</h2><span className="text-[11px] font-bold text-care-purple">{visibleArticles.length} Articles</span></div>
-          {visibleArticles.length ? (
-            <div className="grid gap-6 md:grid-cols-2">
-              {visibleArticles.map((article, index) => (
-                <article key={article.slug} className="overflow-hidden rounded-[12px] border border-[#ded9e2] bg-white">
-                  <Link href={`/blog/${article.slug}`} className="relative block h-[210px] overflow-hidden">
-                    <Image src={article.image} alt={article.title} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover transition-transform duration-500 hover:scale-[1.03]" />
-                    <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[9px] font-extrabold text-white ${index % 2 ? "bg-care-gold" : "bg-care-purple"}`}>{article.category}</span>
-                  </Link>
-                  <div className="p-5">
-                    <h3 className="text-[17px] font-extrabold leading-[1.35] text-[#302e33]"><Link href={`/blog/${article.slug}`}>{article.title}</Link></h3>
-                    <p className="mt-3 text-[12px] leading-[1.65] text-[#77717f]">{article.summary}</p>
-                    <Link href={`/blog/${article.slug}`} className="mt-4 inline-block text-[11px] font-extrabold text-care-purple">▧ &nbsp; Read More →</Link>
-                  </div>
-                </article>
-              ))}
-            </div>
-          ) : <p className="rounded-[12px] bg-[#f8f3fb] p-8 text-center text-[#77717f]">No articles found. Try a different search.</p>}
-          <nav className="mt-10 flex gap-2" aria-label="Blog pagination"><button className="size-10 rounded-[6px] bg-care-purple text-white">1</button><button className="size-10 rounded-[6px] border border-[#ded9e2]">2</button><button className="size-10 rounded-[6px] border border-[#ded9e2]">3</button><button className="size-10 rounded-[6px] border border-[#ded9e2]">→</button></nav>
-        </section>
       </main>
 
       <section className="bg-[linear-gradient(90deg,#fff3df,#f3e9fc)] px-5 py-11">
