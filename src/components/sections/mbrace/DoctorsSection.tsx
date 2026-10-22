@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Photo from "./Photo";
@@ -27,6 +27,33 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
   const nameLink = (doctor: { slug: string }, children: ReactNode) =>
     getProfileHref ? <Link href={getProfileHref(doctor)} className="hover:underline">{children}</Link> : children;
 
+  const [requestedTeamIndex, setTeamIndex] = useState(0);
+  const [teamPerView, setTeamPerView] = useState(4);
+  const teamTrackRef = useRef<HTMLDivElement>(null);
+  const teamMaxIndex = Math.max(0, homeDoctors.length - teamPerView);
+  const teamIndex = Math.min(requestedTeamIndex, teamMaxIndex);
+  function goToTeamSlide(i: number) {
+    setTeamIndex(Math.max(0, Math.min(i, teamMaxIndex)));
+  }
+  useEffect(() => {
+    if (layout !== "service-detail") return;
+    const mobile = window.matchMedia("(max-width: 639px)");
+    const tablet = window.matchMedia("(max-width: 1023px)");
+    const update = () => setTeamPerView(mobile.matches ? 1 : tablet.matches ? 2 : 4);
+    update();
+    mobile.addEventListener("change", update);
+    tablet.addEventListener("change", update);
+    return () => {
+      mobile.removeEventListener("change", update);
+      tablet.removeEventListener("change", update);
+    };
+  }, [layout]);
+  useEffect(() => {
+    const track = teamTrackRef.current;
+    const slide = track?.children[teamIndex] as HTMLElement | undefined;
+    if (track && slide) track.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
+  }, [teamIndex, teamPerView]);
+
   if (layout === "service-detail") {
     return (
       <section id="team" className="rounded-[28px] bg-[linear-gradient(110deg,#fff3df_0%,#f8edf1_52%,#f2e8fc_100%)] px-5 py-8 md:px-8 lg:py-[72px]">
@@ -41,9 +68,16 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
             <p className="mx-auto max-w-[560px] pt-0 text-[14px] leading-[1.45] text-[#5e6178] lg:mx-0 lg:max-w-[500px] lg:pt-7">{description}</p>
           </div>
 
-          <div className="mt-12 grid grid-flow-col auto-cols-[88%] gap-5 overflow-x-auto pb-2 [scroll-snap-type:x_mandatory] [scrollbar-width:thin] sm:auto-cols-[48%] lg:grid-flow-row lg:auto-cols-auto lg:grid-cols-4 lg:overflow-visible lg:pb-0">
-            {homeDoctors.slice(0, 5).map((doctor) => (
-              <article key={doctor.name} className="flex min-w-0 flex-col rounded-[12px] bg-white p-[10px] text-center [scroll-snap-align:start]">
+          <div
+            className="mt-12 [--items-per-view:1] overflow-x-auto sm:[--items-per-view:2] lg:[--items-per-view:4] [scroll-snap-type:x_mandatory] overscroll-x-contain [scrollbar-width:thin] pb-2 lg:pb-0 relative flex gap-5 overflow-hidden scroll-smooth motion-reduce:scroll-auto [&>article]:[flex:0_0_calc((100%_-_(var(--items-per-view)_-_1)_*_20px)_/_var(--items-per-view))] [&>article]:[scroll-snap-align:start] [&>article]:min-w-0"
+            role="region"
+            aria-label="Our doctors — swipe to browse"
+            tabIndex={0}
+            ref={teamTrackRef}
+            style={{ "--items-per-view": teamPerView } as CSSProperties}
+          >
+            {homeDoctors.map((doctor) => (
+              <article key={doctor.name} className="flex min-w-0 flex-col rounded-[12px] bg-white p-[10px] text-center">
                 <Photo src={doctor.image} alt={doctor.name} className="mb-4 h-[230px] rounded-[10px] [&_img]:object-top" />
                 <h3 className="text-[15px] font-extrabold leading-[1.25] text-care-purple">{nameLink(doctor, doctor.name)}</h3>
                 <p className="mt-2 min-h-[48px] text-[11px] leading-[1.35] text-[#595959]">{doctor.qualifications && <>{doctor.qualifications}<br /></>}{doctor.role}</p>
@@ -59,6 +93,13 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
               </article>
             ))}
           </div>
+          {teamMaxIndex > 0 && (
+            <div className="mt-5.5 flex justify-center gap-2 [&_button]:h-[9px] [&_button]:w-[9px] [&_button]:rounded-[5px] [&_button]:bg-[#e8dff1] [&_button]:p-0 [&_button]:transition-[background,width] [&_button:hover]:bg-[#d7c2e8] [&_button[aria-selected=true]]:w-5.5 [&_button[aria-selected=true]]:bg-care-gold" role="tablist" aria-label="Our team slider navigation">
+              {Array.from({ length: teamMaxIndex + 1 }, (_, i) => (
+                <button key={i} type="button" role="tab" aria-selected={i === teamIndex} aria-label={`Show doctors starting from slide ${i + 1}`} onClick={() => goToTeamSlide(i)} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     );
@@ -72,7 +113,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
             <Heading label="OUR TEAM">{heading ?? <>Meet <em>The Experts</em>
               <br />Behind Your Journey</>}</Heading>
             <p className="font-semibold">{description ?? "Our panel of specialists bring together senior consultants in obstetrics, gynaecology and fertility, paediatricians and neonatologists, and dedicated fertility specialists and embryologists, practised for a decade or more, holding advanced fellowships and specialist training from institutions in India and abroad."}</p>
-            {showPrinciple && <p className="mb-team-principle mt-5.5 pt-4.5 [border-top:1px_solid_#ddd4e2] font-bold text-[16px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[20px] [&_strong]:mt-[5px]">{principleLead ?? "Every doctor works from one principle:"}<strong>{principle ?? "Explain Clearly, Decide Together!"}</strong>
+            {showPrinciple && <p className="mb-team-principle mt-5.5 pt-4.5 [border-top:1px_solid_#ddd4e2] font-bold text-[16px] [&_strong]:block [&_strong]:font-semibold [&_strong]:text-[20px] [&_strong]:mt-[5px]">{principleLead ?? "Every doctor works from one principle:"}<strong>{principle ?? "Explain Clearly, Decide Together!"}</strong>
             </p>}
           </div>{featuredDoctor && <article className="mb-featured-doctor grid bg-white rounded-[14px] items-center grid-cols-[minmax(100px,_.85fr)_minmax(0,_1fr)] pt-3.5 pr-3.5 pb-3.5 pl-3.5 md:grid-cols-[200px_1fr] lg:grid-cols-[.9fr_1fr] gap-[15px] xl:gap-6 md:pt-4.5 md:pr-4.5 md:pb-4.5 md:pl-4.5 [&>.mb-photo]:h-67.5 md:[&>.mb-photo]:h-65 lg:[&>.mb-photo]:h-78 [&_h3]:text-[15px] md:[&_h3]:text-[18px] lg:[&_h3]:text-[14px] xl:[&_h3]:text-[20px] [&_h3]:leading-[1.3] [&_h3]:font-extrabold [&_h3]:text-care-purple [&_h3]:mb-2.5 [&_p]:text-[10px] md:[&_p]:text-[13px] [&_p]:leading-[1.5] [&_p]:text-[#595959] [&_p]:font-medium [&_.mb-doctor-meta]:grid [&_.mb-doctor-meta]:text-[10px] [&_.mb-doctor-meta]:gap-2 md:[&_.mb-doctor-meta]:text-[12px] [&_.mb-doctor-actions]:max-w-75 [&_.mb-doctor-actions]:flex-col [&_.mb-doctor-actions]:mt-[13px] [&_.mb-doctor-actions]:gap-1.5">
             <Photo src={featuredDoctor.image} alt={featuredDoctor.name} />

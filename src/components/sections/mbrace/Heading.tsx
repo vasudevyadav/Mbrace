@@ -4,18 +4,32 @@ export default function Heading({
   label,
   children,
   description,
+  className = "",
+  headingClassName = "",
+  eyebrowClassName = "",
+  descriptionClassName = "",
 }: {
   label: string;
   children: ReactNode;
   description?: string;
+  className?: string;
+  headingClassName?: string;
+  eyebrowClassName?: string;
+  descriptionClassName?: string;
 }) {
   return (
-    <div className="mb-heading mb-5 [&_h2]:text-[30px] [&_h2]:tracking-[-.7px] md:[&_h2]:text-[31px] lg:[&_h2]:text-[35px] xl:[&_h2]:text-[41px] [&_h2]:leading-[1.35] [&_h2]:font-semibold [&_h2]:text-care-navy md:[&_h2]:tracking-[-1.1px] [&>p:last-child:not(.mb-eyebrow)]:mt-4.5">
-      <p className="mb-eyebrow text-[12px] md:text-[20px] font-semibold text-care-gold mb-3.5">
+    <div className={`mb-heading mb-5 ${className}`}>
+      <p className={`mb-eyebrow mb-3.5 text-[12px] font-semibold text-care-gold md:text-[20px] ${eyebrowClassName}`}>
         {label}
       </p>
-      <h2>{children}</h2>
-      {description && <p>{description}</p>}
+      <h2 className={`text-[30px] font-semibold leading-[1.35] tracking-[-.7px] text-care-navy md:text-[31px] md:tracking-[-1.1px] lg:text-[35px] xl:text-[41px] [&_em]:not-italic [&_em]:font-extrabold [&_em]:text-care-gold ${headingClassName}`}>
+        {children}
+      </h2>
+      {description && (
+        <p className={`mt-4.5 leading-[1.65] ${descriptionClassName}`}>
+          {description}
+        </p>
+      )}
     </div>
   );
 }

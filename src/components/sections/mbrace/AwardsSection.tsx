@@ -26,7 +26,7 @@ export default function AwardsSection({ stats }: Props) {
         <h3>Association of Healthcare Providers India</h3>
         <p>Identifies conditions like glaucoma and cataracts before they cause significant damage.</p>
         <div className="mb-award-stats mt-6.5 grid grid-cols-[repeat(3,1fr)] [background:linear-gradient(90deg,#fbad31,#764b9e)] rounded-[5px] text-white text-left pt-3 pr-5 pb-3 pl-5 [&>div]:flex [&>div]:flex-col [&>div+div]:[border-left:0] [&_strong]:text-[30px] [&_span]:text-[12px]">{[stats.awardsYears, stats.awardsSatisfaction, stats.awardsFamilies].map(s => <div key={s.label}>
-          <Counter  value={s.value} />
+          <Counter value={s.value} />
           <span>{s.label}</span>
         </div>)}</div>
       </div>

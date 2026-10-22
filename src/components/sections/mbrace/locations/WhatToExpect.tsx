@@ -11,7 +11,7 @@ export default function WhatToExpect({ locationName, intro, steps, phone, phoneH
           What to Expect During Your <span className="text-care-gold">Visit to M&apos;Brace</span>, {locationName}?
         </h2>
         <p className="mx-auto mb-10 max-w-165 text-[15px] leading-[1.65] text-white/90">{intro}</p>
-        <div className="flex snap-x snap-mandatory items-start gap-4 overflow-x-auto pb-2 text-left [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-start md:overflow-visible">
+        <div className="flex snap-x snap-mandatory items-start gap-4 overflow-x-auto pb-2 text-left [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-stretch md:overflow-visible">
           {steps.map((step, i) => (
             <div key={step.title} className="flex w-[82%] shrink-0 snap-start items-center gap-4 rounded-[12px] bg-white p-5 text-care-navy transition-colors duration-200 hover:bg-[#fff8ec] md:w-auto md:shrink">
               <span className={`flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-[19px] text-[16px] font-extrabold text-white ${i % 2 === 0 ? "bg-care-purple" : "bg-care-gold"}`}>{i + 1}</span>

@@ -20,11 +20,11 @@ export default function OurCarePromise({ locationName, intro, cards }: { locatio
           <p className="text-[15px] leading-[1.65] text-[#5d6078]">{intro}</p>
         </div>
         <div className="mb-8 border-t border-[#e8dff5]" />
-        <div className="flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:items-start sm:overflow-visible">
+        <div className="flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:items-stretch sm:overflow-visible">
           {cards.map((card, i) => {
             const Icon = promiseIcons[i % promiseIcons.length];
             return (
-            <div key={card.title} className={`group min-h-60 w-[82%] shrink-0 snap-start rounded-[16px] p-7 transition-colors duration-200 sm:w-auto sm:shrink ${i === 1 || i === 5 ? "bg-white hover:bg-care-purple" : i % 2 === 0 ? "bg-[#f8f1fa]" : "bg-[#fff8ec]"}`}>
+            <div key={card.title} className={`group flex min-h-60 w-[82%] shrink-0 flex-col snap-start rounded-[16px] p-7 transition-colors duration-200 sm:w-auto sm:shrink ${i === 1 || i === 5 ? "bg-white hover:bg-care-purple" : i % 2 === 0 ? "bg-[#f8f1fa]" : "bg-[#fff8ec]"}`}>
               <span className={`mb-4 flex size-13 items-center justify-center rounded-full transition-colors duration-200 ${i === 1 || i === 5 ? "bg-care-purple text-care-gold group-hover:bg-white/15" : i % 2 === 0 ? "bg-care-gold text-white" : "bg-care-purple text-care-gold"}`}><Icon className="size-6" /></span>
               <p className={`mb-2 text-[17px] font-bold text-care-navy transition-colors duration-200 ${i === 1 || i === 5 ? "group-hover:text-white" : ""}`}>{card.title}</p>
               <p className={`text-[14px] leading-[1.6] text-care-copy transition-colors duration-200 ${i === 1 || i === 5 ? "group-hover:text-white/80" : ""}`}>{card.description}</p>

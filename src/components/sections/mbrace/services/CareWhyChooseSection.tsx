@@ -13,7 +13,7 @@ function EnvelopeIcon({ className }: { className?: string }) {
 export default function CareWhyChooseSection({ heading, highlight, body }: { heading: string; highlight: string; body: string }) {
   const cards = [
     { icon: StethoscopeIcon, title: "Lakhs of Happy Families", body: "Families trust us from routine check-ups through to their children's health." },
-    { icon: ShieldIcon, title: "34+ Years of Expertise", body: "Specialist consultants across gynaecology, obstetrics, paediatrics, neonatology and fertility care.", featured: true },
+    { icon: ShieldIcon, title: "34+ Years of Expertise", body: "Specialist consultants across gynaecology, obstetrics, paediatrics, neonatology and fertility care." },
     { icon: CalendarIcon, title: "Easy Appointment Booking", body: "Located at LB Nagar & King Koti, call +91 93906 34074. Open 24 hours, 7 days a week." },
     { icon: EnvelopeIcon, title: "1,10,000+ Healthy Babies", body: "Babies delivered by our teams, with newborn ICU care on hand." },
   ];
@@ -36,12 +36,12 @@ export default function CareWhyChooseSection({ heading, highlight, body }: { hea
             <Image src="/images/figma/location-services-alt.png" alt="" fill sizes="(max-width: 1023px) 100vw, 55vw" className="object-cover object-center" />
             <div className="absolute inset-x-4 inset-y-10 grid grid-cols-2 gap-2 sm:gap-3 lg:bottom-[67px] lg:left-[-53px] lg:right-[5%] lg:top-[67px] lg:gap-[14px]">
               {cards.map(card => (
-                <div key={card.title} className={`flex min-h-[188px] flex-col justify-center rounded-[14px] p-5 shadow-[0_2px_6px_rgba(31,43,112,0.08)] lg:p-[21px] ${card.featured ? "[background:linear-gradient(120deg,#fbad31_0%,#d88a6d_49%,#764b9e_100%)]" : "bg-white text-[#211d49]"}`}>
-                  <div className={`mb-3 grid size-9 place-items-center rounded-[9px] ${card.featured ? "bg-white/20" : "bg-care-purple text-white"}`}>
+                <div key={card.title} className="group flex min-h-[188px] flex-col justify-center rounded-[14px] bg-white p-5 text-[#211d49] shadow-[0_2px_6px_rgba(31,43,112,0.08)] transition-colors duration-300 hover:[background:linear-gradient(120deg,#fbad31_0%,#d88a6d_49%,#764b9e_100%)] lg:p-[21px]">
+                  <div className="mb-3 grid size-9 shrink-0 place-items-center rounded-[9px] bg-care-purple text-white transition-colors duration-300 group-hover:bg-white/20">
                     <card.icon className="size-5" />
                   </div>
-                  <p className={`text-[17px] font-bold leading-[1.3] ${card.featured ? "text-white" : "text-[#211d49]"}`}>{card.title}</p>
-                  <p className={`mt-3 text-[11px] leading-[1.55] ${card.featured ? "text-white/90" : "text-[#68637f]"}`}>{card.body}</p>
+                  <p className="text-[17px] font-bold leading-[1.3] text-[#211d49] transition-colors duration-300 group-hover:text-white">{card.title}</p>
+                  <p className="mt-3 text-[11px] leading-[1.55] text-[#68637f] transition-colors duration-300 group-hover:text-white/90">{card.body}</p>
                 </div>
               ))}
             </div>

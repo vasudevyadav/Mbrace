@@ -33,11 +33,11 @@ export default function WhyPatientsChoose({ locationName, intro, stats, features
         )}
 
         {features.length > 0 && (
-          <div className="flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-start md:overflow-visible lg:grid-cols-4">
+          <div className="flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-stretch md:overflow-visible lg:grid-cols-4">
             {features.map((feature, i) => {
               const Icon = featureIcons[i % featureIcons.length];
               return (
-              <div key={feature.title} className={`min-h-[262px] w-[82%] shrink-0 snap-start rounded-[16px] p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-16px_rgba(31,43,112,.35)] md:w-auto md:shrink ${i === 1 ? "bg-care-purple text-white" : i === 2 ? "bg-[#fff8ec]" : "bg-[#f8f1fa]"}`}>
+              <div key={feature.title} className={`flex min-h-[262px] w-[82%] shrink-0 flex-col snap-start rounded-[16px] p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-16px_rgba(31,43,112,.35)] md:w-auto md:shrink ${i === 1 ? "bg-care-purple text-white" : i === 2 ? "bg-[#fff8ec]" : "bg-[#f8f1fa]"}`}>
                 <span className={`mb-4 flex size-13 items-center justify-center rounded-full ${i === 1 ? "bg-white/15 text-care-gold" : i === 2 ? "bg-care-gold text-white" : "bg-care-purple text-care-gold"}`}><Icon className="size-6" /></span>
                 <p className={`mb-2 text-[16px] font-bold ${i === 1 ? "text-white" : "text-[#1f2b70]"}`}>{feature.title}</p>
                 <p className={`text-[13px] leading-[1.6] ${i === 1 ? "text-white/80" : "text-[#5d6078]"}`}>{feature.description}</p>
