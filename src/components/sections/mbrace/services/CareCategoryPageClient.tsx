@@ -23,6 +23,7 @@ import CareWhyChooseSection from "./CareWhyChooseSection";
 import CareExcellenceSection from "./CareExcellenceSection";
 import type { CareCategoryContent } from "./careCategoryContent";
 import { approvedCareFaqs, approvedCarePageSections, approvedServiceGroups } from "./approvedCarePageData";
+import { getCanonicalServiceSlug } from "@/lib/serviceLinks";
 
 type CategoryWithItems = ServiceCategory & { items: ServiceItem[] };
 
@@ -124,7 +125,7 @@ export default function CareCategoryPageClient({
                   <Image className="mb-service-icon w-11 h-11 mb-3.5" src={`/images/figma/service-${index % 8}.svg`} width={44} height={44} alt="" />
                   <h3>{approvedItem?.[0] ?? item.name}</h3>
                   <p>{approvedItem?.[1] ?? item.description}</p>
-                  <Link href={`/services/${item.slug}`}>Learn More <span aria-hidden="true">→</span></Link>
+                  <Link href={`/services/${getCanonicalServiceSlug(item.slug)}`}>Learn More <span aria-hidden="true">→</span></Link>
                 </article>;
               })}
             </div>

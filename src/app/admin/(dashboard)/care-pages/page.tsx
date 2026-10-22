@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getCanonicalServiceSlug } from "@/lib/serviceLinks";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminCarePagesPage() {
@@ -30,7 +31,7 @@ export default async function AdminCarePagesPage() {
                 <div className="mb-4 flex items-center justify-between gap-4"><h3 className="text-sm font-semibold text-slate-800">Child service pages</h3>{category && <Link href={`/admin/services?category=${category.id}`} className="text-xs font-semibold text-brand-600">Manage / add child services →</Link>}</div>
                 {!category || category.items.length === 0 ? <p className="rounded-lg border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">No separate child services configured for this page.</p> : (
                   <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {category.items.map(item => <Link key={item.id} href={`/admin/services/${item.id}?category=${category.id}`} className="rounded-xl border border-slate-200 px-4 py-3 transition hover:border-brand-300 hover:bg-brand-50"><strong className="block text-sm text-slate-800">{item.name}</strong><span className="mt-1 block text-[11px] text-slate-500">/services/{item.slug}</span></Link>)}
+                    {category.items.map(item => <Link key={item.id} href={`/admin/services/${item.id}?category=${category.id}`} className="rounded-xl border border-slate-200 px-4 py-3 transition hover:border-brand-300 hover:bg-brand-50"><strong className="block text-sm text-slate-800">{item.name}</strong><span className="mt-1 block text-[11px] text-slate-500">/services/{getCanonicalServiceSlug(item.slug)}</span></Link>)}
                   </div>
                 )}
               </div>

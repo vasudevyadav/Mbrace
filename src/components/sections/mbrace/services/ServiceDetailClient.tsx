@@ -66,9 +66,9 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
     : category.includes("fertility")
       ? doctors.filter((doctor) => /fertility|infertility|embryolog/i.test(`${doctor.role} ${doctor.designation}`))
       : [featuredDoctor, ...doctors.filter((doctor) => /obstet|gynae|fertility|infertility/i.test(`${doctor.role} ${doctor.designation}`))].filter((doctor): doctor is NonNullable<typeof doctor> => Boolean(doctor));
-  const faqCategories = faqData ? faqData.groups.map((g) => g.heading) : [faqCategory, ...careCategories.filter((c) => c !== faqCategory)];
+  const faqCategories = faqData ? [service.name] : [faqCategory, ...careCategories.filter((c) => c !== faqCategory)];
   const faqMap = faqData
-    ? Object.fromEntries(faqData.groups.map((g) => [g.heading, g.faqs]))
+    ? { [service.name]: faqData.groups.flatMap((group) => group.faqs) }
     : homeFaqs;
 
   function book(serviceName = "", doctorName = "", type = "") {
@@ -142,6 +142,8 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         heading={faqData?.heading}
         highlight={faqData?.highlight}
         description={faqData?.description}
+        showCategories={!faqData}
+        image={contentImage}
       />
       <AppointmentSection
         status={status}

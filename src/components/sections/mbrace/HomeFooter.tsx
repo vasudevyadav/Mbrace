@@ -7,6 +7,7 @@ import { PhoneIcon } from "@/components/icons/icons";
 import { asset } from "./content";
 import type { HomeData } from "@/lib/queries";
 import { subscribeAction } from "@/lib/publicActions";
+import { getServiceHref } from "@/lib/serviceLinks";
 
 type SubscribeStatus = "idle" | "sending" | "success" | "error";
 
@@ -52,7 +53,7 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
   }
 
   return (
-    <footer className="mb-footer [background:linear-gradient(180deg,_#764b9e,_#290347)] text-white pt-12 md:pt-[65px] mb-rounded rounded-[20px] md:rounded-[26px]">
+    <footer id="contact-us" className="mb-footer [background:linear-gradient(180deg,_#764b9e,_#290347)] text-white pt-12 md:pt-[65px] mb-rounded rounded-[20px] md:rounded-[26px]">
       <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto lg:[#services>&]:w-[min(1200px,_calc(100%_-_80px))]">
         <div className="mb-footer-cta grid items-center pb-9.5 [border-bottom:1px_solid_#ffffff40] grid-cols-[1fr] gap-[25px] md:grid-cols-[1fr_1fr] lg:grid-cols-[1.4fr_1fr] md:gap-7.5 xl:gap-[55px] [&_h2]:text-[28px] md:[&_h2]:text-[25px] lg:[&_h2]:text-[27px] xl:[&_h2]:text-[32px] [&_h2]:leading-[1.5] [&_h2]:font-bold [&_h2]:tracking-[-.6px] [&_.mb-eyebrow]:text-[13px] [&_.mb-eyebrow]:text-white [&_.mb-eyebrow]:mb-2.5 [&_p:last-child]:text-[13px] [&_p:last-child]:mt-3.5 [&_form]:flex [&_form]:[background:linear-gradient(90deg,_#fff3df,_#f3e9fc)] [&_form]:pt-[7px] [&_form]:pr-[7px] [&_form]:pb-[7px] [&_form]:pl-[7px] [&_form]:rounded-[5px] [&_form]:max-w-full [&_input]:min-w-0 [&_input]:w-full [&_input]:text-[12px] [&_input]:pt-2.5 [&_input]:pr-2.5 [&_input]:pb-2.5 [&_input]:pl-2.5 [&_input]:text-[#464646] [&_input]:outline-offset-[0] [&_input]:bg-transparent [&_.mb-button]:min-h-9 [&_.mb-button]:pt-[13px] [&_.mb-button]:pr-[22px] [&_.mb-button]:pb-[13px] [&_.mb-button]:pl-[22px] [&_.mb-button]:rounded-[6px] [&_.mb-button.mb-gold]:bg-care-purple">
           <div>
@@ -86,8 +87,11 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
             <h3>Quick Links</h3>
             <ul>{[
               ["Home", `${basePath}#home`],
-              ["About Us", "/about"],
+              ["About Us", "/about-us"],
               ["Our Doctors", "/doctors"],
+              ["LB Nagar", "/locations/lb-nagar"],
+              ["King Koti", "/locations/king-koti"],
+              ["Contact Us", `${basePath}#contact-us`],
               ["Blog", "/blog"],
             ].map(([text, href]) => <li key={text}>
               <Link href={href}>{text}</Link>
@@ -111,7 +115,7 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
                 </button>
                 {isOpen && <ul className="mt-2.5 grid gap-2.5 border-l border-white/15 pl-3 font-normal lg:max-h-48 lg:overflow-y-auto lg:pr-2">
                   {items.map(([name]) => <li key={name}>
-                    <a href={`${basePath}#services`} onClick={() => setServiceTab(category)}>{name}</a>
+                    <Link href={getServiceHref(name)} onClick={() => setServiceTab(category)}>{name}</Link>
                   </li>)}
                 </ul>}
               </li>

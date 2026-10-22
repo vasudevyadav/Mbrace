@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Heading from "./Heading";
 import type { HomeData } from "@/lib/queries";
-import type { DetailContent } from "./types";
+import { getServiceHref } from "@/lib/serviceLinks";
 
 type Props = {
   serviceGroups: HomeData["serviceGroups"];
   serviceTab: string;
   setServiceTab: (value: string) => void;
-  showDetails: (detail: DetailContent) => void;
 };
 
-export default function ServicesSection({ serviceGroups, serviceTab, setServiceTab, showDetails }: Props) {
+export default function ServicesSection({ serviceGroups, serviceTab, setServiceTab }: Props) {
   const activeServices = serviceGroups[serviceTab] ?? [];
 
   return (
@@ -27,11 +27,7 @@ export default function ServicesSection({ serviceGroups, serviceTab, setServiceT
           <Image className="mb-service-icon w-11 h-11 mb-3" src={`/images/figma/service-${index % 8}.svg`} width={44} height={44} alt="" />
           <h3 className="mb-3 text-[18px] font-bold leading-[1.45] text-care-navy transition-colors group-hover:text-white">{name}</h3>
           <p className="text-[14px] leading-[1.65] md:text-[13px]">{description}</p>
-          <button className="mt-3 min-h-11 self-start text-[13px] text-care-purple transition-colors group-hover:text-care-gold" type="button" onClick={() => showDetails({
-            title: name,
-            body: description
-          })}>Learn More <span aria-hidden="true">→</span>
-          </button>
+          <Link className="mt-3 inline-flex min-h-11 items-center self-start text-[13px] text-care-purple transition-colors group-hover:text-care-gold" href={getServiceHref(name)}>Learn More <span className="ml-1" aria-hidden="true">→</span></Link>
         </article>)}</div>
       </div>
     </section>

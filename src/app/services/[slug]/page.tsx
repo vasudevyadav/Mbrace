@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import ServiceDetailClient from "@/components/sections/mbrace/services/ServiceDetailClient";
 import { getHomeData, getServiceItemBySlug } from "@/lib/queries";
+import { getCanonicalServiceSlug } from "@/lib/serviceLinks";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const canonicalSlug = getCanonicalServiceSlug(slug);
+  if (canonicalSlug !== slug) permanentRedirect(`/services/${canonicalSlug}`);
   const service = await getServiceItemBySlug(slug);
   if (!service) return {};
   return {
@@ -25,6 +28,8 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const canonicalSlug = getCanonicalServiceSlug(slug);
+  if (canonicalSlug !== slug) permanentRedirect(`/services/${canonicalSlug}`);
   const [service, data] = await Promise.all([
     getServiceItemBySlug(slug),
     getHomeData(),
