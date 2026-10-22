@@ -143,7 +143,6 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         highlight={faqData?.highlight}
         description={faqData?.description}
         showCategories={!faqData}
-        image={contentImage}
       />
       <AppointmentSection
         status={status}
