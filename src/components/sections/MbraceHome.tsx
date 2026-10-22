@@ -104,7 +104,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
         serviceGroups={serviceGroups}
         serviceTab={serviceTab}
         setServiceTab={setServiceTab}
-        showDetails={showDetails}
       />
       <ExcellenceSection />
       <LocationSection

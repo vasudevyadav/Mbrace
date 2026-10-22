@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import type { Location, LocationHighlight } from "@prisma/client";
 import { EmergencyIcon } from "@/components/icons/icons";
 import type { ApprovedLocationContent } from "./locationContent";
@@ -12,6 +11,7 @@ import ServicesAtLocation from "./ServicesAtLocation";
 import WhatToExpect from "./WhatToExpect";
 import OurCarePromise from "./OurCarePromise";
 import TestimonialsSection from "../TestimonialsSection";
+import FaqSection from "../FaqSection";
 
 type LocationWithHighlights = Location & { highlights: LocationHighlight[] };
 
@@ -23,14 +23,6 @@ export default function LocationSheetSections({ content, location, hospital, hom
   onBook: () => void;
 }) {
   const bysection = (section: string) => location.highlights.filter(h => h.section === section);
-  const [faqGroup, setFaqGroup] = useState(0);
-  const [openFaq, setOpenFaq] = useState(0);
-  const activeFaqs = content.faqs[faqGroup]?.items ?? [];
-
-  function selectFaqGroup(index: number) {
-    setFaqGroup(index);
-    setOpenFaq(0);
-  }
 
   return (
     <>
@@ -79,8 +71,8 @@ export default function LocationSheetSections({ content, location, hospital, hom
             <h2 className="mt-4 text-[24px] font-semibold leading-[1.25] text-white md:text-[36px] lg:text-[40px]">{content.reach.heading}</h2>
             <p className="mt-5 text-[15px] leading-[1.7] text-white/85">{content.reach.body}</p>
           </div>
-          <div className="mt-10 flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-start md:overflow-visible lg:grid-cols-3">
-            {content.reach.items.map((item, index) => <article key={item.title} className="group w-[82%] shrink-0 snap-start rounded-[18px] bg-white p-6 text-[#45405a] shadow-[0_10px_26px_rgba(31,16,56,.15)] transition-colors duration-200 hover:bg-care-gold hover:text-[#2d2037] md:w-auto md:shrink">
+          <div className="mt-10 flex snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:items-stretch md:overflow-visible lg:grid-cols-3">
+            {content.reach.items.map((item, index) => <article key={item.title} className="group flex w-[82%] shrink-0 flex-col snap-start rounded-[18px] bg-white p-6 text-[#45405a] shadow-[0_10px_26px_rgba(31,16,56,.15)] transition-colors duration-200 hover:bg-care-gold hover:text-[#2d2037] md:w-auto md:shrink">
               <span className="grid size-10 place-items-center rounded-full bg-care-purple text-[14px] font-extrabold text-white">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-4 text-[17px] font-bold text-care-navy transition-colors duration-200 group-hover:text-[#2d2037]">{item.title}</h3>
               <p className="mt-3 whitespace-pre-line text-[14px] leading-[1.65] text-[#656078] transition-colors duration-200 group-hover:text-[#2d2037]/85">{item.description}</p>
@@ -128,12 +120,10 @@ export default function LocationSheetSections({ content, location, hospital, hom
         </div>
       </section>
 
-      <section className="px-5 pb-14 lg:px-8 lg:pb-20">
-        <div className="mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[330px_1fr] lg:gap-14">
-          <div className="text-center lg:text-left"><p className="text-[13px] font-bold text-care-gold">Frequently Asked Questions</p><h2 className="mt-4 text-[24px] font-semibold leading-[1.25] text-care-navy md:text-[36px]">Your Queries, <span className="text-care-gold">Answered Simply!</span></h2><div className="mt-8 grid gap-2" role="tablist" aria-label="Location FAQ categories">{content.faqs.map((group, index) => <button key={group.label} type="button" role="tab" aria-selected={faqGroup === index} onClick={() => selectFaqGroup(index)} className={`min-h-[48px] rounded-[8px] px-5 text-left text-[13px] font-extrabold transition-colors duration-200 ${faqGroup === index ? "bg-care-gold text-white" : "bg-care-soft text-care-navy hover:bg-[#efe7f8]"}`}>{group.label}</button>)}</div></div>
-          <div className="space-y-3" role="tabpanel" aria-label={`${content.faqs[faqGroup]?.label} questions`}>{activeFaqs.map((faq, index) => <article key={faq.question} className={`overflow-hidden rounded-[8px] transition-colors duration-200 ${openFaq === index ? "bg-[linear-gradient(105deg,var(--color-care-gold),var(--color-care-purple))] text-white" : "bg-care-soft text-care-navy hover:bg-[#efe7f8]"}`}><h3><button type="button" aria-expanded={openFaq === index} onClick={() => setOpenFaq(openFaq === index ? -1 : index)} className="flex min-h-[58px] w-full items-center justify-between gap-4 px-5 py-4 text-left text-[14px] font-bold"><span>{faq.question}</span><span aria-hidden="true">{openFaq === index ? "−" : "+"}</span></button></h3>{openFaq === index && <p className="px-5 py-5 text-[13px] leading-[1.7] text-white">{faq.answer}</p>}</article>)}</div>
-        </div>
-      </section>
+      <FaqSection
+        careCategories={content.faqs.map(group => group.label)}
+        homeFaqs={Object.fromEntries(content.faqs.map(group => [group.label, group.items]))}
+      />
     </>
   );
 }

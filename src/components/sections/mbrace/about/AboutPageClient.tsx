@@ -56,9 +56,9 @@ export default function AboutPageClient({ data }: { data: HomeData }) {
         careCategories={["About Us"]}
         homeFaqs={{ "About Us": aboutFaqs }}
         label="FAQ"
-        heading=""
-        highlight=""
-        description=""
+        heading="Your Questions,"
+        highlight="Answered Simply!"
+        description="Quick answers about who M'Brace is, where we're located and how we work with Kamineni Hospitals."
         showCategories={false}
       />
       <HomeFooter

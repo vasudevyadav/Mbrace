@@ -12,6 +12,7 @@ import { carePageSlugs, fallbackCareCategoryContent, type CareCategoryContent } 
 import { pregnancyServicesBySlug } from "@/components/sections/mbrace/services/pregnancyServiceContent";
 import { approvedDoctors, findApprovedDoctor } from "@/components/sections/mbrace/doctors/doctorContent";
 import { findApprovedLocationContent } from "@/components/sections/mbrace/locations/locationContent";
+import { getStoredServiceSlug } from "@/lib/serviceLinks";
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -100,6 +101,7 @@ export async function getHomeData() {
     faqItems,
     testimonials,
     blogs,
+    doctorRows,
   ] = await Promise.all([
     prisma.siteSettings.findUnique({ where: { id: 1 } }),
     prisma.heroContent.findUnique({ where: { id: 1 } }),
@@ -109,6 +111,7 @@ export async function getHomeData() {
     prisma.faqItem.findMany({ orderBy: { order: "asc" } }),
     prisma.testimonial.findMany({ orderBy: { order: "asc" } }),
     prisma.blog.findMany({ orderBy: { order: "asc" } }),
+    prisma.doctor.findMany({ orderBy: { order: "asc" } }),
   ]);
 
   const statMap = Object.fromEntries(stats.map(s => [s.slug, { value: s.value, label: s.label }]));
@@ -125,8 +128,9 @@ export async function getHomeData() {
       .map(f => ({ question: f.question, answer: f.answer }));
   }
 
-  const featuredDoctor = approvedDoctors.find(d => d.isFeatured) ?? null;
-  const otherDoctors = approvedDoctors.filter(d => !d.isFeatured);
+  const doctorSource = doctorRows.length > 0 ? doctorRows : approvedDoctors;
+  const featuredDoctor = doctorSource.find(d => d.isFeatured) ?? null;
+  const otherDoctors = doctorSource.filter(d => !d.isFeatured);
 
   return {
     hospital: {
@@ -207,13 +211,12 @@ export async function getPageSeo(slug: PageSeoSlug) {
 }
 
 export async function getDoctorBySlug(slug: string) {
-  const approvedDoctor = findApprovedDoctor(slug);
-  if (approvedDoctor) return approvedDoctor;
   try {
-    return await prisma.doctor.findUnique({ where: { slug } });
+    const row = await prisma.doctor.findUnique({ where: { slug } });
+    return row ?? findApprovedDoctor(slug);
   } catch (error) {
     console.warn(`Database unavailable; using local doctor fallback for ${slug}.`, error);
-    return null;
+    return findApprovedDoctor(slug);
   }
 }
 
@@ -252,14 +255,15 @@ export async function getDoctorTips() {
 }
 
 export async function getServiceItemBySlug(slug: string) {
-  const approvedPregnancyService = pregnancyServicesBySlug[slug];
+  const storedSlug = getStoredServiceSlug(slug);
+  const approvedPregnancyService = pregnancyServicesBySlug[storedSlug];
   try {
-    const row = await prisma.serviceItem.findUnique({ where: { slug }, include: { category: true } });
+    const row = await prisma.serviceItem.findUnique({ where: { slug: storedSlug }, include: { category: true } });
     if (!approvedPregnancyService) return row;
     return {
       id: row?.id ?? -(approvedPregnancyService.order + 1),
       categoryId: row?.categoryId ?? 0,
-      slug,
+      slug: storedSlug,
       name: approvedPregnancyService.name,
       description: approvedPregnancyService.description,
       detail: approvedPregnancyService.description,
@@ -276,7 +280,7 @@ export async function getServiceItemBySlug(slug: string) {
       return {
         id: -(approvedPregnancyService.order + 1),
         categoryId: 0,
-        slug,
+        slug: storedSlug,
         name: approvedPregnancyService.name,
         description: approvedPregnancyService.description,
         detail: approvedPregnancyService.description,
@@ -288,7 +292,7 @@ export async function getServiceItemBySlug(slug: string) {
         category: { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
       };
     }
-    const name = slug
+    const name = storedSlug
       .split("-")
       .filter(Boolean)
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -297,7 +301,7 @@ export async function getServiceItemBySlug(slug: string) {
     return {
       id: 0,
       categoryId: 0,
-      slug,
+      slug: storedSlug,
       name: name || "Gynaecology",
       description: "Complete women’s healthcare with clear guidance and personalised treatment at every stage of life.",
       detail: "",

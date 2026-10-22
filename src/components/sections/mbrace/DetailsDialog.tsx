@@ -15,9 +15,9 @@ type Props = {
 export default function DetailsDialog({ dialog, detail, book, hospital }: Props) {
 
   return (
-    <dialog ref={dialog} className="mb-dialog fixed top-0 right-0 bottom-0 left-0 mt-auto mr-auto mb-auto ml-auto w-[min(560px,calc(100%_-_32px))] max-h-[85vh] overflow-auto [border:0] rounded-[18px] text-care-copy shadow-[0_20px_80px_#0004] pt-7.5 pr-6 pb-7.5 pl-6 md:pt-9 md:pr-9 md:pb-9 md:pl-9 [&::backdrop]:bg-[#20113099] [&_.mb-photo]:h-60 [&_.mb-photo]:mb-6 [&_h2]:text-[23px] md:[&_h2]:text-[25px] [&_h2]:leading-[1.4] [&_h2]:text-care-navy [&_h2]:font-semibold [&_h2]:pr-[15px] [&>p]:text-[15px] [&>p]:mt-5 [&>p]:mr-0 [&>p]:mb-5 [&>p]:ml-0 [&>.mb-button]:mr-5 [&>a]:inline-block [&>a]:text-care-purple [&>a]:text-[13px] [&>a]:mt-4.5" aria-labelledby="detail-title">
-      <button className="mb-dialog-close absolute right-[15px] top-3 text-care-purple text-[20px] bg-[#fff] rounded-[50%] w-8 h-8 z-[1]" onClick={() => dialog.current?.close()} aria-label="Close details">✕</button>{detail?.image !== undefined && <Photo src={detail.image} alt={detail.title} />}<h2 id="detail-title">{detail?.title}</h2>
-      <p>{detail?.body}</p>
+    <dialog ref={dialog} className="mb-dialog fixed inset-0 m-auto max-h-[85vh] w-[min(560px,calc(100%_-_32px))] overflow-auto rounded-[18px] border-0 px-6 py-7.5 text-care-copy shadow-[0_20px_80px_#0004] backdrop:bg-[#20113099] md:px-9 md:py-9 [&_.mb-photo]:mb-6 [&_.mb-photo]:h-60 [&>.mb-button]:mr-5 [&>a]:mt-4.5 [&>a]:inline-block [&>a]:text-[13px] [&>a]:text-care-purple" aria-labelledby="detail-title">
+      <button className="mb-dialog-close absolute right-[15px] top-3 z-[1] h-8 w-8 rounded-full bg-white text-[20px] text-care-purple" onClick={() => dialog.current?.close()} aria-label="Close details">✕</button>{detail?.image !== undefined && <Photo src={detail.image} alt={detail.title} />}<h2 className="pr-[15px] text-[23px] font-semibold leading-[1.4] text-care-navy md:text-[25px]" id="detail-title">{detail?.title}</h2>
+      <p className="my-5 text-[15px] leading-[1.65]">{detail?.body}</p>
       <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" onClick={() => book()}>Book a Consultation</button>
       <a href={hospital.phoneHref}>{hospital.phone}</a>
     </dialog>

@@ -49,6 +49,7 @@ export default function CareCategoryContentForm({
             <div key={i} className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Card {i + 1}</p>
               <ImageUploadField label="Photo" currentImage={item.image} fileFieldName={`journey${i}ImageFile`} currentFieldName={`journey${i}CurrentImage`} />
+              <label className="block text-sm font-medium text-slate-700">Image description (alt text)<input name={`journey${i}ImageAlt`} defaultValue={item.imageAlt} className={fieldClass} /></label>
               <label className="block text-sm font-medium text-slate-700">Question<input name={`journey${i}Question`} defaultValue={item.question} className={fieldClass} /></label>
               <label className="block text-sm font-medium text-slate-700">Call to action<input name={`journey${i}Cta`} defaultValue={item.cta} className={fieldClass} /></label>
             </div>

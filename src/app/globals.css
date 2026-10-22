@@ -6,13 +6,16 @@
   --color-care-navy: #1f2b70;
   --color-care-copy: #5d6078;
   --color-care-soft: #f7f6fd;
-  --animate-drawer-enter: drawer-enter .25s ease-out;
+  --animate-drawer-enter: drawer-enter 0.25s ease-out;
   @keyframes drawer-enter {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 }
-
 
 :root {
   --care-gradient: linear-gradient(110deg, #fff7e8, #f0e8fa);
@@ -150,7 +153,9 @@
      lift + shadow on hover, and a light press-down on click. */
   .mbrace-home .bg-care-purple:is(button, a),
   .mbrace-home .bg-care-gold:is(button, a) {
-    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease;
   }
   .mbrace-home .bg-care-purple:is(button, a):hover,
   .mbrace-home .bg-care-gold:is(button, a):hover {
@@ -177,7 +182,9 @@
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0% 2px;
-    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+    transition:
+      background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.2s ease;
   }
   .mbrace-home .mb-desktop-nav > a:hover {
     background-size: 100% 2px;
@@ -188,7 +195,11 @@
      declares (so existing colour/border transitions keep their timing)
      and adds a smooth lift + shadow on top. */
   .mbrace-home #service-list article {
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .mbrace-home #service-list article:hover {
     transform: translateY(-6px);
@@ -196,7 +207,9 @@
 
   .mbrace-home .mb-doctor-card,
   .mbrace-home .mb-featured-doctor {
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease;
   }
   .mbrace-home .mb-doctor-card:hover,
   .mbrace-home .mb-featured-doctor:hover {
@@ -212,11 +225,15 @@
   }
 
   .mbrace-home #blog-list article {
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
   }
   .mbrace-home #blog-list article:hover {
     transform: translateY(-6px);
     box-shadow: 0 18px 36px rgba(31, 27, 54, 0.1);
+    padding: 10px;
+    transition: delay 0.9s ease-in-out;
   }
 }
 
@@ -231,7 +248,9 @@
   line-height: 1.15;
 }
 
-.admin-shell .admin-content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.admin-shell
+  .admin-content
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 .admin-shell .admin-content select,
 .admin-shell .admin-content textarea {
   width: 100%;
@@ -242,13 +261,17 @@
   box-shadow: 0 1px 2px rgba(43, 29, 53, 0.025);
 }
 
-.admin-shell .admin-content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover,
+.admin-shell
+  .admin-content
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover,
 .admin-shell .admin-content select:hover,
 .admin-shell .admin-content textarea:hover {
   border-color: #cbb5dc;
 }
 
-.admin-shell .admin-content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+.admin-shell
+  .admin-content
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
 .admin-shell .admin-content select:focus,
 .admin-shell .admin-content textarea:focus {
   border-color: #8e66ac;
@@ -282,13 +305,15 @@
 
 .admin-shell .admin-content a,
 .admin-shell .admin-content button {
-  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-property:
+    color, background-color, border-color, opacity, transform, box-shadow;
   transition-duration: 240ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .admin-shell .admin-premium-card {
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 300ms ease,
     box-shadow 300ms ease;
 }

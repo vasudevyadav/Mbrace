@@ -5,7 +5,7 @@ import SeoFields from "@/app/admin/SeoFields";
 
 const pages = {
   home: { label: "Home Page", path: "/", title: "M’Brace by Kamineni Hospitals", description: "Connected care for women, mothers and children." },
-  about: { label: "About Page", path: "/about", title: "About Us", description: "Learn about M’Brace, our mission and multidisciplinary team." },
+  about: { label: "About Page", path: "/about-us", title: "About Us", description: "Learn about M’Brace, our mission and multidisciplinary team." },
   doctors: { label: "Doctors Page", path: "/doctors", title: "Doctors & Our Specialists", description: "Meet the multidisciplinary specialists behind M’Brace." },
   blog: { label: "Blog Page", path: "/blog", title: "Health Insights", description: "Expert health guidance from M’Brace specialists." },
 } as const;

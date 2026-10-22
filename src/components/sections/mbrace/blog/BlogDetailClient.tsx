@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import MbraceHeader from "@/components/layout/MbraceHeader";
 import HomeFooter from "../HomeFooter";
+import FaqSection from "../FaqSection";
 import type { HomeData } from "@/lib/queries";
 import { AlertTriangleIcon } from "@/components/icons/icons";
 import { blogCategories, slugifyHeading, type BlogArticle } from "./blogContent";
@@ -18,7 +19,7 @@ const categoryIcons: Record<string, string> = {
 };
 
 export default function BlogDetailClient({ article, relatedArticles, data }: { article: BlogArticle; relatedArticles: BlogArticle[]; data: HomeData }) {
-  const { hospital, social, careCategories, serviceGroups } = data;
+  const { hospital, social, careCategories, serviceGroups, homeFaqs } = data;
   const router = useRouter();
   const [location, setLocation] = useState("LB Nagar");
 
@@ -166,6 +167,7 @@ export default function BlogDetailClient({ article, relatedArticles, data }: { a
         <div className="mx-auto flex max-w-[1130px] flex-col items-start justify-between gap-6 md:flex-row md:items-center"><div><h2 className="text-[22px] font-extrabold text-care-purple">Have a health question? <span className="text-[#302e33]">Talk to our specialists.</span></h2><p className="mt-2 max-w-[650px] text-[12px] text-[#6c6671]">Our multidisciplinary team covers women’s health, pregnancy, fertility and child care—book a consultation and get the guidance you need.</p></div><div className="flex gap-3"><button onClick={book} className="rounded-[6px] bg-care-purple px-6 py-3 text-[12px] font-bold text-white">Book Appointment</button><a href={hospital.phoneHref} className="rounded-[6px] border border-care-purple bg-white px-6 py-3 text-[12px] font-bold text-care-purple">Call Us Now</a></div></div>
       </section>
 
+      <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
       <HomeFooter hospital={hospital} social={social} serviceGroups={serviceGroups} setServiceTab={() => {}} setLocation={setLocation} mapUrl={mapUrl} basePath="/" />
     </div>
   );

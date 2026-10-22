@@ -7,4 +7,22 @@ These locally hosted images are used on M’Brace care-category and service-deta
 - `child-care.jpg` — [Doctor doing their work in a paediatrics office](https://www.freepik.com/free-photo/doctor-doing-their-work-pediatrics-office_21536866.htm), by Freepik.
 - `fertility-lab-landscape.jpg` — [Scientist working with a microscope](https://www.freepik.com/free-photo/close-up-scientist-working-with-microscope_14309323.htm), by Freepik.
 
+## Child Care journey cards
+
+- `child-fever.jpg` — [Doctor doing their work in a paediatrics office](https://www.freepik.com/free-photo/doctor-doing-their-work-pediatrics-office_21536866.htm).
+- `child-emergency.jpg` — [Doctor doing their work in a paediatrics office](https://www.freepik.com/free-photo/doctor-doing-their-work-pediatrics-office_21536824.htm).
+- `child-newborn.jpg` — [Doctor doing their work in a paediatrics office](https://www.freepik.com/free-photo/doctor-doing-their-work-pediatrics-office_21536833.htm).
+- `child-development.jpg` — [Young woman doing speech therapy with a little boy](https://www.freepik.com/free-photo/young-woman-doing-speech-therapy-with-little-boy_18683350.htm).
+
+## Pregnancy journey cards
+
+- `pregnancy-positive-test.jpg` — [Flat lay pregnancy announcement with baby items](https://www.freepik.com/free-photo/flat-lay-pregnancy-announcement-with-baby-items_39574716.htm).
+- `pregnancy-nutrition.jpg` — [Medic and pregnant patient meeting at an appointment](https://www.freepik.com/free-photo/african-american-medic-pregnant-patient-meeting-appointment-coronavirus-pandemic-physician-talking-woman-with-pregnancy-belly-giving-medical-advice-checkup-visit_26650589.htm).
+- `pregnancy-scan.jpg` — [Doctor using stethoscope for examining pregnant woman](https://www.freepik.com/free-photo/doctor-using-stethoscope-examining-pregnant-woman_16327548.htm).
+
+## Fertility journey cards
+
+- `fertility-male-factor.jpg` — [Scientist working with a microscope](https://www.freepik.com/free-photo/close-up-scientist-working-with-microscope_14309323.htm).
+- `fertility-egg-freezing.jpg` — [Female scientist with a microscope in the lab](https://www.freepik.com/free-photo/female-scientist-with-hijab-microscope-lab_7437124.htm).
+
 The public footer includes a visible Freepik attribution link.

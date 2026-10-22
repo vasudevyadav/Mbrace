@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getCanonicalServiceSlug } from "@/lib/serviceLinks";
 import { prisma } from "@/lib/prisma";
 import { createServiceItemAction, deleteServiceItemAction } from "@/app/admin/actions";
 import DeleteButton from "@/app/admin/DeleteButton";
@@ -48,7 +49,7 @@ export default async function AdminServicesPage({ searchParams }: { searchParams
                       <td className="px-4 py-3.5 font-medium text-slate-900">{item.name}</td>
                       <td className="px-4 py-3.5 text-slate-600">{item.description}</td>
                       <td className="px-4 py-3.5 text-slate-500">
-                        <a href={`/services/${item.slug}`} target="_blank" rel="noreferrer" className="hover:underline">/services/{item.slug}</a>
+                        <a href={`/services/${getCanonicalServiceSlug(item.slug)}`} target="_blank" rel="noreferrer" className="hover:underline">/services/{getCanonicalServiceSlug(item.slug)}</a>
                       </td>
                       <td className="px-4 py-3.5 text-right">
                         <Link href={`/admin/services/${item.id}?category=${activeCategory.id}`} className="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline">Edit</Link>

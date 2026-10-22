@@ -211,21 +211,23 @@ const IconTile = ({ index }: { index: number }) => {
 
 export default function GynecologyDetailSections({
   book,
+  sectionImage,
 }: {
   book: () => void;
+  sectionImage: string;
 }) {
   const [activeTreatment, setActiveTreatment] = useState(0);
   const treatment = treatmentPlans[activeTreatment];
 
   return (
     <>
-      <section className="relative mx-3 mt-8 rounded-[24px] bg-care-purple px-5 pb-6 pt-10 text-white md:mx-5 md:px-8 md:pb-8 md:pt-12 lg:mx-8 lg:min-h-[410px] lg:px-[8%] lg:pb-20 lg:pt-16">
+      <section className="relative mx-3 mt-8 rounded-[24px] bg-care-purple px-5 pb-6 pt-10 text-white md:mx-5 md:px-8 md:pb-8 md:pt-12 lg:mx-8 lg:min-h-[370px] lg:px-[8%] lg:pb-20 lg:pt-16">
         <div className="mx-auto grid max-w-[1320px] gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:gap-20">
           <div>
             <p className="text-[12px] font-bold text-care-gold lg:text-[13px]">
               How M&apos;Brace Plans Your Treatment
             </p>
-            <h2 className="mt-5 text-[28px] font-semibold leading-[1.35] md:text-[32px] lg:text-[36px]">
+            <h2 className="mt-5 text-[28px] font-semibold leading-[1.35] lg:text-[34px]">
               From 1st Symptom to Clear Diagnosis
               <br />
               Treatment Based On Real Findings!
@@ -295,7 +297,7 @@ export default function GynecologyDetailSections({
           <div className="relative h-[350px] overflow-visible rounded-[20px] lg:h-[455px]">
             <div className="absolute inset-0 overflow-hidden rounded-[24px]">
               <Image
-                src="/services-details-banner.png"
+                src={sectionImage}
                 alt="A patient discussing care with a gynaecology specialist"
                 fill
                 sizes="(max-width:1023px) 100vw, 625px"
@@ -314,7 +316,7 @@ export default function GynecologyDetailSections({
         </div>
       </section>
 
-      <section className="rounded-[26px] bg-[linear-gradient(110deg,#fff3df_0%,#f8edf1_52%,#f2e8fc_100%)] px-5 py-14 lg:px-8 lg:py-[96px]">
+      <section className="rounded-[26px] bg-[linear-gradient(110deg,#fff3df_0%,#f8edf1_52%,#f2e8fc_100%)] px-5 py-14 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-[1250px] gap-10 lg:grid-cols-[370px_1fr] lg:gap-[76px]">
           <div>
             <p className="text-sm font-bold uppercase tracking-[3px] text-care-gold">
@@ -322,7 +324,6 @@ export default function GynecologyDetailSections({
             </p>
             <h2 className="mt-5 text-[32px] font-semibold leading-tight text-care-navy md:text-[36px] lg:text-4xl">
               Which Conditions Do We
-              <br />
               <span className="text-care-gold">Treat?</span>
             </h2>
             <p className="mt-8 text-[15px] leading-[1.72] text-[#57535d] lg:text-[16px]">
@@ -425,13 +426,13 @@ export default function GynecologyDetailSections({
       </section>
 
       <section className="overflow-hidden rounded-b-[28px] bg-[#45156d] text-white">
-        <div className="bg-care-purple px-5 pb-[74px] pt-14 lg:px-8 lg:pb-[98px] lg:pt-[72px]">
+        <div className="bg-care-purple px-5 pb-[74px] pt-14 lg:px-8 lg:pb-20 lg:pt-14">
           <div className="mx-auto grid max-w-[1250px] gap-8 lg:grid-cols-[1fr_420px] lg:items-start lg:gap-24">
             <div>
-              <p className="text-[13px] font-bold text-care-gold">
+              <p className="text-base font-semibold text-care-gold">
                 Treatment Pathways
               </p>
-              <h2 className="mt-7 text-[30px] font-semibold leading-[1.25] md:text-[36px] lg:text-[40px]">
+              <h2 className="mt-4 text-[30px] font-semibold leading-[1.25] md:text-[36px] lg:text-[40px]">
                 Which Women Concerns
                 <br className="hidden sm:block" /> Need Attention?
               </h2>
@@ -531,7 +532,7 @@ export default function GynecologyDetailSections({
 
           <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]">
             <Image
-              src="/services-details-banner.png"
+              src={sectionImage}
               alt="A patient discussing treatment options with her doctor"
               fill
               sizes="(max-width:1023px) 100vw, 500px"

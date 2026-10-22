@@ -5,7 +5,7 @@ import type { JourneyItem } from "@/components/sections/mbrace/services/careCate
 
 import CareCategoryContentForm from "../CareCategoryContentForm";
 
-const EMPTY_JOURNEY: JourneyItem = { image: "", question: "", cta: "" };
+const EMPTY_JOURNEY: JourneyItem = { image: "", imageAlt: "", question: "", cta: "" };
 
 export default async function EditCarePagePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

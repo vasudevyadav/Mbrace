@@ -20,7 +20,7 @@ import { serviceDetailBlocks } from "./serviceDetailBlocks";
 import { serviceFaqs } from "./serviceFaqs";
 import { serviceHeroCopy } from "./serviceHeroCopy";
 import { servicePageCopy } from "./servicePageCopy";
-import { serviceHeroImages } from "./serviceImages";
+import { serviceContentImages, serviceHeroImages } from "./serviceImages";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -56,6 +56,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   // must win. Named local banners remain the reliable fallback for offline or
   // newly seeded pages.
   const heroImage = service.heroImage || serviceHeroImages[service.slug] || "/services-details-banner.png";
+  const contentImage = serviceContentImages[service.slug] || heroImage;
   const isGynecology = service.slug === "gynaecology";
   const faqData = serviceFaqs[service.slug];
   const pageCopy = servicePageCopy[service.slug];
@@ -65,9 +66,9 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
     : category.includes("fertility")
       ? doctors.filter((doctor) => /fertility|infertility|embryolog/i.test(`${doctor.role} ${doctor.designation}`))
       : [featuredDoctor, ...doctors.filter((doctor) => /obstet|gynae|fertility|infertility/i.test(`${doctor.role} ${doctor.designation}`))].filter((doctor): doctor is NonNullable<typeof doctor> => Boolean(doctor));
-  const faqCategories = faqData ? faqData.groups.map((g) => g.heading) : [faqCategory, ...careCategories.filter((c) => c !== faqCategory)];
+  const faqCategories = faqData ? [service.name] : [faqCategory, ...careCategories.filter((c) => c !== faqCategory)];
   const faqMap = faqData
-    ? Object.fromEntries(faqData.groups.map((g) => [g.heading, g.faqs]))
+    ? { [service.name]: faqData.groups.flatMap((group) => group.faqs) }
     : homeFaqs;
 
   function book(serviceName = "", doctorName = "", type = "") {
@@ -103,10 +104,11 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         hospital={hospital}
         isGynecology={isGynecology}
       />
-      {isGynecology ? <GynecologyDetailSections book={() => book(service.name)} /> : blocks.length > 0 ? (
+      {isGynecology ? <GynecologyDetailSections book={() => book(service.name)} sectionImage={contentImage} /> : blocks.length > 0 ? (
         <DynamicPageSections
           blocks={blocks}
           heroImage={heroImage}
+          sectionImage={contentImage}
           serviceName={service.name}
           ctaLabel={serviceHeroCopy[service.slug]?.cta || "Book Appointment"}
           onBook={() => book(service.name)}
@@ -140,6 +142,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
         heading={faqData?.heading}
         highlight={faqData?.highlight}
         description={faqData?.description}
+        showCategories={!faqData}
       />
       <AppointmentSection
         status={status}
