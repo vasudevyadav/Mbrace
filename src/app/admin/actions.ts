@@ -738,6 +738,7 @@ export async function updateCareCategoryContentAction(formData: FormData) {
   const journey = await Promise.all(
     [0, 1, 2, 3].map(async i => ({
       image: await resolveImagePath(formData, `journey${i}ImageFile`, `journey${i}CurrentImage`),
+      imageAlt: str(formData, `journey${i}ImageAlt`),
       question: str(formData, `journey${i}Question`),
       cta: str(formData, `journey${i}Cta`),
     }))

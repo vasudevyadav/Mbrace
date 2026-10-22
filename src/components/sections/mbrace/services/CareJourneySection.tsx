@@ -25,9 +25,9 @@ export default function CareJourneySection({
               <div className="relative mx-auto size-24 sm:size-32 lg:size-60 overflow-hidden rounded-full mb-4">
                 <Image
                   src={item.image}
-                  alt=""
+                  alt={item.imageAlt || item.question}
                   fill
-                  sizes="150px"
+                  sizes="(max-width: 639px) 96px, (max-width: 1023px) 128px, 240px"
                   className="object-cover"
                 />
               </div>

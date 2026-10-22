@@ -83,7 +83,7 @@ model CareCategoryContent {
 
   journeyHeading   String @default("")
   journeyHighlight String @default("")
-  // JourneyItem[] = {image, question, cta}[] — always 4 cards.
+  // JourneyItem[] = {image, imageAlt, question, cta}[] — always 4 cards.
   journey          Json   @default("[]")
 
   talkToExpertsHeading String @default("")

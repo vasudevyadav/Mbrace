@@ -211,8 +211,10 @@ const IconTile = ({ index }: { index: number }) => {
 
 export default function GynecologyDetailSections({
   book,
+  sectionImage,
 }: {
   book: () => void;
+  sectionImage: string;
 }) {
   const [activeTreatment, setActiveTreatment] = useState(0);
   const treatment = treatmentPlans[activeTreatment];
@@ -295,7 +297,7 @@ export default function GynecologyDetailSections({
           <div className="relative h-[350px] overflow-visible rounded-[20px] lg:h-[455px]">
             <div className="absolute inset-0 overflow-hidden rounded-[24px]">
               <Image
-                src="/services-details-banner.png"
+                src={sectionImage}
                 alt="A patient discussing care with a gynaecology specialist"
                 fill
                 sizes="(max-width:1023px) 100vw, 625px"
@@ -531,7 +533,7 @@ export default function GynecologyDetailSections({
 
           <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]">
             <Image
-              src="/services-details-banner.png"
+              src={sectionImage}
               alt="A patient discussing treatment options with her doctor"
               fill
               sizes="(max-width:1023px) 100vw, 500px"

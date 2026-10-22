@@ -136,7 +136,7 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
             <p>© 2026 M’Brace. All rights reserved.</p>
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms &amp; Conditions</a>
-            {/* <a href="https://www.freepik.com/" target="_blank" rel="noreferrer">Selected imagery by Freepik</a> */}
+            <a href="https://www.freepik.com/" target="_blank" rel="noreferrer">Selected imagery by Freepik</a>
             <a href={`mailto:${hospital.email}`}>{hospital.email}</a>
           </div>
           {socialLinks.length > 0 && <div className="mb-footer-social flex items-center gap-4.5 [&_img]:size-[19.43px]">

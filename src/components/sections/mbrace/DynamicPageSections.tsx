@@ -99,9 +99,10 @@ function LegacyDynamicBlocks({ blocks }: { blocks: Array<BlogBlock | DynamicPage
   );
 }
 
-export default function DynamicPageSections({ blocks, heroImage = "", serviceName = "", ctaLabel = "Book Appointment", onBook = () => {} }: {
+export default function DynamicPageSections({ blocks, heroImage = "", sectionImage = "", serviceName = "", ctaLabel = "Book Appointment", onBook = () => {} }: {
   blocks: Array<BlogBlock | DynamicPageSection>;
   heroImage?: string;
+  sectionImage?: string;
   serviceName?: string;
   ctaLabel?: string;
   onBook?: () => void;
@@ -118,6 +119,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", serviceNam
   const concernColumns = concerns
     ? [concerns.items.filter((_, index) => index % 2 === 0), concerns.items.filter((_, index) => index % 2 === 1)]
     : [];
+  const supportingImage = sectionImage || heroImage || "/services-details-banner.png";
 
   if (!serviceName) return <LegacyDynamicBlocks blocks={blocks} />;
 
@@ -154,7 +156,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", serviceNam
               <button onClick={onBook} className="mt-7 min-h-[52px] w-full rounded-[6px] bg-care-purple px-7 py-3.5 text-[14px] font-bold text-white hover:bg-[#603780] sm:w-auto sm:min-w-[220px]">{ctaLabel}</button>
             </div>
             <div className="relative h-[350px] overflow-visible rounded-[20px] lg:h-[455px]">
-              <div className="absolute inset-0 overflow-hidden rounded-[24px]"><Image src={heroImage || "/services-details-banner.png"} alt={`${serviceName} consultation at M'Brace`} fill sizes="(max-width:1023px) 100vw, 520px" className="object-cover object-center" /></div>
+              <div className="absolute inset-0 overflow-hidden rounded-[24px]"><Image src={supportingImage} alt={`${serviceName} consultation at M'Brace`} fill sizes="(max-width:1023px) 100vw, 520px" className="object-cover object-center" /></div>
               <span className="absolute -bottom-4 left-3 flex size-24 flex-col items-center justify-center rounded-full border-[5px] border-[#eee7f5] bg-care-gold text-center text-[22px] font-extrabold leading-none text-[#28262c] shadow-lg lg:-bottom-6 lg:-left-12 lg:size-[132px] lg:text-[34px]">34+<small className="mt-2 block text-[10px] font-medium leading-[1.25] lg:text-[12px]">YEARS OF<br />CARE</small></span>
             </div>
           </div>
@@ -199,7 +201,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", serviceNam
               </div>
               <button onClick={onBook} className="mt-9 min-h-[50px] w-full rounded-[6px] border-2 border-care-gold bg-white px-5 py-3 text-[13px] font-bold text-[#261631] sm:w-auto sm:min-w-[280px] sm:px-6 sm:text-[14px]">{activePathwayDetails.cta || pathway.trailing || ctaLabel}&nbsp;&nbsp;→</button>
             </div>
-            <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]"><Image src={heroImage || "/services-details-banner.png"} alt={`${serviceName} treatment discussion`} fill sizes="(max-width:1023px) 100vw, 500px" className="object-cover object-center" /><div className="absolute bottom-8 left-8 right-8 rounded-[12px] bg-[#27143e]/90 px-7 py-6 backdrop-blur-[2px]"><h3 className="text-[16px] font-bold text-care-gold">{pathwayLabel(activePathwayText, activePathway)}</h3>{pathway.trailing && <p className="mt-3 text-[14px] text-white/75">{pathway.trailing}</p>}</div></div>
+            <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]"><Image src={supportingImage} alt={`${serviceName} treatment discussion`} fill sizes="(max-width:1023px) 100vw, 500px" className="object-cover object-center" /><div className="absolute bottom-8 left-8 right-8 rounded-[12px] bg-[#27143e]/90 px-7 py-6 backdrop-blur-[2px]"><h3 className="text-[16px] font-bold text-care-gold">{pathwayLabel(activePathwayText, activePathway)}</h3>{pathway.trailing && <p className="mt-3 text-[14px] text-white/75">{pathway.trailing}</p>}</div></div>
           </div>
         </section>
       )}

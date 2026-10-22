@@ -32,3 +32,42 @@ export const serviceHeroImages: Record<string, string> = {
   "icsi-intracytoplasmic-sperm-injection": "/images/banners/icsi-intracytoplasmic-sperm-injection-hero-banner.jpg",
   "egg-freezing": "/images/banners/egg-freezing-hero-banner.jpg",
 };
+
+// Calm, non-graphic supporting imagery for the consultation and treatment
+// sections inside each service-detail page. Prefer reassuring consultations,
+// family-friendly care and laboratory scenes over distressing procedure shots.
+export const serviceContentImages: Record<string, string> = {
+  gynaecology: "/images/banners/fertility-evaluation-hero-banner.jpg",
+  "laparoscopic-surgery": "/images/banners/fertility-evaluation-hero-banner.jpg",
+  "menopause-care": "/images/banners/menopause-care-hero-banner.jpg",
+  "preventive-women-s-health-packages": "/images/freepik/women-care.jpg",
+  "women-s-wellness-support": "/images/banners/womens-wellness-support-hero-banner.jpg",
+  "preconception-counselling": "/images/freepik/pregnancy-nutrition.jpg",
+
+  "maternity-care": "/images/freepik/pregnancy-positive-test.jpg",
+  "high-risk-pregnancy-care": "/images/banners/maternity-care-hero-banner.jpg",
+  "antenatal-check-ups": "/images/freepik/pregnancy-scan.jpg",
+  "nutrition-guidance": "/images/freepik/pregnancy-nutrition.jpg",
+  "fetal-medicine": "/images/freepik/pregnancy-scan.jpg",
+  "4d-ultrasound": "/images/freepik/pregnancy-scan.jpg",
+  "advanced-ldr-rooms": "/images/freepik/pregnancy-care.jpg",
+  "sterile-operation-theatres": "/images/freepik/fertility-lab-landscape.jpg",
+  "robotic-surgery": "/images/freepik/fertility-lab-landscape.jpg",
+  "high-risk-pregnancy-support": "/images/banners/maternity-care-hero-banner.jpg",
+
+  "paediatrics-neonatology": "/images/freepik/child-newborn.jpg",
+  "developmental-paediatrics": "/images/freepik/child-development.jpg",
+  "nicu-neonatal-intensive-care": "/images/freepik/child-newborn.jpg",
+  "picu-paediatric-intensive-care": "/images/freepik/child-emergency.jpg",
+  "paediatric-surgery": "/images/freepik/child-emergency.jpg",
+  "paediatric-emergency": "/images/freepik/child-fever.jpg",
+
+  "fertility-evaluation": "/images/banners/fertility-evaluation-hero-banner.jpg",
+  "male-fertility-care": "/images/freepik/fertility-male-factor.jpg",
+  "ovulation-tracking": "/images/banners/ovulation-tracking-hero-banner.jpg",
+  "embryology-support": "/images/freepik/fertility-egg-freezing.jpg",
+  "ivf-in-vitro-fertilisation": "/images/freepik/fertility-male-factor.jpg",
+  "iui-intrauterine-insemination": "/images/freepik/fertility-egg-freezing.jpg",
+  "icsi-intracytoplasmic-sperm-injection": "/images/freepik/fertility-male-factor.jpg",
+  "egg-freezing": "/images/freepik/fertility-egg-freezing.jpg",
+};

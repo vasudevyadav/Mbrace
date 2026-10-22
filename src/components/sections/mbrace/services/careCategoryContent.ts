@@ -1,4 +1,9 @@
-export type JourneyItem = { image: string; question: string; cta: string };
+export type JourneyItem = {
+  image: string;
+  imageAlt: string;
+  question: string;
+  cta: string;
+};
 
 export type CareCategoryContent = {
   heroBadge: string;
@@ -45,10 +50,10 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     journeyHeading: "Whatever Brings You In,",
     journeyHighlight: "Start a Conversation!",
     journey: [
-      { image: "/images/figma/womens-care-routine-checkup.webp", question: "Need a Routine Check-Up?", cta: "" },
-      { image: "/images/figma/womens-care-hormonal-concerns.webp", question: "Period or Hormonal Changes?", cta: "" },
-      { image: "/images/figma/womens-care-planning-pregnancy.webp", question: "Planning a Pregnancy?", cta: "" },
-      { image: "/images/figma/womens-care-menopause-symptoms.webp", question: "Menopause Symptoms?", cta: "" },
+      { image: "/images/figma/womens-care-routine-checkup.webp", imageAlt: "Woman speaking with her doctor during a routine health check-up", question: "Need a Routine Check-Up?", cta: "" },
+      { image: "/images/figma/womens-care-hormonal-concerns.webp", imageAlt: "Woman discussing hormonal health concerns with a doctor", question: "Period or Hormonal Changes?", cta: "" },
+      { image: "/images/figma/womens-care-planning-pregnancy.webp", imageAlt: "Woman receiving preconception guidance from a doctor", question: "Planning a Pregnancy?", cta: "" },
+      { image: "/images/figma/womens-care-menopause-symptoms.webp", imageAlt: "Mature woman consulting a doctor about menopause symptoms", question: "Menopause Symptoms?", cta: "" },
     ],
     talkToExpertsHeading: "Talk to Our Women Care Experts",
     talkToExpertsBody: "You do not need a diagnosis to book. A symptom, a question or a check-up that is due is reason enough.",
@@ -71,10 +76,10 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     journeyHeading: "What is Worrying You",
     journeyHighlight: "About Your Child?",
     journey: [
-      { image: "/images/figma/womens-care-routine-checkup.webp", question: "Fever That Won’t Come Down?", cta: "" },
-      { image: "/images/figma/womens-care-hormonal-concerns.webp", question: "Child Hurt or Suddenly Very Unwell?", cta: "" },
-      { image: "/images/figma/womens-care-planning-pregnancy.webp", question: "Newborn Feeding Poorly or Very Sleepy?", cta: "" },
-      { image: "/images/figma/womens-care-menopause-symptoms.webp", question: "Speech Delay or Missed Milestones?", cta: "" },
+      { image: "/images/freepik/child-fever.jpg", imageAlt: "Paediatrician examining a child during a clinic visit", question: "Fever That Won’t Come Down?", cta: "" },
+      { image: "/images/freepik/child-emergency.jpg", imageAlt: "Doctor attending to a child in a paediatric clinic", question: "Child Hurt or Suddenly Very Unwell?", cta: "" },
+      { image: "/images/freepik/child-newborn.jpg", imageAlt: "Paediatric doctor caring for a young baby", question: "Newborn Feeding Poorly or Very Sleepy?", cta: "" },
+      { image: "/images/freepik/child-development.jpg", imageAlt: "Speech therapist working with a young child", question: "Speech Delay or Missed Milestones?", cta: "" },
     ],
     talkToExpertsHeading: "Book Your Child’s Next Paediatric Visit",
     talkToExpertsBody: "For a routine review or a concern that can wait for an appointment, choose a time with our paediatricians at LB Nagar or King Koti.",
@@ -97,10 +102,10 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     journeyHeading: "What is Worrying You",
     journeyHighlight: "About Your Pregnancy?",
     journey: [
-      { image: "/images/figma/womens-care-routine-checkup.webp", question: "Just Found Out About Your Positive Test Result!", cta: "" },
-      { image: "/images/figma/womens-care-hormonal-concerns.webp", question: "Unsure What to Eat During the 9 Months of Pregnancy?", cta: "" },
-      { image: "/images/figma/womens-care-planning-pregnancy.webp", question: "Pregnancy Scan Report Raised a Question?", cta: "" },
-      { image: "/images/figma/womens-care-menopause-symptoms.webp", question: "Been Told You Have a High-Risk Pregnancy!", cta: "" },
+      { image: "/images/freepik/pregnancy-positive-test.jpg", imageAlt: "Pregnancy test and newborn essentials arranged together", question: "Just Found Out About Your Positive Test Result!", cta: "" },
+      { image: "/images/freepik/pregnancy-nutrition.jpg", imageAlt: "Pregnant woman receiving health and nutrition advice from a doctor", question: "Unsure What to Eat During the 9 Months of Pregnancy?", cta: "" },
+      { image: "/images/freepik/pregnancy-scan.jpg", imageAlt: "Doctor examining a pregnant woman during an antenatal check-up", question: "Pregnancy Scan Report Raised a Question?", cta: "" },
+      { image: "/images/banners/maternity-care-hero-banner.jpg", imageAlt: "Pregnant woman calmly reviewing her care plan with a doctor", question: "Been Told You Have a High-Risk Pregnancy!", cta: "" },
     ],
     talkToExpertsHeading: "Talk to Our Obstetricians About Your Pregnancy",
     talkToExpertsBody: "Book as soon as you know you are pregnant. An early visit lets you plan your check-ups, scans and delivery with one team.",
@@ -123,10 +128,10 @@ export const fallbackCareCategoryContent: Record<string, CareCategoryContent> = 
     journeyHeading: "What Are You Facing",
     journeyHighlight: "While Trying to Conceive?",
     journey: [
-      { image: "/images/figma/womens-care-routine-checkup.webp", question: "Pregnancy Not Happening Despite Trying?", cta: "" },
-      { image: "/images/figma/womens-care-hormonal-concerns.webp", question: "Periods Irregular or Hard to Predict?", cta: "" },
-      { image: "/images/figma/womens-care-planning-pregnancy.webp", question: "Semen Test Report Came Back Abnormal?", cta: "" },
-      { image: "/images/figma/womens-care-menopause-symptoms.webp", question: "Not Ready for Pregnancy, but Want to Keep an Option?", cta: "" },
+      { image: "/images/banners/fertility-evaluation-hero-banner.jpg", imageAlt: "Woman having a calm fertility consultation with a doctor", question: "Pregnancy Not Happening Despite Trying?", cta: "" },
+      { image: "/images/banners/ovulation-tracking-hero-banner.jpg", imageAlt: "Cycle calendar and ultrasound image used for ovulation tracking", question: "Periods Irregular or Hard to Predict?", cta: "" },
+      { image: "/images/freepik/fertility-male-factor.jpg", imageAlt: "Laboratory specialist reviewing fertility test samples under a microscope", question: "Semen Test Report Came Back Abnormal?", cta: "" },
+      { image: "/images/freepik/fertility-egg-freezing.jpg", imageAlt: "Fertility laboratory specialist working with a microscope", question: "Not Ready for Pregnancy, but Want to Keep an Option?", cta: "" },
     ],
     talkToExpertsHeading: "Talk to Specialists For All the Answers!",
     talkToExpertsBody: "Your first visit is all about clearing your queries and committing to a plan, not for treatment you have not agreed to.",
