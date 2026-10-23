@@ -82,7 +82,11 @@ async function main() {
     ["awardsFamilies", "Lakhs of", "Happy Families"],
   ];
   for (const [slug, value, label] of stats) {
-    await prisma.stat.upsert({ where: { slug }, create: { slug, value, label }, update: {} });
+    await prisma.stat.upsert({
+      where: { slug },
+      create: { slug, value, label },
+      update: slug === "whyUsFamilies" || slug === "awardsFamilies" ? { value, label } : {},
+    });
   }
 
   for (const [i, key] of careCategories.entries()) {
