@@ -14,6 +14,8 @@ import { approvedDoctors, findApprovedDoctor } from "@/components/sections/mbrac
 import { findApprovedLocationContent } from "@/components/sections/mbrace/locations/locationContent";
 import { getStoredServiceSlug } from "@/lib/serviceLinks";
 
+const happyFamiliesStat = { value: "Lakhs of", label: "Happy Families" } as const;
+
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
 }
@@ -73,12 +75,12 @@ function getFallbackHomeData() {
       yearsOfCare: { value: "34+", label: "Years of Care" },
       happyFamilies: { value: "1,10,000+", label: "Healthy Babies" },
       locations: { value: "2", label: "Locations" },
-      whyUsFamilies: { value: "Lakhs of", label: "Happy Families" },
+      whyUsFamilies: happyFamiliesStat,
       whyUsYears: { value: "34+", label: "Years of Mother & Child care experience" },
       whyUsBabies: { value: "14,000+", label: "Healthy Baby Deliveries" },
       awardsYears: { value: "34+", label: "Years Of Experience" },
       awardsSatisfaction: { value: "98%", label: "Patient Satisfaction" },
-      awardsFamilies: { value: "Lakhs of", label: "Happy Families" },
+      awardsFamilies: happyFamiliesStat,
     } as Record<string, { value: string; label: string }>,
     careCategories: [...fallbackCareCategories],
     serviceGroups: fallbackServiceGroups,
@@ -115,6 +117,8 @@ export async function getHomeData() {
   ]);
 
   const statMap = Object.fromEntries(stats.map(s => [s.slug, { value: s.value, label: s.label }]));
+  statMap.whyUsFamilies = happyFamiliesStat;
+  statMap.awardsFamilies = happyFamiliesStat;
 
   const serviceGroups: Record<string, [string, string][]> = {};
   for (const category of serviceCategories) {
@@ -128,7 +132,12 @@ export async function getHomeData() {
       .map(f => ({ question: f.question, answer: f.answer }));
   }
 
-  const doctorSource = doctorRows.length > 0 ? doctorRows : approvedDoctors;
+  const doctorSource = doctorRows.length > 0
+    ? doctorRows.map((doctor) => {
+        const approvedDoctor = findApprovedDoctor(doctor.slug);
+        return approvedDoctor?.image ? { ...doctor, image: approvedDoctor.image } : doctor;
+      })
+    : approvedDoctors;
   const featuredDoctor = doctorSource.find(d => d.isFeatured) ?? null;
   const otherDoctors = doctorSource.filter(d => !d.isFeatured);
 
@@ -213,7 +222,10 @@ export async function getPageSeo(slug: PageSeoSlug) {
 export async function getDoctorBySlug(slug: string) {
   try {
     const row = await prisma.doctor.findUnique({ where: { slug } });
-    return row ?? findApprovedDoctor(slug);
+    const approvedDoctor = findApprovedDoctor(slug);
+    return row && approvedDoctor?.image
+      ? { ...row, image: approvedDoctor.image }
+      : row ?? approvedDoctor;
   } catch (error) {
     console.warn(`Database unavailable; using local doctor fallback for ${slug}.`, error);
     return findApprovedDoctor(slug);

@@ -92,7 +92,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       stats: [
         { value: "34+", label: "Years of Healthcare Experience" },
         { value: "1.1 Lakh+", label: "Babies Delivered" },
-        { value: "Lakhs", label: "Of Happy Families" },
+        { value: "Lakhs of", label: "Happy Families" },
         { value: "24/7", label: "Emergency Care in LB Nagar" },
       ],
       items: [
@@ -209,7 +209,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       stats: [
         { value: "34+", label: "Years of Healthcare Experience" },
         { value: "1.1 Lakh+", label: "Babies Delivered" },
-        { value: "Lakhs", label: "Of Happy Families" },
+        { value: "Lakhs of", label: "Happy Families" },
         { value: "24/7", label: "Emergency Care in LB Nagar" },
       ],
       items: [
