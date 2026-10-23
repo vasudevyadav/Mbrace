@@ -12,11 +12,11 @@ type Tip = {
 };
 
 const instagramReels = [
-  { id: "DevqUErDwt6", src: "/videos/mbrace-postpartum-recovery.mp4", title: "Postpartum recovery and body changes" },
-  { id: "Desw7O4jjiD", src: "/videos/mbrace-motherhood-strength.mp4", title: "Celebrating strength through motherhood" },
-  { id: "Den762iCqYH", src: "/videos/mbrace-labour-care.mp4", title: "Understanding real labour pain" },
-  { id: "Dejic1bDj7N", src: "/videos/mbrace-baby-movements.mp4", title: "Reduced baby movements during pregnancy" },
-  { id: "DeeR749j1hb", src: "/videos/mbrace-morning-sickness.mp4", title: "Morning sickness during pregnancy" },
+  { audioSrc: "/videos/mbrace-postpartum-recovery-audio.mp4", id: "DevqUErDwt6", src: "/videos/mbrace-postpartum-recovery.mp4", title: "Postpartum recovery and body changes" },
+  { audioSrc: "/videos/mbrace-motherhood-strength-audio.mp4", id: "Desw7O4jjiD", src: "/videos/mbrace-motherhood-strength.mp4", title: "Celebrating strength through motherhood" },
+  { audioSrc: "/videos/mbrace-labour-care-audio.mp4", id: "Den762iCqYH", src: "/videos/mbrace-labour-care.mp4", title: "Understanding real labour pain" },
+  { audioSrc: "/videos/mbrace-baby-movements-audio.mp4", id: "Dejic1bDj7N", src: "/videos/mbrace-baby-movements.mp4", title: "Reduced baby movements during pregnancy" },
+  { audioSrc: "/videos/mbrace-morning-sickness-audio.mp4", id: "DeeR749j1hb", src: "/videos/mbrace-morning-sickness.mp4", title: "Morning sickness during pregnancy" },
 ];
 
 export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
@@ -75,6 +75,7 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
             >
               <MbraceReelVideo
                 src={reel.src}
+                audioSrc={reel.audioSrc}
                 ariaLabel={reel.title}
                 autoPlay={false}
                 clickToPlay
