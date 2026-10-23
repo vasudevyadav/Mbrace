@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import { updatePageSeoAction } from "@/app/admin/actions";
 import SeoFields from "@/app/admin/SeoFields";
+import { getPageSeo } from "@/lib/queries";
 
 const pages = {
   home: { label: "Home Page", path: "/", title: "M’Brace by Kamineni Hospitals", description: "Connected care for women, mothers and children." },
   about: { label: "About Page", path: "/about-us", title: "About Us", description: "Learn about M’Brace, our mission and multidisciplinary team." },
   doctors: { label: "Doctors Page", path: "/doctors", title: "Doctors & Our Specialists", description: "Meet the multidisciplinary specialists behind M’Brace." },
   blog: { label: "Blog Page", path: "/blog", title: "Health Insights", description: "Expert health guidance from M’Brace specialists." },
+  privacy: { label: "Privacy Policy", path: "/privacy", title: "Privacy Policy", description: "How M’Brace collects, uses and protects information." },
+  terms: { label: "Terms and Conditions", path: "/terms", title: "Terms and Conditions", description: "Terms governing use of the M’Brace website." },
 } as const;
 
 export default async function EditPageSeo({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ saved?: string }> }) {
@@ -17,7 +19,7 @@ export default async function EditPageSeo({ params, searchParams }: { params: Pr
   const saved = (await searchParams).saved === "1";
   let seo: { metaTitle: string; metaDescription: string } | null = null;
   try {
-    seo = await prisma.pageSeo.findUnique({ where: { slug } });
+    seo = await getPageSeo(slug as keyof typeof pages);
   } catch (error) {
     console.warn(`Database unavailable; showing blank SEO fields for ${slug}.`, error);
   }

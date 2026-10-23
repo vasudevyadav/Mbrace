@@ -7,7 +7,8 @@ import { pageMetadata } from "@/lib/approvedMetadata";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: { absolute: pageMetadata.pregnancy.title }, description: pageMetadata.pregnancy.description };
+  const content = await getCareCategoryContent("pregnancy-birth-support");
+  return { title: { absolute: content.metaTitle || pageMetadata.pregnancy.title }, description: content.metaDescription || pageMetadata.pregnancy.description };
 }
 
 export default async function PregnancyBirthSupportPage() {

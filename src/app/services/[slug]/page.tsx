@@ -19,8 +19,8 @@ export async function generateMetadata({
   if (!service) return {};
   const approvedSeo = serviceMetadata[canonicalSlug];
   return {
-    title: { absolute: approvedSeo?.title || service.metaTitle || service.name },
-    description: approvedSeo?.description || service.metaDescription || service.description,
+    title: { absolute: service.metaTitle || approvedSeo?.title || service.name },
+    description: service.metaDescription || approvedSeo?.description || service.description,
   };
 }
 

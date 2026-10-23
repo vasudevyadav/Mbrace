@@ -13,6 +13,7 @@ import { pregnancyServicesBySlug } from "@/components/sections/mbrace/services/p
 import { approvedDoctors, findApprovedDoctor } from "@/components/sections/mbrace/doctors/doctorContent";
 import { findApprovedLocationContent } from "@/components/sections/mbrace/locations/locationContent";
 import { getStoredServiceSlug } from "@/lib/serviceLinks";
+import { pageMetadata } from "@/lib/approvedMetadata";
 
 const happyFamiliesStat = { value: "Lakhs of", label: "Happy Families" } as const;
 const babiesDeliveredStat = { value: "Over 1,10,000", label: "Babies Delivered" } as const;
@@ -195,23 +196,33 @@ export type HomeData = Awaited<ReturnType<typeof getHomeData>>;
 const pageSeoFallbacks = {
   home: {
     label: "Home",
-    metaTitle: "M’Brace by Kamineni Hospitals | Women’s Care, Child Care & Fertility",
-    metaDescription: "Connected care for women, mothers and children at M’Brace in Hyderabad.",
+    metaTitle: pageMetadata.home.title,
+    metaDescription: pageMetadata.home.description,
   },
   about: {
     label: "About Us",
-    metaTitle: "About Us",
-    metaDescription: "Learn about M’Brace by Kamineni Hospitals, our mission and multidisciplinary care team.",
+    metaTitle: pageMetadata.about.title,
+    metaDescription: pageMetadata.about.description,
   },
   doctors: {
     label: "Doctors",
-    metaTitle: "Doctors & Our Specialists",
-    metaDescription: "Meet the multidisciplinary specialists behind M’Brace by Kamineni Hospitals.",
+    metaTitle: pageMetadata.doctors.title,
+    metaDescription: pageMetadata.doctors.description,
   },
   blog: {
     label: "Blog",
-    metaTitle: "Health Insights",
-    metaDescription: "Expert guidance on women’s health, pregnancy, child care and fertility from M’Brace specialists.",
+    metaTitle: pageMetadata.blog.title,
+    metaDescription: pageMetadata.blog.description,
+  },
+  privacy: {
+    label: "Privacy Policy",
+    metaTitle: pageMetadata.privacy.title,
+    metaDescription: pageMetadata.privacy.description,
+  },
+  terms: {
+    label: "Terms and Conditions",
+    metaTitle: pageMetadata.terms.title,
+    metaDescription: pageMetadata.terms.description,
   },
 } as const;
 
@@ -294,8 +305,8 @@ export async function getServiceItemBySlug(slug: string) {
       detail: approvedPregnancyService.description,
       heroImage: row?.heroImage ?? "/images/freepik/pregnancy-care.jpg",
       blocks: row?.blocks ?? [],
-      metaTitle: approvedPregnancyService.metaTitle,
-      metaDescription: approvedPregnancyService.metaDescription,
+      metaTitle: row?.metaTitle ?? "",
+      metaDescription: row?.metaDescription ?? "",
       order: approvedPregnancyService.order,
       category: row?.category ?? { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
     };
@@ -311,8 +322,8 @@ export async function getServiceItemBySlug(slug: string) {
         detail: approvedPregnancyService.description,
         heroImage: "/images/freepik/pregnancy-care.jpg",
         blocks: [],
-        metaTitle: approvedPregnancyService.metaTitle,
-        metaDescription: approvedPregnancyService.metaDescription,
+        metaTitle: "",
+        metaDescription: "",
         order: approvedPregnancyService.order,
         category: { id: 0, key: "Pregnancy & Birth Support", label: "Pregnancy & Birth Support", order: 2 },
       };

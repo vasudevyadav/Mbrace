@@ -80,6 +80,8 @@ async function getNavEntries(): Promise<AdminNavEntry[]> {
     { type: "link", section: "Leads", link: { key: "subscribers", label: "Subscribers", href: "/admin/subscribers" } },
 
     { type: "link", section: "Site-wide", link: { key: "settings", label: "Site Settings", href: "/admin/settings" } },
+    { type: "link", section: "Site-wide", link: { key: "privacy-seo", label: "Privacy Policy SEO", href: "/admin/pages/privacy" } },
+    { type: "link", section: "Site-wide", link: { key: "terms-seo", label: "Terms SEO", href: "/admin/pages/terms" } },
   ];
 }
 

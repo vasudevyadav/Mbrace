@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { getHomeData } from "@/lib/queries";
-import { pageMetadata } from "@/lib/approvedMetadata";
+import { getHomeData, getPageSeo } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
 const clinicName = "M’Brace by Kamineni Hospitals";
 
-export const metadata: Metadata = {
-  title: { absolute: pageMetadata.terms.title },
-  description: pageMetadata.terms.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("terms");
+  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription };
+}
 
 export default async function TermsPage() {
   const { hospital } = await getHomeData();
