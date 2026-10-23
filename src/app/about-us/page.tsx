@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import AboutPageClient from "@/components/sections/mbrace/about/AboutPageClient";
-import { getHomeData, getPageSeo } from "@/lib/queries";
+import { getHomeData } from "@/lib/queries";
+import { pageMetadata } from "@/lib/approvedMetadata";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("about");
-  return { title: seo.metaTitle, description: seo.metaDescription };
+  const seo = pageMetadata.about;
+  return { title: { absolute: seo.title }, description: seo.description };
 }
 
 export default async function AboutPage() {

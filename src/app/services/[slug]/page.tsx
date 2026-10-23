@@ -3,6 +3,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import ServiceDetailClient from "@/components/sections/mbrace/services/ServiceDetailClient";
 import { getHomeData, getServiceItemBySlug } from "@/lib/queries";
 import { getCanonicalServiceSlug } from "@/lib/serviceLinks";
+import { serviceMetadata } from "@/lib/approvedMetadata";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +17,10 @@ export async function generateMetadata({
   if (canonicalSlug !== slug) permanentRedirect(`/services/${canonicalSlug}`);
   const service = await getServiceItemBySlug(slug);
   if (!service) return {};
+  const approvedSeo = serviceMetadata[canonicalSlug];
   return {
-    title: service.metaTitle || service.name,
-    description: service.metaDescription || service.description,
+    title: { absolute: approvedSeo?.title || service.metaTitle || service.name },
+    description: approvedSeo?.description || service.metaDescription || service.description,
   };
 }
 
