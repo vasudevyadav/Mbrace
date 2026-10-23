@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { getHomeData } from "@/lib/queries";
+import { getHomeData, getPageSeo } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
 const clinicName = "M’Brace by Kamineni Hospitals";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: `How ${clinicName} collects, uses, and protects your information.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("privacy");
+  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription };
+}
 
 export default async function PrivacyPage() {
   const { hospital } = await getHomeData();

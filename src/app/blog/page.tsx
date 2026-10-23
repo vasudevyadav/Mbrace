@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("blog");
-  return { title: seo.metaTitle, description: seo.metaDescription };
+  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription };
 }
 
 export default async function BlogPage() {

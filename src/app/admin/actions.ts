@@ -125,14 +125,22 @@ function refreshSite() {
 export async function updatePageSeoAction(formData: FormData) {
   await requireAdminSession();
   const slug = str(formData, "slug");
-  const allowed = new Set(["home", "about", "doctors", "blog"]);
+  const allowed = new Set(["home", "about", "doctors", "blog", "privacy", "terms"]);
   if (!allowed.has(slug)) throw new Error("Unsupported page.");
   await prisma.pageSeo.upsert({
     where: { slug },
     create: { slug, label: str(formData, "label"), metaTitle: str(formData, "metaTitle"), metaDescription: str(formData, "metaDescription") },
     update: { label: str(formData, "label"), metaTitle: str(formData, "metaTitle"), metaDescription: str(formData, "metaDescription") },
   });
-  revalidatePath(`/${slug === "home" ? "" : slug}`);
+  const publicPath: Record<string, string> = {
+    home: "/",
+    about: "/about-us",
+    doctors: "/doctors",
+    blog: "/blog",
+    privacy: "/privacy",
+    terms: "/terms",
+  };
+  revalidatePath(publicPath[slug]);
   revalidatePath(`/admin/pages/${slug}`);
   redirect(`/admin/pages/${slug}?saved=1`);
 }
