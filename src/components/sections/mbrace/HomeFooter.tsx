@@ -25,17 +25,51 @@ type Props = {
 
 type SocialLink = { key: string; label: string; src: string; href?: string };
 
-export default function HomeFooter({ hospital, social, serviceGroups, setServiceTab, mapUrl, basePath = "", ctaHeading, ctaDescription }: Props) {
-  const [openServiceCategory, setOpenServiceCategory] = useState<string | null>(null);
+export default function HomeFooter({
+  hospital,
+  social,
+  serviceGroups,
+  setServiceTab,
+  mapUrl,
+  basePath = "",
+  ctaHeading,
+  ctaDescription,
+}: Props) {
+  const [openServiceCategory, setOpenServiceCategory] = useState<string | null>(
+    null,
+  );
   const socialCandidates: SocialLink[] = [
-    { key: "instagram", label: "Instagram", src: "/images/figma/social-instagram.svg", href: social?.instagramUrl },
-    { key: "facebook", label: "Facebook", src: "/images/figma/social-facebook.svg", href: social?.facebookUrl },
-    { key: "linkedin", label: "LinkedIn", src: "/images/figma/social-linkedin.svg", href: social?.linkedinUrl },
-    { key: "youtube", label: "YouTube", src: "/images/figma/social-youtube.svg", href: social?.youtubeUrl },
+    {
+      key: "instagram",
+      label: "Instagram",
+      src: "/images/figma/social-instagram.svg",
+      href: social?.instagramUrl,
+    },
+    {
+      key: "facebook",
+      label: "Facebook",
+      src: "/images/figma/social-facebook.svg",
+      href: social?.facebookUrl,
+    },
+    {
+      key: "linkedin",
+      label: "LinkedIn",
+      src: "/images/figma/social-linkedin.svg",
+      href: social?.linkedinUrl,
+    },
+    {
+      key: "youtube",
+      label: "YouTube",
+      src: "/images/figma/social-youtube.svg",
+      href: social?.youtubeUrl,
+    },
   ];
-  const socialLinks = socialCandidates.filter((s): s is SocialLink & { href: string } => Boolean(s.href));
+  const socialLinks = socialCandidates.filter(
+    (s): s is SocialLink & { href: string } => Boolean(s.href),
+  );
   const [subscribeEmail, setSubscribeEmail] = useState("");
-  const [subscribeStatus, setSubscribeStatus] = useState<SubscribeStatus>("idle");
+  const [subscribeStatus, setSubscribeStatus] =
+    useState<SubscribeStatus>("idle");
 
   async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -53,74 +87,158 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
   }
 
   return (
-    <footer id="contact-us" className="mb-footer [background:linear-gradient(180deg,_#764b9e,_#290347)] text-white pt-12 md:pt-[65px] mb-rounded rounded-[20px] md:rounded-[26px]">
+    <footer
+      id="contact-us"
+      className="mb-footer [background:linear-gradient(180deg,_#764b9e,_#290347)] text-white pt-12 md:pt-[65px] mb-rounded rounded-[20px] md:rounded-[26px]"
+    >
       <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto lg:[#services>&]:w-[min(1200px,_calc(100%_-_80px))]">
         <div className="mb-footer-cta grid items-center pb-9.5 [border-bottom:1px_solid_#ffffff40] grid-cols-[1fr] gap-[25px] md:grid-cols-[1fr_1fr] lg:grid-cols-[1.4fr_1fr] md:gap-7.5 xl:gap-[55px] [&_h2]:text-[28px] md:[&_h2]:text-[25px] lg:[&_h2]:text-[27px] xl:[&_h2]:text-[32px] [&_h2]:leading-[1.5] [&_h2]:font-bold [&_h2]:tracking-[-.6px] [&_.mb-eyebrow]:text-[13px] [&_.mb-eyebrow]:text-white [&_.mb-eyebrow]:mb-2.5 [&_p:last-child]:text-[13px] [&_p:last-child]:mt-3.5 [&_form]:flex [&_form]:[background:linear-gradient(90deg,_#fff3df,_#f3e9fc)] [&_form]:pt-[7px] [&_form]:pr-[7px] [&_form]:pb-[7px] [&_form]:pl-[7px] [&_form]:rounded-[5px] [&_form]:max-w-full [&_input]:min-w-0 [&_input]:w-full [&_input]:text-[12px] [&_input]:pt-2.5 [&_input]:pr-2.5 [&_input]:pb-2.5 [&_input]:pl-2.5 [&_input]:text-[#464646] [&_input]:outline-offset-[0] [&_input]:bg-transparent [&_.mb-button]:min-h-9 [&_.mb-button]:pt-[13px] [&_.mb-button]:pr-[22px] [&_.mb-button]:pb-[13px] [&_.mb-button]:pl-[22px] [&_.mb-button]:rounded-[6px] [&_.mb-button.mb-gold]:bg-care-purple">
           <div>
-            <p className="mb-eyebrow text-[12px] md:text-[14px] font-bold text-care-gold mb-3.5">Ready to Talk?</p>
-            <h2>{ctaHeading ?? <>Schedule Your <em className="not-italic text-care-gold font-extrabold">Consultation</em> Today!</>}</h2>
-            <p className="text-[15px]! font-medium!">{ctaDescription ?? "Whether you want to know about women’s health, your child’s care, pregnancy or fertility support, our expert multidisciplinary team is ready to assist."}</p>
+            <p className="mb-eyebrow text-[12px] md:text-[14px] font-bold text-care-gold mb-3.5">
+              Ready to Talk?
+            </p>
+            <h2>
+              {ctaHeading ?? (
+                <>
+                  Schedule Your{" "}
+                  <em className="not-italic text-care-gold font-extrabold">
+                    Consultation
+                  </em>{" "}
+                  Today!
+                </>
+              )}
+            </h2>
+            <p className="text-[15px]! font-medium!">
+              {ctaDescription ??
+                "Whether you want to know about women’s health, your child’s care, pregnancy or fertility support, our expert multidisciplinary team is ready to assist."}
+            </p>
           </div>
           {subscribeStatus === "success" ? (
-            <p className="rounded-[5px] bg-[#ffffff26] px-4 py-3.5 text-[13px] font-semibold" role="status">Thanks! We’ll keep you updated.</p>
+            <p
+              className="rounded-[5px] bg-[#ffffff26] px-4 py-3.5 text-[13px] font-semibold"
+              role="status"
+            >
+              Thanks! We’ll keep you updated.
+            </p>
           ) : (
             <form onSubmit={handleSubscribe}>
-              <label className="sr-only" htmlFor="footer-email">Email address</label>
-              <input id="footer-email" type="email" placeholder="Enter your email address" required value={subscribeEmail} onChange={e => setSubscribeEmail(e.target.value)} />
-              <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" type="submit" disabled={subscribeStatus === "sending"}>{subscribeStatus === "sending" ? "Sending…" : "Send"}</button>
+              <label className="sr-only" htmlFor="footer-email">
+                Email address
+              </label>
+              <input
+                id="footer-email"
+                type="email"
+                placeholder="Enter your email address"
+                required
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+              />
+              <button
+                className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]"
+                type="submit"
+                disabled={subscribeStatus === "sending"}
+              >
+                {subscribeStatus === "sending" ? "Sending…" : "Send"}
+              </button>
             </form>
           )}
-          {subscribeStatus === "error" && <p className="mt-2 text-[12px] font-medium text-[#ffd7e0]" role="alert">Something went wrong. Please try again.</p>}
+          {subscribeStatus === "error" && (
+            <p
+              className="mt-2 text-[12px] font-medium text-[#ffd7e0]"
+              role="alert"
+            >
+              Something went wrong. Please try again.
+            </p>
+          )}
         </div>
         <div className="mb-footer-grid grid pt-[45px] pb-[45px] grid-cols-[repeat(2,1fr)] lg:grid-cols-[1fr_.8fr_1fr_1.05fr] gap-[35px_25px] md:gap-[35px] lg:gap-[25px] xl:gap-10 [&_p]:text-[13px] [&_p]:mt-[17px] [&_p]:leading-[1.8] [&_h3]:text-[16px] [&_h3]:font-bold [&_h3]:mb-5 [&_ul]:list-none [&_ul]:grid [&_ul]:gap-[13px] [&_ul]:text-[13px] [&_ul]:font-semibold [&_a:hover]:underline [&>div:first-child]:col-span-2 [&>div:first-child]:max-w-87.5 lg:[&>div:first-child]:col-span-1">
           <div>
-            <a href={`${basePath}#home`} className="mb-footer-brands flex items-center gap-3.5 [&_img]:w-[44%] [&_img]:h-auto [&>span]:w-[1px] [&>span]:h-11.5 [&>span]:bg-[#fff8]">
-              <Image src={asset(1)} width={155} height={45} alt="Kamineni Hospitals" />
+            <a
+              href={`${basePath}#home`}
+              className="mb-footer-brands flex items-center gap-3.5 [&_img]:w-[44%] [&_img]:h-auto [&>span]:w-[1px] [&>span]:h-11.5 [&>span]:bg-[#fff8]"
+            >
+              <Image
+                src={asset(1)}
+                width={155}
+                height={45}
+                alt="Kamineni Hospitals"
+              />
               <span />
-              <Image src={asset(23)} width={160} height={75} alt="M’Brace by Kamineni Hospitals" className="mb-footer-logo w-47.5 h-22.5 object-contain rounded-[4px] bg-transparent" />
+              <Image
+                src={asset(23)}
+                width={160}
+                height={75}
+                alt="M’Brace by Kamineni Hospitals"
+                className="mb-footer-logo w-47.5 h-22.5 object-contain rounded-[4px] bg-transparent"
+              />
             </a>
-            <p>Compassionate fertility care, advanced technology and trusted guidance for every family.</p>
-            <a className="mb-footer-phone flex gap-2 items-center text-[12px] mt-5 [&_svg]:w-[17px] [&_svg]:h-[17px]" href={hospital.phoneHref}>
-              <PhoneIcon />{hospital.phone}</a>
+            <p>
+              Compassionate fertility care, advanced technology and trusted
+              guidance for every family.
+            </p>
+            <a
+              className="mb-footer-phone flex gap-2 items-center text-[12px] mt-5 [&_svg]:w-[17px] [&_svg]:h-[17px]"
+              href={hospital.phoneHref}
+            >
+              <PhoneIcon />
+              {hospital.phone}
+            </a>
           </div>
           <div>
             <h3>Quick Links</h3>
-            <ul>{[
-              ["Home", `${basePath}#home`],
-              ["About Us", "/about-us"],
-              ["Our Doctors", "/doctors"],
-              ["LB Nagar", "/locations/lb-nagar"],
-              ["King Koti", "/locations/king-koti"],
-              ["Contact Us", `${basePath}#contact-us`],
-              ["Blog", "/blog"],
-            ].map(([text, href]) => <li key={text}>
-              <Link href={href}>{text}</Link>
-            </li>)}</ul>
+            <ul>
+              {[
+                ["Home", `${basePath}#home`],
+                ["About Us", "/about-us"],
+                ["Our Doctors", "/doctors"],
+                ["LB Nagar", "/locations/lb-nagar"],
+                ["King Koti", "/locations/king-koti"],
+                ["Contact Us", `${basePath}#contact-us`],
+                ["Blog", "/blog"],
+              ].map(([text, href]) => (
+                <li key={text}>
+                  <Link href={href}>{text}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
           <div>
             <h3>Services</h3>
-            <ul className="mb-footer-services">{Object.keys(serviceGroups).map(category => {
-              const items = serviceGroups[category] ?? [];
-              const isOpen = openServiceCategory === category;
-              return (
-              <li key={category}>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between gap-2 text-left"
-                  aria-expanded={isOpen}
-                  onClick={() => setOpenServiceCategory(isOpen ? null : category)}
-                >
-                  {category}
-                  <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
-                </button>
-                {isOpen && <ul className="mt-2.5 grid gap-2.5 border-l border-white/15 pl-3 font-normal lg:max-h-48 lg:overflow-y-auto lg:pr-2">
-                  {items.map(([name]) => <li key={name}>
-                    <Link href={getServiceHref(name)} onClick={() => setServiceTab(category)}>{name}</Link>
-                  </li>)}
-                </ul>}
-              </li>
-              );
-            })}</ul>
+            <ul className="mb-footer-services">
+              {Object.keys(serviceGroups).map((category) => {
+                const items = serviceGroups[category] ?? [];
+                const isOpen = openServiceCategory === category;
+                return (
+                  <li key={category}>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between gap-2 text-left"
+                      aria-expanded={isOpen}
+                      onClick={() =>
+                        setOpenServiceCategory(isOpen ? null : category)
+                      }
+                    >
+                      {category}
+                      <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
+                    </button>
+                    {isOpen && (
+                      <ul className="mt-2.5 grid gap-2.5 border-l border-white/15 pl-3 font-normal lg:max-h-48 lg:overflow-y-auto lg:pr-2">
+                        {items.map(([name]) => (
+                          <li key={name}>
+                            <Link
+                              href={getServiceHref(name)}
+                              onClick={() => setServiceTab(category)}
+                            >
+                              {name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <div>
             <h3>Location</h3>
@@ -129,8 +247,18 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
               <span>|</span>
               <Link href="/locations/king-koti">King Koti</Link>
             </div>
-            <a className="mb-footer-map block relative max-w-87.5 [&_img]:w-full [&_img]:object-cover [&_img]:h-45 md:[&_img]:h-35 [&_img]:rounded-[14px] [&>span]:absolute [&>span]:left-1/2 [&>span]:-translate-x-1/2 [&>span]:bottom-0 [&>span]:translate-y-1/2 [&>span]:bg-[#fff] [&>span]:text-[#333] [&>span]:pt-[5px] [&>span]:pr-2 [&>span]:pb-[5px] [&>span]:pl-2 [&>span]:rounded-[3px] [&>span]:text-[10px]" href={mapUrl} target="_blank" rel="noreferrer">
-              <Image src={asset(6)} width={280} height={140} alt="Hospital location map" />
+            <a
+              className="mb-footer-map block relative max-w-87.5 [&_img]:w-full [&_img]:object-cover [&_img]:h-45 md:[&_img]:h-35 [&_img]:rounded-[14px] [&>span]:absolute [&>span]:left-1/2 [&>span]:-translate-x-1/2 [&>span]:bottom-0 [&>span]:translate-y-1/2 [&>span]:bg-[#fff] [&>span]:text-[#333] [&>span]:pt-[5px] [&>span]:pr-2 [&>span]:pb-[5px] [&>span]:pl-2 [&>span]:rounded-[3px] [&>span]:text-[10px]"
+              href={mapUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Image
+                src={asset(6)}
+                width={280}
+                height={140}
+                alt="Hospital location map"
+              />
               <span>View on Map</span>
             </a>
           </div>
@@ -140,14 +268,23 @@ export default function HomeFooter({ hospital, social, serviceGroups, setService
             <p>© 2026 M’Brace. All rights reserved.</p>
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms &amp; Conditions</a>
-            <a href="https://www.freepik.com/" target="_blank" rel="noreferrer">Selected imagery by Freepik</a>
             <a href={`mailto:${hospital.email}`}>{hospital.email}</a>
           </div>
-          {socialLinks.length > 0 && <div className="mb-footer-social flex items-center gap-4.5 [&_img]:size-[19.43px]">
-            {socialLinks.map(s => <a key={s.key} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
-              <Image src={s.src} width={20} height={20} alt="" />
-            </a>)}
-          </div>}
+          {socialLinks.length > 0 && (
+            <div className="mb-footer-social flex items-center gap-4.5 [&_img]:size-[19.43px]">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.key}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                >
+                  <Image src={s.src} width={20} height={20} alt="" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>

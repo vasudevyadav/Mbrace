@@ -91,8 +91,7 @@ export default function MbraceHeader({
           />
         </Link>
         <nav
-          className="mb-desktop-nav xl:text-[13px]! [&>a]:pt-3 [&>a]:pb-3 [font-family:var(--font-manrope)]"
-          style={{ gap: "clamp(6px, 0.55vw, 10px)" }}
+          className="mb-desktop-nav gap-10 xl:text-[13.5px]! [&>a]:py-3 [font-family:var(--font-manrope)]"
           aria-label="Main navigation"
         >
           <Link href="/about-us">About Us</Link>
@@ -106,9 +105,6 @@ export default function MbraceHeader({
                   href={careCategoryHrefs[name] ?? `${basePath}#services`}
                 >
                   {name}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-care-purple/70 transition-transform duration-200 group-hover:rotate-180" aria-hidden="true">
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
                 </Link>
                 {services.length > 0 && (
                   <div className="invisible absolute left-1/2 top-[calc(100%-2px)] z-[80] w-[310px] -translate-x-1/2 translate-y-2 rounded-[14px] border border-[#eee5f3] bg-white p-2 opacity-0 shadow-[0_18px_45px_rgba(44,23,67,.16)] transition duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
@@ -133,9 +129,6 @@ export default function MbraceHeader({
               href="/locations/lb-nagar"
             >
               Locations
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-care-purple/70 transition-transform duration-200 group-hover:rotate-180" aria-hidden="true">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
             </Link>
             <div className="invisible absolute left-1/2 top-[calc(100%-2px)] z-[80] w-[190px] -translate-x-1/2 translate-y-2 rounded-[14px] border border-[#eee5f3] bg-white p-2 opacity-0 shadow-[0_18px_45px_rgba(44,23,67,.16)] transition duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <Link
@@ -155,7 +148,7 @@ export default function MbraceHeader({
           <Link href={`${basePath}#contact-us`}>Contact Us</Link>
           <button
             type="button"
-            className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-md [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] xl:min-h-10! xl:px-3.5! xl:py-2.5! xl:text-[13px]! min-[1536px]:px-5!"
+            className="mb-button ml-[clamp(18px,_2.5vw,_40px)] inline-flex min-h-11.5 items-center justify-center rounded-md bg-care-purple px-6 py-3 text-[13px] font-semibold whitespace-nowrap text-white [border:0] no-underline [&:hover]:bg-[#603780] xl:min-h-10! xl:px-3.5! xl:py-2.5! xl:text-[13px]! min-[1536px]:px-5!"
             onClick={onBook}
           >
             Book Appointment

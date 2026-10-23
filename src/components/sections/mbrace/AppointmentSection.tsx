@@ -3,14 +3,13 @@
 import { type RefObject, type FormEvent } from "react";
 import Photo from "./Photo";
 import Heading from "./Heading";
-import { CheckIcon, ChevronDownIcon, PlayIcon } from "@/components/icons/icons";
+import { ChevronDownIcon, PlayIcon } from "@/components/icons/icons";
 import { locations } from "./content";
 import type { HomeData } from "@/lib/queries";
 import type { AppointmentStatus } from "./types";
 
 type Props = {
   status: AppointmentStatus;
-  setStatus: (status: AppointmentStatus) => void;
   formRef: RefObject<HTMLFormElement | null>;
   submitAppointment: (event: FormEvent<HTMLFormElement>) => Promise<void>;
   bookingDoctor: string;
@@ -30,7 +29,7 @@ type Props = {
   description?: string;
 };
 
-export default function AppointmentSection({ status, setStatus, formRef, submitAppointment, bookingDoctor, bookingType, bookingEmail, setBookingEmail, bookingDate, setBookingDate, bookingService, setBookingService, careCategories, bookingLocation, setBookingLocation, hospital, label = "BOOK AN APPOINTMENT", heading = "Book Appointment Today!", description = "Complete the form and our care team will contact you to schedule a confidential consultation." }: Props) {
+export default function AppointmentSection({ status, formRef, submitAppointment, bookingDoctor, bookingType, bookingEmail, setBookingEmail, bookingDate, setBookingDate, bookingService, setBookingService, careCategories, bookingLocation, setBookingLocation, hospital, label = "BOOK AN APPOINTMENT", heading = "Book Appointment Today!", description = "Complete the form and our care team will contact you to schedule a confidential consultation." }: Props) {
   const serviceOptions = bookingService && !careCategories.includes(bookingService)
     ? [bookingService, ...careCategories]
     : careCategories;
@@ -52,12 +51,7 @@ export default function AppointmentSection({ status, setStatus, formRef, submitA
         <div className="text-center md:text-left">
           <Heading label={label}>{headingContent}</Heading>
           <p className="mx-auto max-w-[560px] text-care-copy md:mx-0">{description}</p>
-          {status === "success" ? <div className="mb-form-result pt-7.5 pr-7.5 pb-7.5 pl-7.5 bg-white rounded-[15px] mt-5 [&_svg]:w-10 [&_svg]:text-care-purple [&_h3]:font-bold [&_h3]:text-[21px] [&_h3]:text-care-navy [&_h3]:mt-[15px] [&_h3]:mb-[15px] [&_.mb-button]:mt-5" role="status">
-            <CheckIcon />
-            <h3>Appointment request sent</h3>
-            <p>Our care team will contact you to confirm availability.</p>
-            <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" onClick={() => setStatus("idle")}>Request another appointment</button>
-          </div> : <form className="mb-appointment-form mt-6 grid gap-2.5 text-left [&_.mb-button]:mt-2 [&_.mb-button]:w-full [&_.mb-button]:justify-self-center [&_input]:min-h-[45px] [&_input]:w-full [&_input]:rounded-[6px] [&_input]:bg-white [&_input]:px-4 [&_input]:py-[11px] [&_input]:text-[16px] [&_input]:text-care-copy [&_input]:[border:1px_solid_#d9dee8] [&_select]:min-h-[45px] [&_select]:w-full [&_select]:rounded-[6px] [&_select]:bg-white [&_select]:px-4 [&_select]:py-[11px] [&_select]:text-[16px] [&_select]:text-care-copy [&_select]:[border:1px_solid_#d9dee8] md:[&_.mb-button]:w-auto md:[&_.mb-button]:justify-self-start md:[&_input]:text-[13px] md:[&_select]:text-[13px]" ref={formRef} onSubmit={submitAppointment}>
+          <form className="mb-appointment-form mt-6 grid gap-2.5 text-left [&_.mb-button]:mt-2 [&_.mb-button]:w-full [&_.mb-button]:justify-self-center [&_input]:min-h-[45px] [&_input]:w-full [&_input]:rounded-[6px] [&_input]:bg-white [&_input]:px-4 [&_input]:py-[11px] [&_input]:text-[16px] [&_input]:text-care-copy [&_input]:[border:1px_solid_#d9dee8] [&_select]:min-h-[45px] [&_select]:w-full [&_select]:rounded-[6px] [&_select]:bg-white [&_select]:px-4 [&_select]:py-[11px] [&_select]:text-[16px] [&_select]:text-care-copy [&_select]:[border:1px_solid_#d9dee8] md:[&_.mb-button]:w-auto md:[&_.mb-button]:justify-self-start md:[&_input]:text-[13px] md:[&_select]:text-[13px]" ref={formRef} onSubmit={submitAppointment}>
             {(bookingDoctor || bookingType) && <p className="mb-booking-selection text-[12px]! text-care-purple bg-[#fff9] pt-2.5 pr-2.5 pb-2.5 pl-2.5 rounded-[5px]">{[bookingDoctor, bookingType].filter(Boolean).join(" · ")}</p>}
             <label>
               <span className="sr-only">Full Name</span>
@@ -89,7 +83,7 @@ export default function AppointmentSection({ status, setStatus, formRef, submitA
             </label>
             <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-[15px] pr-7 pb-[15px] pl-7 bg-care-purple text-white rounded-[6px] [border:0] text-[14px] font-extrabold no-underline [&:hover]:bg-[#603780]" type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Book Appointment"}</button>
             {status === "error" && <p className="mb-form-message text-[13px] bg-white pt-4 pr-4 pb-4 pl-4 [border:1px_solid_#bd7694] rounded-[8px] text-[#71394e] [&_a]:underline" role="alert">We couldn’t send your request. Please try again, or call <a href={hospital.phoneHref}>{hospital.phone}</a> to book.</p>}
-          </form>}
+          </form>
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ export default function CareWhyChooseSection({ heading, highlight, body }: { hea
     { icon: StethoscopeIcon, title: "Lakhs of Happy Families", body: "Families trust us from routine check-ups through to their children's health." },
     { icon: ShieldIcon, title: "34+ Years of Expertise", body: "Specialist consultants across gynaecology, obstetrics, paediatrics, neonatology and fertility care." },
     { icon: CalendarIcon, title: "Easy Appointment Booking", body: "Located at LB Nagar & King Koti, call +91 93906 34074. Open 24 hours, 7 days a week." },
-    { icon: EnvelopeIcon, title: "1,10,000+ Healthy Babies", body: "Babies delivered by our teams, with newborn ICU care on hand." },
+    { icon: EnvelopeIcon, title: "Over 1,10,000 Babies Delivered", body: "Babies delivered by our teams, with newborn ICU care on hand." },
   ];
 
   return (

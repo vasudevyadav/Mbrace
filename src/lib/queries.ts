@@ -15,6 +15,7 @@ import { findApprovedLocationContent } from "@/components/sections/mbrace/locati
 import { getStoredServiceSlug } from "@/lib/serviceLinks";
 
 const happyFamiliesStat = { value: "Lakhs of", label: "Happy Families" } as const;
+const babiesDeliveredStat = { value: "Over 1,10,000", label: "Babies Delivered" } as const;
 
 function toBlogBlocks(value: unknown): BlogBlock[] {
   return Array.isArray(value) ? (value as BlogBlock[]) : [];
@@ -73,11 +74,11 @@ function getFallbackHomeData() {
     },
     stats: {
       yearsOfCare: { value: "34+", label: "Years of Care" },
-      happyFamilies: { value: "1,10,000+", label: "Healthy Babies" },
+      happyFamilies: babiesDeliveredStat,
       locations: { value: "2", label: "Locations" },
       whyUsFamilies: happyFamiliesStat,
       whyUsYears: { value: "34+", label: "Years of Mother & Child care experience" },
-      whyUsBabies: { value: "14,000+", label: "Healthy Baby Deliveries" },
+      whyUsBabies: babiesDeliveredStat,
       awardsYears: { value: "34+", label: "Years Of Experience" },
       awardsSatisfaction: { value: "98%", label: "Patient Satisfaction" },
       awardsFamilies: happyFamiliesStat,
@@ -118,6 +119,7 @@ export async function getHomeData() {
 
   const statMap = Object.fromEntries(stats.map(s => [s.slug, { value: s.value, label: s.label }]));
   statMap.whyUsFamilies = happyFamiliesStat;
+  statMap.whyUsBabies = babiesDeliveredStat;
   statMap.awardsFamilies = happyFamiliesStat;
 
   const serviceGroups: Record<string, [string, string][]> = {};
