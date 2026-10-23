@@ -6,12 +6,14 @@ export const mbraceInstagramUrl = "https://www.instagram.com/mbrace.care/";
 export const mbraceReelUrl = "https://www.instagram.com/mbrace.care/reel/DevqUErDwt6/";
 
 type MbraceReelVideoProps = {
+  ariaLabel?: string;
   autoPlay?: boolean;
   className?: string;
   clickToPlay?: boolean;
+  src?: string;
 };
 
-export default function MbraceReelVideo({ autoPlay = true, className = "", clickToPlay = false }: MbraceReelVideoProps) {
+export default function MbraceReelVideo({ ariaLabel = "Health guidance from M’Brace", autoPlay = true, className = "", clickToPlay = false, src = "/videos/mbrace-postpartum-recovery.mp4" }: MbraceReelVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
 
@@ -31,7 +33,7 @@ export default function MbraceReelVideo({ autoPlay = true, className = "", click
       <video
         ref={videoRef}
         className={className}
-        src="/videos/mbrace-postpartum-recovery.mp4"
+        src={src}
         autoPlay={autoPlay}
         muted
         loop
@@ -39,7 +41,7 @@ export default function MbraceReelVideo({ autoPlay = true, className = "", click
         preload="metadata"
         disablePictureInPicture
         controlsList="nodownload noplaybackrate noremoteplayback"
-        aria-label="Postpartum recovery guidance from M’Brace"
+        aria-label={ariaLabel}
         onClick={clickToPlay ? togglePlayback : undefined}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}

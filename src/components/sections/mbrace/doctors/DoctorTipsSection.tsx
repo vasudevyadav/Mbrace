@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import MbraceReelVideo, { mbraceReelUrl } from "../MbraceReelVideo";
+import MbraceReelVideo from "../MbraceReelVideo";
 
 type Tip = {
   id: number;
@@ -11,6 +10,14 @@ type Tip = {
   image: string;
   videoUrl: string;
 };
+
+const instagramReels = [
+  { id: "DevqUErDwt6", src: "/videos/mbrace-postpartum-recovery.mp4", title: "Postpartum recovery and body changes" },
+  { id: "Desw7O4jjiD", src: "/videos/mbrace-motherhood-strength.mp4", title: "Celebrating strength through motherhood" },
+  { id: "Den762iCqYH", src: "/videos/mbrace-labour-care.mp4", title: "Understanding real labour pain" },
+  { id: "Dejic1bDj7N", src: "/videos/mbrace-baby-movements.mp4", title: "Reduced baby movements during pregnancy" },
+  { id: "DeeR749j1hb", src: "/videos/mbrace-morning-sickness.mp4", title: "Morning sickness during pregnancy" },
+];
 
 export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -49,14 +56,6 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
     track.scrollTo({ left: nextLeft, behavior: "smooth" });
   }
 
-  if (tips.length === 0) return null;
-
-  const figmaPosters: Record<string, string> = {
-    "Mosquitoes Love Clean Water! Check Your Balcony Today": "/images/figma/doctor-tip-mosquito.png",
-    "How to Check Fever in Children": "/images/figma/doctor-tip-fever-poster.png",
-    "Why Couples Struggle to Conceive?": "/images/figma/doctor-tip-conceive.png",
-  };
-
   return (
     <section id="doctors-talk" className="mb-section [font-family:var(--font-manrope)] py-12 md:py-15 lg:pt-[70px] lg:pb-[75px]">
       <div className="mb-container w-[calc(100%_-_40px)] md:w-[calc(100%_-_48px)] lg:w-[calc(100%_-_80px)] xl:w-[min(1130px,calc(100%_-_64px))] ml-auto mr-auto">
@@ -69,35 +68,19 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
           onScroll={updateProgress}
           className="flex gap-[35px] overflow-x-auto px-[5px] pb-3 -mx-[5px] scroll-smooth [overscroll-behavior-inline:contain] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {tips.map((tip, index) => (
+          {instagramReels.map(reel => (
             <article
-              key={tip.id}
-              className="group relative h-[467px] w-[min(85vw,350px)] shrink-0 overflow-hidden rounded-[22px] border-5 border-white bg-[#1e1e1e] shadow-[0_0_23.9px_-5px_rgba(0,0,0,0.1)] transition-[transform,box-shadow] duration-500 ease-out [scroll-snap-align:start] lg:w-[380px] hover:-translate-y-1.5 hover:shadow-[0_18px_34px_-12px_rgba(31,43,112,.28)] motion-reduce:transform-none motion-reduce:transition-none"
+              key={reel.id}
+              className="group relative h-[570px] w-[min(85vw,350px)] shrink-0 overflow-hidden rounded-[22px] border-5 border-white bg-white shadow-[0_0_23.9px_-5px_rgba(0,0,0,0.1)] transition-[transform,box-shadow] duration-500 ease-out [scroll-snap-align:start] lg:w-[380px] hover:-translate-y-1.5 hover:shadow-[0_18px_34px_-12px_rgba(31,43,112,.28)] motion-reduce:transform-none motion-reduce:transition-none"
             >
-              {index === 0 ? (
-                <MbraceReelVideo autoPlay={false} clickToPlay className="h-full w-full bg-[#21172b] object-cover object-center" />
-              ) : (
-                <Image
-                  src={figmaPosters[tip.title] ?? tip.image}
-                  alt={`${tip.title} by ${tip.doctorName}`}
-                  fill
-                  sizes="(min-width: 1000px) 350px, 85vw"
-                  className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transform-none motion-reduce:transition-none ${index === 1 ? "opacity-[.37] transition-[transform,opacity] group-hover:opacity-50" : ""}`}
-                />
-              )}
-              {index === 0 && <a href={mbraceReelUrl} target="_blank" rel="noreferrer" className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-4 py-2 text-[11px] font-bold text-white backdrop-blur-sm hover:bg-care-purple">View on Instagram</a>}
-              {index === 1 && (
-                <a
-                  href={tip.videoUrl || undefined}
-                  target={tip.videoUrl ? "_blank" : undefined}
-                  rel={tip.videoUrl ? "noreferrer" : undefined}
-                  aria-label={`Watch: ${tip.title}`}
-                  className="absolute left-1/2 top-1/2 flex size-[57px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-care-purple shadow-[0_8px_24px_rgba(0,0,0,.18)] transition-[transform,background-color,color,box-shadow] duration-300 ease-out hover:scale-110 hover:bg-care-purple hover:text-white hover:shadow-[0_12px_28px_rgba(118,75,158,.35)] active:scale-95 motion-reduce:transition-none"
-                  onClick={tip.videoUrl ? undefined : event => event.preventDefault()}
-                >
-                  <span className="ml-1 text-[22px] leading-none">▶</span>
-                </a>
-              )}
+              <MbraceReelVideo
+                src={reel.src}
+                ariaLabel={reel.title}
+                autoPlay={false}
+                clickToPlay
+                className="h-full w-full bg-[#21172b] object-cover object-center"
+              />
+              <a href={`https://www.instagram.com/mbrace.care/reel/${reel.id}/`} target="_blank" rel="noreferrer" className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/60 px-4 py-2 text-[11px] font-bold text-white backdrop-blur-sm hover:bg-care-purple">View on Instagram</a>
             </article>
           ))}
         </div>
