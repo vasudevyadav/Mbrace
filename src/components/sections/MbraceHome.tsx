@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import type { HomeData } from "@/lib/queries";
 import { submitAppointmentRequestAction } from "@/lib/publicActions";
 import { locations } from "./mbrace/content";
@@ -35,6 +36,7 @@ export default function MbraceHome({ data }: { data: HomeData }) {
     hero,
     stats,
   } = data;
+  const router = useRouter();
   const [serviceTab, setServiceTab] = useState("Women Care");
   const [location, setLocation] = useState(locations[0]);
   const [bookingService, setBookingService] = useState("");
@@ -80,7 +82,11 @@ export default function MbraceHome({ data }: { data: HomeData }) {
     formData.set("doctor", bookingDoctor);
     formData.set("appointmentType", bookingType);
     const result = await submitAppointmentRequestAction(formData);
-    setStatus(result.ok ? "success" : "error");
+    if (result.ok) {
+      router.push("/thank-you");
+    } else {
+      setStatus("error");
+    }
   }
 
   return (
@@ -125,7 +131,6 @@ export default function MbraceHome({ data }: { data: HomeData }) {
       <FaqSection careCategories={careCategories} homeFaqs={homeFaqs} />
       <AppointmentSection
         status={status}
-        setStatus={setStatus}
         formRef={formRef}
         submitAppointment={submitAppointment}
         bookingDoctor={bookingDoctor}

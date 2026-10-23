@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import type { ServiceCategory, ServiceItem } from "@prisma/client";
 import type { HomeData } from "@/lib/queries";
 import { submitAppointmentRequestAction } from "@/lib/publicActions";
@@ -20,7 +21,7 @@ import { serviceDetailBlocks } from "./serviceDetailBlocks";
 import { serviceFaqs } from "./serviceFaqs";
 import { serviceHeroCopy } from "./serviceHeroCopy";
 import { servicePageCopy } from "./servicePageCopy";
-import { serviceContentImages, serviceHeroImages } from "./serviceImages";
+import { serviceContentImages, serviceHeroImages, servicePathwayImages } from "./serviceImages";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -37,6 +38,7 @@ function matchCareCategory(categoryLabel: string, careCategories: string[]) {
 
 export default function ServiceDetailClient({ service, data }: { service: ServiceWithCategory; data: HomeData }) {
   const { hospital, careCategories, serviceGroups, doctors, featuredDoctor, homeFaqs } = data;
+  const router = useRouter();
   const [location, setLocation] = useState(locations[0]);
   const [bookingService, setBookingService] = useState("");
   const [bookingLocation, setBookingLocation] = useState("");
@@ -57,6 +59,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   // newly seeded pages.
   const heroImage = service.heroImage || serviceHeroImages[service.slug] || "/services-details-banner.png";
   const contentImage = serviceContentImages[service.slug] || heroImage;
+  const pathwayImage = servicePathwayImages[service.slug] || contentImage;
   const isGynecology = service.slug === "gynaecology";
   const faqData = serviceFaqs[service.slug];
   const pageCopy = servicePageCopy[service.slug];
@@ -88,7 +91,11 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
     formData.set("doctor", bookingDoctor);
     formData.set("appointmentType", bookingType);
     const result = await submitAppointmentRequestAction(formData);
-    setStatus(result.ok ? "success" : "error");
+    if (result.ok) {
+      router.push("/thank-you");
+    } else {
+      setStatus("error");
+    }
   }
 
   return (
@@ -109,6 +116,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
           blocks={blocks}
           heroImage={heroImage}
           sectionImage={contentImage}
+          pathwayImage={pathwayImage}
           serviceName={service.name}
           ctaLabel={serviceHeroCopy[service.slug]?.cta || "Book Appointment"}
           onBook={() => book(service.name)}
@@ -146,7 +154,6 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
       />
       <AppointmentSection
         status={status}
-        setStatus={setStatus}
         formRef={formRef}
         submitAppointment={submitAppointment}
         bookingDoctor={bookingDoctor}

@@ -91,7 +91,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       body: "For families in LB Nagar, Kothapet and Vanasthalipuram, specialist pregnancy, newborn and child care is available within the neighbourhood, not across the city.",
       stats: [
         { value: "34+", label: "Years of Healthcare Experience" },
-        { value: "1.1 Lakh+", label: "Babies Delivered" },
+        { value: "Over 1,10,000", label: "Babies Delivered" },
         { value: "Lakhs of", label: "Happy Families" },
         { value: "24/7", label: "Emergency Care in LB Nagar" },
       ],
@@ -106,7 +106,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       eyebrow: "Our Services",
       heading: "Treatment & Specialities At M’Brace, LB Nagar",
       body: "M’Brace LB Nagar offers 30 services across women’s care, fertility, pregnancy and birth support, and child care. Every service is available at LB Nagar, and you can book directly without a referral.",
-      statValue: "1.1 Lakh",
+      statValue: "Over 1,10,000",
       statLabel: "Babies Delivered",
       items: [
         { title: "Fertility Care", description: "Fertility evaluation, male fertility care, ovulation tracking, embryology support, IVF, IUI, ICSI and egg freezing." },
@@ -208,7 +208,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       body: "For families in Abids, Himayatnagar and Narayanguda, and for those arriving at Nampally station, specialist pregnancy and child care is about a kilometre away.",
       stats: [
         { value: "34+", label: "Years of Healthcare Experience" },
-        { value: "1.1 Lakh+", label: "Babies Delivered" },
+        { value: "Over 1,10,000", label: "Babies Delivered" },
         { value: "Lakhs of", label: "Happy Families" },
         { value: "24/7", label: "Emergency Care in LB Nagar" },
       ],
@@ -223,7 +223,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       eyebrow: "Our Services",
       heading: "Specialities Available At M’Brace, King Koti",
       body: "M’Brace King Koti provides 30 services across pregnancy and birth support, child care, women’s care and fertility. You can book any of them directly, with no referral needed.",
-      statValue: "1.1 Lakh",
+      statValue: "Over 1,10,000",
       statLabel: "Babies Delivered",
       items: [
         { title: "Fertility Care", description: "Fertility evaluation, male fertility care, ovulation tracking, embryology support, IVF, IUI, ICSI and egg freezing." },

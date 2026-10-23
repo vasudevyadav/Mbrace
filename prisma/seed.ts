@@ -76,7 +76,7 @@ async function main() {
     ["yearsOfCare", "34+", "Years of Care"],
     ["whyUsFamilies", "Lakhs of", "Happy Families"],
     ["whyUsYears", "34+", "Years of Mother & Child care experience"],
-    ["whyUsBabies", "14,000+", "Healthy Baby Deliver"],
+    ["whyUsBabies", "Over 1,10,000", "Babies Delivered"],
     ["awardsYears", "34+", "Years Of Experience"],
     ["awardsSatisfaction", "98%", "Patient Satisfaction"],
     ["awardsFamilies", "Lakhs of", "Happy Families"],
@@ -85,7 +85,7 @@ async function main() {
     await prisma.stat.upsert({
       where: { slug },
       create: { slug, value, label },
-      update: slug === "whyUsFamilies" || slug === "awardsFamilies" ? { value, label } : {},
+      update: slug === "whyUsFamilies" || slug === "whyUsBabies" || slug === "awardsFamilies" ? { value, label } : {},
     });
   }
 

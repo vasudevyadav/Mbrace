@@ -99,10 +99,11 @@ function LegacyDynamicBlocks({ blocks }: { blocks: Array<BlogBlock | DynamicPage
   );
 }
 
-export default function DynamicPageSections({ blocks, heroImage = "", sectionImage = "", serviceName = "", ctaLabel = "Book Appointment", onBook = () => {} }: {
+export default function DynamicPageSections({ blocks, heroImage = "", sectionImage = "", pathwayImage = "", serviceName = "", ctaLabel = "Book Appointment", onBook = () => {} }: {
   blocks: Array<BlogBlock | DynamicPageSection>;
   heroImage?: string;
   sectionImage?: string;
+  pathwayImage?: string;
   serviceName?: string;
   ctaLabel?: string;
   onBook?: () => void;
@@ -120,6 +121,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", sectionIma
     ? [concerns.items.filter((_, index) => index % 2 === 0), concerns.items.filter((_, index) => index % 2 === 1)]
     : [];
   const supportingImage = sectionImage || heroImage || "/services-details-banner.png";
+  const treatmentImage = pathwayImage || supportingImage;
 
   if (!serviceName) return <LegacyDynamicBlocks blocks={blocks} />;
 
@@ -201,7 +203,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", sectionIma
               </div>
               <button onClick={onBook} className="mt-9 min-h-[50px] w-full rounded-[6px] border-2 border-care-gold bg-white px-5 py-3 text-[13px] font-bold text-[#261631] sm:w-auto sm:min-w-[280px] sm:px-6 sm:text-[14px]">{activePathwayDetails.cta || pathway.trailing || ctaLabel}&nbsp;&nbsp;→</button>
             </div>
-            <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]"><Image src={supportingImage} alt={`${serviceName} treatment discussion`} fill sizes="(max-width:1023px) 100vw, 500px" className="object-cover object-center" /><div className="absolute bottom-8 left-8 right-8 rounded-[12px] bg-[#27143e]/90 px-7 py-6 backdrop-blur-[2px]"><h3 className="text-[16px] font-bold text-care-gold">{pathwayLabel(activePathwayText, activePathway)}</h3>{pathway.trailing && <p className="mt-3 text-[14px] text-white/75">{pathway.trailing}</p>}</div></div>
+            <div className="relative h-[320px] overflow-hidden rounded-[16px] sm:h-[410px] lg:h-[465px]"><Image src={treatmentImage} alt={`${serviceName} treatment discussion`} fill sizes="(max-width:1023px) 100vw, 500px" className="object-cover object-center" /><div className="absolute bottom-8 left-8 right-8 rounded-[12px] bg-[#27143e]/90 px-7 py-6 backdrop-blur-[2px]"><h3 className="text-[16px] font-bold text-care-gold">{pathwayLabel(activePathwayText, activePathway)}</h3>{pathway.trailing && <p className="mt-3 text-[14px] text-white/75">{pathway.trailing}</p>}</div></div>
           </div>
         </section>
       )}

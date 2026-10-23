@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { ServiceItem, ServiceCategory } from "@prisma/client";
@@ -46,6 +47,7 @@ export default function CareCategoryPageClient({
   data: HomeData;
 }) {
   const { hospital, careCategories, serviceGroups, doctors, featuredDoctor, homeTestimonials, homeFaqs, homeBlogs, stats } = data;
+  const router = useRouter();
   const [location, setLocation] = useState(locations[0]);
   const [bookingService, setBookingService] = useState("");
   const [bookingLocation, setBookingLocation] = useState("");
@@ -90,7 +92,11 @@ export default function CareCategoryPageClient({
     formData.set("doctor", bookingDoctor);
     formData.set("appointmentType", bookingType);
     const result = await submitAppointmentRequestAction(formData);
-    setStatus(result.ok ? "success" : "error");
+    if (result.ok) {
+      router.push("/thank-you");
+    } else {
+      setStatus("error");
+    }
   }
 
   return (
@@ -167,7 +173,6 @@ export default function CareCategoryPageClient({
       <BlogsSection homeBlogs={homeBlogs} showDetails={showDetails} />
       <AppointmentSection
         status={status}
-        setStatus={setStatus}
         formRef={formRef}
         submitAppointment={submitAppointment}
         bookingDoctor={bookingDoctor}

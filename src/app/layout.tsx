@@ -3,6 +3,7 @@ import { Manrope, Poppins } from "next/font/google";
 import "./globals.css";
 import { siteOrigin } from "@/lib/site";
 import MotionProvider from "@/components/providers/MotionProvider";
+import ScrollBookingPopup from "@/components/sections/mbrace/ScrollBookingPopup";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MotionProvider>
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
           <main id="main-content">{children}</main>
+          <ScrollBookingPopup />
         </MotionProvider>
       </body>
     </html>
