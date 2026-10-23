@@ -191,7 +191,7 @@ export const approvedDoctors: ApprovedDoctor[] = [
     name: "Dr G Satyanarayana",
     qualifications: "MS, MCh (Paediatric Surgery), FMAS",
     role: "Consultant Surgical Gastroenterologist",
-    image: "",
+    image: "/images/doctors/dr-g-satyanarayana.jpg",
     yearsExperience: "20+ Years",
     isFeatured: false,
     order: 10,

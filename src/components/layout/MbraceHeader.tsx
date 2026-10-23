@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { approvedServiceGroups } from "@/components/sections/mbrace/services/approvedCarePageData";
 import { getServiceHref } from "@/lib/serviceLinks";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 const careCategoryHrefs: Record<string, string> = {
   "Women's Care": "/womens-care",
@@ -26,7 +27,7 @@ export default function MbraceHeader({
   hospital,
   basePath = "",
 }: {
-  onBook: () => void;
+  onBook?: () => void;
   careCategories: string[];
   hospital: { phone: string; phoneHref: string };
   basePath?: string;
@@ -149,7 +150,7 @@ export default function MbraceHeader({
           <button
             type="button"
             className="mb-button ml-[clamp(18px,_2.5vw,_40px)] inline-flex min-h-11.5 items-center justify-center rounded-md bg-care-purple px-6 py-3 text-[13px] font-semibold whitespace-nowrap text-white [border:0] no-underline [&:hover]:bg-[#603780] xl:min-h-10! xl:px-3.5! xl:py-2.5! xl:text-[13px]! min-[1536px]:px-5!"
-            onClick={onBook}
+            onClick={() => onBook && openBookingPopup()}
           >
             Book Appointment
           </button>
@@ -276,7 +277,7 @@ export default function MbraceHeader({
             className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-md [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]"
             onClick={() => {
               close();
-              onBook();
+              if (onBook) openBookingPopup();
             }}
           >
             Book Appointment

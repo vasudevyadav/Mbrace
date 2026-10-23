@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import MbraceHeader from "@/components/layout/MbraceHeader";
 import HomeFooter from "../HomeFooter";
 import FaqSection from "../FaqSection";
 import type { HomeData } from "@/lib/queries";
 import { AlertTriangleIcon } from "@/components/icons/icons";
 import { blogCategories, slugifyHeading, type BlogArticle } from "./blogContent";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 const categoryIcons: Record<string, string> = {
   "Women’s Health": "/images/figma/service-0.svg",
@@ -20,12 +20,11 @@ const categoryIcons: Record<string, string> = {
 
 export default function BlogDetailClient({ article, relatedArticles, data }: { article: BlogArticle; relatedArticles: BlogArticle[]; data: HomeData }) {
   const { hospital, social, careCategories, serviceGroups, homeFaqs } = data;
-  const router = useRouter();
   const [location, setLocation] = useState("LB Nagar");
 
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
-  const book = () => router.push("/#appointment");
+  const book = () => openBookingPopup();
 
   const tocHeadings = article.blocks.filter((block) => block.kind === "section").map((block) => block.heading);
 

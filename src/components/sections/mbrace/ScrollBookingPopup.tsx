@@ -6,6 +6,7 @@ import { submitAppointmentRequestAction } from "@/lib/publicActions";
 import { careCategories } from "@/lib/mbrace-home";
 import { locations } from "./content";
 import { ChevronDownIcon } from "@/components/icons/icons";
+import { BOOKING_POPUP_EVENT, type BookingPopupDetail } from "@/lib/bookingPopup";
 
 const SESSION_KEY = "mb-scroll-booking-popup-shown";
 
@@ -16,6 +17,7 @@ export default function ScrollBookingPopup() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
+  const [prefill, setPrefill] = useState<BookingPopupDetail>({});
   const isAdmin = pathname?.startsWith("/admin") ?? false;
 
   useEffect(() => {
@@ -43,6 +45,28 @@ export default function ScrollBookingPopup() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isAdmin, pathname]);
 
+  useEffect(() => {
+    if (isAdmin) return;
+    const openBooking = (event: Event) => {
+      const detail = (event as CustomEvent<BookingPopupDetail>).detail ?? {};
+      setPrefill(detail);
+      setStatus("idle");
+      setOpen(true);
+    };
+    const interceptAppointmentLinks = (event: MouseEvent) => {
+      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href="#appointment"], a[href="/#appointment"]');
+      if (!link) return;
+      event.preventDefault();
+      openBooking(new CustomEvent<BookingPopupDetail>(BOOKING_POPUP_EVENT));
+    };
+    window.addEventListener(BOOKING_POPUP_EVENT, openBooking);
+    document.addEventListener("click", interceptAppointmentLinks);
+    return () => {
+      window.removeEventListener(BOOKING_POPUP_EVENT, openBooking);
+      document.removeEventListener("click", interceptAppointmentLinks);
+    };
+  }, [isAdmin]);
+
   if (isAdmin || !open) return null;
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -50,6 +74,8 @@ export default function ScrollBookingPopup() {
     setStatus("sending");
     const formData = new FormData(event.currentTarget);
     formData.set("source", "scroll-popup");
+    formData.set("doctor", prefill.doctor ?? "");
+    formData.set("appointmentType", prefill.appointmentType ?? "");
     const result = await submitAppointmentRequestAction(formData);
     if (result.ok) {
       setOpen(false);
@@ -107,15 +133,16 @@ export default function ScrollBookingPopup() {
           </label>
           <label className="relative block">
             <span className="sr-only">Select Service</span>
-            <select className="appearance-none pr-12!" name="service" required defaultValue="">
+            <select className="appearance-none pr-12!" name="service" required defaultValue={prefill.service ?? ""} key={`service-${prefill.service ?? ""}`}>
               <option value="" disabled>Select Service</option>
+              {prefill.service && !careCategories.some((category) => category === prefill.service) && <option value={prefill.service}>{prefill.service}</option>}
               {careCategories.map((x) => <option key={x}>{x}</option>)}
             </select>
             <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
           </label>
           <label className="relative block">
             <span className="sr-only">Select Location</span>
-            <select className="appearance-none pr-12!" name="location" required defaultValue="">
+            <select className="appearance-none pr-12!" name="location" required defaultValue={prefill.location ?? ""} key={`location-${prefill.location ?? ""}`}>
               <option value="" disabled>Select Location</option>
               {locations.map((x) => <option key={x}>{x}</option>)}
             </select>

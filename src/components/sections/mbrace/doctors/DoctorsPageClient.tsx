@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import type { HomeData } from "@/lib/queries";
 import { locations } from "../content";
 import SimplePageHero from "../SimplePageHero";
@@ -11,18 +10,18 @@ import LocationSection from "../LocationSection";
 import HomeFooter from "../HomeFooter";
 import DoctorTipsSection from "./DoctorTipsSection";
 import { doctorsPageCopy } from "./doctorContent";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 type DoctorTip = { id: number; title: string; doctorName: string; image: string; videoUrl: string };
 
 export default function DoctorsPageClient({ data, tips }: { data: HomeData; tips: DoctorTip[] }) {
   const { hospital, careCategories, serviceGroups, doctors, featuredDoctor, homeFaqs } = data;
-  const router = useRouter();
   const [location, setLocation] = useState(locations[0]);
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
 
   function book() {
-    router.push("/#appointment");
+    openBookingPopup();
   }
 
   return (

@@ -135,10 +135,21 @@ export async function getHomeData() {
   }
 
   const doctorSource = doctorRows.length > 0
-    ? doctorRows.map((doctor) => {
+    ? Array.from(doctorRows.reduce((uniqueDoctors, doctor) => {
         const approvedDoctor = findApprovedDoctor(doctor.slug);
-        return approvedDoctor?.image ? { ...doctor, image: approvedDoctor.image } : doctor;
-      })
+        const canonicalDoctor = approvedDoctor
+          ? { ...doctor, ...approvedDoctor, id: doctor.id }
+          : doctor;
+        const canonicalKey = approvedDoctor?.slug ?? doctor.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        const existing = uniqueDoctors.get(canonicalKey);
+
+        // Prefer the canonical DB row when both an old short slug and the
+        // current full profile exist; approved copy supplies complete details.
+        if (!existing || doctor.slug === canonicalKey) {
+          uniqueDoctors.set(canonicalKey, canonicalDoctor);
+        }
+        return uniqueDoctors;
+      }, new Map<string, (typeof doctorRows)[number]>()).values())
     : approvedDoctors;
   const featuredDoctor = doctorSource.find(d => d.isFeatured) ?? null;
   const otherDoctors = doctorSource.filter(d => !d.isFeatured);
@@ -225,8 +236,8 @@ export async function getDoctorBySlug(slug: string) {
   try {
     const row = await prisma.doctor.findUnique({ where: { slug } });
     const approvedDoctor = findApprovedDoctor(slug);
-    return row && approvedDoctor?.image
-      ? { ...row, image: approvedDoctor.image }
+    return row && approvedDoctor
+      ? { ...row, ...approvedDoctor, id: row.id }
       : row ?? approvedDoctor;
   } catch (error) {
     console.warn(`Database unavailable; using local doctor fallback for ${slug}.`, error);
