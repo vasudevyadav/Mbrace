@@ -24,12 +24,13 @@ type Props = {
 };
 
 export default function DoctorsSection({ featuredDoctor, book, homeDoctors, heading, description, principleLead, principle, serviceName = "Women's Care", getProfileHref, layout = "default", showPrinciple = true }: Props) {
+  const detailsHref = (doctor: { slug: string }) => getProfileHref ? getProfileHref(doctor) : `/doctors/${doctor.slug}`;
   const nameLink = (doctor: { slug: string }, children: ReactNode) =>
-    getProfileHref ? <Link href={getProfileHref(doctor)} className="hover:underline">{children}</Link> : children;
+    <Link href={detailsHref(doctor)} className="hover:underline">{children}</Link>;
 
   const consultationDialog = useRef<HTMLDialogElement>(null);
-  const [consultationDoctor, setConsultationDoctor] = useState<{ name: string; role: string; image: string } | null>(null);
-  function openConsultation(doctor: { name: string; role: string; image: string }) {
+  const [consultationDoctor, setConsultationDoctor] = useState<{ name: string; role: string; image: string; slug: string } | null>(null);
+  function openConsultation(doctor: { name: string; role: string; image: string; slug: string }) {
     setConsultationDoctor(doctor);
   }
   useEffect(() => {
@@ -75,7 +76,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
           <p className="mt-2 text-[13px] leading-[1.5] text-[#67616d]">{consultationDoctor.role}</p>
           <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
             <button type="button" className="min-h-11 rounded-[6px] bg-care-gold px-4 py-3 text-[12px] font-bold text-white" onClick={() => { consultationDialog.current?.close(); book(serviceName, consultationDoctor.name, "Online consultation"); }}>Book Consultation</button>
-            <button type="button" className="min-h-11 rounded-[6px] bg-care-purple px-4 py-3 text-[12px] font-bold text-white" onClick={() => { consultationDialog.current?.close(); book(serviceName, consultationDoctor.name, "Hospital visit"); }}>Visit Hospital</button>
+            <Link href={detailsHref(consultationDoctor)} className="flex min-h-11 items-center justify-center rounded-[6px] bg-care-purple px-4 py-3 text-center text-[12px] font-bold text-white" onClick={() => consultationDialog.current?.close()}>View Details</Link>
           </div>
         </div>
       </div>}
@@ -116,7 +117,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
                 </ul>
                 <div className="mt-4 flex gap-2">
                   <button className="min-h-[30px] flex-1 rounded-[3px] bg-care-gold px-2 py-2 text-[10px] font-semibold text-white hover:bg-[#df9726]" onClick={() => openConsultation(doctor)}>Book Consultation</button>
-                  <button className="min-h-[30px] flex-1 rounded-[3px] bg-care-purple px-2 py-2 text-[10px] font-semibold text-white hover:bg-[#603780]" onClick={() => book(serviceName, doctor.name, "Hospital visit")}>Visit Hospital</button>
+                  <Link href={detailsHref(doctor)} className="flex min-h-[30px] flex-1 items-center justify-center rounded-[3px] bg-care-purple px-2 py-2 text-[10px] font-semibold text-white hover:bg-[#603780]">View Details</Link>
                 </div>
               </article>
             ))}
@@ -163,7 +164,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
               </ul>
               <div className="mb-doctor-actions flex mt-5 gap-[5px] xl:gap-2 [&_.mb-button]:min-h-11 [&_.mb-button]:whitespace-normal md:[&_.mb-button]:min-h-[27px] md:[&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2 [&_.mb-button]:pr-2 [&_.mb-button]:pb-2 [&_.mb-button]:pl-2 [&_.mb-button]:text-[11px] lg:[&_.mb-button]:pt-1.5 lg:[&_.mb-button]:pr-[5px] lg:[&_.mb-button]:pb-1.5 lg:[&_.mb-button]:pl-[5px] lg:[&_.mb-button]:text-[10px] xl:[&_.mb-button]:pt-[7px] xl:[&_.mb-button]:pr-2 xl:[&_.mb-button]:pb-[7px] xl:[&_.mb-button]:pl-2 xl:[&_.mb-button]:text-[11px] [&_.mb-button]:flex-1 [&_.mb-button]:rounded-[2px]">
                 <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-gold [&.mb-gold]:bg-care-gold text-white [&.mb-gold:hover]:bg-[#df9726]" onClick={() => openConsultation(featuredDoctor)}>Book Consultation</button>
-                <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" onClick={() => book("Women's Care", featuredDoctor.name, "Hospital visit")}>Visit Hospital</button>
+                <Link href={detailsHref(featuredDoctor)} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]">View Details</Link>
               </div>
             </div>
           </article>}</div>
@@ -185,7 +186,7 @@ export default function DoctorsSection({ featuredDoctor, book, homeDoctors, head
           </ul>
           <div className="mb-doctor-actions flex mt-5 gap-[5px] xl:gap-2 [&_.mb-button]:min-h-11 [&_.mb-button]:whitespace-normal md:[&_.mb-button]:min-h-[27px] md:[&_.mb-button]:whitespace-nowrap [&_.mb-button]:pt-2 [&_.mb-button]:pr-2 [&_.mb-button]:pb-2 [&_.mb-button]:pl-2 [&_.mb-button]:text-[11px] lg:[&_.mb-button]:pt-1.5 lg:[&_.mb-button]:pr-[5px] lg:[&_.mb-button]:pb-1.5 lg:[&_.mb-button]:pl-[5px] lg:[&_.mb-button]:text-[10px] xl:[&_.mb-button]:pt-[7px] xl:[&_.mb-button]:pr-2 xl:[&_.mb-button]:pb-[7px] xl:[&_.mb-button]:pl-2 xl:[&_.mb-button]:text-[11px] [&_.mb-button]:flex-1 [&_.mb-button]:rounded-[2px]">
             <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] mb-gold [&.mb-gold]:bg-care-gold text-white [&.mb-gold:hover]:bg-[#df9726]" onClick={() => openConsultation(d)}>Book Consultation</button>
-            <button className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" onClick={() => book("Women's Care", d.name, "Hospital visit")}>Visit Hospital</button>
+            <Link href={detailsHref(d)} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]">View Details</Link>
           </div>
         </article>)}</div>
       </div>

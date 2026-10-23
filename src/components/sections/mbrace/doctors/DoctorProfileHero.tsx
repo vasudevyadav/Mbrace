@@ -45,7 +45,6 @@ export default function DoctorProfileHero({ doctor, hospital, careCategories, bo
             </div>
             <div className="flex w-full flex-wrap gap-3 border-t border-[#e9e2ef] pt-4">
               <button type="button" onClick={() => book("", doctor.name, "Online consultation")} className="shrink-0 rounded-[4px] bg-care-gold px-[22px] py-3 text-[13px] font-extrabold text-white hover:-translate-y-0.5 hover:bg-[#e99c26]">Book Consultation</button>
-              <button type="button" onClick={() => book("", doctor.name, "Hospital visit")} className="shrink-0 rounded-[4px] bg-care-purple px-[22px] py-3 text-[13px] font-extrabold text-white hover:-translate-y-0.5 hover:bg-[#603780]">Visit Hospital</button>
             </div>
           </div>
         </article>

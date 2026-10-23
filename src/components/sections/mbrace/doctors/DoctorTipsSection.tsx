@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import MbraceReelVideo from "../MbraceReelVideo";
 
 type Tip = {
   id: number;
@@ -10,6 +10,14 @@ type Tip = {
   image: string;
   videoUrl: string;
 };
+
+const instagramReels = [
+  { audioSrc: "/videos/mbrace-postpartum-recovery-audio.mp4", id: "DevqUErDwt6", src: "/videos/mbrace-postpartum-recovery.mp4", title: "Postpartum recovery and body changes" },
+  { audioSrc: "/videos/mbrace-motherhood-strength-audio.mp4", id: "Desw7O4jjiD", src: "/videos/mbrace-motherhood-strength.mp4", title: "Celebrating strength through motherhood" },
+  { audioSrc: "/videos/mbrace-labour-care-audio.mp4", id: "Den762iCqYH", src: "/videos/mbrace-labour-care.mp4", title: "Understanding real labour pain" },
+  { audioSrc: "/videos/mbrace-baby-movements-audio.mp4", id: "Dejic1bDj7N", src: "/videos/mbrace-baby-movements.mp4", title: "Reduced baby movements during pregnancy" },
+  { audioSrc: "/videos/mbrace-morning-sickness-audio.mp4", id: "DeeR749j1hb", src: "/videos/mbrace-morning-sickness.mp4", title: "Morning sickness during pregnancy" },
+];
 
 export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -40,17 +48,13 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
     const track = trackRef.current;
     if (!track) return;
     const card = track.firstElementChild as HTMLElement | undefined;
-    const amount = (card?.offsetWidth ?? 300) + 35;
-    track.scrollBy({ left: amount * direction, behavior: "smooth" });
+    const styles = window.getComputedStyle(track);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+    const amount = (card?.offsetWidth ?? 300) + gap;
+    const max = track.scrollWidth - track.clientWidth;
+    const nextLeft = Math.min(max, Math.max(0, track.scrollLeft + amount * direction));
+    track.scrollTo({ left: nextLeft, behavior: "smooth" });
   }
-
-  if (tips.length === 0) return null;
-
-  const figmaPosters: Record<string, string> = {
-    "Mosquitoes Love Clean Water! Check Your Balcony Today": "/images/figma/doctor-tip-mosquito.png",
-    "How to Check Fever in Children": "/images/figma/doctor-tip-fever-poster.png",
-    "Why Couples Struggle to Conceive?": "/images/figma/doctor-tip-conceive.png",
-  };
 
   return (
     <section id="doctors-talk" className="mb-section [font-family:var(--font-manrope)] py-12 md:py-15 lg:pt-[70px] lg:pb-[75px]">
@@ -64,30 +68,20 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
           onScroll={updateProgress}
           className="flex gap-[35px] overflow-x-auto px-[5px] pb-3 -mx-[5px] scroll-smooth [overscroll-behavior-inline:contain] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {tips.map((tip, index) => (
+          {instagramReels.map(reel => (
             <article
-              key={tip.id}
-              className="group relative h-[467px] w-[min(85vw,350px)] shrink-0 overflow-hidden rounded-[22px] border-5 border-white bg-[#1e1e1e] shadow-[0_0_23.9px_-5px_rgba(0,0,0,0.1)] transition-[transform,box-shadow] duration-500 ease-out [scroll-snap-align:start] hover:-translate-y-1.5 hover:shadow-[0_18px_34px_-12px_rgba(31,43,112,.28)] motion-reduce:transform-none motion-reduce:transition-none"
+              key={reel.id}
+              className="group relative h-[570px] w-[min(85vw,350px)] shrink-0 overflow-hidden rounded-[22px] border-5 border-white bg-white shadow-[0_0_23.9px_-5px_rgba(0,0,0,0.1)] transition-[transform,box-shadow] duration-500 ease-out [scroll-snap-align:start] lg:w-[380px] hover:-translate-y-1.5 hover:shadow-[0_18px_34px_-12px_rgba(31,43,112,.28)] motion-reduce:transform-none motion-reduce:transition-none"
             >
-              <Image
-                src={figmaPosters[tip.title] ?? tip.image}
-                alt={`${tip.title} by ${tip.doctorName}`}
-                fill
-                sizes="(min-width: 1000px) 350px, 85vw"
-                className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transform-none motion-reduce:transition-none ${index === 1 ? "opacity-[.37] transition-[transform,opacity] group-hover:opacity-50" : ""}`}
+              <MbraceReelVideo
+                src={reel.src}
+                audioSrc={reel.audioSrc}
+                ariaLabel={reel.title}
+                autoPlay={false}
+                clickToPlay
+                className="h-full w-full bg-[#21172b] object-cover object-center"
               />
-              {index === 1 && (
-                <a
-                  href={tip.videoUrl || undefined}
-                  target={tip.videoUrl ? "_blank" : undefined}
-                  rel={tip.videoUrl ? "noreferrer" : undefined}
-                  aria-label={`Watch: ${tip.title}`}
-                  className="absolute left-1/2 top-1/2 flex size-[57px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-care-purple shadow-[0_8px_24px_rgba(0,0,0,.18)] transition-[transform,background-color,color,box-shadow] duration-300 ease-out hover:scale-110 hover:bg-care-purple hover:text-white hover:shadow-[0_12px_28px_rgba(118,75,158,.35)] active:scale-95 motion-reduce:transition-none"
-                  onClick={tip.videoUrl ? undefined : event => event.preventDefault()}
-                >
-                  <span className="ml-1 text-[22px] leading-none">▶</span>
-                </a>
-              )}
+              <a href={`https://www.instagram.com/mbrace.care/reel/${reel.id}/`} target="_blank" rel="noreferrer" className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/60 px-4 py-2 text-[11px] font-bold text-white backdrop-blur-sm hover:bg-care-purple">View on Instagram</a>
             </article>
           ))}
         </div>
@@ -96,8 +90,8 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
             <div className="h-full rounded-full bg-care-purple transition-[width] duration-500 ease-out" style={{ width: `${33.75 + progress * 66.25}%` }} />
           </div>
           <div className="flex shrink-0 gap-3">
-            <button type="button" onClick={() => scrollByCard(-1)} aria-disabled={!canScrollBack} aria-label="Previous tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color] duration-300 hover:-translate-x-0.5 hover:bg-care-navy hover:text-white active:scale-95">←</button>
-            <button type="button" onClick={() => scrollByCard(1)} aria-disabled={!canScrollForward} aria-label="Next tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color] duration-300 hover:translate-x-0.5 hover:bg-care-navy hover:text-white active:scale-95">→</button>
+            <button type="button" onClick={() => scrollByCard(-1)} disabled={!canScrollBack} aria-label="Previous tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color,opacity] duration-300 enabled:hover:-translate-x-0.5 enabled:hover:bg-care-navy enabled:hover:text-white enabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">←</button>
+            <button type="button" onClick={() => scrollByCard(1)} disabled={!canScrollForward} aria-label="Next tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color,opacity] duration-300 enabled:hover:translate-x-0.5 enabled:hover:bg-care-navy enabled:hover:text-white enabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">→</button>
           </div>
         </div>
       </div>

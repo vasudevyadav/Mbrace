@@ -65,7 +65,7 @@ function getFallbackHomeData() {
       ...fallbackHospital,
       kingKotiAddress: "King Koti, Hyderabad, Telangana.",
     },
-    social: { instagramUrl: "", facebookUrl: "", linkedinUrl: "", youtubeUrl: "" },
+    social: { instagramUrl: "https://www.instagram.com/mbrace.care/", facebookUrl: "", linkedinUrl: "", youtubeUrl: "" },
     hero: {
       badgePrefix: "Backed by",
       headingPlain: "Connected Care for",
@@ -164,7 +164,7 @@ export async function getHomeData() {
       kingKotiAddress: siteSettings?.kingKotiAddress ?? "",
     },
     social: {
-      instagramUrl: siteSettings?.instagramUrl ?? "",
+      instagramUrl: siteSettings?.instagramUrl || "https://www.instagram.com/mbrace.care/",
       facebookUrl: siteSettings?.facebookUrl ?? "",
       linkedinUrl: siteSettings?.linkedinUrl ?? "",
       youtubeUrl: siteSettings?.youtubeUrl ?? "",

@@ -1,9 +1,9 @@
 "use client";
 
 import { type RefObject, type FormEvent } from "react";
-import Photo from "./Photo";
 import Heading from "./Heading";
-import { ChevronDownIcon, PlayIcon } from "@/components/icons/icons";
+import { ChevronDownIcon } from "@/components/icons/icons";
+import MbraceReelVideo, { mbraceInstagramUrl } from "./MbraceReelVideo";
 import { locations } from "./content";
 import type { HomeData } from "@/lib/queries";
 import type { AppointmentStatus } from "./types";
@@ -43,10 +43,8 @@ export default function AppointmentSection({ status, formRef, submitAppointment,
     <section id="appointment" className="mb-section mb-tinted mb-rounded rounded-[20px] py-12 [background:linear-gradient(110deg,#fff3df,#f3e9fc)] [&_.mb-eyebrow]:text-care-purple [&_h2_em]:not-italic [&_h2_em]:font-extrabold [&_h2_em]:text-care-gold [&_p]:leading-[1.65] md:rounded-[26px] md:py-10 lg:py-20">
       <div className="mb-container mb-appointment mx-auto grid w-full items-center gap-8 px-5 md:px-6 md:grid-cols-2 md:gap-9 lg:max-w-6xl lg:gap-26 lg:px-8 [&_.mb-heading]:mb-4.5 [&>div>p]:text-[14px] [&>.mb-photo-frame]:h-90 md:[&>.mb-photo-frame]:h-140">
         <div className="mb-photo-frame relative">
-          <Photo n={18} alt="A mother smiles at her baby" className="h-full" />
-          <span className="absolute right-5 bottom-5 inline-flex size-12 items-center justify-center rounded-full bg-care-gold text-white shadow-lg md:right-6 md:bottom-6 md:size-14" aria-hidden="true">
-            <PlayIcon className="ml-0.5 size-5 md:size-6" />
-          </span>
+          <MbraceReelVideo className="h-full w-full rounded-[18px] bg-[#21172b] object-cover object-center shadow-[0_18px_45px_rgba(46,27,60,.16)]" />
+          <a href={mbraceInstagramUrl} target="_blank" rel="noreferrer" className="absolute bottom-4 left-4 rounded-full bg-black/55 px-3.5 py-2 text-[11px] font-bold text-white backdrop-blur-sm hover:bg-care-purple" aria-label="Visit M’Brace on Instagram">@mbrace.care</a>
         </div>
         <div className="text-center md:text-left">
           <Heading label={label}>{headingContent}</Heading>
