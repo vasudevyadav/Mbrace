@@ -55,6 +55,7 @@ async function main() {
       email: "mbrace@kaminenihospitals.com",
       lbNagarAddress: "Inner Ring Rd, Suryodaya Colony, Central Bank Colony, Bahadurguda, Hyderabad, Telangana 500068.",
       kingKotiAddress: "King Koti, Hyderabad, Telangana. Contact our care team for directions to your appointment.",
+      instagramUrl: "https://www.instagram.com/mbrace.care/",
     },
     update: {},
   });

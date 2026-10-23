@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import MbraceReelVideo, { mbraceReelUrl } from "../MbraceReelVideo";
 
 type Tip = {
   id: number;
@@ -40,8 +41,12 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
     const track = trackRef.current;
     if (!track) return;
     const card = track.firstElementChild as HTMLElement | undefined;
-    const amount = (card?.offsetWidth ?? 300) + 35;
-    track.scrollBy({ left: amount * direction, behavior: "smooth" });
+    const styles = window.getComputedStyle(track);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+    const amount = (card?.offsetWidth ?? 300) + gap;
+    const max = track.scrollWidth - track.clientWidth;
+    const nextLeft = Math.min(max, Math.max(0, track.scrollLeft + amount * direction));
+    track.scrollTo({ left: nextLeft, behavior: "smooth" });
   }
 
   if (tips.length === 0) return null;
@@ -67,15 +72,20 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
           {tips.map((tip, index) => (
             <article
               key={tip.id}
-              className="group relative h-[467px] w-[min(85vw,350px)] shrink-0 overflow-hidden rounded-[22px] border-5 border-white bg-[#1e1e1e] shadow-[0_0_23.9px_-5px_rgba(0,0,0,0.1)] transition-[transform,box-shadow] duration-500 ease-out [scroll-snap-align:start] hover:-translate-y-1.5 hover:shadow-[0_18px_34px_-12px_rgba(31,43,112,.28)] motion-reduce:transform-none motion-reduce:transition-none"
+              className="group relative h-[467px] w-[min(85vw,350px)] shrink-0 overflow-hidden rounded-[22px] border-5 border-white bg-[#1e1e1e] shadow-[0_0_23.9px_-5px_rgba(0,0,0,0.1)] transition-[transform,box-shadow] duration-500 ease-out [scroll-snap-align:start] lg:w-[380px] hover:-translate-y-1.5 hover:shadow-[0_18px_34px_-12px_rgba(31,43,112,.28)] motion-reduce:transform-none motion-reduce:transition-none"
             >
-              <Image
-                src={figmaPosters[tip.title] ?? tip.image}
-                alt={`${tip.title} by ${tip.doctorName}`}
-                fill
-                sizes="(min-width: 1000px) 350px, 85vw"
-                className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transform-none motion-reduce:transition-none ${index === 1 ? "opacity-[.37] transition-[transform,opacity] group-hover:opacity-50" : ""}`}
-              />
+              {index === 0 ? (
+                <MbraceReelVideo autoPlay={false} clickToPlay className="h-full w-full bg-[#21172b] object-cover object-center" />
+              ) : (
+                <Image
+                  src={figmaPosters[tip.title] ?? tip.image}
+                  alt={`${tip.title} by ${tip.doctorName}`}
+                  fill
+                  sizes="(min-width: 1000px) 350px, 85vw"
+                  className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transform-none motion-reduce:transition-none ${index === 1 ? "opacity-[.37] transition-[transform,opacity] group-hover:opacity-50" : ""}`}
+                />
+              )}
+              {index === 0 && <a href={mbraceReelUrl} target="_blank" rel="noreferrer" className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-4 py-2 text-[11px] font-bold text-white backdrop-blur-sm hover:bg-care-purple">View on Instagram</a>}
               {index === 1 && (
                 <a
                   href={tip.videoUrl || undefined}
@@ -96,8 +106,8 @@ export default function DoctorTipsSection({ tips }: { tips: Tip[] }) {
             <div className="h-full rounded-full bg-care-purple transition-[width] duration-500 ease-out" style={{ width: `${33.75 + progress * 66.25}%` }} />
           </div>
           <div className="flex shrink-0 gap-3">
-            <button type="button" onClick={() => scrollByCard(-1)} aria-disabled={!canScrollBack} aria-label="Previous tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color] duration-300 hover:-translate-x-0.5 hover:bg-care-navy hover:text-white active:scale-95">←</button>
-            <button type="button" onClick={() => scrollByCard(1)} aria-disabled={!canScrollForward} aria-label="Next tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color] duration-300 hover:translate-x-0.5 hover:bg-care-navy hover:text-white active:scale-95">→</button>
+            <button type="button" onClick={() => scrollByCard(-1)} disabled={!canScrollBack} aria-label="Previous tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color,opacity] duration-300 enabled:hover:-translate-x-0.5 enabled:hover:bg-care-navy enabled:hover:text-white enabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">←</button>
+            <button type="button" onClick={() => scrollByCard(1)} disabled={!canScrollForward} aria-label="Next tip" className="flex size-10 items-center justify-center rounded-full border border-care-navy bg-white text-[20px] font-semibold text-care-navy transition-[transform,background-color,color,opacity] duration-300 enabled:hover:translate-x-0.5 enabled:hover:bg-care-navy enabled:hover:text-white enabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">→</button>
           </div>
         </div>
       </div>
