@@ -22,6 +22,7 @@ import { serviceFaqs } from "./serviceFaqs";
 import { serviceHeroCopy } from "./serviceHeroCopy";
 import { servicePageCopy } from "./servicePageCopy";
 import { serviceContentImages, serviceHeroImages, servicePathwayImages } from "./serviceImages";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 type ServiceWithCategory = ServiceItem & { category: ServiceCategory };
 
@@ -80,8 +81,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
     if (doctorName) setBookingLocation("LB Nagar");
     setBookingType(type);
     setStatus("idle");
-    document.getElementById("appointment")?.scrollIntoView({ behavior: "smooth" });
-    formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
+    openBookingPopup({ service: serviceName || service.name, doctor: doctorName, appointmentType: type, location: doctorName ? "LB Nagar" : "" });
   }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

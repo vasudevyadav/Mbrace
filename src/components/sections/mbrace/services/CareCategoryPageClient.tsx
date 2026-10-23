@@ -25,6 +25,7 @@ import CareExcellenceSection from "./CareExcellenceSection";
 import type { CareCategoryContent } from "./careCategoryContent";
 import { approvedCareFaqs, approvedCarePageSections, approvedServiceGroups } from "./approvedCarePageData";
 import { getCanonicalServiceSlug } from "@/lib/serviceLinks";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 type CategoryWithItems = ServiceCategory & { items: ServiceItem[] };
 
@@ -77,8 +78,7 @@ export default function CareCategoryPageClient({
     setBookingType(type);
     setStatus("idle");
     dialog.current?.close();
-    document.getElementById("appointment")?.scrollIntoView({ behavior: "smooth" });
-    formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
+    openBookingPopup({ service: serviceName || careCategoryLabel, doctor: doctorName, appointmentType: type, location: doctorName ? "LB Nagar" : "" });
   }
   function showDetails(next: DetailContent) {
     setDetail(next);

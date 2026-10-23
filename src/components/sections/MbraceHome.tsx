@@ -4,6 +4,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { HomeData } from "@/lib/queries";
 import { submitAppointmentRequestAction } from "@/lib/publicActions";
+import { openBookingPopup } from "@/lib/bookingPopup";
 import { locations } from "./mbrace/content";
 import type { AppointmentStatus, DetailContent } from "./mbrace/types";
 import HeroSection from "./mbrace/HeroSection";
@@ -61,14 +62,7 @@ export default function MbraceHome({ data }: { data: HomeData }) {
     setBookingType(type);
     setStatus("idle");
     dialog.current?.close();
-    document.getElementById("appointment")?.scrollIntoView({
-      behavior: "smooth",
-    });
-    formRef.current
-      ?.querySelector<HTMLInputElement>("input[name=name]")
-      ?.focus({
-        preventScroll: true,
-      });
+    openBookingPopup({ service, doctor, appointmentType: type, location: doctor ? "LB Nagar" : "" });
   }
   function showDetails(next: DetailContent) {
     setDetail(next);

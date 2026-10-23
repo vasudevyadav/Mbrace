@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import type { Doctor } from "@prisma/client";
 import type { HomeData } from "@/lib/queries";
 import { locations } from "../content";
@@ -9,17 +8,17 @@ import FaqSection from "../FaqSection";
 import LocationSection from "../LocationSection";
 import HomeFooter from "../HomeFooter";
 import DoctorProfileHero from "./DoctorProfileHero";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 export default function DoctorProfileClient({ doctor, data }: { doctor: Doctor; data: HomeData }) {
   const { hospital, careCategories, serviceGroups, homeFaqs } = data;
 
-  const router = useRouter();
   const [location, setLocation] = useState(locations[0]);
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
 
   function book() {
-    router.push("/#appointment");
+    openBookingPopup({ doctor: doctor.name });
   }
 
   return (

@@ -22,6 +22,7 @@ import type { BlogBlock } from "../blog/blogContent";
 import type { DynamicPageSection } from "../dynamicPageContent";
 import LocationSheetSections from "./LocationSheetSections";
 import { findApprovedLocationContent } from "./locationContent";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 type LocationWithHighlights = Location & { highlights: LocationHighlight[] };
 
@@ -50,8 +51,7 @@ export default function LocationPageClient({ location, data }: { location: Locat
     setBookingLocation(location.name);
     setBookingType(type);
     setStatus("idle");
-    document.getElementById("appointment")?.scrollIntoView({ behavior: "smooth" });
-    formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
+    openBookingPopup({ service, doctor: doctorName, appointmentType: type, location: location.name });
   }
   async function submitAppointment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

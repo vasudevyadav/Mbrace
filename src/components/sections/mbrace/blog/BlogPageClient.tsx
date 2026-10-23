@@ -3,12 +3,13 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import MbraceHeader from "@/components/layout/MbraceHeader";
 import HomeFooter from "../HomeFooter";
 import FaqSection from "../FaqSection";
 import type { HomeData } from "@/lib/queries";
 import { blogCategories, type BlogArticle } from "./blogContent";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 const categories = ["All Articles", ...blogCategories] as const;
 
@@ -20,7 +21,6 @@ const MOBILE_PAGE_SIZE = 6;
 
 export default function BlogPageClient({ data, articles }: { data: HomeData; articles: BlogArticle[] }) {
   const { hospital, social, careCategories, serviceGroups, homeFaqs } = data;
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<(typeof categories)[number]>(() => {
@@ -46,7 +46,7 @@ export default function BlogPageClient({ data, articles }: { data: HomeData; art
 
   const mapQuery = location === "LB Nagar" ? `Mbrace Kamineni Hospitals ${hospital.address}` : "Kamineni Hospitals King Koti Hyderabad";
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
-  const book = () => router.push("/#appointment");
+  const book = () => openBookingPopup();
 
   return (
     <div className="mbrace-home bg-white pt-[var(--care-header-height)] font-sans text-[15px] leading-[1.6] text-care-copy [--care-header-height:72px] sm:[--care-header-height:80px] xl:pt-0 xl:[--care-header-height:96px] [&_*]:box-border [&_button]:cursor-pointer [&_em]:not-italic [&_em]:font-bold [&_em]:text-care-gold [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:[outline:3px_solid_var(--color-care-navy)]">

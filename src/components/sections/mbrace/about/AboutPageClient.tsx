@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { HomeData } from "@/lib/queries";
 import AboutHero from "./AboutHero";
@@ -12,17 +11,17 @@ import DoctorsSection from "../DoctorsSection";
 import HomeFooter from "../HomeFooter";
 import FaqSection from "../FaqSection";
 import { aboutFaqs } from "./content";
+import { openBookingPopup } from "@/lib/bookingPopup";
 
 export default function AboutPageClient({ data }: { data: HomeData }) {
   const { hospital, careCategories, serviceGroups, doctors: homeDoctors, featuredDoctor, hero, stats } = data;
-  const router = useRouter();
   const [bookingService, setBookingService] = useState("");
   const [bookingLocation, setBookingLocation] = useState("");
   const [bookingDate, setBookingDate] = useState("");
 
   function book(service = "") {
     if (service) setBookingService(service);
-    router.push("/#appointment");
+    openBookingPopup({ service });
   }
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Mbrace Kamineni Hospitals ${hospital.address}`)}`;
 
