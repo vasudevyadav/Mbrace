@@ -21,6 +21,14 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
   title: { default: "M’Brace by Kamineni Hospitals | Women’s Care, Child Care & Fertility", template: "%s | M’Brace" },
   description: "Connected care for women, mothers and children. Explore women’s health, pregnancy, paediatrics and fertility care at M’Brace in LB Nagar and King Koti, Hyderabad.",
   openGraph: { title: "M’Brace by Kamineni Hospitals", description: "From planning to newborn care & paediatrics. Everything covered under one roof.", type: "website", images: [{ url: "/og.png", width: 1730, height: 909, alt: "M’Brace — Women’s Care, Child Care, Fertility" }] },
