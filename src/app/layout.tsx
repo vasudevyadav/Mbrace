@@ -23,11 +23,11 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     googleBot: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
     },
   },
   title: { default: "M’Brace by Kamineni Hospitals | Women’s Care, Child Care & Fertility", template: "%s | M’Brace" },
