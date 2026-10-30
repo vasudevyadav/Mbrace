@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import MbraceHeader from "@/components/layout/MbraceHeader";
-import { CalendarIcon, ChevronDownIcon, MapPinIcon } from "@/components/icons/icons";
-import { asset, locations } from "./content";
+import { asset } from "./content";
 import type { HomeData } from "@/lib/queries";
 import type { BookAppointment } from "./types";
 
@@ -21,7 +20,7 @@ type Props = {
   setBookingDate: (value: string) => void;
 };
 
-export default function HeroSection({ book, careCategories, hospital, hero, stats, bookingService, setBookingService, bookingLocation, setBookingLocation, bookingDate, setBookingDate }: Props) {
+export default function HeroSection({ book, careCategories, hospital, hero, stats }: Props) {
 
   return (
     <section className="mb-hero relative m-3 min-h-auto overflow-hidden rounded-[20px] bg-[var(--care-gradient)] sm:min-h-185 sm:rounded-[30px] lg:mb-0 lg:ml-8 lg:mr-8 lg:mt-4.5 lg:min-h-180 2xl:ml-auto 2xl:mr-auto 2xl:max-w-384 xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none" id="home">
@@ -36,25 +35,7 @@ export default function HeroSection({ book, careCategories, hospital, hero, stat
         </h1>
         <h2 className="mt-3.5 text-[23px] font-extrabold leading-[1.35] text-[#ffa20f] sm:text-[28px] sm:leading-[1.52] xl:text-[35px]">{hero.subheading}</h2>
         <p className="mb-hero-description max-w-120 lg:max-w-155 mt-6 text-[#565555] italic font-medium opacity-85 leading-[1.55] text-[14px] sm:text-[17px]">{hero.description}</p>
-        <div className={"mb-quick-booking mt-8 max-w-262.5 sm:mt-10.5 [&>div]:grid [&>div]:grid-cols-[1fr] [&>div]:gap-2.5 sm:[&>div]:grid-cols-[1fr_1fr] sm:[&>div]:gap-4.5 lg:[&>div]:grid-cols-[1fr_1fr_1fr_auto] [&_input]:min-h-12 [&_input]:min-w-0 [&_input]:rounded-md [&_input]:border [&_input]:border-[#c1c1c1] [&_input]:bg-white [&_input]:px-4 [&_input]:py-2.5 [&_input]:font-[var(--font-manrope)] [&_input]:text-[16px] [&_input]:text-[#6a6969] [&_input]:shadow-[inset_2px_3px_5.7px_0_rgba(0,0,0,0.13)] md:[&_input]:text-[14px] [&_select]:min-h-12 [&_select]:min-w-0 [&_select]:rounded-md [&_select]:border [&_select]:border-[#c1c1c1] [&_select]:bg-white [&_select]:px-4 [&_select]:py-2.5 [&_select]:font-[var(--font-manrope)] [&_select]:text-[16px] [&_select]:text-[#6a6969] [&_select]:shadow-[inset_2px_3px_5.7px_0_rgba(0,0,0,0.13)] md:[&_select]:text-[14px]"}>
-          <h3 className="mb-4.5 text-[20px] font-bold text-[#393939] before:mb-[5px] before:block before:h-px before:w-[255px] before:bg-care-purple/50 before:content-[''] sm:text-[24px]">Request Appointment <CalendarIcon className="mb-inline-icon w-8.5 h-8.5 inline-block ml-3 [vertical-align:middle]" />
-          </h3>
-          <div>
-            <div className="relative">
-              <select className="w-full appearance-none pr-12!" aria-label="Select speciality" value={bookingService} onChange={e => setBookingService(e.target.value)}>
-                <option value="" disabled>Select Speciality</option>{careCategories.map(x => <option key={x}>{x}</option>)}</select>
-              <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
-            </div>
-            <div className="relative [&_select]:pl-10!">
-              <select className="w-full appearance-none pr-12!" aria-label="Select location" value={bookingLocation} onChange={e => setBookingLocation(e.target.value)}>
-                <option value="" disabled>Select Location</option>{locations.map(x => <option key={x}>{x}</option>)}</select>
-              <MapPinIcon className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-care-purple" />
-              <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
-            </div>
-            <input className="pr-12! [color-scheme:light]" aria-label="Appointment date" type="date" min={new Date().toISOString().split("T")[0]} value={bookingDate} onChange={e => setBookingDate(e.target.value)} />
-            <button type="button" onClick={() => book()} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-md border border-care-gold text-[14px] font-semibold [font-family:var(--font-manrope)] no-underline [&:hover]:bg-[#603780]">Get Appointment</button>
-          </div>
-        </div>
+        <button type="button" onClick={() => book()} className="mb-button mt-8 inline-flex min-h-12 items-center justify-center rounded-md border border-care-gold bg-care-purple px-7 py-3 font-[var(--font-manrope)] text-[14px] font-semibold text-white shadow-[0_8px_24px_rgba(45,28,70,.18)] hover:bg-[#603780] sm:mt-10.5">Get Appointment</button>
       </div>
     </section>
   );

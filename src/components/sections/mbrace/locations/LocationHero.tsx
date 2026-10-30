@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import MbraceHeader from "@/components/layout/MbraceHeader";
 import type { HomeData } from "@/lib/queries";
 import type { BookAppointment } from "../types";
@@ -17,34 +16,6 @@ type Props = {
   hospital: HomeData["hospital"];
   content?: ApprovedLocationContent | null;
 };
-
-function HeroSelect({ label, options }: { label: string; options: string[] }) {
-  const [value, setValue] = useState("");
-
-  return (
-    <details className="group relative h-[47px]">
-      <summary className="flex h-[47px] list-none items-center justify-between rounded-[6px] border border-[#bfc1c8] bg-white px-4 text-[13px] text-[#5e6178] shadow-[0_1px_3px_rgba(31,43,112,.08)] transition-[border-color,box-shadow] marker:hidden hover:border-care-purple group-open:border-care-navy group-open:ring-2 group-open:ring-care-navy/15 [&::-webkit-details-marker]:hidden">
-        <span>{value || label}</span>
-        <span className="ml-3 block size-2.5 rotate-45 border-b-2 border-r-2 border-care-navy transition-transform group-open:rotate-[225deg]" />
-      </summary>
-      <div className="absolute bottom-[calc(100%_+_8px)] left-0 z-30 w-full overflow-hidden rounded-[10px] border border-[#d9dee8] bg-white p-1.5 shadow-[0_16px_35px_rgba(31,43,112,.2)]">
-        {options.map(option => (
-          <button
-            key={option}
-            type="button"
-            className={`block w-full rounded-[7px] px-3 py-2.5 text-left text-[13px] transition-colors ${value === option ? "bg-care-purple text-white" : "text-[#343333] hover:bg-[#f3e9fc] hover:text-care-purple"}`}
-            onClick={event => {
-              setValue(option);
-              event.currentTarget.closest("details")?.removeAttribute("open");
-            }}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    </details>
-  );
-}
 
 export default function LocationHero({ name, heroImage, book, careCategories, hospital, content }: Props) {
   const nameParts = name.split(" ");
@@ -70,12 +41,7 @@ export default function LocationHero({ name, heroImage, book, careCategories, ho
             <p className="text-[20px] font-bold leading-none text-[#343333]">Request Appointment</p>
             <span className="flex size-8 items-center justify-center rounded-full bg-white/70 text-[18px] text-care-purple">✚</span>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:ml-7 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto] lg:gap-4 [&_input]:h-[47px] [&_input]:rounded-[6px] [&_input]:border [&_input]:border-[#bfc1c8] [&_input]:bg-white [&_input]:px-4 [&_input]:text-[13px]">
-            <HeroSelect label="Select Speciality" options={careCategories} />
-            <HeroSelect label="Select Location" options={[name]} />
-            <input type="date" aria-label="Appointment date" />
-            <button type="button" onClick={() => book()} className="min-h-[49px] rounded-[6px] border border-care-gold bg-care-purple px-6 text-[14px] font-semibold text-white hover:bg-[#603780]">Get Appointment</button>
-          </div>
+          <button type="button" onClick={() => book()} className="min-h-[49px] rounded-[6px] border border-care-gold bg-care-purple px-7 text-[14px] font-semibold text-white shadow-[0_8px_24px_rgba(45,28,70,.18)] hover:bg-[#603780] lg:ml-7">Get Appointment</button>
         </div>
       </div>
     </section>

@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import MbraceHeader from "@/components/layout/MbraceHeader";
-import { CalendarIcon, ChevronDownIcon } from "@/components/icons/icons";
-import { locations } from "../content";
 import type { HomeData } from "@/lib/queries";
 import type { BookAppointment } from "../types";
 import { aboutHero } from "./content";
@@ -22,7 +20,7 @@ type Props = {
   setBookingDate: (value: string) => void;
 };
 
-export default function AboutHero({ book, careCategories, hospital, bookingService, setBookingService, bookingLocation, setBookingLocation, bookingDate, setBookingDate }: Props) {
+export default function AboutHero({ book, careCategories, hospital }: Props) {
 
   return (
     <section className="mb-hero relative m-3 min-h-auto overflow-hidden rounded-[20px] bg-[var(--care-gradient)] sm:min-h-185 sm:rounded-[30px] lg:mb-0 lg:ml-8 lg:mr-8 lg:mt-4.5 lg:min-h-180 2xl:ml-auto 2xl:mr-auto 2xl:max-w-384 xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none" id="about-hero">
@@ -35,24 +33,7 @@ export default function AboutHero({ book, careCategories, hospital, bookingServi
         <h1 className="mt-5.5 text-[29px] font-normal leading-[1.4] tracking-[-1px] text-[#343333] sm:mt-6 sm:text-[39px] sm:leading-[1.5] xl:text-[46px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[#734a99]">{aboutHero.headingPlain} <strong>{aboutHero.headingHighlight}</strong>
         </h1>
         <p className="mb-hero-description max-w-120 lg:max-w-[565px] mt-6 text-[#565555] italic leading-[1.55] text-[14px] sm:text-[16px]">{aboutHero.description}</p>
-        <div className={"mb-quick-booking mt-8 max-w-262.5 sm:mt-10.5 [&>div]:grid [&>div]:grid-cols-[1fr] [&>div]:gap-2.5 sm:[&>div]:grid-cols-[1fr_1fr] sm:[&>div]:gap-4.5 lg:[&>div]:grid-cols-[1fr_1fr_1fr_auto] [&_input]:min-h-12 [&_input]:min-w-0 [&_input]:rounded-[4px] [&_input]:border [&_input]:border-[#d8d3dd] [&_input]:bg-white [&_input]:px-4 [&_input]:py-2.5 [&_input]:text-[16px] [&_input]:text-[#6a6969] md:[&_input]:text-[13px] [&_select]:min-h-12 [&_select]:min-w-0 [&_select]:rounded-[4px] [&_select]:border [&_select]:border-[#d8d3dd] [&_select]:bg-white [&_select]:px-4 [&_select]:py-2.5 [&_select]:text-[16px] [&_select]:text-[#6a6969] md:[&_select]:text-[13px]"}>
-          <h3 className="mb-4.5 text-[20px] font-bold text-[#393939] before:mb-[5px] before:block before:h-px before:w-[255px] before:bg-[#764b9e80] before:content-[''] sm:text-[23px]">Request Appointment <CalendarIcon className="mb-inline-icon w-6.5 h-6.5 inline-block ml-3 [vertical-align:middle]" />
-          </h3>
-          <div>
-            <div className="relative">
-              <select className="w-full appearance-none pr-12!" aria-label="Select speciality" value={bookingService} onChange={e => setBookingService(e.target.value)}>
-                <option value="" disabled>Select Speciality</option>{careCategories.map(x => <option key={x}>{x}</option>)}</select>
-              <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
-            </div>
-            <div className="relative">
-              <select className="w-full appearance-none pr-12!" aria-label="Select location" value={bookingLocation} onChange={e => setBookingLocation(e.target.value)}>
-                <option value="" disabled>Select Location</option>{locations.map(x => <option key={x}>{x}</option>)}</select>
-              <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-care-copy" />
-            </div>
-            <input className="pr-12! [color-scheme:light]" aria-label="Appointment date" type="date" min={new Date().toISOString().split("T")[0]} value={bookingDate} onChange={e => setBookingDate(e.target.value)} />
-            <button type="button" onClick={() => book()} className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] border border-care-gold">Get Appointment</button>
-          </div>
-        </div>
+        <button type="button" onClick={() => book()} className="mb-button mt-8 inline-flex min-h-12 items-center justify-center rounded-[5px] border border-care-gold bg-care-purple px-7 py-3 text-[14px] font-semibold text-white shadow-[0_8px_24px_rgba(45,28,70,.18)] hover:bg-[#603780] sm:mt-10.5">Get Appointment</button>
       </div>
     </section>
   );
