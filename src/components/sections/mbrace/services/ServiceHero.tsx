@@ -43,14 +43,14 @@ export default function ServiceHero({ categoryLabel, name, slug, description, he
           {heroCopy?.tagline && <p className="mt-4 text-[15px] font-bold text-care-purple sm:text-[17px]">{heroCopy.tagline}</p>}
           <p className="mt-4 text-[12px] font-bold text-care-purple">LB Nagar | King Koti</p>
           <p className="mt-5 max-w-[590px] text-[13px] leading-[1.65] text-[#56516b]">{isGynecology ? "Fibroids, PCOS, ovarian cysts, endometriosis and infections can share similar symptoms. At M’Brace, gynaecologists confirm the diagnosis with examination, ultrasound and blood tests, then explain medical and surgical options in plain words." : heroCopy?.description || description}</p>
-          <button type="button" onClick={() => book(name)} className="mt-6 self-start text-[13px] font-bold text-[#211d49] underline decoration-care-gold decoration-2 underline-offset-8">{isGynecology ? "Book a Gynaecology Consultation" : heroCopy ? heroCopy.cta : "Request Appointment"}&nbsp; ↗</button>
+          <button
+            type="button"
+            onClick={() => book(name)}
+            className="mt-6 inline-flex min-h-12 self-start items-center justify-center rounded-[6px] bg-care-purple px-7 text-[13px] font-bold text-white shadow-[0_8px_24px_rgba(45,28,70,.18)] hover:bg-[#603780]"
+          >
+            {isGynecology ? "Book a Gynaecology Consultation" : heroCopy ? heroCopy.cta : "Book Appointment"}
+          </button>
         </div>
-      </div>
-      <div className="relative z-20 mx-5 mb-6 grid gap-2 rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(45,28,70,.1)] sm:grid-cols-[1fr_1fr_1fr_auto] lg:absolute lg:bottom-6 lg:left-[7%] lg:mx-0 lg:mb-0 lg:w-[58%]">
-        <label><span className="sr-only">Select specialty</span><select defaultValue="" className="h-11 w-full rounded-[5px] border border-[#e5ddec] bg-white px-3 text-[11px] text-[#726c7c]"><option value="" disabled>Select Specialty</option><option>{name}</option></select></label>
-        <label><span className="sr-only">Select location</span><select defaultValue="" className="h-11 w-full rounded-[5px] border border-[#e5ddec] bg-white px-3 text-[11px] text-[#726c7c]"><option value="" disabled>Select Location</option><option>LB Nagar</option><option>King Koti</option></select></label>
-        <label><span className="sr-only">Appointment date</span><input type="date" className="h-11 w-full rounded-[5px] border border-[#e5ddec] bg-white px-3 text-[11px] text-[#726c7c]" /></label>
-        <button type="button" onClick={() => book(name)} className="h-11 rounded-[5px] bg-care-purple px-6 text-[11px] font-bold text-white hover:bg-[#603780]">Book Appointment</button>
       </div>
     </section>
   );
