@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getCareCategoryContent("womens-care");
-  return { title: { absolute: content.metaTitle || pageMetadata.womensCare.title }, description: content.metaDescription || pageMetadata.womensCare.description };
+  return { title: { absolute: content.metaTitle || pageMetadata.womensCare.title }, description: content.metaDescription || pageMetadata.womensCare.description, alternates: { canonical: "/womens-care" } };
 }
 
 export default async function WomensCarePage() {

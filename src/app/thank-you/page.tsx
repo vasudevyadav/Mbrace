@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Thank You",
   description: "Your appointment request has been received.",
   robots: { index: false, follow: true },
+  alternates: { canonical: "/thank-you" },
 };
 
 export default async function ThankYouPage() {
