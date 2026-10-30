@@ -9,7 +9,7 @@ const clinicName = "M’Brace by Kamineni Hospitals";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("terms");
-  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription };
+  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription, alternates: { canonical: "/terms" } };
 }
 
 export default async function TermsPage() {

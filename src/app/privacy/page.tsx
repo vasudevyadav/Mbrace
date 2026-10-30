@@ -9,7 +9,7 @@ const clinicName = "M’Brace by Kamineni Hospitals";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("privacy");
-  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription };
+  return { title: { absolute: seo.metaTitle }, description: seo.metaDescription, alternates: { canonical: "/privacy" } };
 }
 
 export default async function PrivacyPage() {

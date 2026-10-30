@@ -12,6 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: doctor.metaTitle || doctor.name,
     description: doctor.metaDescription || doctor.designation || doctor.role,
+    alternates: { canonical: `/doctors/${slug}` },
   };
 }
 

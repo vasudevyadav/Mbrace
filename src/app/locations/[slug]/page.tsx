@@ -16,6 +16,7 @@ export async function generateMetadata({
   return {
     title: location.metaTitle || `M'Brace Hospital, ${location.name}`,
     description: location.metaDescription || location.introParagraph || location.address,
+    alternates: { canonical: `/locations/${slug}` },
   };
 }
 
