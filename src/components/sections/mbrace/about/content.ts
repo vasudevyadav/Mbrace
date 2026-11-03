@@ -27,7 +27,7 @@ export const missionTabs: MissionTab[] = [
     tabLabel: "Our Vision",
     title: "Our Vision",
     subtitle: "A Name Families Rely On",
-    body: "We aim to be the women and child hospital in Hyderabad that families turn to first, known for clinical standards they can depend on and care that treats every patient with dignity.",
+    body: "We aim to give families in Hyderabad women’s and children’s care they can depend on, with clinical standards that can depend on and care that treats every patient with dignity.",
     image: "/images/about/happy-indian-couple-newborn.webp",
     imageAlt: "Happy Indian parents holding their newborn baby",
   },
@@ -71,7 +71,7 @@ export const aboutFaqs = [
   },
   {
     question: "Is M'Brace NABH accredited?",
-    answer: "M'Brace is backed by NABH- and NABL-accredited Kamineni Hospitals, which has also been recognised as Best Multispeciality Hospital – South Region. These credentials belong to Kamineni Hospitals, the parent organisation that supports M'Brace's clinical care.",
+    answer: "M'Brace is backed by NABH- and NABL-accredited Kamineni Hospitals, which received the Best Multispeciality Hospital – South Region. These credentials belong to Kamineni Hospitals, the parent organisation that supports M'Brace's clinical care.",
   },
   {
     question: "What happens if my pregnancy or my child's condition needs more specialised care?",
