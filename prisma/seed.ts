@@ -6,6 +6,7 @@ import { approvedCareFaqs, approvedServiceGroups } from "../src/components/secti
 import { serviceDetailBlocks } from "../src/components/sections/mbrace/services/serviceDetailBlocks";
 import { serviceHeroImages } from "../src/components/sections/mbrace/services/serviceImages";
 import { approvedDoctors } from "../src/components/sections/mbrace/doctors/doctorContent";
+import { approvedLocationContent } from "../src/components/sections/mbrace/locations/locationContent";
 
 const prisma = new PrismaClient();
 
@@ -150,7 +151,13 @@ async function main() {
       reachIntro: "At Inner Ring Road, Suryodaya Colony, Bahadurguda, Hyderabad – 500068. Easily accessible from LB Nagar, Dilsukhnagar, Saroor Nagar, Hayathnagar and surrounding areas.",
       order: 0,
     },
-    update: {},
+    update: {
+      name: approvedLocationContent["lb-nagar"].name,
+      phone: approvedLocationContent["lb-nagar"].phone,
+      phoneHref: approvedLocationContent["lb-nagar"].phoneHref,
+      introParagraph: approvedLocationContent["lb-nagar"].about.paragraphs.join("\n\n"),
+      reachIntro: approvedLocationContent["lb-nagar"].reach.body,
+    },
   });
 
   const kingKotiLocation = await prisma.location.upsert({
@@ -173,7 +180,13 @@ async function main() {
       reachIntro: "Centrally located in King Koti, Hyderabad — easily reachable from Abids, Koti and Nampally.",
       order: 1,
     },
-    update: {},
+    update: {
+      name: approvedLocationContent["king-koti"].name,
+      phone: approvedLocationContent["king-koti"].phone,
+      phoneHref: approvedLocationContent["king-koti"].phoneHref,
+      introParagraph: approvedLocationContent["king-koti"].about.paragraphs.join("\n\n"),
+      reachIntro: approvedLocationContent["king-koti"].reach.body,
+    },
   });
 
   const locationHighlights: Record<number, { section: string; title: string; description: string }[]> = {
@@ -237,6 +250,9 @@ async function main() {
       }
     }
   }
+
+  const approvedDoctorSlugs = approvedDoctors.map(doctor => doctor.slug);
+  await prisma.doctor.deleteMany({ where: { slug: { notIn: approvedDoctorSlugs } } });
 
   for (const doctor of approvedDoctors) {
     const { id: _id, ...data } = doctor;

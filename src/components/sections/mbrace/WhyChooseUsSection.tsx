@@ -61,12 +61,12 @@ export default function WhyChooseUsSection({ stats }: Props) {
     <section id="why-us" className="bg-white py-12 text-care-copy md:py-15 [&_.mb-heading_h2]:text-care-navy">
       <div className="mx-auto w-full max-w-[1194px] px-5 md:px-6 lg:px-10 xl:px-8">
         <div className="mb-6.5 grid items-center gap-4 md:mb-7.5 md:grid-cols-[1.08fr_1fr] md:gap-7.5 lg:gap-10 xl:gap-[75px] [&_.mb-heading]:mb-0">
-          <Heading label="Why Choose M’Brace">
-            One Trusted Destination for
+          <Heading label="Why Choose Us">
+            Backed by NABH &amp; NABL
             <br />
-            <em>Women, Mothers</em> &amp; <em>Children</em>
+            <em>Accredited Hospital in Hyderabad</em>
           </Heading>
-          <p className="font-semibold leading-[1.65]">At M&apos;Brace, you get the focus of a specialist women&apos;s health and fertility hospital in Hyderabad and the resources of a multispeciality one. We are backed by Kamineni Hospitals, recognised as Best Multispeciality Hospital – South Region.</p>
+          <p className="font-semibold leading-[1.65]">At M&apos;Brace, you get the focus of a specialist women&apos;s health and fertility hospital in Hyderabad and the resources of a multispeciality one. We are backed by Kamineni Hospitals, which received the Best Multispeciality Hospital – South Region award.</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:gap-5 xl:gap-6 [&_.mb-photo]:min-h-47.5 [&_.mb-photo]:rounded-[14px] md:[&_.mb-photo]:min-h-55 lg:[&_.mb-photo]:min-h-[245px]">
