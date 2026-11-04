@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { HomeData } from "@/lib/queries";
 import { directorMessage } from "./content";
 
@@ -20,7 +21,7 @@ export default function DirectorMessage({ featuredDoctor }: Props) {
             {directorMessage.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
           </div>
           <p className="text-care-navy font-bold text-[18px] mt-1">{directorMessage.subheading}</p>
-          <a href="#team" className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] w-fit">{directorMessage.cta}</a>
+          <Link href="/doctors" className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[5px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780] w-fit">{directorMessage.cta}</Link>
         </div>
         {featuredDoctor && <div className="relative rounded-[32px] overflow-hidden bg-[#fbfbfb] shadow-[0_0_13.4px_2px_rgba(0,0,0,0.06)] min-h-90 lg:min-h-140">
           <Image src={featuredDoctor.image} alt={featuredDoctor.name} fill sizes="(max-width: 1000px) 100vw, 45vw" className="object-cover" />

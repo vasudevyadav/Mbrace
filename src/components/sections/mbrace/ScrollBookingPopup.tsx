@@ -7,6 +7,7 @@ import { careCategories } from "@/lib/mbrace-home";
 import { locations } from "./content";
 import { ChevronDownIcon } from "@/components/icons/icons";
 import { BOOKING_POPUP_EVENT, type BookingPopupDetail } from "@/lib/bookingPopup";
+import { getLocalDateInputValue } from "@/lib/date";
 
 const SESSION_KEY = "mb-scroll-booking-popup-shown";
 
@@ -121,7 +122,7 @@ export default function ScrollBookingPopup() {
           </label>
           <label>
             <span className="sr-only">Email Address</span>
-            <input name="email" type="email" autoComplete="email" placeholder="Email Address" required />
+            <input name="email" type="email" autoComplete="email" placeholder="Email Address (optional)" />
           </label>
           <label>
             <span className="sr-only">Phone Number</span>
@@ -129,7 +130,7 @@ export default function ScrollBookingPopup() {
           </label>
           <label>
             <span className="sr-only">Preferred Date</span>
-            <input className="[color-scheme:light]" name="preferredDate" type="date" min={new Date().toISOString().split("T")[0]} aria-label="Preferred date" required />
+            <input className="[color-scheme:light]" name="preferredDate" type="date" min={getLocalDateInputValue()} aria-label="Preferred date" required />
           </label>
           <label className="relative block">
             <span className="sr-only">Select Service</span>

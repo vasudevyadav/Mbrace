@@ -60,7 +60,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
     heroHeading: "Fertility, Pregnancy & Newborn Specialists Near You in LB Nagar",
     about: {
       eyebrow: "About M’Brace | LB Nagar",
-      heading: "Backed by 34+ Years Of Healthcare Experience",
+      heading: "Backed by 35+ Years Of Healthcare Experience",
       paragraphs: [
         "M’Brace by Kamineni Hospitals is a hospital for women, mothers, newborns and children. We bring obstetrics, gynaecology, fertility, embryology, neonatology and paediatrics together, so a woman who starts with fertility care can continue through pregnancy, delivery and her baby’s care at the same hospital.",
         "Our team includes obstetricians, laparoscopic and robotic surgeons, infertility specialists, an embryologist, paediatricians and neonatologists. Treatment is planned after evaluation, and fertility assessment includes both partners.",
@@ -90,7 +90,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       heading: "Why Families in LB Nagar Trust M’Brace for Women & Child Care?",
       body: "For families in LB Nagar, Kothapet and Vanasthalipuram, specialist pregnancy, newborn and child care is available within the neighbourhood, not across the city.",
       stats: [
-        { value: "34+", label: "Years of Healthcare Experience" },
+        { value: "35+", label: "Years of Healthcare Experience" },
         { value: "Over 1,10,000", label: "Babies Delivered" },
         { value: "Lakhs of", label: "Happy Families" },
         { value: "24/7", label: "Emergency Care in LB Nagar" },
@@ -207,7 +207,7 @@ export const approvedLocationContent: Record<string, ApprovedLocationContent> = 
       heading: "What Families in Central Hyderabad Trust M’Brace at King Koti?",
       body: "For families in Abids, Himayatnagar and Narayanguda, and for those arriving at Nampally station, specialist pregnancy and child care is about a kilometre away.",
       stats: [
-        { value: "34+", label: "Years of Healthcare Experience" },
+        { value: "35+", label: "Years of Healthcare Experience" },
         { value: "Over 1,10,000", label: "Babies Delivered" },
         { value: "Lakhs of", label: "Happy Families" },
         { value: "24/7", label: "Emergency Care in LB Nagar" },

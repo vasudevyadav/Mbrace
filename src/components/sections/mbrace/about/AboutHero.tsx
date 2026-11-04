@@ -28,7 +28,7 @@ export default function AboutHero({ book, careCategories, hospital }: Props) {
       <MbraceHeader onBook={() => book()} careCategories={careCategories} hospital={hospital} basePath="/" />
 
       <div className="mb-hero-content relative z-[1] pt-8 pr-5.5 pb-8 pl-5.5 sm:pt-10.5 sm:pr-[5%] sm:pb-10.5 sm:pl-[5%] lg:pt-16 xl:pt-12.5 lg:pr-[7%] lg:pb-9.5 lg:pl-[7%] 2xl:pl-[8%]">
-        <p className="mb-care-badge inline-block rounded-[4px] bg-care-purple text-white pt-[3px] pr-2 pb-[3px] pl-2 text-[14px] sm:text-[20px]">Backed by 34+ Years of Care
+        <p className="mb-care-badge inline-block rounded-[4px] bg-care-purple text-white pt-[3px] pr-2 pb-[3px] pl-2 text-[14px] sm:text-[20px]">Backed by 35+ Years of Care
         </p>
         <h1 className="mt-5.5 text-[29px] font-normal leading-[1.4] tracking-[-1px] text-[#343333] sm:mt-6 sm:text-[39px] sm:leading-[1.5] xl:text-[46px] [&_strong]:block [&_strong]:font-extrabold [&_strong]:text-[#734a99]">{aboutHero.headingPlain} <strong>{aboutHero.headingHighlight}</strong>
         </h1>

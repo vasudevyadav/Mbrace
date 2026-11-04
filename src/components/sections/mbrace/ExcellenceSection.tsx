@@ -3,6 +3,7 @@
 import Photo from "./Photo";
 import Heading from "./Heading";
 import { CheckIcon } from "@/components/icons/icons";
+import Link from "next/link";
 
 export default function ExcellenceSection() {
 
@@ -16,7 +17,7 @@ export default function ExcellenceSection() {
           <ul className="mb-checks mb-6 mt-6 grid list-none gap-2.5 text-[16px] font-semibold text-care-navy [&_svg]:h-[19px] [&_svg]:w-[19px] [&_svg]:shrink-0">{["Sterile Theatres & Diagnostics", "24x7 Emergency & Transport", "High-End Neonatal Ventilation", "Comprehensive Lab Support"].map(x => <li className="flex items-center gap-[7px]" key={x}>
             <CheckIcon />{x}</li>)}</ul>
           <h3 className="mb-5 mt-6 text-[18px] font-bold text-care-navy">Personalized care for every patient</h3>
-          <a className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[6px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" href="#team">Explore More</a>
+          <Link className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[6px] [border:0] text-[13px] font-semibold no-underline [&:hover]:bg-[#603780]" href="/about-us">Explore More</Link>
         </div>
         <Photo n={5} alt="A mother kisses her smiling young daughter" />
       </div>

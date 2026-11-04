@@ -25,7 +25,7 @@ export default function HeroSection({ book, careCategories, hospital, hero, stat
   return (
     <section className="mb-hero relative m-3 min-h-auto overflow-hidden rounded-[20px] bg-[var(--care-gradient)] sm:min-h-185 sm:rounded-[30px] lg:mb-0 lg:ml-8 lg:mr-8 lg:mt-4.5 lg:min-h-180 2xl:ml-auto 2xl:mr-auto 2xl:max-w-384 xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none" id="home">
       <Image src={asset(0)} alt="A mother cradles her newborn baby" fill priority sizes="calc(100vw - 24px)" className="mb-hero-photo object-cover z-[0] object-[65%_center] opacity-[.32] sm:object-[60%_center] sm:opacity-[.6] lg:hidden" />
-      <Image src="/images/figma/home-hero-bg-alt.png" alt="A mother cradles her newborn baby" fill priority sizes="(min-width: 1600px) 1475px, calc(100vw - 64px)" className="mb-hero-photo hidden lg:block object-cover z-[0] object-center opacity-100" />
+      <Image src="/images/figma/home-hero-bg-alt.webp" alt="A mother cradles her newborn baby" fill priority sizes="(min-width: 1600px) 1475px, calc(100vw - 64px)" className="mb-hero-photo hidden lg:block object-cover z-[0] object-center opacity-100" />
       <MbraceHeader onBook={() => book()} careCategories={careCategories} hospital={hospital} />
 
       <div className="mb-hero-content relative z-[1] pt-8 pr-5.5 pb-8 pl-5.5 sm:pt-10.5 sm:pr-[5%] sm:pb-10.5 sm:pl-[5%] lg:pt-16 xl:pt-12.5 lg:pr-[7%] lg:pb-9.5 lg:pl-[7%] 2xl:pl-[8%]">

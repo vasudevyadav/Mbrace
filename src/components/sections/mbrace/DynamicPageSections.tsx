@@ -10,7 +10,7 @@ type PathwayBlock = Extract<BlogBlock, { kind: "section" }>;
 
 const processIcons = ["/icon-3.png", "/healthicons_medical-records-outline.png", "/gridicons_lo.png", "/Icon BG.png"];
 const concernIcons = ["/Vector.png", "/healthicons_doctor-female.png", "/healthicons_medical-records-outline.png", "/healthicons_medical-records-o.png", "/Icon BG.png", "/healthicons_syringe.png", "/healthicons_child-care.png", "/gridicons_lo.png"];
-const toolImages = ["/images/figma/asset-21.webp", "/images/figma/asset-19.webp", "/images/figma/asset-20.webp", "/images/figma/location-services-alt.png"];
+const toolImages = ["/images/figma/asset-21.webp", "/images/figma/asset-19.webp", "/images/figma/asset-20.webp", "/images/figma/location-services-alt.webp"];
 
 function splitBody(body: string) {
   const [intro = "", ...notes] = body.split(/\n+/).filter(Boolean);
@@ -120,7 +120,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", sectionIma
   const concernColumns = concerns
     ? [concerns.items.filter((_, index) => index % 2 === 0), concerns.items.filter((_, index) => index % 2 === 1)]
     : [];
-  const supportingImage = sectionImage || heroImage || "/services-details-banner.png";
+  const supportingImage = sectionImage || heroImage || "/services-details-banner.webp";
   const treatmentImage = pathwayImage || supportingImage;
 
   if (!serviceName) return <LegacyDynamicBlocks blocks={blocks} />;
@@ -159,7 +159,7 @@ export default function DynamicPageSections({ blocks, heroImage = "", sectionIma
             </div>
             <div className="relative h-[350px] overflow-visible rounded-[20px] lg:h-[455px]">
               <div className="absolute inset-0 overflow-hidden rounded-[24px]"><Image src={supportingImage} alt={`${serviceName} consultation at M'Brace`} fill sizes="(max-width:1023px) 100vw, 520px" className="object-cover object-center" /></div>
-              <span className="absolute -bottom-4 left-3 flex size-24 flex-col items-center justify-center rounded-full border-[5px] border-[#eee7f5] bg-care-gold text-center text-[22px] font-extrabold leading-none text-[#28262c] shadow-lg lg:-bottom-6 lg:-left-12 lg:size-[132px] lg:text-[34px]">34+<small className="mt-2 block text-[10px] font-medium leading-[1.25] lg:text-[12px]">YEARS OF<br />CARE</small></span>
+              <span className="absolute -bottom-4 left-3 flex size-24 flex-col items-center justify-center rounded-full border-[5px] border-[#eee7f5] bg-care-gold text-center text-[22px] font-extrabold leading-none text-[#28262c] shadow-lg lg:-bottom-6 lg:-left-12 lg:size-[132px] lg:text-[34px]">35+<small className="mt-2 block text-[10px] font-medium leading-[1.25] lg:text-[12px]">YEARS OF<br />CARE</small></span>
             </div>
           </div>
         </section>

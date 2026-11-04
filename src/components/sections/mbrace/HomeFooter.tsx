@@ -266,8 +266,8 @@ export default function HomeFooter({
         <div className="mb-footer-bottom flex items-center pt-[25px] pb-[25px] flex-wrap [justify-content:start] gap-[15px] text-[10px] md:justify-between md:gap-5 md:text-[12px] [&_a:hover]:underline [&_a]:[overflow-wrap:anywhere]">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 opacity-65">
             <p>© 2026 M’Brace. All rights reserved.</p>
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Terms &amp; Conditions</a>
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms &amp; Conditions</Link>
             <a href={`mailto:${hospital.email}`}>{hospital.email}</a>
           </div>
           {socialLinks.length > 0 && (

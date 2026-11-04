@@ -58,7 +58,7 @@ export default function ServiceDetailClient({ service, data }: { service: Servic
   // The service record is admin-managed, so an uploaded/selected admin image
   // must win. Named local banners remain the reliable fallback for offline or
   // newly seeded pages.
-  const heroImage = service.heroImage || serviceHeroImages[service.slug] || "/services-details-banner.png";
+  const heroImage = service.heroImage || serviceHeroImages[service.slug] || "/services-details-banner.webp";
   const contentImage = serviceContentImages[service.slug] || heroImage;
   const pathwayImage = servicePathwayImages[service.slug] || contentImage;
   const isGynecology = service.slug === "gynaecology";
