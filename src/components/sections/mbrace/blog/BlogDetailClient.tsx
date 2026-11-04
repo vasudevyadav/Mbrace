@@ -31,7 +31,7 @@ export default function BlogDetailClient({ article, relatedArticles, data }: { a
   return (
     <div className="mbrace-home bg-white pt-[var(--care-header-height)] font-sans text-[15px] leading-[1.6] text-care-copy [--care-header-height:72px] sm:[--care-header-height:80px] xl:pt-0 xl:[--care-header-height:96px] [&_*]:box-border [&_button]:cursor-pointer [&_em]:not-italic [&_em]:font-bold [&_em]:text-care-gold [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:[outline:3px_solid_var(--color-care-navy)]">
       <section className="relative m-3 mb-4 min-h-[370px] overflow-hidden rounded-[20px] bg-[linear-gradient(110deg,#fff3df,#f3e9fc)] sm:mb-5 sm:rounded-[30px] lg:mx-8 lg:mb-8 lg:mt-4.5 2xl:mx-auto 2xl:max-w-[1480px] xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none">
-        <Image src="/blog-banner.png" alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image src="/blog-banner.webp" alt="" fill priority sizes="100vw" className="object-cover" />
         <MbraceHeader onBook={book} careCategories={careCategories} hospital={hospital} basePath="/" />
         <div className="relative z-[1] mx-auto flex max-w-[900px] flex-col items-center px-5 pb-12 pt-28 text-center xl:pb-11 xl:pt-8">
           <span className="rounded-full bg-care-gold px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[.04em] text-white">Mbrace Health Blog</span>

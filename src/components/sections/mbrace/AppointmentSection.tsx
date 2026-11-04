@@ -7,6 +7,7 @@ import MbraceReelVideo, { mbraceInstagramUrl } from "./MbraceReelVideo";
 import { locations } from "./content";
 import type { HomeData } from "@/lib/queries";
 import type { AppointmentStatus } from "./types";
+import { getLocalDateInputValue } from "@/lib/date";
 
 type Props = {
   status: AppointmentStatus;
@@ -57,7 +58,7 @@ export default function AppointmentSection({ status, formRef, submitAppointment,
             </label>
             <label>
               <span className="sr-only">Email Address</span>
-              <input name="email" type="email" autoComplete="email" placeholder="Email Address" value={bookingEmail} onChange={e => setBookingEmail(e.target.value)} required />
+              <input name="email" type="email" autoComplete="email" placeholder="Email Address (optional)" value={bookingEmail} onChange={e => setBookingEmail(e.target.value)} />
             </label>
             <label>
               <span className="sr-only">Phone Number</span>
@@ -65,7 +66,7 @@ export default function AppointmentSection({ status, formRef, submitAppointment,
             </label>
             <label>
               <span className="sr-only">Preferred Date</span>
-              <input className="pr-12! [color-scheme:light]" name="preferredDate" type="date" min={new Date().toISOString().split("T")[0]} aria-label="Preferred date" value={bookingDate} onChange={e => setBookingDate(e.target.value)} required />
+              <input className="pr-12! [color-scheme:light]" name="preferredDate" type="date" min={getLocalDateInputValue()} aria-label="Preferred date" value={bookingDate} onChange={e => setBookingDate(e.target.value)} required />
             </label>
             <label className="relative block">
               <span className="sr-only">Select Service</span>

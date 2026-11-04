@@ -13,7 +13,7 @@ function EnvelopeIcon({ className }: { className?: string }) {
 export default function CareWhyChooseSection({ heading, highlight, body }: { heading: string; highlight: string; body: string }) {
   const cards = [
     { icon: StethoscopeIcon, title: "Lakhs of Happy Families", body: "Families trust us from routine check-ups through to their children's health." },
-    { icon: ShieldIcon, title: "34+ Years of Expertise", body: "Specialist consultants across gynaecology, obstetrics, paediatrics, neonatology and fertility care." },
+    { icon: ShieldIcon, title: "35+ Years of Expertise", body: "Specialist consultants across gynaecology, obstetrics, paediatrics, neonatology and fertility care." },
     { icon: CalendarIcon, title: "Easy Appointment Booking", body: "Located at LB Nagar & King Koti, call +91 93906 34074. Open 24 hours, 7 days a week." },
     { icon: EnvelopeIcon, title: "Over 1,10,000 Babies Delivered", body: "Babies delivered by our teams, with newborn ICU care on hand." },
   ];
@@ -33,7 +33,7 @@ export default function CareWhyChooseSection({ heading, highlight, body }: { hea
             </div>
         </div>
         <div className="relative min-h-[620px] lg:min-h-0">
-            <Image src="/images/figma/location-services-alt.png" alt="" fill sizes="(max-width: 1023px) 100vw, 55vw" className="object-cover object-center" />
+            <Image src="/images/figma/location-services-alt.webp" alt="" fill sizes="(max-width: 1023px) 100vw, 55vw" className="object-cover object-center" />
             <div className="absolute inset-x-4 inset-y-10 grid grid-cols-2 gap-2 sm:gap-3 lg:bottom-[67px] lg:left-[-53px] lg:right-[5%] lg:top-[67px] lg:gap-[14px]">
               {cards.map(card => (
                 <div key={card.title} className="group flex min-h-[188px] flex-col justify-center rounded-[14px] bg-white p-5 text-[#211d49] shadow-[0_2px_6px_rgba(31,43,112,0.08)] transition-colors duration-300 hover:[background:linear-gradient(120deg,#fbad31_0%,#d88a6d_49%,#764b9e_100%)] lg:p-[21px]">

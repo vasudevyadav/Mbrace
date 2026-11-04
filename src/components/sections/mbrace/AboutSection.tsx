@@ -5,6 +5,7 @@ import Heading from "./Heading";
 import Counter from "./Counter";
 import { CheckIcon } from "@/components/icons/icons";
 import type { HomeData } from "@/lib/queries";
+import Link from "next/link";
 
 type Props = {
   stats: HomeData["stats"];
@@ -25,7 +26,7 @@ export default function AboutSection({ stats }: Props) {
         <p className="mt-4 leading-[1.65]">During pregnancy, 4D ultrasound and the Fetal Medicine Unit help doctors follow a baby&apos;s development closely. Labour and birth take place in advanced LDR rooms, with sterile operation theatres ready if surgery is needed. Newborns who need extra support are cared for in the NICU, and children who need intensive care in the PICU. Fertility treatment is supported by advanced embryology.</p>
         <ul className="mb-checks mb-6 mt-6 grid list-none gap-2.5 text-[15px] font-semibold text-care-navy [&_svg]:h-[19px] [&_svg]:w-[19px] [&_svg]:shrink-0">{["Trusted Multispeciality Care", "Experienced Medical Teams", "Emergency & Critical Care Backup"].map(x => <li className="flex items-center gap-[7px]" key={x}>
           <CheckIcon />{x}</li>)}</ul>
-        <a className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[6px] [border:0] text-[14px] font-semibold no-underline [&:hover]:bg-[#603780]" href="#excellence">Know More</a>
+        <Link className="mb-button inline-flex items-center justify-center min-h-11.5 pt-3 pr-6 pb-3 pl-6 bg-care-purple text-white rounded-[6px] [border:0] text-[14px] font-semibold no-underline [&:hover]:bg-[#603780]" href="/about-us">Know More</Link>
         <div className="mb-years static w-25 h-25 lg:absolute lg:right-0 lg:bottom-0 rounded-[50%] bg-care-gold [border:5px_double_white] [outline:2px_solid_var(--color-care-gold)] flex items-center justify-center flex-col text-white text-center md:w-27.5 md:h-27.5 xl:w-31.5 xl:h-31.5 mt-[25px] [&_strong]:text-[33px] md:[&_strong]:text-[40px] [&_strong]:leading-[1.15] [&_span]:text-[11px] md:[&_span]:text-[13px]">
           <Counter value={stats.yearsOfCare.value} />
           <span>YEARS OF CARE</span>

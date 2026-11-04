@@ -3,7 +3,6 @@ import { Manrope, Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { siteOrigin } from "@/lib/site";
-import MotionProvider from "@/components/providers/MotionProvider";
 import ScrollBookingPopup from "@/components/sections/mbrace/ScrollBookingPopup";
 
 const poppins = Poppins({
@@ -43,16 +42,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${poppins.variable} ${manrope.variable} h-full antialiased`}>
       <body className="min-h-full bg-white">
-        <MotionProvider>
-          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
-          <main id="main-content">{children}</main>
-          <ScrollBookingPopup />
-        </MotionProvider>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
+        <main id="main-content">{children}</main>
+        <ScrollBookingPopup />
         <Script
           src="https://www.googletagmanager.com/gtm.js?id=GTM-MD783GX4"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-tag-manager-init" strategy="afterInteractive">
+        <Script id="google-tag-manager-init" strategy="lazyOnload">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());`}

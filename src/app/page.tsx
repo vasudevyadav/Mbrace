@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import MbraceHome from "@/components/sections/MbraceHome";
 import { getHomeData, getPageSeo } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+// Public content can be served from the route cache. Admin mutations already
+// revalidate affected routes, while this short interval covers shared content.
+export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("home");

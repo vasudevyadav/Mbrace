@@ -146,7 +146,7 @@ export default function CareCategoryPageClient({
         book={book}
         homeDoctors={doctors.slice(0, 4)}
         heading={<>Meet the Experts Behind<br />Every Check-Up, Surgery &amp; Delivery</>}
-        description="M'Brace in Hyderabad brings together gynaecologists, obstetricians, paediatricians, neonatologists and fertility specialists. Backed by 34+ years of hospital experience, our team includes doctors with MD and DNB postgraduate degrees and fellowship training. Specialists include laparoscopic (keyhole) and robotic surgeons, and embryologists in the fertility lab."
+        description="M'Brace in Hyderabad brings together gynaecologists, obstetricians, paediatricians, neonatologists and fertility specialists. Backed by 35+ years of hospital experience, our team includes doctors with MD and DNB postgraduate degrees and fellowship training. Specialists include laparoscopic (keyhole) and robotic surgeons, and embryologists in the fertility lab."
         getProfileHref={(d) => `/doctors/${d.slug}`}
       />
 

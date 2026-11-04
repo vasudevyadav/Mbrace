@@ -33,7 +33,7 @@ export default function DoctorsPageClient({ data, tips }: { data: HomeData; tips
         titleTop={doctorsPageCopy.heroTitleTop}
         titleBottom={doctorsPageCopy.heroTitleBottom}
         description={doctorsPageCopy.heroDescription}
-        backgroundImage="/images/figma/doctors-hero-bg.png"
+        backgroundImage="/images/figma/doctors-hero-bg.webp"
       />
       <DoctorsSection
         featuredDoctor={featuredDoctor}

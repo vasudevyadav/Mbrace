@@ -24,7 +24,7 @@ export default function DoctorProfileHero({ doctor, hospital, careCategories, bo
 
   return (
     <section className="mb-hero relative m-3 mb-4 min-h-auto overflow-hidden rounded-[20px] [background:var(--care-gradient)] sm:mb-5 sm:rounded-[30px] lg:mx-8 lg:mb-6 lg:mt-4.5 2xl:mx-auto 2xl:max-w-[1480px] xl:[&_.mb-header]:relative xl:[&_.mb-header]:inset-auto xl:[&_.mb-header]:h-30 xl:[&_.mb-header]:border-0 xl:[&_.mb-header]:bg-transparent xl:[&_.mb-header]:px-10 xl:[&_.mb-header]:py-6 xl:[&_.mb-header]:shadow-none xl:[&_.mb-header]:backdrop-blur-none">
-      <Image src="/images/figma/doctors-hero-bg.png" alt="" fill priority sizes="100vw" className="object-cover object-top z-[0]" />
+      <Image src="/images/figma/doctors-hero-bg.webp" alt="" fill priority sizes="100vw" className="object-cover object-top z-[0]" />
       <MbraceHeader onBook={() => book()} careCategories={careCategories} hospital={hospital} basePath="/" />
       <div className="relative z-[1] mx-auto grid max-w-[1280px] gap-8 px-5.5 pb-10 pt-28 md:px-10 xl:grid-cols-[474px_minmax(0,1fr)] xl:items-start xl:gap-[50px] xl:px-5 xl:pb-12 xl:pt-[25px]">
         <article className="mx-auto w-full max-w-[560px] overflow-hidden rounded-[24px] bg-white shadow-[0_8px_16px_rgba(118,75,158,0.2)] xl:max-w-none">

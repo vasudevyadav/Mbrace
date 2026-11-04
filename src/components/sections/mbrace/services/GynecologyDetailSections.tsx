@@ -67,7 +67,7 @@ const tools = [
     category: "Advanced Imaging",
     title: "Pelvic MRI",
     description: "Maps deep endometriosis or complex fibroids when needed.",
-    image: "/images/figma/location-services-alt.png",
+    image: "/images/figma/location-services-alt.webp",
   },
 ];
 
@@ -305,7 +305,7 @@ export default function GynecologyDetailSections({
               />
             </div>
             <span className="absolute -bottom-4 left-3 flex size-24 flex-col items-center justify-center rounded-full border-[5px] border-[#eee7f5] bg-care-gold text-center text-[22px] font-extrabold leading-none text-[#28262c] shadow-lg lg:-bottom-6 lg:-left-12 lg:size-[132px] lg:text-[34px]">
-              34+
+              35+
               <small className="mt-2 block text-[10px] font-medium leading-[1.25] lg:text-[12px]">
                 YEARS OF
                 <br />

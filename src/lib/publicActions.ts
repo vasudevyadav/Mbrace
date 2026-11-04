@@ -43,10 +43,10 @@ export async function submitAppointmentRequestAction(formData: FormData): Promis
   const appointmentType = str(formData, "appointmentType");
   const source = str(formData, "source");
 
-  if (!name || !email || !phone || !preferredDate || !service || !location) {
+  if (!name || !phone || !preferredDate || !service || !location) {
     return { ok: false, message: "Please fill in all required fields." };
   }
-  if (!EMAIL_PATTERN.test(email)) {
+  if (email && !EMAIL_PATTERN.test(email)) {
     return { ok: false, message: "Enter a valid email address." };
   }
   if (!PHONE_PATTERN.test(phone)) {

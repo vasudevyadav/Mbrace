@@ -75,11 +75,11 @@ async function main() {
   });
 
   const stats: [string, string, string][] = [
-    ["yearsOfCare", "34+", "Years of Care"],
+    ["yearsOfCare", "35+", "Years of Care"],
     ["whyUsFamilies", "Lakhs of", "Happy Families"],
-    ["whyUsYears", "34+", "Years of Mother & Child care experience"],
+    ["whyUsYears", "35+", "Years of Mother & Child care experience"],
     ["whyUsBabies", "Over 1,10,000", "Babies Delivered"],
-    ["awardsYears", "34+", "Years Of Experience"],
+    ["awardsYears", "35+", "Years Of Experience"],
     ["awardsSatisfaction", "98%", "Patient Satisfaction"],
     ["awardsFamilies", "Lakhs of", "Happy Families"],
   ];
@@ -141,7 +141,7 @@ async function main() {
       phoneHref: "tel:+919390634074",
       email: "mbrace@kaminenihospitals.com",
       mapUrl: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Mbrace Kamineni Hospitals Inner Ring Rd Bahadurguda Hyderabad"),
-      heroImage: "/images/figma/location-hero-bg.png",
+      heroImage: "/images/figma/location-hero-bg.webp",
       servicesImage: "/images/figma/location-services.png",
       clinicImage: "/images/figma/location-clinic.png",
       introParagraph: "At M'Brace, our specialist team first listens carefully to understand your concern, then recommends a personalised treatment plan based on your condition — whether it's a routine check-up, a high-risk pregnancy or a fertility concern.",
@@ -170,7 +170,7 @@ async function main() {
       phoneHref: "tel:+919390634074",
       email: "mbrace@kaminenihospitals.com",
       mapUrl: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Kamineni Hospitals King Koti Hyderabad"),
-      heroImage: "/images/figma/location-hero-bg.png",
+      heroImage: "/images/figma/location-hero-bg.webp",
       servicesImage: "/images/figma/location-services.png",
       clinicImage: "/images/figma/location-clinic.png",
       introParagraph: "Our King Koti team brings the same connected approach to women's health, child care and fertility support, in the heart of the city.",
